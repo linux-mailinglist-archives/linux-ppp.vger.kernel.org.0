@@ -2,41 +2,53 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79E742413A
-	for <lists+linux-ppp@lfdr.de>; Mon, 20 May 2019 21:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 579162ACAD
+	for <lists+linux-ppp@lfdr.de>; Mon, 27 May 2019 02:35:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726067AbfETTb7 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 20 May 2019 15:31:59 -0400
-Received: from [159.89.172.223] ([159.89.172.223]:42916 "EHLO
-        mail.boombf2am.ga" rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1725554AbfETTb6 (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 20 May 2019 15:31:58 -0400
-Received: by mail.boombf2am.ga (Postfix, from userid 48)
-        id C86454E0DE0; Mon, 20 May 2019 13:32:08 +0000 (UTC)
-To:     linux-ppp@vger.kernel.org
-Subject: Inquiry 20/May/2019
-X-PHP-Originating-Script: 0:nfhdgeds.php
-From:   Daniel Murray <sinara-group@bk.ru>
-Reply-To: sinara-group@list.ru
+        id S1725886AbfE0Af6 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sun, 26 May 2019 20:35:58 -0400
+Received: from ozlabs.org ([203.11.71.1]:35153 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725863AbfE0Af6 (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Sun, 26 May 2019 20:35:58 -0400
+Received: by ozlabs.org (Postfix, from userid 1003)
+        id 45Bygv6cqnz9s55; Mon, 27 May 2019 10:35:55 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
+        t=1558917355; bh=KdpjiN01GyCrcCD6rD0+jm4pBhoYGx0uPgLmLGkkUIE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CnlxJNk/Zj/JsDkEtO7IDbHmxuW+cd4700mLvr5eJWbiTn38Mhx7P1RSaqtirubFg
+         Lg8YeJateQV6AdZJMNrmBLrlXtBwR+6I9xotMds0Ryyo0yLgdH02DhTuNeGjrkS+XQ
+         ODn4Ra6hprn3jUrTmdjmxcoVjIQwa+X0xSoscyiPKdBFrgIwBlVvnUqJVzASCZ47ZT
+         0/flqQlwHBNDny1/ElxnwrNVFjP+OK1oc/KEyn+K05u7vrHPDvr5bWUwyy26PgeWSe
+         Yhk6uPal5B7f+WL6FIfeZ7f/b6IPiYF87pap2yT9DEKzFOg5pM481Uq81VrgxL/zIi
+         jyTOCEfKYCiiA==
+Date:   Mon, 27 May 2019 10:35:53 +1000
+From:   Paul Mackerras <paulus@ozlabs.org>
+To:     Matteo Croce <mcroce@redhat.com>
+Cc:     linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+        Jo-Philipp Wich <jo@mein.io>
+Subject: Re: [PATCH pppd v4] pppoe: custom host-uniq tag
+Message-ID: <20190527003553.GA3380@blackberry>
+References: <20190504164853.4736-1-mcroce@redhat.com>
 MIME-Version: 1.0
-Content-Type:   text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
-Message-Id: <20190520143719.C86454E0DE0@mail.boombf2am.ga>
-Date:   Mon, 20 May 2019 13:32:08 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190504164853.4736-1-mcroce@redhat.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Hi,friend,
+On Sat, May 04, 2019 at 06:48:53PM +0200, Matteo Croce wrote:
+> Add pppoe 'host-uniq' option to set an arbitrary
+> host-uniq tag instead of the pppd pid.
+> Some ISPs use such tag to authenticate the CPE,
+> so it must be set to a proper value to connect.
+> 
+> Signed-off-by: Matteo Croce <mcroce@redhat.com>
+> Signed-off-by: Jo-Philipp Wich <jo@mein.io>
 
-This is Daniel Murray and i am from Sinara Group Co.Ltd in Russia.
-We are glad to know about your company from the web and we are interested in your products.
-Could you kindly send us your Latest catalog and price list for our trial order.
+Thanks, patch applied.
 
-Best Regards,
-
-Daniel Murray
-Purchasing Manager
-
-
+Paul.
