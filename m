@@ -2,48 +2,48 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B50DF418AD
-	for <lists+linux-ppp@lfdr.de>; Wed, 12 Jun 2019 01:10:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0602842C02
+	for <lists+linux-ppp@lfdr.de>; Wed, 12 Jun 2019 18:20:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407950AbfFKXJy (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 11 Jun 2019 19:09:54 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:43091 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407945AbfFKXJy (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Tue, 11 Jun 2019 19:09:54 -0400
-Received: by mail-wr1-f68.google.com with SMTP id p13so4697091wru.10
-        for <linux-ppp@vger.kernel.org>; Tue, 11 Jun 2019 16:09:52 -0700 (PDT)
+        id S2405068AbfFLQUP (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 12 Jun 2019 12:20:15 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:35038 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730820AbfFLQUO (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 12 Jun 2019 12:20:14 -0400
+Received: by mail-wm1-f67.google.com with SMTP id c6so7202221wml.0
+        for <linux-ppp@vger.kernel.org>; Wed, 12 Jun 2019 09:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
         bh=eTEZv0K1lF9tA5eNEQyGpuRSHV9usD2RVcNmVJMhy6c=;
-        b=H1abtSRnx6N5T81k0VGsqn+9tRmk4pAbxzr3lRfQ+j4SmDl1RkrvCAE7BPiJf2lBJZ
-         10kB5jUCvqgiByC3idIosbVez/e4+1xGGu3jbhAVoM16jnfoy6s+pSuZL+7LL4UMU7DF
-         l7WVxRmklXxwDEqB70kmfZIM6nJrt/2gAS0srMegbNXaTOkpQjE3XpM4z4Sft9BYjOa4
-         DWouJqSTlzOUS8WLONrOzU6zqEevcM596K8N8yvHeE9uzRP2jYSyE6XRIZy6ngUElYiM
-         4gNqfrB0OWs2ndVVGIm4kmrxS7bMBTEW4MqWSPOhk2JcOswRG1FlM5n52JChODddugc+
-         28oQ==
+        b=k2Z9PXtRCp5/EFjkPxjuHvX0JxJU9JsUqcI8Sqcp6cf0UBX2jcer1CsZLoKOOiu8VI
+         klwgPrh103lXSI2C6IWbFTUMH2hImi0vRgTzFUY2LN3p4+jBtSawgJto9LddRoodXAW5
+         JP2BGIMsC2I0L1HnBh0LMEzmdyJHDPntvzT97E4e0FK6lZnboCnuef4cOt5LGw6VumbS
+         uL0dL7APF429XK66uUK217X3IxvnNRuMV2EG6+Ny0QVoBFi6M9Idz/wWZH7i+e+et4iu
+         QKwk3AaVT1jnyfX1/JExYjdF4MTNmPyIJceZaGQiOwmR+qsb/1ST5Q3X3KUoFpN/jjNu
+         65qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
         bh=eTEZv0K1lF9tA5eNEQyGpuRSHV9usD2RVcNmVJMhy6c=;
-        b=jpNZS+LlMhyumAI+Iu/OddzGEcSYd4TDkb442ir9euLI6vscMJ++bSQTcaXCBJBmKA
-         QRDbjsWQs5CydCySdzeuXo0HiaPEkvfTi8X2tzkk8tbS+AohYANrqTYuYOXBT3k90X96
-         nKz1SBaswIPi2wYJ2+33EOtEzk/Io5Gu2pIk69XBwnGIqtGreklalWDGcl9qNCVMwuen
-         r6vc2+GmXKWJL3/tUdz7OljluTCUY/oJ+7BU1sFni2uskN3OOgQVuDcWcZ8GGKaU1JRG
-         MAu/NrNrgcsmvDIbJIGZ84uJ9o/MQAz2vcwpgsublkVCXnR5QkZpMvzXTAjAbF9e+RpP
-         EUow==
-X-Gm-Message-State: APjAAAVDUMtdpl7zxAS3VlJsuMrscFXBd+gc6mPQGTZvKfniPS/pey0U
-        aNDfviXNSzuhCtvM9st4iCKJIg==
-X-Google-Smtp-Source: APXvYqyWkd+gPYYLCQryzFYO6QGy4fdxARQcia0hJe9jAKbAYrXm05U33E/acrw9mpr8Tx0if9y7qg==
-X-Received: by 2002:a5d:6312:: with SMTP id i18mr11440352wru.203.1560294591558;
-        Tue, 11 Jun 2019 16:09:51 -0700 (PDT)
-Received: from sudo.home ([2a01:cb1d:112:6f00:24bb:7f31:25fe:43a7])
-        by smtp.gmail.com with ESMTPSA id g11sm10827813wrq.89.2019.06.11.16.09.50
+        b=Fh9Cb9nHV1/Lw/RkzEA0N/PSnJrM1SWEgZa8ZOfJIV/qBx5OSvs3uT+9FrnG6BtwqN
+         X31eogLDro2HbNYso7Cc51KG1Rx9vM9v0dMXmUpzrP+hDKnOKxErEoFECLLT2qkwjrLG
+         8yaJhkjRSARJw1viqwg9g8RAJaNBX9XkLG0Cs/0BgL3qFiingzTUPZ9jKg5AKj/KrwlN
+         rJnIunEC8x5fMFww7WDxrGb2zPQHo0lcBTLmpi1mRvPt936EdUOYUGxH09n7ecfnUwyT
+         C+BfoG+q/TpvjxuBkHZ/kL22oSFaZEOdBIWYQrMbR1i8GSy3vXCo0FSI2EBqkzoYvBsy
+         VeOQ==
+X-Gm-Message-State: APjAAAVpibQ8iJptePqJNDjgvgbBtdcAMDcaQq8c4Xh4bRMJirrLh9ux
+        OsMPsHMihklMoojRtw4gsuFP6Q==
+X-Google-Smtp-Source: APXvYqz+Y4UN55/PGSY/+NyVo7nySHkSIhRIZygB0nUDS28jHqqtR50UVgatBFKG9SWusOwZMs5QOg==
+X-Received: by 2002:a7b:c450:: with SMTP id l16mr61834wmi.0.1560356412257;
+        Wed, 12 Jun 2019 09:20:12 -0700 (PDT)
+Received: from sudo.home ([2a01:cb1d:112:6f00:353a:f33a:a393:3ada])
+        by smtp.gmail.com with ESMTPSA id c16sm70172wrr.53.2019.06.12.09.20.11
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 11 Jun 2019 16:09:50 -0700 (PDT)
+        Wed, 12 Jun 2019 09:20:11 -0700 (PDT)
 From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
 To:     linux-crypto@vger.kernel.org
 Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
@@ -52,12 +52,12 @@ Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
         Eric Biggers <ebiggers@google.com>,
         Johannes Berg <johannes@sipsolutions.net>,
         linux-ppp@vger.kernel.org, Paul Mackerras <paulus@samba.org>
-Subject: [PATCH v4 6/7] ppp: mppe: switch to RC4 library interface
-Date:   Wed, 12 Jun 2019 01:09:37 +0200
-Message-Id: <20190611230938.19265-7-ard.biesheuvel@linaro.org>
+Subject: [PATCH v5 6/7] ppp: mppe: switch to RC4 library interface
+Date:   Wed, 12 Jun 2019 18:19:58 +0200
+Message-Id: <20190612161959.30478-7-ard.biesheuvel@linaro.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190611230938.19265-1-ard.biesheuvel@linaro.org>
-References: <20190611230938.19265-1-ard.biesheuvel@linaro.org>
+In-Reply-To: <20190612161959.30478-1-ard.biesheuvel@linaro.org>
+References: <20190612161959.30478-1-ard.biesheuvel@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-ppp-owner@vger.kernel.org
