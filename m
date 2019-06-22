@@ -2,54 +2,47 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 982E24BA10
-	for <lists+linux-ppp@lfdr.de>; Wed, 19 Jun 2019 15:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A64A4F5F7
+	for <lists+linux-ppp@lfdr.de>; Sat, 22 Jun 2019 15:44:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726197AbfFSNeM (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 19 Jun 2019 09:34:12 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36490 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726089AbfFSNeM (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Wed, 19 Jun 2019 09:34:12 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 6207BAE84;
-        Wed, 19 Jun 2019 13:34:11 +0000 (UTC)
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Paul Mackerras <paulus@samba.org>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        linux-ppp@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH] ppp: mppe: Add softdep to arc4
-Date:   Wed, 19 Jun 2019 15:34:07 +0200
-Message-Id: <20190619133407.6800-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.16.4
+        id S1726287AbfFVNo5 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sat, 22 Jun 2019 09:44:57 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:54364 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726136AbfFVNo5 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sat, 22 Jun 2019 09:44:57 -0400
+Received: from localhost (unknown [8.46.76.25])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 5CAEE15394EF8;
+        Sat, 22 Jun 2019 06:44:51 -0700 (PDT)
+Date:   Sat, 22 Jun 2019 09:44:47 -0400 (EDT)
+Message-Id: <20190622.094447.257491246684509114.davem@davemloft.net>
+To:     tiwai@suse.de
+Cc:     paulus@samba.org, linux-ppp@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH] ppp: mppe: Add softdep to arc4
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20190619133407.6800-1-tiwai@suse.de>
+References: <20190619133407.6800-1-tiwai@suse.de>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Sat, 22 Jun 2019 06:44:56 -0700 (PDT)
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-The arc4 crypto is mandatory at ppp_mppe probe time, so let's put a
-softdep line, so that the corresponding module gets prepared
-gracefully.  Without this, a simple inclusion to initrd via dracut
-failed due to the missing dependency, for example.
+From: Takashi Iwai <tiwai@suse.de>
+Date: Wed, 19 Jun 2019 15:34:07 +0200
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/net/ppp/ppp_mppe.c | 1 +
- 1 file changed, 1 insertion(+)
+> The arc4 crypto is mandatory at ppp_mppe probe time, so let's put a
+> softdep line, so that the corresponding module gets prepared
+> gracefully.  Without this, a simple inclusion to initrd via dracut
+> failed due to the missing dependency, for example.
+> 
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-diff --git a/drivers/net/ppp/ppp_mppe.c b/drivers/net/ppp/ppp_mppe.c
-index ff61dd8748de..66c8e65f6872 100644
---- a/drivers/net/ppp/ppp_mppe.c
-+++ b/drivers/net/ppp/ppp_mppe.c
-@@ -63,6 +63,7 @@ MODULE_AUTHOR("Frank Cusack <fcusack@fcusack.com>");
- MODULE_DESCRIPTION("Point-to-Point Protocol Microsoft Point-to-Point Encryption support");
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_ALIAS("ppp-compress-" __stringify(CI_MPPE));
-+MODULE_SOFTDEP("pre: arc4");
- MODULE_VERSION("1.0.2");
- 
- static unsigned int
--- 
-2.16.4
-
+Applied.
