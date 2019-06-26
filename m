@@ -2,64 +2,143 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2993B4F711
-	for <lists+linux-ppp@lfdr.de>; Sat, 22 Jun 2019 18:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39D685679C
+	for <lists+linux-ppp@lfdr.de>; Wed, 26 Jun 2019 13:30:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726434AbfFVQ3S (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sat, 22 Jun 2019 12:29:18 -0400
-Received: from sonic316-11.consmr.mail.bf2.yahoo.com ([74.6.130.121]:39911
-        "EHLO sonic316-11.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726450AbfFVQ3J (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sat, 22 Jun 2019 12:29:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1561220948; bh=3fXYToOZXvh5MOJ1JSawYDThjnynC/Ekt2gucIg6zZg=; h=Date:From:Reply-To:Subject:From:Subject; b=Sqmma7rQCC9csXbuiUU3W2/3JNoNH7S8264Vtax3p6vjP/GOy3xpD3wbU2PRR9kt9Hpkf+FIWW9PMCnOCaw1O79buHof/+e4XCSgtAjG8InDhCml6NU6QqPjKJ3zDc6ntgnpVqWtJnbhtjoUqIbv1W6GU8NTi8qVdCcmhrTc1IZ6aiOxpvBar7FQmN3jAwZcqruMWVYBgbk1LAoNqGvQ8jjOiTjNhCDJjpcLi94EE60gk+qIfYgu1AQDdd9wVo7X6i3XlVR9KCYw0l7ikZmlDSVkcSrrmJBlognD3+QlW4wko0RiyOGAXy+sEMAa8UXhFfxEEhf+A0WfqKBKwkVQbg==
-X-YMail-OSG: 3TA6aNEVM1mHk4tfSNROwYxIcekGBuzt5YSl8uAf.0_HHQ2LGDBhX2FGT2.Do_z
- _0DV280q.YGRxDLoRDSJM82e2d5hsgoPZVcKxWsle6Z3oHX8Omo6hY9bu5QjJLY68zQNKFXygJQb
- l1z62dHRy69xOFvl6tq.81EbMsOh1_cirrcCk2fMX_Jmwx0sebG__1rhE6wzzo_NDP9VbvIqZ9bR
- 2icQk1E4jS_eT.9i5S8Sf0xsdShl9dMibpAXRU93yOYuHTQIa_P77tZTcStgCsIVxKiDvC3a0NxY
- 8gZtRhwFdS641nFzLb368UTov.mB4xMHIDhTJv9NazaTg1j8sw18ET29s.TqlBmXHg8vLU94qBpd
- 5PlUttniCcoNFEJpnLF3UUydECDiL8Z11cc18YJXwsIeDfFkYqHGX5XdA4jNj054mfKUIhoNEakn
- WUKps59xvPMOhDCVBujS9v_vJClG4fXrBtjl.W_LQqwsSCutxIcdvaqHEtURhc6MkAEPdp4bTGI.
- srA9smb.rYGHYAQmfGBYSrMpzCORaFwD3sLBOdwCdBjEVVdu.sBEOGddWsx2T8AZRYYy5nvR9Foz
- bPsz41tE4__SqGjxrktEJ2_s2wIQAUza2deZFDGXc6T62eXwgZpA4Pp2nGTmGbFQ6h4nAMd51HJh
- T3GzQn8s4GOn.0BKRwZDpwf7w10rv6JPk5nAgLZOaX7LfFs2yeq7fnFrg4OCOiG9MCMxrUNq6gf7
- VomHdE0MTMCDmL3Ebk4K0YUhXaCTht27MRDaoJusaRVRGavzgn0vj3Z4n7xxu27l7AAqrNZTRmUI
- n_b8fWLMzkIFoI7ZcmL_O5d2bYctv7x0WqIS4U6onMjRr4HtPSPFTejqwRtmzChG01EgeDt1Xu9J
- 3fp8ciCxthupmhAtFqCrukMze7VttucN.DpeM8bKmVw1EDgn.s_L.L9fVdDwg2umGkLNazDxoP0_
- dzbgtjASRdO1.JaxkowN5gRT6rna4oVoAmbHsjQ4rLTjBWSWz8ZqQDlV43apY.buigbJvn4Qmvf1
- GxhsPAlHlnnGfjZ9pr3BSAVXKd_Qs83vYaBOYxWdXDlwxBl9.1.bnCTqFBLXCTND1BZASE2pli5W
- fu842ttK3BMCdw5COU_fvmE4HTFnTUQ5tN2a6KHryWZiInkZpWdo8I9xFucw8IlPI3qY2rDSegZk
- LLEiGCawsrUj04Yg3uv6LVIzJaVvTytAzboyOeQVTgoj.0EfkvEtgpXm3
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.bf2.yahoo.com with HTTP; Sat, 22 Jun 2019 16:29:08 +0000
-Date:   Sat, 22 Jun 2019 16:29:03 +0000 (UTC)
-From:   "Miss.Fatima Yusuf" <fatimayusuf5@outlook.fr>
-Reply-To: miss.fmayusuf11@gmail.com
-Message-ID: <1743094696.311303.1561220943310@mail.yahoo.com>
-Subject: From:Miss: Fatima Yusuf.
+        id S1726104AbfFZLaU (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 26 Jun 2019 07:30:20 -0400
+Received: from mail-qt1-f179.google.com ([209.85.160.179]:36454 "EHLO
+        mail-qt1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726077AbfFZLaU (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 26 Jun 2019 07:30:20 -0400
+Received: by mail-qt1-f179.google.com with SMTP id p15so1927516qtl.3
+        for <linux-ppp@vger.kernel.org>; Wed, 26 Jun 2019 04:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=CSLWCwEnhhAo4Xz78uuzxuO07P6s0sWK6ogTNjXRo5g=;
+        b=hfYQ9STni2zCUZUFmdF4N+FBsj+M84hQkq0gsySzcmJ0pd/gKbwLgqh9rgx/amuvd4
+         KwmNgDhxLTPyNjJ92dHW5NP4AyHkMQcK0w75sXGD+5DsCwX/Sk6Kk7fKcfjHUBv6x7aK
+         TRA3JPRw4T/R1UhnZ4bRgd/e72ISgxe9Tk5PaKcQiA8meuiPl0nm7DfJzFj7hBoI1rxM
+         EEmQ/z+bvVNJ2sw7Gf2ztF8QU+mWr76H9SHGOmKZFaYZyT8vRfKS7XLzmQh1LbiLxGH6
+         y492uo86YWg+NpWsoGRjzKfIX7/rPC56363+W2JFSRG1M6AY8gjtsDDf5d+QeYV7obNR
+         1umw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=CSLWCwEnhhAo4Xz78uuzxuO07P6s0sWK6ogTNjXRo5g=;
+        b=WgKSA9Va+uIuJA4pE8UQPqMdmDzzLTT6CPwPT00g70BgqyyFfOwJ29Z5w/FcxbH0GP
+         5m4PoZlMcZV6UK1ccn+2AeVHB7zzGUHhgQXqw4bfPhs9Mnvr4nYNL8PddfgCnOmayGas
+         ruc9uKRjjk3Vp8FZ9wpWISbPDvDsFY3+38Va8DRdijbQHuDvfpxB7cxcQKIsPYME5JPl
+         f/p9TqAoBpSm6XwhI7kblDYt847x4wGArjYT408ITkuvMPW5Y3kpRJq8wCiEB6yiF7AR
+         sgM1muWaFctqLeqGy92fbk9Oqi3+mvJyXnnG5/zbyE4t7mdoZGu/z3OQNgmY7+9SDtiu
+         eAiQ==
+X-Gm-Message-State: APjAAAWch1XLYLZAIyNMepLlZLz+TZxx2anOg0v93TBN14K1HSyGt2+B
+        4KY7mRY1C83/LSthXtJbpM8WjfMNDr54vo36VDF2hFLz
+X-Google-Smtp-Source: APXvYqyZzFYJr1qXhvyxwiS5BcfH0Vt24xcGDfnuL4j2Xb3tmZiwFxAjV6fVIfl/2AknCKx7aMOczzh9ge3jEeRiw+A=
+X-Received: by 2002:aed:3bb5:: with SMTP id r50mr3088868qte.89.1561548619416;
+ Wed, 26 Jun 2019 04:30:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+From:   Levente <leventelist@gmail.com>
+Date:   Wed, 26 Jun 2019 13:30:08 +0200
+Message-ID: <CACwWb3B6v7ayhoDpE-GAA8qKgbh=EM95eq9hHxHcZtusAaQqcw@mail.gmail.com>
+Subject: IPv6 with pppd
+To:     linux-ppp@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
+Dear maintainer,
 
 
-From:Miss: Fatima Yusuf.
+I am struggling with IPv6 over PPP on Linux. The situation is that I
+have a 3G modem, when I plug it in to the USB on my Debian box,
+everything works as expected, I have IPv6 address from the provider,
+and I am happy. But how?
 
-For sure this mail would definitely come to you as a surprise, but do take your good time to go through it, My name is Ms. Fatima Yusuf,i am from Ivory Coast.
+This is the relevant log:
 
-I lost my parents a year and couple of months ago. My father was a serving director of the Agro-exporting board until his death. He was assassinated by his business partners.Before his death, he made a deposit of US$9.7 Million Dollars here in Cote d'ivoire which was for the purchase of cocoa processing machine and development of another factory before his untimely death.
+Jun 14 12:37:03 mercury pppd[3282]: Serial connection established.
+Jun 14 12:37:03 mercury pppd[3282]: using channel 2
+Jun 14 12:37:03 mercury pppd[3282]: Using interface ppp0
+Jun 14 12:37:03 mercury pppd[3282]: Connect: ppp0 <--> /dev/ttyUSB3
+Jun 14 12:37:04 mercury pppd[3282]: sent [LCP ConfReq id=0x1 <asyncmap
+0x0> <magic 0xa2034878> <pcomp> <accomp>]
+Jun 14 12:37:04 mercury pppd[3282]: rcvd [LCP ConfReq id=0x3 <asyncmap
+0x0> <auth chap MD5> <magic 0xc700eac2> <pcomp> <accomp>]
+Jun 14 12:37:04 mercury pppd[3282]: No auth is possible
+Jun 14 12:37:04 mercury pppd[3282]: sent [LCP ConfRej id=0x3 <auth chap MD5>]
+Jun 14 12:37:04 mercury pppd[3282]: rcvd [LCP ConfAck id=0x1 <asyncmap
+0x0> <magic 0xa2034878> <pcomp> <accomp>]
+Jun 14 12:37:04 mercury pppd[3282]: rcvd [LCP ConfReq id=0x4 <asyncmap
+0x0> <magic 0xc700eac2> <pcomp> <accomp>]
+Jun 14 12:37:04 mercury pppd[3282]: sent [LCP ConfAck id=0x4 <asyncmap
+0x0> <magic 0xc700eac2> <pcomp> <accomp>]
+Jun 14 12:37:04 mercury pppd[3282]: sent [LCP EchoReq id=0x0 magic=0xa2034878]
+Jun 14 12:37:04 mercury pppd[3282]: sent [IPCP ConfReq id=0x1 <addr
+0.0.0.0> <ms-dns1 0.0.0.0> <ms-dns2 0.0.0.0>]
+Jun 14 12:37:04 mercury pppd[3282]: sent [IPV6CP ConfReq id=0x1 <addr
+fe80::3d17:0512:2b44:658b>]
+Jun 14 12:37:04 mercury pppd[3282]: rcvd [LCP DiscReq id=0x5 magic=0xc700eac2]
+Jun 14 12:37:04 mercury pppd[3282]: rcvd [LCP EchoRep id=0x0
+magic=0xc700eac2 a2 03 48 78]
+Jun 14 12:37:05 mercury pppd[3282]: rcvd [IPV6CP ConfNak id=0x1 <addr
+fe80::330e:c05c:0d76:f234>]
+Jun 14 12:37:05 mercury pppd[3282]: sent [IPV6CP ConfReq id=0x2]
+Jun 14 12:37:06 mercury pppd[3282]: rcvd [IPV6CP ConfNak id=0x1 <addr
+fe80::fc17:3ad2:5917:3248>]
+Jun 14 12:37:07 mercury pppd[3282]: sent [IPCP ConfReq id=0x1 <addr
+0.0.0.0> <ms-dns1 0.0.0.0> <ms-dns2 0.0.0.0>]
+Jun 14 12:37:08 mercury pppd[3282]: rcvd [IPV6CP ConfReq id=0x0 <addr
+fe80::2c26:30b4:e65c:5b4a>]
+Jun 14 12:37:08 mercury pppd[3282]: sent [IPV6CP ConfAck id=0x0 <addr
+fe80::2c26:30b4:e65c:5b4a>]
+Jun 14 12:37:08 mercury pppd[3282]: rcvd [IPV6CP ConfNak id=0x2 <addr
+fe80::303e:582f:ea95:aa10>]
+Jun 14 12:37:08 mercury pppd[3282]: sent [IPV6CP ConfReq id=0x3 <addr
+fe80::303e:582f:ea95:aa10>]
+Jun 14 12:37:08 mercury pppd[3282]: rcvd [IPV6CP ConfAck id=0x3 <addr
+fe80::303e:582f:ea95:aa10>]
+Jun 14 12:37:08 mercury pppd[3282]: local  LL address fe80::303e:582f:ea95:aa10
+Jun 14 12:37:08 mercury pppd[3282]: remote LL address fe80::2c26:30b4:e65c:5b4a
+Jun 14 12:37:08 mercury pppd[3282]: Script /etc/ppp/ipv6-up started (pid 3298)
+Jun 14 12:37:08 mercury pppd[3282]: Script /etc/ppp/ipv6-up finished
+(pid 3298), status = 0x0
 
-Being that this part of the world experiences political and crises time without number, there is no guarantee of lives and properties. I cannot invest this money here any long, despite the fact it had been my late father's industrial plans.
+After seeing the interface, I have the global scope address like this:
 
-I want you to do me a favor to receive this funds into your country or any safer place as the beneficiary, I have plans to invest this money in continuation with the investment vision of my late father, but not in this place again rather in your country. I have the vision of going into real estate and industrial production or any profitable business venture.
+lev@mercury:~$ /sbin/ifconfig ppp0
+ppp0: flags=4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
+        inet6 2a00:1110:135:4594:303e:582f:ea95:aa10  prefixlen 64
+scopeid 0x0<global>
+        inet6 fe80::303e:582f:ea95:aa10  prefixlen 10  scopeid 0x20<link>
+        ppp  txqueuelen 3  (Point-to-Point Protocol)
+        RX packets 73  bytes 14234 (13.9 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 95  bytes 10012 (9.7 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
-I will be ready to compensate you with 20% of the total Amount, now all my hope is banked on you and i really wants to invest this money in your country, where there is stability of Government, political and economic welfare.
+Please note that in the logs, I can't see that global scope address,
+and I don't know how the IPv6CP assigns this address to the interface.
+How is this done?
 
-My greatest worry now is how to move out of this country because my uncle is threatening to kill me as he killed my father,Please do not let anybody hear about this, it is between me and you alone because of my security reason.
+And when I plug the same modem to an OpenWRT box, I don't get the
+global scope address, only the link-local address. Is this some PPP
+specific problem, or there might be some IPv6 autoconfiguration magic
+happening in the background? I don't think so, because that address
+corresponds to a statically allocated address of the provider.
 
-I am waiting to hear from you.
-Yours Sincerely,
-Miss.Fatima Yusuf.
+lev@mercury:~$ host 2a00:1110:135:4594:303e:582f:ea95:aa10
+0.1.a.a.5.9.a.e.f.2.8.5.e.3.0.3.4.9.5.4.5.3.1.0.0.1.1.1.0.0.a.2.ip6.arpa
+domain name pointer
+2A00111001354594303E582FEA95AA10.mobile.pool.telekom.hu.
+
+Could you help me out what is going on here, and why can't I get a
+global scope address on the OpenWRT? I'm sure it is an OpenWRT issue,
+but need help tracing it.
+
+
+Thanks,
+Levente
