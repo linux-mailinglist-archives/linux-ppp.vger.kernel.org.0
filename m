@@ -2,112 +2,76 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3A7256DDB
-	for <lists+linux-ppp@lfdr.de>; Wed, 26 Jun 2019 17:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB8985DC4F
+	for <lists+linux-ppp@lfdr.de>; Wed,  3 Jul 2019 04:22:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726948AbfFZPh6 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 26 Jun 2019 11:37:58 -0400
-Received: from tuna.sandelman.ca ([209.87.249.19]:53384 "EHLO
-        tuna.sandelman.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726984AbfFZPh6 (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 26 Jun 2019 11:37:58 -0400
-X-Greylist: delayed 577 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 Jun 2019 11:37:58 EDT
-Received: from sandelman.ca (unknown [IPv6:2607:f0b0:f:2:56b2:3ff:fe0b:d84])
-        by tuna.sandelman.ca (Postfix) with ESMTP id A82C43808A;
-        Wed, 26 Jun 2019 11:26:36 -0400 (EDT)
-Received: by sandelman.ca (Postfix, from userid 179)
-        id 2C2BEE68; Wed, 26 Jun 2019 11:28:20 -0400 (EDT)
-Received: from sandelman.ca (localhost [127.0.0.1])
-        by sandelman.ca (Postfix) with ESMTP id 2A64BE37;
-        Wed, 26 Jun 2019 11:28:20 -0400 (EDT)
-From:   Michael Richardson <mcr@sandelman.ca>
-To:     Levente <leventelist@gmail.com>
-cc:     linux-ppp@vger.kernel.org
-Subject: Re: IPv6 with pppd
-In-Reply-To: <CACwWb3B6v7ayhoDpE-GAA8qKgbh=EM95eq9hHxHcZtusAaQqcw@mail.gmail.com>
-References: <CACwWb3B6v7ayhoDpE-GAA8qKgbh=EM95eq9hHxHcZtusAaQqcw@mail.gmail.com>
-X-Mailer: MH-E 8.6; nmh 1.7+dev; GNU Emacs 24.5.1
-X-Face: $\n1pF)h^`}$H>Hk{L"x@)JS7<%Az}5RyS@k9X%29-lHB$Ti.V>2bi.~ehC0;<'$9xN5Ub#
- z!G,p`nR&p7Fz@^UXIn156S8.~^@MJ*mMsD7=QFeq%AL4m<nPbLgmtKK-5dC@#:k
+        id S1727668AbfGCCPm (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 2 Jul 2019 22:15:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54036 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727666AbfGCCPm (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Tue, 2 Jul 2019 22:15:42 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1A13E21880;
+        Wed,  3 Jul 2019 02:15:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562120141;
+        bh=PE/QVhnTp/5AVKCVFiyX9YRY4ITgpPq3DNRt3i7m+bM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Zq6R9zB8eEueOTorzvGn3LGNgNLRbWhPriQD68Gu2xhPxxNdiICf/RbsF/gzDA5l+
+         xjvqYgP7gcsNQ6ocrTwUG98vF664RrrdB66x9aVVJZTU+fAL3MScaO4Buac9WFZOzk
+         zpDkJ2OzeYrgFqrGVUorVfddO3fGkJpcYuSa5/u8=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Takashi Iwai <tiwai@suse.de>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, linux-ppp@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.1 17/39] ppp: mppe: Add softdep to arc4
+Date:   Tue,  2 Jul 2019 22:14:52 -0400
+Message-Id: <20190703021514.17727-17-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190703021514.17727-1-sashal@kernel.org>
+References: <20190703021514.17727-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
-Date:   Wed, 26 Jun 2019 11:28:20 -0400
-Message-ID: <9745.1561562900@localhost>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
+From: Takashi Iwai <tiwai@suse.de>
 
+[ Upstream commit aad1dcc4f011ea409850e040363dff1e59aa4175 ]
 
-Levente <leventelist@gmail.com> wrote:
-    > I am struggling with IPv6 over PPP on Linux. The situation is that I
-    > have a 3G modem, when I plug it in to the USB on my Debian box,
-    > everything works as expected, I have IPv6 address from the provider,
-    > and I am happy. But how?
+The arc4 crypto is mandatory at ppp_mppe probe time, so let's put a
+softdep line, so that the corresponding module gets prepared
+gracefully.  Without this, a simple inclusion to initrd via dracut
+failed due to the missing dependency, for example.
 
-...
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/ppp/ppp_mppe.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-    > Please note that in the logs, I can't see that global scope address,
-    > and I don't know how the IPv6CP assigns this address to the interface.
-    > How is this done?
+diff --git a/drivers/net/ppp/ppp_mppe.c b/drivers/net/ppp/ppp_mppe.c
+index 7ccdc62c6052..06d620b10704 100644
+--- a/drivers/net/ppp/ppp_mppe.c
++++ b/drivers/net/ppp/ppp_mppe.c
+@@ -63,6 +63,7 @@ MODULE_AUTHOR("Frank Cusack <fcusack@fcusack.com>");
+ MODULE_DESCRIPTION("Point-to-Point Protocol Microsoft Point-to-Point Encryption support");
+ MODULE_LICENSE("Dual BSD/GPL");
+ MODULE_ALIAS("ppp-compress-" __stringify(CI_MPPE));
++MODULE_SOFTDEP("pre: arc4");
+ MODULE_VERSION("1.0.2");
+ 
+ static unsigned int
+-- 
+2.20.1
 
-IPv6CP does not.
-The major difference between IPCP and IPv6CP is that it was realized that in
-IPv4, the IPCP people were having to repeat all the DHCPv4 work again in
-IPCP, and why not just run DHCP?
-
-So in IPv6CP, *ALL* IPv6CP does it assign the LL address (which are either
-made up randomly, or come from an IID/EUI/OUI of a physical interface).
-
-Then, an IPv6 RS/RA occurs, which MAY assign an address (M=0), or MAY
-suggest using DHCPv6 (M=1).  My experience is that many devices do both,
-and one winds up with two addresses.
-
-If DHCPv6-PD also occurs (O=1), then there is actually no reason to even
-number the PPP link with a GUA, as one can just use a GUA from an downstream
-interface.
-
-In my copious spare time, I hope to write an RFC updating 7084 that provides
-a way for the ISP to understand what the CPE device would like, such that the
-ISP does not have to deal with all the situations of single-device-with-/64,
-single-device-that-may-tether-with-/64, WAN-link-numbered+PD, or
-WAN-link-unnumbered+PD.  There are scaling efficiencies for the ISP in the size of
-it's access network routing table if each customer costs a single TCAM slot
-rather than two, sometimes three.
-
-    > And when I plug the same modem to an OpenWRT box, I don't get the
-    > global scope address, only the link-local address. Is this some PPP
-    > specific problem, or there might be some IPv6 autoconfiguration magic
-    > happening in the background? I don't think so, because that address
-    > corresponds to a statically allocated address of the provider.
-
-I assume PPPoE, and modem is DSL or CableModem (not dialup).
-What version of OpenWRT?  18.06 just works!
-
-Feel free to unicast me your /etc/config/network
-
---
-]               Never tell me the odds!                 | ipv6 mesh networks [
-]   Michael Richardson, Sandelman Software Works        |    IoT architect   [
-]     mcr@sandelman.ca  http://www.sandelman.ca/        |   ruby on rails    [
-
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEbsyLEzg/qUTA43uogItw+93Q3WUFAl0TjxMACgkQgItw+93Q
-3WV7/Af/XbJWD3aU3dsDEPRfRfLTIux3enHxWfd+uEyYzyL8mvTpPFZa3JlmgdVO
-+pLg2LLGwksuH2wpPp8fry34DFwFP/qGHHMQM1VN4ELF3y8/AHvPyP4O+r4n5nzB
-8t4f1sc6VZCNld/SJt1abTmBrjfpvAgVP954/KEIFvBBzfzZc6rUb4iiFyqPQWe3
-NYoDNhHtdCR5Z6N1HhToYmBGk6TTShK6vWGvAsViyaJU+/hO+048AIBkIbGQY/gF
-GQ9kljnIDr4BH7l5770g9RxMJNo30vl3PRfpGPYuSYofCnuMWIei3z1oQ2QxvgcM
-xjvINvA3/hHECxEdK3XQKzzYv4HQGQ==
-=IHDv
------END PGP SIGNATURE-----
---=-=-=--
