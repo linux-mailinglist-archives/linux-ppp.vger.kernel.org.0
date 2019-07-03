@@ -2,39 +2,39 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 074855DBC3
-	for <lists+linux-ppp@lfdr.de>; Wed,  3 Jul 2019 04:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DFF65DC09
+	for <lists+linux-ppp@lfdr.de>; Wed,  3 Jul 2019 04:20:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727309AbfGCCSD (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 2 Jul 2019 22:18:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55024 "EHLO mail.kernel.org"
+        id S1728048AbfGCCUY (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 2 Jul 2019 22:20:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56342 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728004AbfGCCQk (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Tue, 2 Jul 2019 22:16:40 -0400
+        id S1727967AbfGCCSX (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Tue, 2 Jul 2019 22:18:23 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CDC292187F;
-        Wed,  3 Jul 2019 02:16:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1567021897;
+        Wed,  3 Jul 2019 02:18:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562120199;
-        bh=IPOXzj2eQQQB4BFFH70vCBUflp8YB0/Bo6rya9My2KU=;
+        s=default; t=1562120302;
+        bh=ir13Ec46CPT/YhTZAT4s3lDqCnvfFlUlksV2FP4DDmQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lYK6Nf1x3Tq6QpVntw94+fsDwHriXAG4pQMLv6oOWk4Dd9ddhI9j7mqFbwZMFa5Wm
-         VOL35Oh8+6a2STNbNS/jEnOUWJkBaOH84/kcJWNmjo9BvbwAeyVfCBRQc53J3xId/M
-         dqMo5KkgrilHhCNqoyr++REDVrw7UrUp6r7EtTOs=
+        b=YVtRnyXD2XKtYZmkLLzFKCb8ss465WLzm4NVv7/0jxLz5V4tyg+f8jp1h/AOISWbe
+         Jlxo788S+sVL05hveryNBkPrKK/wdzy55oNa4LfN5AmfUb+6kevwDTjeltjrxMK6eB
+         tf+FVtWexHk8lezkFy3QXLqODtSgS4+M5QYTJU5o=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Takashi Iwai <tiwai@suse.de>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-ppp@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 10/26] ppp: mppe: Add softdep to arc4
-Date:   Tue,  2 Jul 2019 22:16:09 -0400
-Message-Id: <20190703021625.18116-10-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 06/13] ppp: mppe: Add softdep to arc4
+Date:   Tue,  2 Jul 2019 22:18:07 -0400
+Message-Id: <20190703021814.18385-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190703021625.18116-1-sashal@kernel.org>
-References: <20190703021625.18116-1-sashal@kernel.org>
+In-Reply-To: <20190703021814.18385-1-sashal@kernel.org>
+References: <20190703021814.18385-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -61,7 +61,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/net/ppp/ppp_mppe.c b/drivers/net/ppp/ppp_mppe.c
-index a205750b431b..8609c1a0777b 100644
+index 6c7fd98cb00a..d9eda7c217e9 100644
 --- a/drivers/net/ppp/ppp_mppe.c
 +++ b/drivers/net/ppp/ppp_mppe.c
 @@ -63,6 +63,7 @@ MODULE_AUTHOR("Frank Cusack <fcusack@fcusack.com>");
