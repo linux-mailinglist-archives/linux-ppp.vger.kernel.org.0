@@ -2,76 +2,62 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D3BB5DBE2
-	for <lists+linux-ppp@lfdr.de>; Wed,  3 Jul 2019 04:19:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DB3D60D86
+	for <lists+linux-ppp@lfdr.de>; Sat,  6 Jul 2019 00:00:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727411AbfGCCTb (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 2 Jul 2019 22:19:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56942 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728388AbfGCCTF (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Tue, 2 Jul 2019 22:19:05 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 05C5621880;
-        Wed,  3 Jul 2019 02:19:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562120344;
-        bh=Js4RoMJ0vcf+wdvGITEr2dLTUBhpLGrHO1dj29zcGeA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=S9+2IWr9aPsLbmHb/tUvcif5ej+xmdThRXMfzVRguy0bi8t3HmEetdhWo6yj2qVic
-         BWAuS4wkmOemwBtAMcp42clY7dcskWK2vJN+gs1gK0OHTdu0KCoT4FXERsWyOBbgTG
-         evmaMFvi6uoLChA8Rdc4/GzsKo2XgroU3F5tGBf4=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Takashi Iwai <tiwai@suse.de>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, linux-ppp@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 4/6] ppp: mppe: Add softdep to arc4
-Date:   Tue,  2 Jul 2019 22:18:56 -0400
-Message-Id: <20190703021858.18653-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190703021858.18653-1-sashal@kernel.org>
-References: <20190703021858.18653-1-sashal@kernel.org>
+        id S1728184AbfGEWAE (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 5 Jul 2019 18:00:04 -0400
+Received: from out12.masterobox.work ([178.156.202.12]:57835 "EHLO
+        slot0.mathewsons.ga" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1728159AbfGEWAE (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 5 Jul 2019 18:00:04 -0400
+X-Greylist: delayed 635 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Jul 2019 18:00:03 EDT
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=mathewsons.ga;
+ h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=purchase@mathewsons.ga;
+ bh=onxYcir3NvpNjk2I/gjm/O+ljxo=;
+ b=K6YnBgiYjgbdcqyR54RBCY6KNnQOzv5Gy2XloSnfGQGts0WLENyUb+oPOJB+p0g40Q19vsF1TEsi
+   FKT3QXlfXrt5EyH536gPb3h3yd4iqhxXza6RDguuUCFcSE9FOz2Ce4hN3VQsrABniaM1tNnZWCdc
+   hDWY9MnXFvfu+x/fafNU5kA8i9OMj2zQd7LVZRUjM60VtAO3quVJoKcLx3Zh2nTRQHJGEkTTXR9R
+   UKnXZeIsuJt1VMynPHD90IYFIoIm5QF3pn9QdfWfwMo+9v0ApV03h4zgy4c6ednjkeW2tHGd+BBo
+   Mm3OuHR7jOCpL/VtkofoOUo+XrlMv2TjszWo9w==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=mathewsons.ga;
+ b=b8bH1IY+vGrSJ+LkmnfA4XEAVZj/wxJxdRri91nl4PrU1tVXcudTzhxwYi/HvDL0L6jj1xuAk+vi
+   1t6ECCscUGZ1bNWytc/C8GNpzalB+sQ1CmDGJQBkcb4O5KyGf4Nvtb02XfEGI1TGY13Lem68XPN2
+   +i8TV6EPqOiK/brlJ/CT/Opd2gSraYC/sRFtQACplA/lP773/PLRhBSCQU/pzlGcE9SMfvnrkeyk
+   49v+HhE8I7r8BeQ3ZVCqExf3DgXTBDLR6wAEc4ib79NAeQ+or9lc9b3MHC/ZN8l9Vth1UaoLkGi4
+   JOw+5g4gmLULs7cNn7xV3cObQzHcQVu7bE3K6w==;
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Quotes needed For July Shipments
+To:     Recipients <purchase@mathewsons.ga>
+From:   "Sales -Jpexcc." <purchase@mathewsons.ga>
+Date:   Sat, 06 Jul 2019 00:39:28 +0300
+Reply-To: jpexcc@aol.com
+Message-ID: <0.0.4D.160.1D53379EDBB4C86.0@slot0.mathewsons.ga>
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-From: Takashi Iwai <tiwai@suse.de>
+Hello dear,
+ =
 
-[ Upstream commit aad1dcc4f011ea409850e040363dff1e59aa4175 ]
+We are in the market for your products after meeting at your stand during l=
+ast expo.
+ =
 
-The arc4 crypto is mandatory at ppp_mppe probe time, so let's put a
-softdep line, so that the corresponding module gets prepared
-gracefully.  Without this, a simple inclusion to initrd via dracut
-failed due to the missing dependency, for example.
+Please kindly send us your latest catalog and price list so as to start a n=
+ew project/order as promised during the exhibition. =
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/ppp/ppp_mppe.c | 1 +
- 1 file changed, 1 insertion(+)
+ =
 
-diff --git a/drivers/net/ppp/ppp_mppe.c b/drivers/net/ppp/ppp_mppe.c
-index 05005c660d4d..6376edd89ceb 100644
---- a/drivers/net/ppp/ppp_mppe.c
-+++ b/drivers/net/ppp/ppp_mppe.c
-@@ -62,6 +62,7 @@ MODULE_AUTHOR("Frank Cusack <fcusack@fcusack.com>");
- MODULE_DESCRIPTION("Point-to-Point Protocol Microsoft Point-to-Point Encryption support");
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_ALIAS("ppp-compress-" __stringify(CI_MPPE));
-+MODULE_SOFTDEP("pre: arc4");
- MODULE_VERSION("1.0.2");
- 
- static unsigned int
--- 
-2.20.1
+I would appreciate your response about the above details required so we can=
+ revert back to you asap.
+ =
 
+Kind regards
+ =
+
+Rhema Zoeh
