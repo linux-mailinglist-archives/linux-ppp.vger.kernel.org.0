@@ -2,62 +2,47 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DB3D60D86
-	for <lists+linux-ppp@lfdr.de>; Sat,  6 Jul 2019 00:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87E6E64E78
+	for <lists+linux-ppp@lfdr.de>; Thu, 11 Jul 2019 00:04:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728184AbfGEWAE (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 5 Jul 2019 18:00:04 -0400
-Received: from out12.masterobox.work ([178.156.202.12]:57835 "EHLO
-        slot0.mathewsons.ga" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1728159AbfGEWAE (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 5 Jul 2019 18:00:04 -0400
-X-Greylist: delayed 635 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Jul 2019 18:00:03 EDT
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=mathewsons.ga;
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=purchase@mathewsons.ga;
- bh=onxYcir3NvpNjk2I/gjm/O+ljxo=;
- b=K6YnBgiYjgbdcqyR54RBCY6KNnQOzv5Gy2XloSnfGQGts0WLENyUb+oPOJB+p0g40Q19vsF1TEsi
-   FKT3QXlfXrt5EyH536gPb3h3yd4iqhxXza6RDguuUCFcSE9FOz2Ce4hN3VQsrABniaM1tNnZWCdc
-   hDWY9MnXFvfu+x/fafNU5kA8i9OMj2zQd7LVZRUjM60VtAO3quVJoKcLx3Zh2nTRQHJGEkTTXR9R
-   UKnXZeIsuJt1VMynPHD90IYFIoIm5QF3pn9QdfWfwMo+9v0ApV03h4zgy4c6ednjkeW2tHGd+BBo
-   Mm3OuHR7jOCpL/VtkofoOUo+XrlMv2TjszWo9w==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=mathewsons.ga;
- b=b8bH1IY+vGrSJ+LkmnfA4XEAVZj/wxJxdRri91nl4PrU1tVXcudTzhxwYi/HvDL0L6jj1xuAk+vi
-   1t6ECCscUGZ1bNWytc/C8GNpzalB+sQ1CmDGJQBkcb4O5KyGf4Nvtb02XfEGI1TGY13Lem68XPN2
-   +i8TV6EPqOiK/brlJ/CT/Opd2gSraYC/sRFtQACplA/lP773/PLRhBSCQU/pzlGcE9SMfvnrkeyk
-   49v+HhE8I7r8BeQ3ZVCqExf3DgXTBDLR6wAEc4ib79NAeQ+or9lc9b3MHC/ZN8l9Vth1UaoLkGi4
-   JOw+5g4gmLULs7cNn7xV3cObQzHcQVu7bE3K6w==;
+        id S1728018AbfGJWEm convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Wed, 10 Jul 2019 18:04:42 -0400
+Received: from 50-244-196-250-static.hfc.comcastbusiness.net ([50.244.196.250]:56929
+        "EHLO hometime.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727884AbfGJWE3 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 10 Jul 2019 18:04:29 -0400
+X-Greylist: delayed 18198 seconds by postgrey-1.27 at vger.kernel.org; Wed, 10 Jul 2019 18:04:22 EDT
+Received: from [100.120.45.199] ([195.181.172.132]) by hometime.com with Microsoft SMTPSVC(6.0.3790.4675);
+         Wed, 10 Jul 2019 00:08:20 -0500
 Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8BIT
 Content-Description: Mail message body
-Subject: Quotes needed For July Shipments
-To:     Recipients <purchase@mathewsons.ga>
-From:   "Sales -Jpexcc." <purchase@mathewsons.ga>
-Date:   Sat, 06 Jul 2019 00:39:28 +0300
-Reply-To: jpexcc@aol.com
-Message-ID: <0.0.4D.160.1D53379EDBB4C86.0@slot0.mathewsons.ga>
+Subject: Greetings!
+To:     Recipients <fuqingzheng@asia.com>
+From:   fuqingzheng@asia.com
+Date:   Wed, 10 Jul 2019 07:07:46 +0200
+Reply-To: zhengfuqing@yandex.com
+X-Antivirus: Avast (VPS 190709-4, 09-07-2019), Outbound message
+X-Antivirus-Status: Clean
+Message-ID: <SBSthhOjcdEc83LUEM700008fed@hometime.com>
+X-OriginalArrivalTime: 10 Jul 2019 05:08:20.0906 (UTC) FILETIME=[7E20F8A0:01D536DD]
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Hello dear,
- =
+Good day,
 
-We are in the market for your products after meeting at your stand during l=
-ast expo.
- =
+  I have a mutual business proposal, which refers to the transfer of a large amount of money to an account abroad, with your help as a foreign partner as a beneficiary of the funds. Everything about this transaction will be legal without any bridge of financial authority both in my country and yours. If you are interested and I will give you more information about the project as soon as I receive your positive response.
 
-Please kindly send us your latest catalog and price list so as to start a n=
-ew project/order as promised during the exhibition. =
+Best regards,
 
- =
+Executive Director.
+ 
+ICBC. China
 
-I would appreciate your response about the above details required so we can=
- revert back to you asap.
- =
+---
+Dit e-mailbericht is gecontroleerd op virussen met Avast antivirussoftware.
+https://www.avast.com/antivirus
 
-Kind regards
- =
-
-Rhema Zoeh
