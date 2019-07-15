@@ -2,66 +2,70 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EE28687BD
-	for <lists+linux-ppp@lfdr.de>; Mon, 15 Jul 2019 13:04:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0E1269AC2
+	for <lists+linux-ppp@lfdr.de>; Mon, 15 Jul 2019 20:24:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729698AbfGOLES (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 15 Jul 2019 07:04:18 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:44081 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729883AbfGOLER (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 15 Jul 2019 07:04:17 -0400
-Received: by mail-pf1-f193.google.com with SMTP id t16so7240225pfe.11
-        for <linux-ppp@vger.kernel.org>; Mon, 15 Jul 2019 04:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=at1U0zLzNGQlxAxn9clrRSHSPpGB2zlKGmciYViXmzQ=;
-        b=Iux65787KeJtZlk/UWQ8a71sdq3L+JuOBHwZwxVHUOu0Hal0brUmaUtWDT+1EakAhq
-         MtJF/vbEQagCDLqdjzXV0tE8x5YNwPsclB57z/jA+URpkAaidKGibNAiJ897B2Q2rv9p
-         uYOBtZylJRmtRio8wDP4GwRiBknU84/FmWsMFw620mFEJwR9vSM1QlmEIUdghWeLiQPg
-         3/o6A/ASY/U2XQTJeOVMsZoeyZcCfYvLw2Rbw2pE/fk67uX5NyEzWB6tv7TG5MeHZvc/
-         X3yp2nduS0Os162TiWKhkMGOmC5wMIt1cVEoe4V7hwUEXyYLehvgYaVidvFk20QbqjFn
-         kL9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=at1U0zLzNGQlxAxn9clrRSHSPpGB2zlKGmciYViXmzQ=;
-        b=TDzGgY+RDV2V0YgQaMfQSvrsSS82ff/SaCtor3IP1MmeHZlx/USssc/FW7RE+6KRl2
-         yl5+5rUuI99Fh21A/sCqf7slZshl6Z2QtRohdjU8IseLWLRe7VvuxrYmh8lUehCyKlgR
-         NixumX3bXZykKdr/aed7jole2Udm/+RAGvW865gkvs703qXz5mkgYButQQpcwt2ebGUk
-         hkJp3QUO3TKyKEgU2+nTxlajYniuqPetaNQ67fX+IOq3cQO7pH1oOssHdncff03+ubcd
-         5GyT+tAuccKyPX6v+6ezXQKHQjWNOdUc1JLSViNfBDx1a51zm5HxJTcDlN4q/MJDcvtt
-         4+Rw==
-X-Gm-Message-State: APjAAAVqC7IbOOisFaP04+Fz/+WT1B2Z3tA2/qxmrTYd0pHAvgHloVq0
-        xHBmpJMjKMa9RM1hJb40EhZFN2JcNmKA3rt2o5o=
-X-Google-Smtp-Source: APXvYqwI9SCHvCHLnvHckfwL+oW1shcNAvZVS/wk3iQ3LTmyEMELfYQBoBiEv/cUvggIHp2fQao9ul2L5mSBnKj2EDA=
-X-Received: by 2002:a63:ad07:: with SMTP id g7mr24480194pgf.405.1563188657092;
- Mon, 15 Jul 2019 04:04:17 -0700 (PDT)
+        id S1729441AbfGOSY0 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 15 Jul 2019 14:24:26 -0400
+Received: from carlson.workingcode.com ([50.78.21.49]:41060 "EHLO
+        carlson.workingcode.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729277AbfGOSY0 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 15 Jul 2019 14:24:26 -0400
+Received: from [10.49.74.218] (fw-lex.abinitio.com [65.170.40.234])
+        (authenticated bits=0)
+        by carlson.workingcode.com (8.15.2/8.15.2/SUSE Linux 0.8) with ESMTPSA id x6FIOHts010340
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Mon, 15 Jul 2019 14:24:17 -0400
+DKIM-Filter: OpenDKIM Filter v2.10.3 carlson.workingcode.com x6FIOHts010340
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=workingcode.com;
+        s=carlson; t=1563215062;
+        bh=pv+4Nmky3vTtrH/Za1vp6qo33qmDR6bgPAnLYqFD+5Y=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=Es3d/xtMerWpyrh6lUGR7tTEyZP27Q7jSS6ASXUPY46N79Xf6ubcHqIFbtF2tJDTH
+         /vdTv+i0IlSy3OXGnK2gF4+bVQoKH05aejvKBQGIKdPoWlkoTKT28HrKMy4GMdaJIK
+         ysftESgz/+s4Kowp1pxSbTzCCwkgW2LuFvlsSzXY=
+Subject: Re: monitoring raw data
+To:     wharms@bfs.de
+Cc:     linux-ppp@vger.kernel.org
+References: <5D29B187.6040400@bfs.de> <20190713131005.7f9b0fe3@jive>
+ <5D29C87C.9070400@bfs.de>
+From:   James Carlson <carlsonj@workingcode.com>
+Message-ID: <a5cba29c-1943-92db-0b6e-a61dae007ccc@workingcode.com>
+Date:   Mon, 15 Jul 2019 14:24:16 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-Received: by 2002:a17:90a:b78d:0:0:0:0 with HTTP; Mon, 15 Jul 2019 04:04:16
- -0700 (PDT)
-From:   Donald Douglas <ddouglasng@gmail.com>
-Date:   Mon, 15 Jul 2019 04:04:16 -0700
-Message-ID: <CALVR28EP4VMYZDqzau6uFTJmxHs6we+nYre3JstaZ5qSsvppFQ@mail.gmail.com>
-Subject: Kindly Respond
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <5D29C87C.9070400@bfs.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-DCC-MGTINTERNET-Metrics: carlson 1170; Body=2 Fuz1=2 Fuz2=2
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Hello,
-I am Barr Fredrick Mbogo a business consultant i have a lucrative
-business to discuss with you from the Eastern part of Africa Uganda to
-be precise aimed at agreed percentage upon your acceptance of my hand
-in business and friendship. Kindly respond to me if you are interested
-to partner with me for an update. Very important.
+On 07/13/19 08:03, walter harms wrote:
+> while searching i found this:
+>  https://github.com/ya-jeks/gsmmux
+> 
+> ever heard about it ?
 
-Yours Sincerely,
-Donald Douglas,
-For,
-Barr Frederick Mbogo
-Legal Consultant.
-Reply to: barrfredmbogo@consultant.com
+I've never heard of it, but it does indeed look like the solution you're
+looking for.  You would just run pppd over one of the ptys allocated by
+that tool, and then use your AT commands on another pty.
+
+More generally, neither pppd nor its associated kernel drivers have any
+sort of multiplexing scheme for carriage of non-PPP data.
+
+On a commercial system I once worked on, we had specially-designed
+modems that had a separate management-only serial port so that we could
+issue commands without disrupting the data port.  Life with
+consumer-grade modems is different.  I've heard of people trying to do
+the Hayes-patented TIES "<delay>+++<delay>ATH1<nl>AT...<nl>ATO<nl>"
+stuff with modified drivers in the past, but none of that (if it ever
+was successful) ended up merging into the main code.  A virtual-port
+based scheme (as you're citing) sounds a lot more promising.
+
+-- 
+James Carlson         42.703N 71.076W         <carlsonj@workingcode.com>
