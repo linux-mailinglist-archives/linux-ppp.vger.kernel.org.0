@@ -2,100 +2,104 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A87CD76F40
-	for <lists+linux-ppp@lfdr.de>; Fri, 26 Jul 2019 18:45:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD6588196E
+	for <lists+linux-ppp@lfdr.de>; Mon,  5 Aug 2019 14:38:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728956AbfGZQp3 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 26 Jul 2019 12:45:29 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:38729 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728943AbfGZQp2 (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 26 Jul 2019 12:45:28 -0400
-Received: by mail-qt1-f193.google.com with SMTP id n11so53199274qtl.5
-        for <linux-ppp@vger.kernel.org>; Fri, 26 Jul 2019 09:45:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=qaOWGs23G49TWwws7WjjdoCv06+sXW9upizbWmsREGM=;
-        b=MBKJbuMrs9FSTsgDbpfMEC2iM+Mgo/gNYAa3SM3aaQ8NIBY6v4rD+MmM6UONYqYX8y
-         fV6WIXzbBAtiC04TwawPu+avmWl7u6cCkPHfj7xZ7EBr3sjoSW9pLTlEWMwG4I9nEBuB
-         kbcCDp0IYhpUBF9aQOgKEjOHuISU6K21Q/KE9/ocl8zP/tfnDZYWpUKHH4fwMyEo1IVp
-         Ex0vqVhpapA0o+umQN6+Mh/SRg/Ff8VCFCxkyc6aHlXs2QQ89RTq1BaWvSq3RxCyQgBl
-         QnyScmmox2OYfEA5SrYaInW8kG1ozHCMQxHZWV3Vz8yXtGI4WanKuJwTW8cQPAjXIO9j
-         pUVw==
+        id S1728793AbfHEMiX (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 5 Aug 2019 08:38:23 -0400
+Received: from mail-io1-f72.google.com ([209.85.166.72]:34934 "EHLO
+        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727349AbfHEMiJ (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 5 Aug 2019 08:38:09 -0400
+Received: by mail-io1-f72.google.com with SMTP id w17so92121519iom.2
+        for <linux-ppp@vger.kernel.org>; Mon, 05 Aug 2019 05:38:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=qaOWGs23G49TWwws7WjjdoCv06+sXW9upizbWmsREGM=;
-        b=dRsxCFpbbVbVTFtk7wqv8151qklG6p4sEEkKm1wgc9bjbm3nWFsNv2SaXX6bWCYbH/
-         7IrBsvm7KtnsTqiL9I+2WADvLBnnVusxBGYwNZiyf6wQsDItH0nlvYhCLi2EWIq0Ma+s
-         48IyorRnSBnuCigVLD8lxnDFgvhhT4zuWZXx5Xgb0vVng0xQ9DZMNbSGPlMAQyK8V3tP
-         Vub1/RUNxhba4V9wxRKyLXS0eQRqx5LB8qmuNQT8QxF3EXae84JNF8Ix1+vRgCrNWMWn
-         FnovzHcmM4YB+mewME7Me2j6h6IIjKp+BS4qLrdvB1iLIlEFAKAiauqML/lI3uVG/aTN
-         vCTA==
-X-Gm-Message-State: APjAAAUj34oJclrH20BItDagocXjx0WX0AoHsPXOzfZjRjY0PbCOihQ5
-        zs+MtDJ+umcyv7o6naypprtBTgicdxGa/PDEbdk=
-X-Google-Smtp-Source: APXvYqyRqfPcz7rcgMGQO0a1Xg8BgrG0FA5d73BKM93l8ujPyfPbiSSGVebQirNV9WxwZB6CZnlKxYXOzdXOIou0f1E=
-X-Received: by 2002:ac8:4252:: with SMTP id r18mr6404984qtm.357.1564159527359;
- Fri, 26 Jul 2019 09:45:27 -0700 (PDT)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=0SlIsA2694wt+MQ5zgGwgDx+HJC9onZmiZCosf0h45g=;
+        b=MPoFVeiWsojy/oRyafkw1aYTaxZKnormed1Tf6QKcnOMskbTJ74hty0RHr2yP+aSae
+         UARcoKn4cFnmkCFT1Z95ymvsqtJa5Er+Hrves9QxBnR1I3EbXtjMLd9KxVGQ52LtHRxo
+         SvWMgtzmcbNdLlo2JefXt3BL3i4NnipWQOjVTCi2T6RLeexX15JK2DF9aAZaxUOE4TT/
+         i7+20nDUhjvvjXftKbn3EgjwscF2Hjatv2FRER4qa/vTT7sekGRuwnBFI3TcbaB0DgAq
+         GTxUsLRBuNSWGTkwSRmazP32Tvt0vqDn0J52PGoTAZU/XTv8YS7uN0zL2bbCaNd58G1g
+         5kog==
+X-Gm-Message-State: APjAAAWbeucF6LyngMVig6n08Di6RK/ubuVNbSdEfbi9kWvSfkOfhJ+m
+        QqMRVsIpJMoNKlpgK6W+vSyqFpvraQnHy6zIZZpvxt0av0vX
+X-Google-Smtp-Source: APXvYqyl33KSmOqc0D/gaCB1vcetR2LjFAP3VYVdy4LJX4399FDTlJi85XLUKNOx6HsJaQg1toX7SXFnsmn8hwqbMaIt4hdcR0vj
 MIME-Version: 1.0
-Received: by 2002:aed:3544:0:0:0:0:0 with HTTP; Fri, 26 Jul 2019 09:45:26
- -0700 (PDT)
-Reply-To: dhl.benin2019@outlook.com
-From:   "DR, MOHAMMED BUHARI, PRESIDENT OF NIGERIA" 
-        <westernunion.benin982@gmail.com>
-Date:   Fri, 26 Jul 2019 17:45:26 +0100
-Message-ID: <CAP=nHBKv0J2KVfmfnQs7YrrDs_VuL_F5x-ghM0J6qN3=fYF1qA@mail.gmail.com>
-Subject: Attn Dear Atm Card beneficiary. GOOD NEWS,Shipment number:
- 4Z69536197319960 Content Packages: ATM Visa Card, amount of $18.5Million
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+X-Received: by 2002:a6b:5a17:: with SMTP id o23mr32421740iob.41.1565008688166;
+ Mon, 05 Aug 2019 05:38:08 -0700 (PDT)
+Date:   Mon, 05 Aug 2019 05:38:08 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000edc1d5058f5dfa5f@google.com>
+Subject: memory leak in ppp_write
+From:   syzbot <syzbot+d9c8bf24e56416d7ce2c@syzkaller.appspotmail.com>
+To:     ast@kernel.org, bpf@vger.kernel.org, daniel@iogearbox.net,
+        davem@davemloft.net, kafai@fb.com, linux-kernel@vger.kernel.org,
+        linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+        paulus@samba.org, songliubraving@fb.com,
+        syzkaller-bugs@googlegroups.com, yhs@fb.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Attn Dear Atm Card beneficiary.
+Hello,
 
-GOOD NEWS,
-This is to inform you that i have paid the delivery fees for your ATM
-Master Card
-I paid it because our bank director stated that before, they
-So contact Dr. William Roberts, Director DHL Courier
-Company Benin to receive your delivery ATM Visa Card amount of $18.5m US Dollars
-It is shipment was registered to your addres.
-Contact the office now to know when they will delivery arrive to your country
+syzbot found the following crash on:
 
-Email id: dhl.benin2019@outlook.com
-Tel/mobile, +229 99652699
-Contact the office now to know when they will delivery arrive to your
-country today
-Shipment Details
------------------------------------------------------
-Shipment number: 4Z69536197319960
-Content Packages: ATM Visa Card amount of $18.5Million
-Scheduled Delivery
-Remember I have paid the insurance and Security Keeping fees for you
-But the only money you are required to send to this company is $125.00
-been your accurate ATM Visa Card clearance Fee before they will effect
-the delivery to you.
-Send the required delivery fee $125.00 only to the DHL Office on this
-information
-Payment is to be made via Western Union or Money Gram transfer for
-security purposes.
+HEAD commit:    d8778f13 Merge tag 'xtensa-20190803' of git://github.com/j..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=17a953d6600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=30cef20daf3e9977
+dashboard link: https://syzkaller.appspot.com/bug?extid=d9c8bf24e56416d7ce2c
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16da002c600000
 
-Receive's Name---------------------Alan Ude
-Country-------------------------------------Benin
-City-----------------------------------Cotonou
-Quest-------------------------------Honest
-Answer----------------------------------Trust
-Amount---------------------------$125.00 only
-Let me know once you send the fee today okay.
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+d9c8bf24e56416d7ce2c@syzkaller.appspotmail.com
 
-Blessing upon, blessing upon, blessing upon blessing upon,God has
-chosen you for testimony time,
-I wait for your urgent reply
+2019/08/04 10:45:32 executed programs: 5
+2019/08/04 10:45:38 executed programs: 7
+2019/08/04 10:45:44 executed programs: 9
+2019/08/04 10:45:51 executed programs: 11
+BUG: memory leak
+unreferenced object 0xffff88811b943200 (size 224):
+   comm "syz-executor.0", pid 7102, jiffies 4294951426 (age 8.020s)
+   hex dump (first 32 bytes):
+     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+   backtrace:
+     [<00000000612bb18c>] kmemleak_alloc_recursive  
+include/linux/kmemleak.h:43 [inline]
+     [<00000000612bb18c>] slab_post_alloc_hook mm/slab.h:522 [inline]
+     [<00000000612bb18c>] slab_alloc_node mm/slab.c:3262 [inline]
+     [<00000000612bb18c>] kmem_cache_alloc_node+0x163/0x2f0 mm/slab.c:3574
+     [<00000000f510d7dd>] __alloc_skb+0x6e/0x210 net/core/skbuff.c:197
+     [<0000000064f35f9b>] alloc_skb include/linux/skbuff.h:1055 [inline]
+     [<0000000064f35f9b>] ppp_write+0x48/0x120  
+drivers/net/ppp/ppp_generic.c:502
+     [<000000007d5732a9>] __vfs_write+0x43/0xa0 fs/read_write.c:494
+     [<00000000b490138e>] vfs_write fs/read_write.c:558 [inline]
+     [<00000000b490138e>] vfs_write+0xee/0x210 fs/read_write.c:542
+     [<00000000d20d33e5>] ksys_write+0x7c/0x130 fs/read_write.c:611
+     [<000000007b61e45c>] __do_sys_write fs/read_write.c:623 [inline]
+     [<000000007b61e45c>] __se_sys_write fs/read_write.c:620 [inline]
+     [<000000007b61e45c>] __x64_sys_write+0x1e/0x30 fs/read_write.c:620
+     [<0000000067600a9b>] do_syscall_64+0x76/0x1a0  
+arch/x86/entry/common.c:296
+     [<000000007e48b83c>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
 
-Sincerely
-DR, MOHAMMED BUHARI, PRESIDENT OF NIGERIA
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
