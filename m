@@ -2,123 +2,86 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3867B8DF83
-	for <lists+linux-ppp@lfdr.de>; Wed, 14 Aug 2019 22:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FB308E077
+	for <lists+linux-ppp@lfdr.de>; Thu, 15 Aug 2019 00:14:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730073AbfHNU5H (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 14 Aug 2019 16:57:07 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:49863 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728871AbfHNU5H (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 14 Aug 2019 16:57:07 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1M9FSx-1htJE10LW3-006Opc; Wed, 14 Aug 2019 22:57:02 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
-        linux-fsdevel@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
-        "David S. Miller" <davem@davemloft.net>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-ppp@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH v5 15/18] compat_ioctl: ppp: move simple commands into ppp_generic.c
-Date:   Wed, 14 Aug 2019 22:54:50 +0200
-Message-Id: <20190814205521.122180-6-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20190814204259.120942-1-arnd@arndb.de>
-References: <20190814204259.120942-1-arnd@arndb.de>
+        id S1729970AbfHNWO0 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 14 Aug 2019 18:14:26 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:46987 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729901AbfHNWOV (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 14 Aug 2019 18:14:21 -0400
+Received: by mail-qt1-f193.google.com with SMTP id j15so320590qtl.13
+        for <linux-ppp@vger.kernel.org>; Wed, 14 Aug 2019 15:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=p6m83mGjllDiHyeRTSS1oVMHX5M/xE6ILn6PPhzsgs4=;
+        b=l5PC+4msT+R1VOq1FIInu61dIh2STHPN9aSBt/Y5M3n644FfA169IT6wzP+sfbruwG
+         5vHd8QNfmmF7FOlV1OW4+1ls9+argQAW0MZ9696kjqRFjMtNiRxkPVvom8CpuMz6+P3J
+         lvnykAE+N5ClLjt8+21Oenlj55mmWn47h6bOufTUj3iAyACG+cL0ImoQgj5m6u3w1/lr
+         fVPm9fs++0X3Li7mpOQ13No26+jYpH9OobXYps5GGnrfpp0Xq6qTsPtsJRMHzlRsuSi2
+         Q5RuPSHMeFGhG1MzboDTj+tp2IBpQDy9TN5wUYjWC528WeGARQxpLHz2F9meUvIkEvkQ
+         sSPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=p6m83mGjllDiHyeRTSS1oVMHX5M/xE6ILn6PPhzsgs4=;
+        b=ugFAikHNv00JJrlclbUNFMDGDCY74F76DlYwXaTDLw7/+JR8GnLUMege86HbeqH0u9
+         TI7QGAdbX0xLyDS4QK1OnUKAq2KNfdcRu5xzi100pxS7UTdc6XhscSfO55mjl6yaTnRc
+         O1Da9Fmf+1Mw+rMtAWT5qGBZkwDiee4Q5DgTXtRUPWfs0G7UvJszS3y7kpbx1sEsTbrO
+         Xtiq3gbSV2fIBCPlhwpW+Ja5aT2m5iW1PrPJXsgpe3RA2GbxF4DXI+WyVIPDDd+4ulIs
+         1piE9vuLeJ9ejqsIv7CwU5r2l5XRMVKfJ5RotciNBNGEo3PoZm9rbyiykOFXmkGIbWW8
+         0z/A==
+X-Gm-Message-State: APjAAAWuzSnFQnudNQlZcM/H2Y7Gw41FPFQGC9/YmpijAbcoItrQZXBA
+        J3rj6k0k+ADVZR8DYrmg28vOtt6K59dhcXMumTU=
+X-Google-Smtp-Source: APXvYqwvEwq36YC/YcFdGthiFQqEswOUmu8y33AXL4ty34gsygcaTEjmhvj04/dFUfa1vFoE719aJcDSjuFoUwkSVes=
+X-Received: by 2002:aed:3826:: with SMTP id j35mr1333309qte.54.1565820860049;
+ Wed, 14 Aug 2019 15:14:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fmDVahZ4CcjhOs+KQjFGAeeFwENq4LRdyWsKv0rqtggtBQdCebQ
- wWbcsq8NgjYrZwRjTsGXv1s7bwGqvAJ46xqweMWH/L+s61fs2bS+CYMfTP3CEAM38d/CkcJ
- CzWkG5VjpQaNdncFVHciiRkjivY5K925E6YiGJKoRpEBDbm2C0W2MErGEpJ7IJ8zYIDamTA
- en2pP+DG2us+rODng1uBA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:KdTmbrqSBxg=:7w6RP3+jpxgmEpOORfKjlK
- gA+ONjUM2BroK9CLZO4Yxbj1fimuLY+ync6FY/qLOZgahDHdFVskTUQWJbMlNrhuI6fLivyYb
- fe3BfGtukX4tiBfkyP4w6QV146OOpJj3ZaqKwHxyUfrFHMV9dpWmMKg5KUKsHINwIRKmjsZmD
- YpwYar1PCu/Fzyz3J1f45w5iLdJEKqM8hKP8H0dIW1fhqas9XCWbCMe/ACcrU19oz+oJhg4js
- 4ml32miZfdKjspapG2BJeCu0lLlUZ5V4TiCusWT6CGWF94kTue8F5pQ5P2HcfouOAaUDTMThs
- pzmJFWcbY1bXrtRkqOzn+EQJYKtZKP8ZxEBgmst5mWHkd9NMUpCO2SMBX/c/kD4Sl0JZdmq/w
- 7gW3Z/Wlre4fjGTJTzB22msi1HB8D2K7Jod6wwW9MICJQ5VU09YIrApjAUy5lRa5mcjMVZBU3
- Ly0YOn5HCYEH8RK6iRPE29frvDvNlKvIG5NNCi2/XNBn3SFl3DsP2M/IlUUygUMT/oNg5Nndy
- binfmvbsmwtUNftdXBGj9k9qdH1ldhvkoGQGTPeZWxJZgKmOmAaaapN5yT7mbVBqlX4sSFMa6
- wzVC5Wyp7nGpnKpijQ2XNIDd0jHUYejKM19MnbL8MXZK/cfeVMRjKY/b3ff3Ypa6bMtZLad0g
- +LqExuQ/M+TXYKLfyn61CFS7QjlzjbDOKY+qM2M+PfpMZUp+hjqI2GvuHB9uueKRsWMs7v3st
- R78SOXOPSGvt3SP+JW7IfhpEL+0T9QQNraQIK1xP2it4ovzDNJsFFhxyq5iLJp2xod3nYYyO3
- MrY+PZ5DBc49CXAXtdnT1vhN5m4AA==
+Received: by 2002:aed:3544:0:0:0:0:0 with HTTP; Wed, 14 Aug 2019 15:14:19
+ -0700 (PDT)
+Reply-To: Katerinejones19@gmail.com
+From:   "MS. MARYANNA B. THOMASON" <westernunion.benin982@gmail.com>
+Date:   Wed, 14 Aug 2019 23:14:19 +0100
+Message-ID: <CAP=nHB+U+By16HzeUHiDfPT5KNtemGam6gniZhL2s7_itZ3F8w@mail.gmail.com>
+Subject: TODAY, Wed, Aug 14, 2019 I AM READY FOR COMING TO YOUR ADDRESS WITH
+ THIS ATM CARD
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-All ppp commands that are not already handled in ppp_compat_ioctl()
-are compatible, so they can now handled by calling the native
-ppp_ioctl() directly.
+ATTN DEAR PARCEL BENEFICIARY.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/net/ppp/ppp_generic.c |  4 ++++
- fs/compat_ioctl.c             | 32 --------------------------------
- 2 files changed, 4 insertions(+), 32 deletions(-)
+I AM CATHY JONES,DIPLOMATIC AGENT ASIGNED ON THE DELIVERY OF YOUR ATM
+CARD THROUGH MS. MARYANNA B. THOMASON, DHL MANAGEMENT DIRECTOR NEW
+YORK.
+TODAY, Wed, Aug 14, 2019 I AM READY FOR COMING TO YOUR ADDRESS WITH
+THIS ATM CARD, So before i deliver I want you to send me.
+official diplomatic agent delivery fee sum of $150.00 us
+ only. I am here at JFK Airport,Florida. USA
 
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index 6b4e227cb002..ea1507c7c40e 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -903,6 +903,10 @@ static long ppp_compat_ioctl(struct file *file, unsigned int cmd, unsigned long
- 	}
- 	mutex_unlock(&ppp_mutex);
- 
-+	/* all other commands have compatible arguments */
-+	if (err == -ENOIOCTLCMD)
-+		err = ppp_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-+
- 	return err;
- }
- #endif
-diff --git a/fs/compat_ioctl.c b/fs/compat_ioctl.c
-index f97cf698cfdd..3d127bb6357a 100644
---- a/fs/compat_ioctl.c
-+++ b/fs/compat_ioctl.c
-@@ -144,38 +144,6 @@ COMPATIBLE_IOCTL(SG_GET_REQUEST_TABLE)
- COMPATIBLE_IOCTL(SG_SET_KEEP_ORPHAN)
- COMPATIBLE_IOCTL(SG_GET_KEEP_ORPHAN)
- #endif
--/* PPP stuff */
--COMPATIBLE_IOCTL(PPPIOCGFLAGS)
--COMPATIBLE_IOCTL(PPPIOCSFLAGS)
--COMPATIBLE_IOCTL(PPPIOCGASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCSASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCGUNIT)
--COMPATIBLE_IOCTL(PPPIOCGRASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCSRASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCGMRU)
--COMPATIBLE_IOCTL(PPPIOCSMRU)
--COMPATIBLE_IOCTL(PPPIOCSMAXCID)
--COMPATIBLE_IOCTL(PPPIOCGXASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCSXASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCXFERUNIT)
--/* PPPIOCSCOMPRESS is translated */
--COMPATIBLE_IOCTL(PPPIOCGNPMODE)
--COMPATIBLE_IOCTL(PPPIOCSNPMODE)
--COMPATIBLE_IOCTL(PPPIOCGDEBUG)
--COMPATIBLE_IOCTL(PPPIOCSDEBUG)
--/* PPPIOCSPASS is translated */
--/* PPPIOCSACTIVE is translated */
--COMPATIBLE_IOCTL(PPPIOCGIDLE32)
--COMPATIBLE_IOCTL(PPPIOCGIDLE64)
--COMPATIBLE_IOCTL(PPPIOCNEWUNIT)
--COMPATIBLE_IOCTL(PPPIOCATTACH)
--COMPATIBLE_IOCTL(PPPIOCDETACH)
--COMPATIBLE_IOCTL(PPPIOCSMRRU)
--COMPATIBLE_IOCTL(PPPIOCCONNECT)
--COMPATIBLE_IOCTL(PPPIOCDISCONN)
--COMPATIBLE_IOCTL(PPPIOCATTCHAN)
--COMPATIBLE_IOCTL(PPPIOCGCHAN)
--COMPATIBLE_IOCTL(PPPIOCGL2TPSTATS)
- };
- 
- /*
--- 
-2.20.0
+SEND THIS FEE BY WESTERN UNION OR MONEY WITH RECEIVER'S NAME AND ADDRESS BELOW.
 
+RECEIVER'S NAME-----------------ERROL PRINGLE
+ADDRESS----------------3500 OLD DENTON RD APT 208; CARROLLTON, TEXAS 75007
+COUNTRY----------------USA
+AMOUNT--------------------$150.00 ONLY
+TEST QUESTION----------------WHO IS THE CREATOR
+ANSWER------------------GOD
+ meanwhile this $150.00 is required by the Custom Service,USA Homeland
+Security,for protection of your delivery, it will make the ATM CARD
+and funds worth $15.8MILLION US DOLLARS secure, Beleiev me, this is my
+word, remark my word,you will receive your delivery from me, Mrs.
+Cathy Jones once you send this only $150.00 today.
+I WAIT ON YOUR PAYMENT CONFIRMATION, ONCE I GOT YOUR PAYMENT, I WILL
+FINALLY ARRIVE TO YOUR NEAREST ADDRESS. today
+THANKS AND MAY GOD BLESS  YOU
+CATHY JONES,DIPLOMATIC AGENT
+EMAIL; katerinejones19@gmail.com
+CALL OR TEXT ME, DIPLOMATIC AGENT MS. CATHY JONES
+Phone Number; (408) 650-6103,
