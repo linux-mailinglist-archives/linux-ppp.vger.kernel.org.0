@@ -2,36 +2,46 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C60248B65A
-	for <lists+linux-ppp@lfdr.de>; Tue, 13 Aug 2019 13:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1856E8CE15
+	for <lists+linux-ppp@lfdr.de>; Wed, 14 Aug 2019 10:13:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727097AbfHMLIX (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 13 Aug 2019 07:08:23 -0400
-Received: from [157.230.164.221] ([157.230.164.221]:60282 "EHLO
-        9389689244-jhnabhfbn.localdomain" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726086AbfHMLIW (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Tue, 13 Aug 2019 07:08:22 -0400
-Received: from localhost (9389689244-jhnabhfbn [127.0.0.1])
-        by 9389689244-jhnabhfbn.localdomain (Postfix) with SMTP id 65B849DA178;
-        Sun, 11 Aug 2019 12:32:42 +0000 (UTC)
-Received: from (HELO l1ien) [188.225.178.123] by localhost with SMTP; Sun, 11 Aug 2019 07:32:49 -0600
-Message-ID: <4zfc-1$47$-2$$096p@balpsb8us7o>
-From:   "RECEIVE AND SECURE THIS MONEY FOR ME" <fta447447@gmail.com>
-Reply-To: "RECEIVE AND SECURE THIS MONEY FOR ME" <fta447447@gmail.com>
-To:     linux-doc-admin@mlf.linux.rulez.org
-Subject: RECEIVE AND KEEP THIS MONEY FOR ME IN YOUR BANK ACCOUNT,REPLY TO fta447447@gmail.com FOR DETAILS
-Date:   Sun, 11 Aug 19 07:32:49 GMT
-X-Mailer: Microsoft Outlook Express 5.00.2919.6700
+        id S1727722AbfHNINZ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Wed, 14 Aug 2019 04:13:25 -0400
+Received: from slot0.abamarket.ga ([178.156.202.135]:51166 "EHLO
+        slot0.abamarket.ga" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726677AbfHNINZ (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 14 Aug 2019 04:13:25 -0400
+X-Greylist: delayed 705 seconds by postgrey-1.27 at vger.kernel.org; Wed, 14 Aug 2019 04:13:25 EDT
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="032_58DB_B1..39E1"
-X-Priority: 3
-X-MSMail-Priority: Normal
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: PLEASE CONFIRM PURCHASE ORDER
+To:     Recipients <mscarolynsmtih@gmail.com>
+From:   "Mr NARESH KUMAR" <mscarolynsmtih@gmail.com>
+Date:   Wed, 14 Aug 2019 15:51:56 +0800
+Reply-To: saiapex09@outlook.com
+Message-ID: <0.0.3.456.1D55274DD086A58.0@slot0.abamarket.ga>
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
+Could you please confirm if your recieved our purchase order last week.
 
---032_58DB_B1..39E1--
+If no please confirm let me resend it to you.
 
+
+
+
+NARESH KUMAR
+
+Executive Purchase Saiapextrading Ltd
+
+Dubai, KSA.
+
+(T/F): +96-2667-264 777 / 778
+
+(Mo): +96 94284 02803
+
+Website - http://www.saiapexgeneraltrading.com
