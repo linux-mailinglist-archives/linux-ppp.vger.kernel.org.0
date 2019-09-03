@@ -2,155 +2,120 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA9E7A1F3E
-	for <lists+linux-ppp@lfdr.de>; Thu, 29 Aug 2019 17:32:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D8EEA61EF
+	for <lists+linux-ppp@lfdr.de>; Tue,  3 Sep 2019 08:55:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728042AbfH2PcI (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Thu, 29 Aug 2019 11:32:08 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:35013 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727834AbfH2PcI (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Thu, 29 Aug 2019 11:32:08 -0400
-Received: by mail-io1-f69.google.com with SMTP id 18so4462725iof.2
-        for <linux-ppp@vger.kernel.org>; Thu, 29 Aug 2019 08:32:07 -0700 (PDT)
+        id S1727407AbfICGyy (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 3 Sep 2019 02:54:54 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:40818 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727123AbfICGyt (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Tue, 3 Sep 2019 02:54:49 -0400
+Received: by mail-pf1-f195.google.com with SMTP id w16so10172017pfn.7
+        for <linux-ppp@vger.kernel.org>; Mon, 02 Sep 2019 23:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=dZueRWZd1uZbZNG0riAle5evD2RPXFUMBIbKb1n2stM=;
+        b=FGEtBmTw+UijXa25Ipc7xQ4tq+qIvfBqVg1NmnanWKkTe7yno7WjcxKffa1nMJRAxD
+         AOYney+tqn0eT+NmaNjlkHQOanv2QIDA74pDFkjN2+P7BgoLwUFLkf7WRlMExbShWPkY
+         li/3kKiY2mP6zBN27Xf9uW7QmC1Xh1uz3qOhy4WUq3vxN6fp1IjTUXp0jvN9sbegwtGr
+         jBZD8enNnF01X7NkZsKZipwUc+J5nvDpaxa6aPgYmHKkqoD/xsVarFNXkIr2mGdpaGkC
+         eWL7t0M4ytePKm2cj76neBQtC3gx6gqV2FTcsx3B5KgRrVZLgUaYfZ51ZUJWctoicY7C
+         TIoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=9jMd6mNwFLX+PQpzzKyalqJyB2DZCmy9IGLW1UJr3iU=;
-        b=Pt9n7zoEjm45P47bUS5pbZTSLu2xx6coX6I6iyy8/02GMTw7qAjpCh1ClfiHZIhGyU
-         +uiVFWJ4IlOK8rVXJgkJg5revU2sis4P9/aBGiIaXME+YowMSrXE0agAnLfHqL940jzG
-         a0rtcDCh5LKP+vy1+hCsLMAqV6DKDXITL1Wa3p++qbeh5if3/bCyXOC8Ln9rK7H2Ipc5
-         EOjpSL82iCPlIobAspPYIIoU4RdydKHnTJfBQLP+UuMy3ruNqWDIMZtPR2a98FgpFGLP
-         uNhS142ifNbYcOpiyWlK0jxawOYL3uKUlTldo9wxEkbS0rUGUMW/J13EcKPrhK6HQtUr
-         rL3Q==
-X-Gm-Message-State: APjAAAWjmo5LErsTF0/lA7BFqA0wsPCJPMh49DIshSRoSmFvgAw3snzc
-        M7Y6JjKPAmPgjTb77v786UulOcJycZ9wA9T2KPbBI1TJvbjf
-X-Google-Smtp-Source: APXvYqwRkvhHX4DsRrb2aW6LnXU//89K++W00MWSrkTYJbPK6vsIHenfAXL3fk+j1Bgmi2Tdw9zqdjK1NZeoTAKKbiFLfzuodlEM
-MIME-Version: 1.0
-X-Received: by 2002:a5d:97cf:: with SMTP id k15mr856067ios.151.1567092727431;
- Thu, 29 Aug 2019 08:32:07 -0700 (PDT)
-Date:   Thu, 29 Aug 2019 08:32:07 -0700
-In-Reply-To: <000000000000edc1d5058f5dfa5f@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000594c700591433550@google.com>
-Subject: Re: memory leak in ppp_write
-From:   syzbot <syzbot+d9c8bf24e56416d7ce2c@syzkaller.appspotmail.com>
-To:     ast@kernel.org, bpf@vger.kernel.org, daniel@iogearbox.net,
-        davem@davemloft.net, kafai@fb.com, linux-kernel@vger.kernel.org,
-        linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
-        paulus@samba.org, songliubraving@fb.com,
-        syzkaller-bugs@googlegroups.com, yhs@fb.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=dZueRWZd1uZbZNG0riAle5evD2RPXFUMBIbKb1n2stM=;
+        b=CZNNvsk2B3QT6UhMYrV960IBrvHZvustj/llyIWlq5TcIFRs0YPL5TwLnt7PDj1dgb
+         gvUFIXQR/6VDVzSnfY1ksaFcsiPs0VfBRUIQBxXTlJlSDhI2ljXcr9ie4/Ecf+GlVEUk
+         jjnu6/wfNvIS8hXWfUv0izouN6uQdw/eNXtsYQfcFhtc3kehYeWPOmhzjDrApqI6uFaL
+         qvocvkJ0+LIH5DVqRloiuzEcuBrboM1LWJqd2KTF0+uUnDc9bwwF1AfhByGSws3rs9Id
+         089n9L7iEAVLYjf0zJTU5fH/nOHfNneOazDxWJc+aSiGd+U9tNT/uzXc1mmn+UAOHYWb
+         r7Pg==
+X-Gm-Message-State: APjAAAW6oQCBw03hfmW9i0558dqjCtdDcuGevTXi+tGSo066NNfRtd0e
+        inp0sMOGoQQ10xdv1TTum5G7dQ==
+X-Google-Smtp-Source: APXvYqxkoDM0uGwkQpRgclz5RRJ0gAHteeMYv8Fxj1KTi5HwH2NFSQ2AQjYuF7bCDIFRGM9OMwEfJg==
+X-Received: by 2002:a63:7887:: with SMTP id t129mr28954591pgc.309.1567493688797;
+        Mon, 02 Sep 2019 23:54:48 -0700 (PDT)
+Received: from baolinwangubtpc.spreadtrum.com ([117.18.48.82])
+        by smtp.gmail.com with ESMTPSA id s7sm5872032pjn.8.2019.09.02.23.54.39
+        (version=TLS1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Mon, 02 Sep 2019 23:54:48 -0700 (PDT)
+From:   Baolin Wang <baolin.wang@linaro.org>
+To:     stable@vger.kernel.org, chris@chris-wilson.co.uk, airlied@linux.ie,
+        davem@davemloft.net, kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
+        edumazet@google.com, peterz@infradead.org, mingo@redhat.com,
+        vyasevich@gmail.com, nhorman@tuxdriver.com,
+        linus.walleij@linaro.org, natechancellor@gmail.com, sre@kernel.org,
+        paulus@samba.org, gregkh@linuxfoundation.org
+Cc:     intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        netdev@vger.kernel.org, longman@redhat.com,
+        hariprasad.kelam@gmail.com, linux-sctp@vger.kernel.org,
+        linux-gpio@vger.kernel.org, david@lechnology.com,
+        linux-pm@vger.kernel.org, ebiggers@google.com,
+        linux-ppp@vger.kernel.org, lanqing.liu@unisoc.com,
+        linux-serial@vger.kernel.org, arnd@arndb.de,
+        baolin.wang@linaro.org, orsonzhai@gmail.com,
+        vincent.guittot@linaro.org, linux-kernel@vger.kernel.org
+Subject: [BACKPORT 4.14.y 0/8] Candidates from Spreadtrum 4.14 product kernel
+Date:   Tue,  3 Sep 2019 14:53:46 +0800
+Message-Id: <cover.1567492316.git.baolin.wang@linaro.org>
+X-Mailer: git-send-email 1.7.9.5
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-syzbot has found a reproducer for the following crash on:
+With Arnd's script [1] help, I found some bugfixes in Spreadtrum 4.14 product
+kernel, but missing in v4.14.141:
 
-HEAD commit:    6525771f Merge tag 'arc-5.3-rc7' of git://git.kernel.org/p..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16dc12a2600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e6131eafb9408877
-dashboard link: https://syzkaller.appspot.com/bug?extid=d9c8bf24e56416d7ce2c
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=116942de600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1179c582600000
+86fda90ab588 net: sctp: fix warning "NULL check before some freeing functions is not needed"
+25a09ce79639 ppp: mppe: Revert "ppp: mppe: Add softdep to arc4"
+d9b308b1f8a1 drm/i915/fbdev: Actually configure untiled displays
+47d3d7fdb10a ip6: fix skb leak in ip6frag_expire_frag_queue()
+5b9cea15a3de serial: sprd: Modify the baud rate calculation formula
+513e1073d52e locking/lockdep: Add debug_locks check in __lock_downgrade()
+957063c92473 pinctrl: sprd: Use define directive for sprd_pinconf_params values
+87a2b65fc855 power: supply: sysfs: ratelimit property read error message
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+d9c8bf24e56416d7ce2c@syzkaller.appspotmail.com
+[1] https://lore.kernel.org/lkml/20190322154425.3852517-19-arnd@arndb.de/T/
 
-executing program
-executing program
-executing program
-executing program
-BUG: memory leak
-unreferenced object 0xffff88812a17bc00 (size 224):
-   comm "syz-executor673", pid 6952, jiffies 4294942888 (age 13.040s)
-   hex dump (first 32 bytes):
-     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-   backtrace:
-     [<00000000d110fff9>] kmemleak_alloc_recursive  
-include/linux/kmemleak.h:43 [inline]
-     [<00000000d110fff9>] slab_post_alloc_hook mm/slab.h:522 [inline]
-     [<00000000d110fff9>] slab_alloc_node mm/slab.c:3262 [inline]
-     [<00000000d110fff9>] kmem_cache_alloc_node+0x163/0x2f0 mm/slab.c:3574
-     [<000000002d616113>] __alloc_skb+0x6e/0x210 net/core/skbuff.c:197
-     [<000000000167fc45>] alloc_skb include/linux/skbuff.h:1055 [inline]
-     [<000000000167fc45>] ppp_write+0x48/0x120  
-drivers/net/ppp/ppp_generic.c:502
-     [<000000009ab42c0b>] __vfs_write+0x43/0xa0 fs/read_write.c:494
-     [<00000000086b2e22>] vfs_write fs/read_write.c:558 [inline]
-     [<00000000086b2e22>] vfs_write+0xee/0x210 fs/read_write.c:542
-     [<00000000a2b70ef9>] ksys_write+0x7c/0x130 fs/read_write.c:611
-     [<00000000ce5e0fdd>] __do_sys_write fs/read_write.c:623 [inline]
-     [<00000000ce5e0fdd>] __se_sys_write fs/read_write.c:620 [inline]
-     [<00000000ce5e0fdd>] __x64_sys_write+0x1e/0x30 fs/read_write.c:620
-     [<00000000d9d7b370>] do_syscall_64+0x76/0x1a0  
-arch/x86/entry/common.c:296
-     [<0000000006e6d506>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Chris Wilson (1):
+  drm/i915/fbdev: Actually configure untiled displays
 
-BUG: memory leak
-unreferenced object 0xffff888121203900 (size 224):
-   comm "syz-executor673", pid 6965, jiffies 4294943430 (age 7.620s)
-   hex dump (first 32 bytes):
-     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-   backtrace:
-     [<00000000d110fff9>] kmemleak_alloc_recursive  
-include/linux/kmemleak.h:43 [inline]
-     [<00000000d110fff9>] slab_post_alloc_hook mm/slab.h:522 [inline]
-     [<00000000d110fff9>] slab_alloc_node mm/slab.c:3262 [inline]
-     [<00000000d110fff9>] kmem_cache_alloc_node+0x163/0x2f0 mm/slab.c:3574
-     [<000000002d616113>] __alloc_skb+0x6e/0x210 net/core/skbuff.c:197
-     [<000000000167fc45>] alloc_skb include/linux/skbuff.h:1055 [inline]
-     [<000000000167fc45>] ppp_write+0x48/0x120  
-drivers/net/ppp/ppp_generic.c:502
-     [<000000009ab42c0b>] __vfs_write+0x43/0xa0 fs/read_write.c:494
-     [<00000000086b2e22>] vfs_write fs/read_write.c:558 [inline]
-     [<00000000086b2e22>] vfs_write+0xee/0x210 fs/read_write.c:542
-     [<00000000a2b70ef9>] ksys_write+0x7c/0x130 fs/read_write.c:611
-     [<00000000ce5e0fdd>] __do_sys_write fs/read_write.c:623 [inline]
-     [<00000000ce5e0fdd>] __se_sys_write fs/read_write.c:620 [inline]
-     [<00000000ce5e0fdd>] __x64_sys_write+0x1e/0x30 fs/read_write.c:620
-     [<00000000d9d7b370>] do_syscall_64+0x76/0x1a0  
-arch/x86/entry/common.c:296
-     [<0000000006e6d506>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
+David Lechner (1):
+  power: supply: sysfs: ratelimit property read error message
 
-BUG: memory leak
-unreferenced object 0xffff88811d0cf800 (size 512):
-   comm "syz-executor673", pid 6965, jiffies 4294943430 (age 7.620s)
-   hex dump (first 32 bytes):
-     06 00 00 00 05 00 00 00 40 00 00 00 00 00 00 00  ........@.......
-     40 00 40 00 00 00 00 00 40 00 40 00 00 00 00 00  @.@.....@.@.....
-   backtrace:
-     [<00000000b9629d4c>] kmemleak_alloc_recursive  
-include/linux/kmemleak.h:43 [inline]
-     [<00000000b9629d4c>] slab_post_alloc_hook mm/slab.h:522 [inline]
-     [<00000000b9629d4c>] slab_alloc_node mm/slab.c:3262 [inline]
-     [<00000000b9629d4c>] kmem_cache_alloc_node_trace+0x161/0x2f0  
-mm/slab.c:3592
-     [<00000000a9b92035>] __do_kmalloc_node mm/slab.c:3614 [inline]
-     [<00000000a9b92035>] __kmalloc_node_track_caller+0x38/0x50  
-mm/slab.c:3629
-     [<00000000fad050db>] __kmalloc_reserve.isra.0+0x40/0xb0  
-net/core/skbuff.c:141
-     [<00000000a1025904>] __alloc_skb+0xa0/0x210 net/core/skbuff.c:209
-     [<000000000167fc45>] alloc_skb include/linux/skbuff.h:1055 [inline]
-     [<000000000167fc45>] ppp_write+0x48/0x120  
-drivers/net/ppp/ppp_generic.c:502
-     [<000000009ab42c0b>] __vfs_write+0x43/0xa0 fs/read_write.c:494
-     [<00000000086b2e22>] vfs_write fs/read_write.c:558 [inline]
-     [<00000000086b2e22>] vfs_write+0xee/0x210 fs/read_write.c:542
-     [<00000000a2b70ef9>] ksys_write+0x7c/0x130 fs/read_write.c:611
-     [<00000000ce5e0fdd>] __do_sys_write fs/read_write.c:623 [inline]
-     [<00000000ce5e0fdd>] __se_sys_write fs/read_write.c:620 [inline]
-     [<00000000ce5e0fdd>] __x64_sys_write+0x1e/0x30 fs/read_write.c:620
-     [<00000000d9d7b370>] do_syscall_64+0x76/0x1a0  
-arch/x86/entry/common.c:296
-     [<0000000006e6d506>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Eric Biggers (1):
+  ppp: mppe: Revert "ppp: mppe: Add softdep to arc4"
 
+Eric Dumazet (1):
+  ip6: fix skb leak in ip6frag_expire_frag_queue()
+
+Hariprasad Kelam (1):
+  net: sctp: fix warning "NULL check before some freeing functions is
+    not needed"
+
+Lanqing Liu (1):
+  serial: sprd: Modify the baud rate calculation formula
+
+Nathan Chancellor (1):
+  pinctrl: sprd: Use define directive for sprd_pinconf_params values
+
+Waiman Long (1):
+  locking/lockdep: Add debug_locks check in __lock_downgrade()
+
+ drivers/gpu/drm/i915/intel_fbdev.c        |   12 +++++++-----
+ drivers/net/ppp/ppp_mppe.c                |    1 -
+ drivers/pinctrl/sprd/pinctrl-sprd.c       |    6 ++----
+ drivers/power/supply/power_supply_sysfs.c |    3 ++-
+ drivers/tty/serial/sprd_serial.c          |    2 +-
+ include/net/ipv6_frag.h                   |    1 -
+ kernel/locking/lockdep.c                  |    3 +++
+ net/sctp/sm_make_chunk.c                  |   12 ++++--------
+ 8 files changed, 19 insertions(+), 21 deletions(-)
+
+-- 
+1.7.9.5
 
