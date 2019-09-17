@@ -2,147 +2,180 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B6C3B2B01
-	for <lists+linux-ppp@lfdr.de>; Sat, 14 Sep 2019 12:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C750EB55A2
+	for <lists+linux-ppp@lfdr.de>; Tue, 17 Sep 2019 20:49:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728196AbfINKgN (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sat, 14 Sep 2019 06:36:13 -0400
-Received: from mx01-fr.bfs.de ([193.174.231.67]:22951 "EHLO mx01-fr.bfs.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726313AbfINKgN (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Sat, 14 Sep 2019 06:36:13 -0400
-Received: from mail-fr.bfs.de (mail-fr.bfs.de [10.177.18.200])
-        by mx01-fr.bfs.de (Postfix) with ESMTPS id 81D0120358;
-        Sat, 14 Sep 2019 12:36:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901;
-        t=1568457366; h=from:from:sender:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Es/MiPyCfr0G7L32hjce7Rfv0YnP7NgRF2lVj2oRdL0=;
-        b=Ee/+1tqq41WwaLOf0WFIfPAUHMMwvDm01AcsiMUqYZIkRP9SoBrXIeY36WN3kNENofNjzh
-        aIaf/j8f3RXvGirVLwj1dy6SmoFHxPTXDqJzXSO0eFcCC92jFYEzxXcSAA+jkZRZRyBPWJ
-        dHTk+BhUvq7pGMC4H1ocb2IGW3EGU6H/O9I1Gy4Cbk8zh2asNJ1Nh0tSPCrumLqmKIeJMM
-        DxWiz5zhiLrAHArDq5I7ilrvq9t120JNCKt8z3SYKlXawc4YHmZazxBzpFcjXOKf1e9vgv
-        EA1mcG+/Hbg0I2v9xYhQEALkl6HDYACfk+ymXRXvGeP1HluXmd9qwnjV8M8/VQ==
-Received: from [134.92.181.33] (unknown [134.92.181.33])
-        by mail-fr.bfs.de (Postfix) with ESMTPS id 1F34ABEEBD;
-        Sat, 14 Sep 2019 12:36:06 +0200 (CEST)
-Message-ID: <5D7CC295.3090402@bfs.de>
-Date:   Sat, 14 Sep 2019 12:36:05 +0200
-From:   walter harms <wharms@bfs.de>
-Reply-To: wharms@bfs.de
-User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; de; rv:1.9.1.16) Gecko/20101125 SUSE/3.0.11 Thunderbird/3.0.11
+        id S1727305AbfIQStK (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 17 Sep 2019 14:49:10 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:36065 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728856AbfIQStI (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Tue, 17 Sep 2019 14:49:08 -0400
+Received: by mail-io1-f70.google.com with SMTP id g126so7140000iof.3
+        for <linux-ppp@vger.kernel.org>; Tue, 17 Sep 2019 11:49:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=NwVpGkNHgsmoaBSsh3mYYG8q0xqBQTXg+ZIgnqs4C80=;
+        b=q0QEXuIqEmBXVB+jTI9KSpray1T/DZ3p1wp4aw4kw3mOEzPPbXZWYjWdoYJkj9Z+D4
+         FjT9/tB50Pnc4/KcYDebAizOUvPxrB3C5I0+IsDEd6wfFLttscwg9yWZldMTBb0D+/l0
+         krEZLR9dcHycRc8JkoHL7rpmdWpkfiVzxXq08N3HtFmoL7pBii8xyVNZ3yR9F9s2mFox
+         FW/a+plTT0PDbrU/qAuG95P9JZfn4J584nV5OBYRqoWzsd5Ynmhy+TMhNSTK/youqOAD
+         YQxtQTqg4y0cVr52vnwd81z1sVfUdBhWzTJzGIbNLGKO0ATYHkADmoV8jbAjj0+99YT/
+         MGOQ==
+X-Gm-Message-State: APjAAAVRSqAesGVsegA/H1sub+UwDGEYeJe/cvQSNjzo1xVvYCx6Vgmi
+        A3uG7vybqqXkfB7zacvccUfNrE3MXvhbhQjogFhViYUFOrlL
+X-Google-Smtp-Source: APXvYqzsAS0Pl7r7pEqtH8I83JX6lJEg1mRzZST37KlCqUop1Eo1ndA/srmM39ERBKIJibHr2ZgJi5S+Xu59xduJ6ApYCPrWNg9H
 MIME-Version: 1.0
-To:     Takeshi Misawa <jeliantsurux@gmail.com>
-CC:     Paul Mackerras <paulus@samba.org>,
-        "David S. Miller" <davem@davemloft.net>, linux-ppp@vger.kernel.org
-Subject: Re: [PATCH] ppp: Fix memory leak in ppp_write
-References: <20190914040958.GA2363@DESKTOP>
-In-Reply-To: <20190914040958.GA2363@DESKTOP>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-3.10
-Authentication-Results: mx01-fr.bfs.de
-X-Spamd-Result: default: False [-3.10 / 7.00];
-         HAS_REPLYTO(0.00)[wharms@bfs.de];
-         TO_DN_SOME(0.00)[];
-         REPLYTO_ADDR_EQ_FROM(0.00)[];
-         FREEMAIL_TO(0.00)[gmail.com];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         MID_RHS_MATCH_FROM(0.00)[];
-         BAYES_HAM(-3.00)[100.00%];
-         ARC_NA(0.00)[];
-         FROM_HAS_DN(0.00)[];
-         RCPT_COUNT_THREE(0.00)[4];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         FREEMAIL_ENVRCPT(0.00)[gmail.com];
-         MIME_GOOD(-0.10)[text/plain];
-         DKIM_SIGNED(0.00)[];
-         NEURAL_HAM(-0.00)[-0.999,0];
-         RCVD_COUNT_TWO(0.00)[2];
-         RCVD_TLS_ALL(0.00)[]
+X-Received: by 2002:a05:6602:1d6:: with SMTP id w22mr249979iot.144.1568746146283;
+ Tue, 17 Sep 2019 11:49:06 -0700 (PDT)
+Date:   Tue, 17 Sep 2019 11:49:06 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000cacc7e0592c42ce3@google.com>
+Subject: KASAN: slab-out-of-bounds Read in bpf_prog_create
+From:   syzbot <syzbot+eb853b51b10f1befa0b7@syzkaller.appspotmail.com>
+To:     arnd@arndb.de, ast@kernel.org, bpf@vger.kernel.org,
+        daniel@iogearbox.net, davem@davemloft.net, hawk@kernel.org,
+        jakub.kicinski@netronome.com, john.fastabend@gmail.com,
+        kafai@fb.com, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-ppp@vger.kernel.org,
+        netdev@vger.kernel.org, paulus@samba.org, songliubraving@fb.com,
+        syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk,
+        yhs@fb.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
+Hello,
+
+syzbot found the following crash on:
+
+HEAD commit:    2015a28f Add linux-next specific files for 20190915
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=11880d69600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=110691c2286b679a
+dashboard link: https://syzkaller.appspot.com/bug?extid=eb853b51b10f1befa0b7
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=127c3481600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1150a70d600000
+
+The bug was bisected to:
+
+commit 2f4fa2db75e26995709043c8d3de4632ebed5c4b
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Date:   Thu Apr 18 03:48:01 2019 +0000
+
+     compat_ioctl: unify copy-in of ppp filters
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=145eee1d600000
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=165eee1d600000
+console output: https://syzkaller.appspot.com/x/log.txt?x=125eee1d600000
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+eb853b51b10f1befa0b7@syzkaller.appspotmail.com
+Fixes: 2f4fa2db75e2 ("compat_ioctl: unify copy-in of ppp filters")
+
+==================================================================
+BUG: KASAN: slab-out-of-bounds in memcpy include/linux/string.h:404 [inline]
+BUG: KASAN: slab-out-of-bounds in bpf_prog_create+0xe9/0x250  
+net/core/filter.c:1351
+Read of size 32768 at addr ffff88809cf74000 by task syz-executor183/8575
+
+CPU: 0 PID: 8575 Comm: syz-executor183 Not tainted 5.3.0-rc8-next-20190915  
+#0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x172/0x1f0 lib/dump_stack.c:113
+  print_address_description.constprop.0.cold+0xd4/0x30b mm/kasan/report.c:374
+  __kasan_report.cold+0x1b/0x41 mm/kasan/report.c:506
+  kasan_report+0x12/0x20 mm/kasan/common.c:634
+  check_memory_region_inline mm/kasan/generic.c:185 [inline]
+  check_memory_region+0x134/0x1a0 mm/kasan/generic.c:192
+  memcpy+0x24/0x50 mm/kasan/common.c:122
+  memcpy include/linux/string.h:404 [inline]
+  bpf_prog_create+0xe9/0x250 net/core/filter.c:1351
+  get_filter.isra.0+0x108/0x1a0 drivers/net/ppp/ppp_generic.c:572
+  ppp_get_filter drivers/net/ppp/ppp_generic.c:584 [inline]
+  ppp_ioctl+0x129d/0x2590 drivers/net/ppp/ppp_generic.c:801
+  vfs_ioctl fs/ioctl.c:47 [inline]
+  file_ioctl fs/ioctl.c:539 [inline]
+  do_vfs_ioctl+0xdb6/0x13e0 fs/ioctl.c:726
+  ksys_ioctl+0xab/0xd0 fs/ioctl.c:743
+  __do_sys_ioctl fs/ioctl.c:750 [inline]
+  __se_sys_ioctl fs/ioctl.c:748 [inline]
+  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:748
+  do_syscall_64+0xfa/0x760 arch/x86/entry/common.c:290
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x4401a9
+Code: 18 89 d0 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 89 f8 48 89 f7  
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 fb 13 fc ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007ffebb37d0a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00000000004002c8 RCX: 00000000004401a9
+RDX: 00000000200000c0 RSI: 0000000040107447 RDI: 0000000000000003
+RBP: 00000000006ca018 R08: 00000000004002c8 R09: 00000000004002c8
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000401a30
+R13: 0000000000401ac0 R14: 0000000000000000 R15: 0000000000000000
+
+Allocated by task 8575:
+  save_stack+0x23/0x90 mm/kasan/common.c:69
+  set_track mm/kasan/common.c:77 [inline]
+  __kasan_kmalloc mm/kasan/common.c:510 [inline]
+  __kasan_kmalloc.constprop.0+0xcf/0xe0 mm/kasan/common.c:483
+  kasan_kmalloc+0x9/0x10 mm/kasan/common.c:524
+  __do_kmalloc mm/slab.c:3655 [inline]
+  __kmalloc_track_caller+0x15f/0x760 mm/slab.c:3670
+  memdup_user+0x26/0xb0 mm/util.c:172
+  get_filter.isra.0+0xd7/0x1a0 drivers/net/ppp/ppp_generic.c:568
+  ppp_get_filter drivers/net/ppp/ppp_generic.c:584 [inline]
+  ppp_ioctl+0x129d/0x2590 drivers/net/ppp/ppp_generic.c:801
+  vfs_ioctl fs/ioctl.c:47 [inline]
+  file_ioctl fs/ioctl.c:539 [inline]
+  do_vfs_ioctl+0xdb6/0x13e0 fs/ioctl.c:726
+  ksys_ioctl+0xab/0xd0 fs/ioctl.c:743
+  __do_sys_ioctl fs/ioctl.c:750 [inline]
+  __se_sys_ioctl fs/ioctl.c:748 [inline]
+  __x64_sys_ioctl+0x73/0xb0 fs/ioctl.c:748
+  do_syscall_64+0xfa/0x760 arch/x86/entry/common.c:290
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+Freed by task 0:
+(stack is not available)
+
+The buggy address belongs to the object at ffff88809cf74000
+  which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 0 bytes inside of
+  4096-byte region [ffff88809cf74000, ffff88809cf75000)
+The buggy address belongs to the page:
+page:ffffea000273dd00 refcount:1 mapcount:0 mapping:ffff8880aa402000  
+index:0x0 compound_mapcount: 0
+flags: 0x1fffc0000010200(slab|head)
+raw: 01fffc0000010200 ffffea0002672988 ffffea00027e7788 ffff8880aa402000
+raw: 0000000000000000 ffff88809cf74000 0000000100000001 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+  ffff88809cf74f00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  ffff88809cf74f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> ffff88809cf75000: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                    ^
+  ffff88809cf75080: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+  ffff88809cf75100: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
 
 
-Am 14.09.2019 06:09, schrieb Takeshi Misawa:
-> When ppp is closing, __ppp_xmit_process() failed to enqueue skb
-> and skb allocated in ppp_write() is leaked.
-> 
-> syzbot reported :
-> BUG: memory leak
-> unreferenced object 0xffff88812a17bc00 (size 224):
->   comm "syz-executor673", pid 6952, jiffies 4294942888 (age 13.040s)
->   hex dump (first 32 bytes):
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->   backtrace:
->     [<00000000d110fff9>] kmemleak_alloc_recursive include/linux/kmemleak.h:43 [inline]
->     [<00000000d110fff9>] slab_post_alloc_hook mm/slab.h:522 [inline]
->     [<00000000d110fff9>] slab_alloc_node mm/slab.c:3262 [inline]
->     [<00000000d110fff9>] kmem_cache_alloc_node+0x163/0x2f0 mm/slab.c:3574
->     [<000000002d616113>] __alloc_skb+0x6e/0x210 net/core/skbuff.c:197
->     [<000000000167fc45>] alloc_skb include/linux/skbuff.h:1055 [inline]
->     [<000000000167fc45>] ppp_write+0x48/0x120 drivers/net/ppp/ppp_generic.c:502
->     [<000000009ab42c0b>] __vfs_write+0x43/0xa0 fs/read_write.c:494
->     [<00000000086b2e22>] vfs_write fs/read_write.c:558 [inline]
->     [<00000000086b2e22>] vfs_write+0xee/0x210 fs/read_write.c:542
->     [<00000000a2b70ef9>] ksys_write+0x7c/0x130 fs/read_write.c:611
->     [<00000000ce5e0fdd>] __do_sys_write fs/read_write.c:623 [inline]
->     [<00000000ce5e0fdd>] __se_sys_write fs/read_write.c:620 [inline]
->     [<00000000ce5e0fdd>] __x64_sys_write+0x1e/0x30 fs/read_write.c:620
->     [<00000000d9d7b370>] do_syscall_64+0x76/0x1a0 arch/x86/entry/common.c:296
->     [<0000000006e6d506>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> 
-> Fix this by freeing skb, if ppp is closing.
-> 
-> Reported-and-tested-by: syzbot+d9c8bf24e56416d7ce2c@syzkaller.appspotmail.com
-> Signed-off-by: Takeshi Misawa <jeliantsurux@gmail.com>
-> ---
-> Dear Paul Mackerras
-> 
-> syzbot reported memory leak in net/ppp.
-> [TITLE] memory leak in ppp_write
-> 
-> I send a patch that passed syzbot reproducer test. 
-> Please consider this memory leak and patch.
-> 
-> Regards.
-> ---
->  drivers/net/ppp/ppp_generic.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-> index a30e41a56085..9a1b006904a7 100644
-> --- a/drivers/net/ppp/ppp_generic.c
-> +++ b/drivers/net/ppp/ppp_generic.c
-> @@ -1415,6 +1415,8 @@ static void __ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb)
->  			netif_wake_queue(ppp->dev);
->  		else
->  			netif_stop_queue(ppp->dev);
-> +	} else {
-> +		kfree_skb(skb);
->  	}
->  	ppp_xmit_unlock(ppp);
->  }
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-nitpicking:
-
-i would suggest
-if (ppp->closing)
-	kfree_skb(skb)
-
-else
- ......
-
-i think that make that more easy to read as people tend to overlook
-things like *not*.
-
-re,
- wh
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
