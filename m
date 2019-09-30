@@ -2,56 +2,94 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 674D7C1FA1
-	for <lists+linux-ppp@lfdr.de>; Mon, 30 Sep 2019 12:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA476C20CA
+	for <lists+linux-ppp@lfdr.de>; Mon, 30 Sep 2019 14:45:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730705AbfI3K4r (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 30 Sep 2019 06:56:47 -0400
-Received: from ozlabs.org ([203.11.71.1]:57349 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730668AbfI3K4r (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Mon, 30 Sep 2019 06:56:47 -0400
-Received: by ozlabs.org (Postfix, from userid 1003)
-        id 46hfV51cHJz9sPG; Mon, 30 Sep 2019 20:56:45 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
-        t=1569841005; bh=JZtDzgcq40KG4ocmiIJlAcqg8qFxBMRXtmVF+s09qBs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Bht/VFLWTtQKw4d53B6P1rIfdD+pntdVfDpqy18+lFVFemBxTGaNoA1t+20kppU6d
-         KQ/KnlyJ9Jr2Ir92VGrkjjrM8La0dAe1hWSCFExz2aHfsA+C3vv2CILUUpzE9KLbcO
-         Nm4fslOpkSQ6vhoTrzfXWiwx4IcIJe+Wsg+rOPDHHiatQedBJC5VRu8TuJOnH8TOa2
-         kgoPDYWCeBM+SPnBYhYJDc5hXk0FphnhcRF9MhXlLOfLikWb9IAP6ZIoKDyYhDU1UB
-         V5TroOpGbn8/JWpCYBPNNKwBvPfcdamheSiPI2j1pzeo/ltLkmhtAe7ytLz6edjruK
-         fF3kn7I1EOEtw==
-Date:   Mon, 30 Sep 2019 20:56:39 +1000
-From:   Paul Mackerras <paulus@ozlabs.org>
-To:     Kurt Van Dijck <dev.kurt@vandijck-laurijssen.be>
-Cc:     linux-ppp@vger.kernel.org
-Subject: Re: [RFC] patch series to compile pppd with musl toolchain
-Message-ID: <20190930105639.GA9567@blackberry>
+        id S1728214AbfI3MpO (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 30 Sep 2019 08:45:14 -0400
+Received: from relay-b01.edpnet.be ([212.71.1.221]:52553 "EHLO
+        relay-b01.edpnet.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726952AbfI3MpO (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 30 Sep 2019 08:45:14 -0400
+X-ASG-Debug-ID: 1569847510-0a7ff54e954e4320001-vz1ewb
+Received: from zotac.vandijck-laurijssen.be (77.109.119.18.adsl.dyn.edpnet.net [77.109.119.18]) by relay-b01.edpnet.be with ESMTP id R45Q9D1dNbRVZAfi for <linux-ppp@vger.kernel.org>; Mon, 30 Sep 2019 14:45:10 +0200 (CEST)
+X-Barracuda-Envelope-From: dev.kurt@vandijck-laurijssen.be
+X-Barracuda-Effective-Source-IP: 77.109.119.18.adsl.dyn.edpnet.net[77.109.119.18]
+X-Barracuda-Apparent-Source-IP: 77.109.119.18
+Received: from x1.vandijck-laurijssen.be (74.250-240-81.adsl-static.isp.belgacom.be [81.240.250.74])
+        by zotac.vandijck-laurijssen.be (Postfix) with ESMTPSA id B8419A18D52
+        for <linux-ppp@vger.kernel.org>; Mon, 30 Sep 2019 14:45:09 +0200 (CEST)
+Date:   Mon, 30 Sep 2019 14:45:08 +0200
+From:   Kurt Van Dijck <dev.kurt@vandijck-laurijssen.be>
+To:     linux-ppp@vger.kernel.org
+Subject: Re: [PATCH 7/9] pppoe: remove the use of cdefs
+Message-ID: <20190930124508.GA27078@x1.vandijck-laurijssen.be>
+X-ASG-Orig-Subj: Re: [PATCH 7/9] pppoe: remove the use of cdefs
+Mail-Followup-To: linux-ppp@vger.kernel.org
 References: <1569482466-9551-1-git-send-email-dev.kurt@vandijck-laurijssen.be>
+ <1569482466-9551-8-git-send-email-dev.kurt@vandijck-laurijssen.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1569482466-9551-1-git-send-email-dev.kurt@vandijck-laurijssen.be>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <1569482466-9551-8-git-send-email-dev.kurt@vandijck-laurijssen.be>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+X-Barracuda-Connect: 77.109.119.18.adsl.dyn.edpnet.net[77.109.119.18]
+X-Barracuda-Start-Time: 1569847510
+X-Barracuda-URL: https://212.71.1.221:443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at edpnet.be
+X-Barracuda-Scan-Msg-Size: 1303
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.5715 1.0000 0.7500
+X-Barracuda-Spam-Score: 1.25
+X-Barracuda-Spam-Status: No, SCORE=1.25 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=7.0 tests=BSF_RULE7568M
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.76963
+        Rule breakdown below
+         pts rule name              description
+        ---- ---------------------- --------------------------------------------------
+        0.50 BSF_RULE7568M          Custom Rule 7568M
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Thu, Sep 26, 2019 at 09:20:57AM +0200, Kurt Van Dijck wrote:
-> Hello,
-> 
-> I'd like to add this series of 9 patches to pppd.
-> The goal is to use pppd on an embedded system with musl instead of glibc.
-> 
-> Kind regards,
-> Kurt
+sys/cdefs.h contains the __P() macro.
+The header doesn't exist in my musl toolchain,
+the __P() macro has been obsoleted even by glibc,
+and it's never used in the code.
+This commit removes the need for this remainder.
 
-The series looks pretty good to me.  I would like a little more
-explanation in the commit messages for patches 3 and 7, though, as to
-why we want to make the change being made.  If you can give me a
-couple of sentences for each of those two patches I will put them in
-and apply the series.
+Signed-off-by: Kurt Van Dijck <dev.kurt@vandijck-laurijssen.be>
+---
+ pppd/plugins/rp-pppoe/config.h | 3 ---
+ pppd/plugins/rp-pppoe/pppoe.h  | 4 ----
+ 2 files changed, 7 deletions(-)
 
-Paul.
+diff --git a/pppd/plugins/rp-pppoe/config.h b/pppd/plugins/rp-pppoe/config.h
+index 5703087..a708859 100644
+--- a/pppd/plugins/rp-pppoe/config.h
++++ b/pppd/plugins/rp-pppoe/config.h
+@@ -101,9 +101,6 @@
+ /* Define if you have the <netpacket/packet.h> header file.  */
+ #define HAVE_NETPACKET_PACKET_H 1
+ 
+-/* Define if you have the <sys/cdefs.h> header file.  */
+-#define HAVE_SYS_CDEFS_H 1
+-
+ /* Define if you have the <sys/dlpi.h> header file.  */
+ /* #undef HAVE_SYS_DLPI_H */
+ 
+diff --git a/pppd/plugins/rp-pppoe/pppoe.h b/pppd/plugins/rp-pppoe/pppoe.h
+index 813dcf3..55f0ca3 100644
+--- a/pppd/plugins/rp-pppoe/pppoe.h
++++ b/pppd/plugins/rp-pppoe/pppoe.h
+@@ -39,10 +39,6 @@
+ #error Unknown method for accessing raw Ethernet frames
+ #endif
+ 
+-#ifdef HAVE_SYS_CDEFS_H
+-#include <sys/cdefs.h>
+-#endif
+-
+ #ifdef HAVE_SYS_SOCKET_H
+ #include <sys/socket.h>
+ #endif
