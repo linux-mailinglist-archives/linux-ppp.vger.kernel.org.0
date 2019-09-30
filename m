@@ -2,132 +2,56 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF0C3C0F73
-	for <lists+linux-ppp@lfdr.de>; Sat, 28 Sep 2019 05:15:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 674D7C1FA1
+	for <lists+linux-ppp@lfdr.de>; Mon, 30 Sep 2019 12:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728454AbfI1DPO (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 27 Sep 2019 23:15:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42668 "EHLO mail.kernel.org"
+        id S1730705AbfI3K4r (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 30 Sep 2019 06:56:47 -0400
+Received: from ozlabs.org ([203.11.71.1]:57349 "EHLO ozlabs.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728501AbfI1DPO (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Fri, 27 Sep 2019 23:15:14 -0400
-Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F2FD9207FA;
-        Sat, 28 Sep 2019 03:15:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569640512;
-        bh=3OF1vilItFteZHZLRZa6EA+C1EdUbT48lGH3zl9W3mQ=;
+        id S1730668AbfI3K4r (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Mon, 30 Sep 2019 06:56:47 -0400
+Received: by ozlabs.org (Postfix, from userid 1003)
+        id 46hfV51cHJz9sPG; Mon, 30 Sep 2019 20:56:45 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
+        t=1569841005; bh=JZtDzgcq40KG4ocmiIJlAcqg8qFxBMRXtmVF+s09qBs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Kpeg6InUVnVYOtsyrbLe3qt3J5rqETH1GMlHPTBwZL05pbihO5k9suFODkBHbavR8
-         jBtuF6OduhAHn5zxD7uoOzH/a0yp0YeIH7eCi1mfNd1W2qwPhomQF+r69OS51LiGl/
-         VKRhofX9RXW9vHwhWlo9e4/UqfE3H0XRWHrAQQYc=
-Date:   Fri, 27 Sep 2019 20:15:10 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Arnd Bergmann <arnd@arndb.de>, Al Viro <viro@zeniv.linux.org.uk>
-Cc:     syzbot <syzbot+eb853b51b10f1befa0b7@syzkaller.appspotmail.com>,
-        ast@kernel.org, bpf@vger.kernel.org, daniel@iogearbox.net,
-        davem@davemloft.net, hawk@kernel.org, jakub.kicinski@netronome.com,
-        john.fastabend@gmail.com, kafai@fb.com,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
-        paulus@samba.org, songliubraving@fb.com,
-        syzkaller-bugs@googlegroups.com, yhs@fb.com
-Subject: Re: KASAN: slab-out-of-bounds Read in bpf_prog_create
-Message-ID: <20190928031510.GD1079@sol.localdomain>
-Mail-Followup-To: Arnd Bergmann <arnd@arndb.de>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        syzbot <syzbot+eb853b51b10f1befa0b7@syzkaller.appspotmail.com>,
-        ast@kernel.org, bpf@vger.kernel.org, daniel@iogearbox.net,
-        davem@davemloft.net, hawk@kernel.org, jakub.kicinski@netronome.com,
-        john.fastabend@gmail.com, kafai@fb.com,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ppp@vger.kernel.org, netdev@vger.kernel.org, paulus@samba.org,
-        songliubraving@fb.com, syzkaller-bugs@googlegroups.com, yhs@fb.com
-References: <000000000000cacc7e0592c42ce3@google.com>
+        b=Bht/VFLWTtQKw4d53B6P1rIfdD+pntdVfDpqy18+lFVFemBxTGaNoA1t+20kppU6d
+         KQ/KnlyJ9Jr2Ir92VGrkjjrM8La0dAe1hWSCFExz2aHfsA+C3vv2CILUUpzE9KLbcO
+         Nm4fslOpkSQ6vhoTrzfXWiwx4IcIJe+Wsg+rOPDHHiatQedBJC5VRu8TuJOnH8TOa2
+         kgoPDYWCeBM+SPnBYhYJDc5hXk0FphnhcRF9MhXlLOfLikWb9IAP6ZIoKDyYhDU1UB
+         V5TroOpGbn8/JWpCYBPNNKwBvPfcdamheSiPI2j1pzeo/ltLkmhtAe7ytLz6edjruK
+         fF3kn7I1EOEtw==
+Date:   Mon, 30 Sep 2019 20:56:39 +1000
+From:   Paul Mackerras <paulus@ozlabs.org>
+To:     Kurt Van Dijck <dev.kurt@vandijck-laurijssen.be>
+Cc:     linux-ppp@vger.kernel.org
+Subject: Re: [RFC] patch series to compile pppd with musl toolchain
+Message-ID: <20190930105639.GA9567@blackberry>
+References: <1569482466-9551-1-git-send-email-dev.kurt@vandijck-laurijssen.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <000000000000cacc7e0592c42ce3@google.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <1569482466-9551-1-git-send-email-dev.kurt@vandijck-laurijssen.be>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Arnd and Al,
-
-On Tue, Sep 17, 2019 at 11:49:06AM -0700, syzbot wrote:
+On Thu, Sep 26, 2019 at 09:20:57AM +0200, Kurt Van Dijck wrote:
 > Hello,
 > 
-> syzbot found the following crash on:
+> I'd like to add this series of 9 patches to pppd.
+> The goal is to use pppd on an embedded system with musl instead of glibc.
 > 
-> HEAD commit:    2015a28f Add linux-next specific files for 20190915
-> git tree:       linux-next
-> console output: https://syzkaller.appspot.com/x/log.txt?x=11880d69600000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=110691c2286b679a
-> dashboard link: https://syzkaller.appspot.com/bug?extid=eb853b51b10f1befa0b7
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=127c3481600000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1150a70d600000
-> 
-> The bug was bisected to:
-> 
-> commit 2f4fa2db75e26995709043c8d3de4632ebed5c4b
-> Author: Al Viro <viro@zeniv.linux.org.uk>
-> Date:   Thu Apr 18 03:48:01 2019 +0000
-> 
->     compat_ioctl: unify copy-in of ppp filters
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=145eee1d600000
-> final crash:    https://syzkaller.appspot.com/x/report.txt?x=165eee1d600000
-> console output: https://syzkaller.appspot.com/x/log.txt?x=125eee1d600000
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+eb853b51b10f1befa0b7@syzkaller.appspotmail.com
-> Fixes: 2f4fa2db75e2 ("compat_ioctl: unify copy-in of ppp filters")
-> 
-> ==================================================================
-> BUG: KASAN: slab-out-of-bounds in memcpy include/linux/string.h:404 [inline]
-> BUG: KASAN: slab-out-of-bounds in bpf_prog_create+0xe9/0x250
-> net/core/filter.c:1351
-> Read of size 32768 at addr ffff88809cf74000 by task syz-executor183/8575
-> 
-> CPU: 0 PID: 8575 Comm: syz-executor183 Not tainted 5.3.0-rc8-next-20190915
-> #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> Google 01/01/2011
-> Call Trace:
->  __dump_stack lib/dump_stack.c:77 [inline]
->  dump_stack+0x172/0x1f0 lib/dump_stack.c:113
->  print_address_description.constprop.0.cold+0xd4/0x30b mm/kasan/report.c:374
->  __kasan_report.cold+0x1b/0x41 mm/kasan/report.c:506
->  kasan_report+0x12/0x20 mm/kasan/common.c:634
->  check_memory_region_inline mm/kasan/generic.c:185 [inline]
->  check_memory_region+0x134/0x1a0 mm/kasan/generic.c:192
->  memcpy+0x24/0x50 mm/kasan/common.c:122
->  memcpy include/linux/string.h:404 [inline]
->  bpf_prog_create+0xe9/0x250 net/core/filter.c:1351
->  get_filter.isra.0+0x108/0x1a0 drivers/net/ppp/ppp_generic.c:572
->  ppp_get_filter drivers/net/ppp/ppp_generic.c:584 [inline]
->  ppp_ioctl+0x129d/0x2590 drivers/net/ppp/ppp_generic.c:801
+> Kind regards,
+> Kurt
 
-This is a correct bisection.  This commit needs:
+The series looks pretty good to me.  I would like a little more
+explanation in the commit messages for patches 3 and 7, though, as to
+why we want to make the change being made.  If you can give me a
+couple of sentences for each of those two patches I will put them in
+and apply the series.
 
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index 267fe2c58087..f55d7937d6c5 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -564,8 +564,9 @@ static struct bpf_prog *get_filter(struct sock_fprog *uprog)
- 		return NULL;
- 
- 	/* uprog->len is unsigned short, so no overflow here */
--	fprog.len = uprog->len * sizeof(struct sock_filter);
--	fprog.filter = memdup_user(uprog->filter, fprog.len);
-+	fprog.len = uprog->len;
-+	fprog.filter = memdup_user(uprog->filter,
-+				   uprog->len * sizeof(struct sock_filter));
- 	if (IS_ERR(fprog.filter))
- 		return ERR_CAST(fprog.filter);
- 
+Paul.
