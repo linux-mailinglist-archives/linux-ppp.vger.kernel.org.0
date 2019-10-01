@@ -2,75 +2,108 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A7DBCC20D4
-	for <lists+linux-ppp@lfdr.de>; Mon, 30 Sep 2019 14:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30E2AC3BCA
+	for <lists+linux-ppp@lfdr.de>; Tue,  1 Oct 2019 18:49:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729649AbfI3MrX (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 30 Sep 2019 08:47:23 -0400
-Received: from relay-b03.edpnet.be ([212.71.1.220]:46405 "EHLO
-        relay-b03.edpnet.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728214AbfI3MrX (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 30 Sep 2019 08:47:23 -0400
-X-ASG-Debug-ID: 1569847640-0a88186e22432a2a0001-vz1ewb
-Received: from zotac.vandijck-laurijssen.be (77.109.119.18.adsl.dyn.edpnet.net [77.109.119.18]) by relay-b03.edpnet.be with ESMTP id zho5yPknkGD26ni2; Mon, 30 Sep 2019 14:47:20 +0200 (CEST)
-X-Barracuda-Envelope-From: dev.kurt@vandijck-laurijssen.be
-X-Barracuda-Effective-Source-IP: 77.109.119.18.adsl.dyn.edpnet.net[77.109.119.18]
-X-Barracuda-Apparent-Source-IP: 77.109.119.18
-Received: from x1.vandijck-laurijssen.be (74.250-240-81.adsl-static.isp.belgacom.be [81.240.250.74])
-        by zotac.vandijck-laurijssen.be (Postfix) with ESMTPSA id D4F87A18D67;
-        Mon, 30 Sep 2019 14:47:19 +0200 (CEST)
-Date:   Mon, 30 Sep 2019 14:47:18 +0200
-From:   Kurt Van Dijck <dev.kurt@vandijck-laurijssen.be>
-To:     Paul Mackerras <paulus@ozlabs.org>
-Cc:     linux-ppp@vger.kernel.org
-Subject: Re: [RFC] patch series to compile pppd with musl toolchain
-Message-ID: <20190930124718.GC27078@x1.vandijck-laurijssen.be>
-X-ASG-Orig-Subj: Re: [RFC] patch series to compile pppd with musl toolchain
-Mail-Followup-To: Paul Mackerras <paulus@ozlabs.org>,
-        linux-ppp@vger.kernel.org
-References: <1569482466-9551-1-git-send-email-dev.kurt@vandijck-laurijssen.be>
- <20190930105639.GA9567@blackberry>
+        id S2388212AbfJAQov (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 1 Oct 2019 12:44:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57144 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390086AbfJAQou (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Tue, 1 Oct 2019 12:44:50 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0B9D5205C9;
+        Tue,  1 Oct 2019 16:44:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569948290;
+        bh=vQmU4uYLyl0AcxBunUP+8zR/zf9+YA3LP7QWONoMOO0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=bfvovPC8F9j9IxSlWP/UL/6XdUeY/pM0eOMvAPq+JwZNfVa+C4iX0do5Nh+/R9hNQ
+         SwJJnO3E4QyXeHQD3l7dIexib2HgP9jq9pQDPsYto0Y+U2Aed9jJp9ZpIIGlh48RiR
+         CIO9IpHKCyjGmUwsBs2diMhWj+SHHu0A29j1NF3w=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Takeshi Misawa <jeliantsurux@gmail.com>,
+        syzbot+d9c8bf24e56416d7ce2c@syzkaller.appspotmail.com,
+        Guillaume Nault <gnault@redhat.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, linux-ppp@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 21/29] ppp: Fix memory leak in ppp_write
+Date:   Tue,  1 Oct 2019 12:44:15 -0400
+Message-Id: <20191001164423.16406-21-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191001164423.16406-1-sashal@kernel.org>
+References: <20191001164423.16406-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190930105639.GA9567@blackberry>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-X-Barracuda-Connect: 77.109.119.18.adsl.dyn.edpnet.net[77.109.119.18]
-X-Barracuda-Start-Time: 1569847640
-X-Barracuda-URL: https://212.71.1.220:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at edpnet.be
-X-Barracuda-Scan-Msg-Size: 766
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.5014 1.0000 0.7500
-X-Barracuda-Spam-Score: 0.75
-X-Barracuda-Spam-Status: No, SCORE=0.75 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=7.0 tests=
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.76963
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On ma, 30 sep 2019 20:56:39 +1000, Paul Mackerras wrote:
-> On Thu, Sep 26, 2019 at 09:20:57AM +0200, Kurt Van Dijck wrote:
-> > Hello,
-> > 
-> > I'd like to add this series of 9 patches to pppd.
-> > The goal is to use pppd on an embedded system with musl instead of glibc.
-> > 
-> > Kind regards,
-> > Kurt
-> 
-> The series looks pretty good to me.  I would like a little more
-> explanation in the commit messages for patches 3 and 7, though, as to
-> why we want to make the change being made.  If you can give me a
-> couple of sentences for each of those two patches I will put them in
-> and apply the series.
+From: Takeshi Misawa <jeliantsurux@gmail.com>
 
-I sent updates for both mentioned patches, with comments.
-I didn't add the v2 to my patch 7/9 update, sorry for that.
+[ Upstream commit 4c247de564f1ff614d11b3bb5313fb70d7b9598b ]
 
-Kind regards,
-Kurt
+When ppp is closing, __ppp_xmit_process() failed to enqueue skb
+and skb allocated in ppp_write() is leaked.
+
+syzbot reported :
+BUG: memory leak
+unreferenced object 0xffff88812a17bc00 (size 224):
+  comm "syz-executor673", pid 6952, jiffies 4294942888 (age 13.040s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<00000000d110fff9>] kmemleak_alloc_recursive include/linux/kmemleak.h:43 [inline]
+    [<00000000d110fff9>] slab_post_alloc_hook mm/slab.h:522 [inline]
+    [<00000000d110fff9>] slab_alloc_node mm/slab.c:3262 [inline]
+    [<00000000d110fff9>] kmem_cache_alloc_node+0x163/0x2f0 mm/slab.c:3574
+    [<000000002d616113>] __alloc_skb+0x6e/0x210 net/core/skbuff.c:197
+    [<000000000167fc45>] alloc_skb include/linux/skbuff.h:1055 [inline]
+    [<000000000167fc45>] ppp_write+0x48/0x120 drivers/net/ppp/ppp_generic.c:502
+    [<000000009ab42c0b>] __vfs_write+0x43/0xa0 fs/read_write.c:494
+    [<00000000086b2e22>] vfs_write fs/read_write.c:558 [inline]
+    [<00000000086b2e22>] vfs_write+0xee/0x210 fs/read_write.c:542
+    [<00000000a2b70ef9>] ksys_write+0x7c/0x130 fs/read_write.c:611
+    [<00000000ce5e0fdd>] __do_sys_write fs/read_write.c:623 [inline]
+    [<00000000ce5e0fdd>] __se_sys_write fs/read_write.c:620 [inline]
+    [<00000000ce5e0fdd>] __x64_sys_write+0x1e/0x30 fs/read_write.c:620
+    [<00000000d9d7b370>] do_syscall_64+0x76/0x1a0 arch/x86/entry/common.c:296
+    [<0000000006e6d506>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
+
+Fix this by freeing skb, if ppp is closing.
+
+Fixes: 6d066734e9f0 ("ppp: avoid loop in xmit recursion detection code")
+Reported-and-tested-by: syzbot+d9c8bf24e56416d7ce2c@syzkaller.appspotmail.com
+Signed-off-by: Takeshi Misawa <jeliantsurux@gmail.com>
+Reviewed-by: Guillaume Nault <gnault@redhat.com>
+Tested-by: Guillaume Nault <gnault@redhat.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/ppp/ppp_generic.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index 34b24d7e1e2f3..8faf4488340dd 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -1433,6 +1433,8 @@ static void __ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb)
+ 			netif_wake_queue(ppp->dev);
+ 		else
+ 			netif_stop_queue(ppp->dev);
++	} else {
++		kfree_skb(skb);
+ 	}
+ 	ppp_xmit_unlock(ppp);
+ }
+-- 
+2.20.1
+
