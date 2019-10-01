@@ -2,27 +2,27 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA1F4C3C49
-	for <lists+linux-ppp@lfdr.de>; Tue,  1 Oct 2019 18:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5050AC3C01
+	for <lists+linux-ppp@lfdr.de>; Tue,  1 Oct 2019 18:50:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733191AbfJAQn4 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 1 Oct 2019 12:43:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56112 "EHLO mail.kernel.org"
+        id S2388671AbfJAQrv (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 1 Oct 2019 12:47:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57838 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733154AbfJAQnz (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Tue, 1 Oct 2019 12:43:55 -0400
+        id S2390261AbfJAQpY (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Tue, 1 Oct 2019 12:45:24 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D971920B7C;
-        Tue,  1 Oct 2019 16:43:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 764B3205C9;
+        Tue,  1 Oct 2019 16:45:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569948234;
-        bh=+jvc8phPR8TcY3q6wD2Rj1uaS7pbk6GnlgfgKQLfQzA=;
+        s=default; t=1569948323;
+        bh=jvAHYF044tOe4IyKrq8IstBz4ghDMkwNfGr78ETNkJw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Pi0j4qFTmLtLO+fu8t5WGTEE9bhQnU2WRFGnJU4BxS34Oud9YM5wU0haG0u3g6dRB
-         vQQd2CNs7KQV/qzRaPFz/iGN+BqE/yZvnaucLh2Bosx5+M0mjGChyfGpRUE2EmRydS
-         Xks8Iyj70ZMWEew1InSPvNZJv+zjqFkfUinZlQVg=
+        b=JXkKRx46EFNoe/9OtMMn8DKaJpOUX7pSO09ezymC/BvLW6TeNeV7nULAHd21It6gT
+         4Ox6eX8I4L7pBeqzKh+O8i2WX5wQvt3bqzKfQzEru2cwoU9YsVfiLBNGyvd3Om8Rg8
+         UFeGIDHAk+263gu1/CnANM4yA5bWmrP09i6QZfOQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Takeshi Misawa <jeliantsurux@gmail.com>,
@@ -31,12 +31,12 @@ Cc:     Takeshi Misawa <jeliantsurux@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-ppp@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 30/43] ppp: Fix memory leak in ppp_write
-Date:   Tue,  1 Oct 2019 12:42:58 -0400
-Message-Id: <20191001164311.15993-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 14/19] ppp: Fix memory leak in ppp_write
+Date:   Tue,  1 Oct 2019 12:45:00 -0400
+Message-Id: <20191001164505.16708-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191001164311.15993-1-sashal@kernel.org>
-References: <20191001164311.15993-1-sashal@kernel.org>
+In-Reply-To: <20191001164505.16708-1-sashal@kernel.org>
+References: <20191001164505.16708-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -92,10 +92,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index 02ad03a2fab77..3e014ecffef8e 100644
+index 1e4969d90f1a6..801bab5968d04 100644
 --- a/drivers/net/ppp/ppp_generic.c
 +++ b/drivers/net/ppp/ppp_generic.c
-@@ -1419,6 +1419,8 @@ static void __ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb)
+@@ -1432,6 +1432,8 @@ static void __ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb)
  			netif_wake_queue(ppp->dev);
  		else
  			netif_stop_queue(ppp->dev);
