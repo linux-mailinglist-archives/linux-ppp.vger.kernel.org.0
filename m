@@ -2,61 +2,78 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7261BCB8A3
-	for <lists+linux-ppp@lfdr.de>; Fri,  4 Oct 2019 12:50:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CF0BCBB85
+	for <lists+linux-ppp@lfdr.de>; Fri,  4 Oct 2019 15:21:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729977AbfJDKuF (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 4 Oct 2019 06:50:05 -0400
-Received: from relay-b03.edpnet.be ([212.71.1.220]:37906 "EHLO
-        relay-b03.edpnet.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726082AbfJDKuF (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 4 Oct 2019 06:50:05 -0400
-X-ASG-Debug-ID: 1570186200-0a88186e20461a120001-vz1ewb
-Received: from zotac.vandijck-laurijssen.be (77.109.104.71.adsl.dyn.edpnet.net [77.109.104.71]) by relay-b03.edpnet.be with ESMTP id oLabBpyWRGgmq6SC; Fri, 04 Oct 2019 12:50:00 +0200 (CEST)
-X-Barracuda-Envelope-From: dev.kurt@vandijck-laurijssen.be
-X-Barracuda-Effective-Source-IP: 77.109.104.71.adsl.dyn.edpnet.net[77.109.104.71]
-X-Barracuda-Apparent-Source-IP: 77.109.104.71
-Received: from x1.vandijck-laurijssen.be (x1.vandijck-laurijssen.be [IPv6:fd01::1a1d:eaff:fe02:d339])
-        by zotac.vandijck-laurijssen.be (Postfix) with ESMTPSA id 96F04A2F8B0;
-        Fri,  4 Oct 2019 12:49:59 +0200 (CEST)
-Date:   Fri, 4 Oct 2019 12:49:58 +0200
-From:   Kurt Van Dijck <dev.kurt@vandijck-laurijssen.be>
-To:     Levente <leventelist@gmail.com>
-Cc:     Paul Mackerras <paulus@ozlabs.org>, linux-ppp@vger.kernel.org
+        id S2388181AbfJDNVI (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 4 Oct 2019 09:21:08 -0400
+Received: from carlson.workingcode.com ([50.78.21.49]:36528 "EHLO
+        carlson.workingcode.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387917AbfJDNVI (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 4 Oct 2019 09:21:08 -0400
+X-Greylist: delayed 1717 seconds by postgrey-1.27 at vger.kernel.org; Fri, 04 Oct 2019 09:21:08 EDT
+Received: from [10.49.74.218] (fw-lex.abinitio.com [65.170.40.234])
+        (authenticated bits=0)
+        by carlson.workingcode.com (8.15.2/8.15.2/SUSE Linux 0.8) with ESMTPSA id x94CqCB2001184
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Fri, 4 Oct 2019 08:52:12 -0400
+DKIM-Filter: OpenDKIM Filter v2.10.3 carlson.workingcode.com x94CqCB2001184
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=workingcode.com;
+        s=carlson; t=1570193537;
+        bh=xCi5Snao653bHWPzrhv2VxKsj68gB4gxpi3UaCY6+Mc=;
+        h=Subject:To:References:From:Date:In-Reply-To;
+        b=g86yOLDeXoTASNKtWFgCZ0ChABMmLXvCVDPiKV7KgxZmZI4VDKJgIt7IuQw0rh74q
+         cjTpEuJuJEFVII0h0gbrBJS1JHJHv4DxfaVAmSMlOgcwcm9uQIaMb3DhoC4TkljhM1
+         KxlxCcGFZ/yFtNB0zOXYmpMlOxa3ooLF3PWprFOA=
 Subject: Re: [PATCH 4/9] pppd: include time.h before using time_t
-Message-ID: <20191004104958.GD881@x1.vandijck-laurijssen.be>
-X-ASG-Orig-Subj: Re: [PATCH 4/9] pppd: include time.h before using time_t
-Mail-Followup-To: Levente <leventelist@gmail.com>,
+To:     Levente <leventelist@gmail.com>,
         Paul Mackerras <paulus@ozlabs.org>, linux-ppp@vger.kernel.org
 References: <1569482466-9551-1-git-send-email-dev.kurt@vandijck-laurijssen.be>
  <1569482466-9551-5-git-send-email-dev.kurt@vandijck-laurijssen.be>
  <20191003224054.GA26158@blackberry>
  <CACwWb3BoHF0WQ3ve3PQ_7L3LfJsvqC3Z9ZF5zOwd-r-GWv8CuA@mail.gmail.com>
+ <20191004104958.GD881@x1.vandijck-laurijssen.be>
+From:   James Carlson <carlsonj@workingcode.com>
+Message-ID: <6fb1fd97-7e97-8088-ef46-2d4003dbd4e6@workingcode.com>
+Date:   Fri, 4 Oct 2019 08:52:12 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
+In-Reply-To: <20191004104958.GD881@x1.vandijck-laurijssen.be>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CACwWb3BoHF0WQ3ve3PQ_7L3LfJsvqC3Z9ZF5zOwd-r-GWv8CuA@mail.gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-X-Barracuda-Connect: 77.109.104.71.adsl.dyn.edpnet.net[77.109.104.71]
-X-Barracuda-Start-Time: 1570186200
-X-Barracuda-URL: https://212.71.1.220:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at edpnet.be
-X-Barracuda-Scan-Msg-Size: 120
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: SPAM GLOBAL 0.9894 1.0000 4.2201
-X-Barracuda-Spam-Score: 4.22
-X-Barracuda-Spam-Status: No, SCORE=4.22 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=7.0 tests=BSF_SC0_SA717
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.77094
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.00 BSF_SC0_SA717          Custom Rule BSF_SC0_SA717
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-DCC-URT-Metrics: carlson 1060; Body=3 Fuz1=3 Fuz2=3
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-> IMHO time_t is defined in sys/types.h
+On 10/04/19 06:49, Kurt Van Dijck wrote:
+>> IMHO time_t is defined in sys/types.h
+> 
+> http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1256.pdf
+> chapter 7.23.1.3
+> 
 
-http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1256.pdf
-chapter 7.23.1.3
+I believe that covers userland environments, not the kernel.
+
+At least on Solaris (and its derivatives, such as Illumos), the symbols
+available in the kernel are defined in sys/ (or net/, netinet/, or
+similar for network bits).  The top-level header files are for userland
+libraries.  Userland libraries are not accessible within the kernel.
+
+In this case, the common net/ppp_defs.h file is used by both user-level
+code (pppd itself) and by several kernel modules.
+
+There may be systems on which including <time.h> within a kernel module
+is harmless (I suspect Linux is one), but I have a hard time believing
+that it's correct to do so.
+
+Do you know of a system where either (a) <sys/time.h> does not exist or
+(b) it exists but does not define 'time_t'?  I haven't been able to find
+a system that matches either case.  I tried several flavors of Linux,
+AIX, Solaris, HP/UX, and IBM USS on z/OS.
+
+-- 
+James Carlson         42.703N 71.076W         <carlsonj@workingcode.com>
