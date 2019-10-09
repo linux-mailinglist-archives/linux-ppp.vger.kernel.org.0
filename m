@@ -2,285 +2,346 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF7C5D182C
-	for <lists+linux-ppp@lfdr.de>; Wed,  9 Oct 2019 21:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7B17D1855
+	for <lists+linux-ppp@lfdr.de>; Wed,  9 Oct 2019 21:13:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732242AbfJITML (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 9 Oct 2019 15:12:11 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:59681 "EHLO
+        id S1732383AbfJITNJ (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 9 Oct 2019 15:13:09 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:48377 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732061AbfJITLf (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 9 Oct 2019 15:11:35 -0400
+        with ESMTP id S1731996AbfJITL1 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 9 Oct 2019 15:11:27 -0400
 Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1M9Frd-1iCUhU1UAx-006S0r; Wed, 09 Oct 2019 21:09:11 +0200
+ (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MsZ7T-1hyQGR3c9T-00typw; Wed, 09 Oct 2019 21:11:20 +0200
 From:   Arnd Bergmann <arnd@arndb.de>
 To:     Al Viro <viro@zeniv.linux.org.uk>
 Cc:     linux-kernel@vger.kernel.org, y2038@lists.linaro.org,
-        linux-fsdevel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH v6 00/43] compat_ioctl: remove most of fs/compat_ioctl.c
-Date:   Wed,  9 Oct 2019 21:08:52 +0200
-Message-Id: <20191009190853.245077-1-arnd@arndb.de>
+        linux-fsdevel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-ppp@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH v6 37/43] compat_ioctl: unify copy-in of ppp filters
+Date:   Wed,  9 Oct 2019 21:10:38 +0200
+Message-Id: <20191009191044.308087-38-arnd@arndb.de>
 X-Mailer: git-send-email 2.20.0
+In-Reply-To: <20191009190853.245077-1-arnd@arndb.de>
+References: <20191009190853.245077-1-arnd@arndb.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:soRfA8GEsLyL6KJg7pQMmF7Bo5SXBVsSv+VAvypPv38g8t9aDtn
- 3y0GeYyEh9Ep2hbXg3Lgcef44HAU8BgCX5p0M8kyvLrlCTJan4SAkA/P7hpL88VyJP8xOqx
- WDz/UwhCf549lXsxlbiA1d0aA+bUwFqCIzBu3kWkC4G9ZxtTrn47udvoEX8UQyIcUxYqKra
- 4x1+N9IJOh6o18fVm/DYg==
+X-Provags-ID: V03:K1:YMQu2SzBTiUnl+nOpaa6B39uqrCnG7+R1LtL31k9mGcKtqSfrg6
+ FR1Fj/jteJ2YpBnZBouGG9EsztZJw9RGZEG3Do5JL+wTZPVxFOatKmmkxlHU/MQwf+O6SK7
+ 0skHgu2EesoaX09tmD//3Y5GbdHkd1UnLw2iVQru7pPk22Rt6XcBvcNJUkZXmYEjpG/9Jai
+ SQTRHLA8Dc/e6JbkA6mRg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:q9EmiQP5Hoc=:HeLrSdtqCXfrAstU0aO7OD
- 884C2iPGS1h17y6cvncKVzY7Rh+WZvsveod21s3AMUX6zEPTX4OV2KmfDwGPPQf0hejWYCJbV
- OGiqdwt8W1012ByoFy9WMhEg1qB6V+/F6DVYrtAfM0b9pn7P8VTjMa3K0n5oKQA/RluYkP+Tv
- CTD4vr9OPALoSZkA9MXJ26tR5j4KoT6rdtZcb6D74ib/xLy+WdW6Uh96552Zb32nOXYPfQm/P
- urDGniIgVPa3PSjVOYcV4BzO8qqVeM8oeDPiSSFEbirsBH+/CPjGgIsR2UCmceeSQlqTRelnf
- Oci0xFbSJpZ7apksCk0/Fps4gl6B8+kL+c8kI9/8fDrmCUHEs7/gkchidTf4aL9t8fWVPnoKz
- NoabhvGvwUwR+LlmizruvBi0IXG1wQvMH5we7gOBbO6aqrrlFwl/XTDGYf1TN12JPvQZitMtz
- Jb3bhe6iE5io+NuBey6HpUCVQ7kKJn2kdIj9cvH57maGC5StNvBPRC/BNVgvMyci0CZaQJMUx
- iXcp7gh10qMZNlnOMhHMEO0wxiE0xib8XC5PRcPCTrZr8Gk8AzkgfiihJG0BE9LNTez9e4jWm
- Lyd8sFOPqqIYpMkMhcQpaTGpwgg05yjqT8TYD3rnCI8QBkDG5aCPiCw2hti6e7g76O7v2GIZv
- Lrh5y8x5j32XSdtk26K5V4B5y6+3xcrol+uyeYIY45s/bP6oRsgVHzeMtMhtWjQhn70QRH6VJ
- Mny9K9XEHt3dm7f3uu3k6U2Ip/kW3x5+7o5HK9+7HQFXccoMg8buR/iQh5PZMzcrBlYC30x4v
- d36CIWAEEHEUamoKgqnAzBSpP5dLcEPavVuKaJuEe7jT4VPam9B63/cWl12SAckf9GzCTYOgu
- Zxrg5El2sPCxv4k9iMhA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hkE1iLX/yck=:86kzB3AfhM/d2NpCuZ3D2K
+ vjFGsdPrGn8xVqWB8+8XgYVaNsQvgDJ/ttjNgcL0L1FVFsmrUDtBs+CTKjzv5/5FRceh3COlt
+ Oa/sa/tFgwWLDQnoJkacgpBcndlLUbxdy2KWQzrhtMiR9CSbq75M59np6gcspy0ZL7nC2NftZ
+ uIPZyU+Ugmxh7Em+8/0LhXCmKOOhCA94h+q7YC7DX6Lr48qsEvFlh2ppUsMdyqlJ6mOfuiN/A
+ I92e9VtIgnZ0r4Zz1eE04VQKOCnbtS7N3bwQ5lXnygCeMUWdfCYoa1pavYf3DFCVbuzzwO1LZ
+ hK3AaCKwOW9PJBlP5AzS6HnaCQYFTPgtRpeECh0pIHAjQhyJOnacbfO5H2NloZ5pw7gFT6N0p
+ A1vqoEopUzCTOO9XjtskT0uNcQubRwr82H2WfoG81hfSb8e+tGJzbCcR1pvLk/DHHqhd0H7+p
+ NYGdjT9PQmfn0bLUqiAkCjULcy6YBJ7JQ3N1qoyPoZUqpZ6qKqre+fhFWkGMThww983xx6/C/
+ YkIuoOCb23sU1ifsDjPKvAob4LktjIu9ZwmNnfp75WQTfv6XWE35fxf5Vns8F18NXtK07G9dp
+ ahlkCzxAlVOclhGPAHHV+Ua8qx+ujIW5KOM5XmMZv6Xw4F1gB/M39Kh0e4aSw924xue3plPig
+ DkHeLTu1iobYu8XuKI5nNIcd/AAAFLl7jPk+GXZSMQlMZHaE/bv4u9OH4bP3FMsv2mkPXNjic
+ Bp6FkNPfrD2JQ0MC+vqzWi/cXKYegcq5ey3ecmj49oxT6hrcfvH79uUpKbOOmOaFBDcZTrxQ7
+ X4cTwcgEuk8fW2ry4mtWCoxYtRqlvkZkiNHDVl7Mq0SrSQHgLqlIZ4yDDiESLhWGddfJqH13t
+ rjuFVu9gVfDbqkO1Txgw==
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-As part of the cleanup of some remaining y2038 issues, I came to
-fs/compat_ioctl.c, which still has a couple of commands that need support
-for time64_t.
+From: Al Viro <viro@zeniv.linux.org.uk>
 
-In completely unrelated work, I spent time on cleaning up parts of this
-file in the past, moving things out into drivers instead.
+Now that isdn4linux is gone, the is only one implementation of PPPIOCSPASS
+and PPPIOCSACTIVE in ppp_generic.c, so this is where the compat_ioctl
+support should be implemented.
 
-After Al Viro reviewed an earlier version of this series and did a lot
-more of that cleanup, I decided to try to completely eliminate the rest
-of it and move it all into drivers.
+The two commands are implemented in very similar ways, so introduce
+new helpers to allow sharing between the two and between native and
+compat mode.
 
-This series incorporates some of Al's work and many patches of my own,
-but in the end stops short of actually removing the last part, which is
-the scsi ioctl handlers. I have patches for those as well, but they need
-more testing or possibly a rewrite.
-
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+[arnd: rebased, and added changelog text]
+Cc: netdev@vger.kernel.org
+Cc: linux-ppp@vger.kernel.org
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: "David S. Miller" <davem@davemloft.net>
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
+ drivers/net/ppp/ppp_generic.c | 169 ++++++++++++++++++++++------------
+ fs/compat_ioctl.c             |  37 --------
+ 2 files changed, 108 insertions(+), 98 deletions(-)
 
-Everything in here was posted one or more times already, sending
-the whole series again for review, I hope to get some input on those
-patches that have not already been reviewed.
-
-The entire series is also part of linux-next through
-https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/commit/?h=y2038
-
-
-Al Viro (8):
-  fix compat handling of FICLONERANGE, FIDEDUPERANGE and FS_IOC_FIEMAP
-  FIGETBSZ: fix compat
-  compat: itanic doesn't have one
-  do_vfs_ioctl(): use saner types
-  compat: move FS_IOC_RESVSP_32 handling to fs/ioctl.c
-  compat_sys_ioctl(): make parallel to do_vfs_ioctl()
-  compat_ioctl: unify copy-in of ppp filters
-  compat_ioctl: move PPPIOCSCOMPRESS to ppp_generic
-
-Arnd Bergmann (35):
-  ceph: fix compat_ioctl for ceph_dir_operations
-  compat_ioctl: drop FIOQSIZE table entry
-  compat_ioctl: add compat_ptr_ioctl()
-  compat_ioctl: move rtc handling into rtc-dev.c
-  compat_ioctl: move drivers to compat_ptr_ioctl
-  compat_ioctl: move more drivers to compat_ptr_ioctl
-  compat_ioctl: use correct compat_ptr() translation in drivers
-  compat_ioctl: move tape handling into drivers
-  compat_ioctl: move ATYFB_CLK handling to atyfb driver
-  compat_ioctl: move isdn/capi ioctl translation into driver
-  compat_ioctl: move rfcomm handlers into driver
-  compat_ioctl: move hci_sock handlers into driver
-  compat_ioctl: remove HCIUART handling
-  compat_ioctl: remove HIDIO translation
-  compat_ioctl: remove translation for sound ioctls
-  compat_ioctl: remove IGNORE_IOCTL()
-  compat_ioctl: remove /dev/random commands
-  compat_ioctl: remove joystick ioctl translation
-  compat_ioctl: remove PCI ioctl translation
-  compat_ioctl: remove /dev/raw ioctl translation
-  compat_ioctl: remove last RAID handling code
-  compat_ioctl: remove unused convert_in_user macro
-  gfs2: add compat_ioctl support
-  fs: compat_ioctl: move FITRIM emulation into file systems
-  compat_ioctl: move WDIOC handling into wdt drivers
-  compat_ioctl: reimplement SG_IO handling
-  af_unix: add compat_ioctl support
-  compat_ioctl: handle SIOCOUTQNSD
-  compat_ioctl: move SIOCOUTQ out of compat_ioctl.c
-  tty: handle compat PPP ioctls
-  compat_ioctl: handle PPPIOCGIDLE for 64-bit time_t
-  compat_ioctl: ppp: move simple commands into ppp_generic.c
-  compat_ioctl: move SG_GET_REQUEST_TABLE handling
-  pktcdvd: add compat_ioctl handler
-  scsi: sd: enable compat ioctls for sed-opal
-
- Documentation/networking/ppp_generic.txt    |   2 +
- arch/powerpc/platforms/52xx/mpc52xx_gpt.c   |   1 +
- arch/um/drivers/harddog_kern.c              |   1 +
- arch/um/drivers/hostaudio_kern.c            |   1 +
- block/scsi_ioctl.c                          | 132 ++-
- drivers/android/binder.c                    |   2 +-
- drivers/block/pktcdvd.c                     |  25 +
- drivers/char/ipmi/ipmi_watchdog.c           |   1 +
- drivers/char/ppdev.c                        |  12 +-
- drivers/char/random.c                       |   1 +
- drivers/char/tpm/tpm_vtpm_proxy.c           |  12 +-
- drivers/crypto/qat/qat_common/adf_ctl_drv.c |   2 +-
- drivers/dma-buf/dma-buf.c                   |   4 +-
- drivers/dma-buf/sw_sync.c                   |   2 +-
- drivers/dma-buf/sync_file.c                 |   2 +-
- drivers/firewire/core-cdev.c                |  12 +-
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c    |   2 +-
- drivers/hid/hidraw.c                        |   4 +-
- drivers/hid/usbhid/hiddev.c                 |  11 +-
- drivers/hwmon/fschmd.c                      |   1 +
- drivers/hwtracing/stm/core.c                |  12 +-
- drivers/ide/ide-tape.c                      |  27 +-
- drivers/iio/industrialio-core.c             |   2 +-
- drivers/infiniband/core/uverbs_main.c       |   4 +-
- drivers/isdn/capi/capi.c                    |  31 +
- drivers/media/rc/lirc_dev.c                 |   4 +-
- drivers/misc/cxl/flash.c                    |   8 +-
- drivers/misc/genwqe/card_dev.c              |  23 +-
- drivers/misc/mei/main.c                     |  22 +-
- drivers/misc/vmw_vmci/vmci_host.c           |   2 +-
- drivers/mtd/ubi/cdev.c                      |  36 +-
- drivers/net/ppp/ppp_generic.c               | 245 ++++--
- drivers/net/tap.c                           |  12 +-
- drivers/nvdimm/bus.c                        |   4 +-
- drivers/nvme/host/core.c                    |   2 +-
- drivers/pci/switch/switchtec.c              |   2 +-
- drivers/platform/x86/wmi.c                  |   2 +-
- drivers/rpmsg/rpmsg_char.c                  |   4 +-
- drivers/rtc/dev.c                           |  13 +-
- drivers/rtc/rtc-ds1374.c                    |   1 +
- drivers/rtc/rtc-vr41xx.c                    |  10 +
- drivers/s390/char/tape_char.c               |  41 +-
- drivers/sbus/char/display7seg.c             |   2 +-
- drivers/sbus/char/envctrl.c                 |   4 +-
- drivers/scsi/3w-xxxx.c                      |   4 +-
- drivers/scsi/cxlflash/main.c                |   2 +-
- drivers/scsi/esas2r/esas2r_main.c           |   2 +-
- drivers/scsi/megaraid/megaraid_mm.c         |  28 +-
- drivers/scsi/pmcraid.c                      |   4 +-
- drivers/scsi/sd.c                           |  14 +-
- drivers/scsi/sg.c                           |  59 +-
- drivers/scsi/st.c                           |  28 +-
- drivers/staging/android/ion/ion.c           |   4 +-
- drivers/staging/pi433/pi433_if.c            |  12 +-
- drivers/staging/vme/devices/vme_user.c      |   2 +-
- drivers/tee/tee_core.c                      |   2 +-
- drivers/tty/tty_io.c                        |   5 +
- drivers/usb/class/cdc-wdm.c                 |   2 +-
- drivers/usb/class/usbtmc.c                  |   4 +-
- drivers/usb/core/devio.c                    |  16 +-
- drivers/usb/gadget/function/f_fs.c          |  12 +-
- drivers/vfio/vfio.c                         |  39 +-
- drivers/vhost/net.c                         |  12 +-
- drivers/vhost/scsi.c                        |  12 +-
- drivers/vhost/test.c                        |  12 +-
- drivers/vhost/vsock.c                       |  12 +-
- drivers/video/fbdev/aty/atyfb_base.c        |  12 +-
- drivers/virt/fsl_hypervisor.c               |   2 +-
- drivers/watchdog/acquirewdt.c               |   1 +
- drivers/watchdog/advantechwdt.c             |   1 +
- drivers/watchdog/alim1535_wdt.c             |   1 +
- drivers/watchdog/alim7101_wdt.c             |   1 +
- drivers/watchdog/ar7_wdt.c                  |   1 +
- drivers/watchdog/at91rm9200_wdt.c           |   1 +
- drivers/watchdog/ath79_wdt.c                |   1 +
- drivers/watchdog/bcm63xx_wdt.c              |   1 +
- drivers/watchdog/cpu5wdt.c                  |   1 +
- drivers/watchdog/eurotechwdt.c              |   1 +
- drivers/watchdog/f71808e_wdt.c              |   1 +
- drivers/watchdog/gef_wdt.c                  |   1 +
- drivers/watchdog/geodewdt.c                 |   1 +
- drivers/watchdog/ib700wdt.c                 |   1 +
- drivers/watchdog/ibmasr.c                   |   1 +
- drivers/watchdog/indydog.c                  |   1 +
- drivers/watchdog/intel_scu_watchdog.c       |   1 +
- drivers/watchdog/iop_wdt.c                  |   1 +
- drivers/watchdog/it8712f_wdt.c              |   1 +
- drivers/watchdog/ixp4xx_wdt.c               |   1 +
- drivers/watchdog/m54xx_wdt.c                |   1 +
- drivers/watchdog/machzwd.c                  |   1 +
- drivers/watchdog/mixcomwd.c                 |   1 +
- drivers/watchdog/mtx-1_wdt.c                |   1 +
- drivers/watchdog/mv64x60_wdt.c              |   1 +
- drivers/watchdog/nv_tco.c                   |   1 +
- drivers/watchdog/pc87413_wdt.c              |   1 +
- drivers/watchdog/pcwd.c                     |   1 +
- drivers/watchdog/pcwd_pci.c                 |   1 +
- drivers/watchdog/pcwd_usb.c                 |   1 +
- drivers/watchdog/pika_wdt.c                 |   1 +
- drivers/watchdog/pnx833x_wdt.c              |   1 +
- drivers/watchdog/rc32434_wdt.c              |   1 +
- drivers/watchdog/rdc321x_wdt.c              |   1 +
- drivers/watchdog/riowd.c                    |   1 +
- drivers/watchdog/sa1100_wdt.c               |   1 +
- drivers/watchdog/sb_wdog.c                  |   1 +
- drivers/watchdog/sbc60xxwdt.c               |   1 +
- drivers/watchdog/sbc7240_wdt.c              |   1 +
- drivers/watchdog/sbc_epx_c3.c               |   1 +
- drivers/watchdog/sbc_fitpc2_wdt.c           |   1 +
- drivers/watchdog/sc1200wdt.c                |   1 +
- drivers/watchdog/sc520_wdt.c                |   1 +
- drivers/watchdog/sch311x_wdt.c              |   1 +
- drivers/watchdog/scx200_wdt.c               |   1 +
- drivers/watchdog/smsc37b787_wdt.c           |   1 +
- drivers/watchdog/w83877f_wdt.c              |   1 +
- drivers/watchdog/w83977f_wdt.c              |   1 +
- drivers/watchdog/wafer5823wdt.c             |   1 +
- drivers/watchdog/watchdog_dev.c             |   1 +
- drivers/watchdog/wdrtas.c                   |   1 +
- drivers/watchdog/wdt.c                      |   1 +
- drivers/watchdog/wdt285.c                   |   1 +
- drivers/watchdog/wdt977.c                   |   1 +
- drivers/watchdog/wdt_pci.c                  |   1 +
- fs/btrfs/super.c                            |   2 +-
- fs/ceph/dir.c                               |   1 +
- fs/ceph/file.c                              |   2 +-
- fs/ceph/super.h                             |   1 +
- fs/compat_ioctl.c                           | 917 +-------------------
- fs/ecryptfs/file.c                          |   1 +
- fs/ext4/ioctl.c                             |   1 +
- fs/f2fs/file.c                              |   1 +
- fs/fat/file.c                               |  13 +-
- fs/fuse/dev.c                               |   2 +-
- fs/gfs2/file.c                              |  30 +
- fs/hpfs/dir.c                               |   1 +
- fs/hpfs/file.c                              |   1 +
- fs/ioctl.c                                  |  80 +-
- fs/nilfs2/ioctl.c                           |   1 +
- fs/notify/fanotify/fanotify_user.c          |   2 +-
- fs/ocfs2/ioctl.c                            |   1 +
- fs/userfaultfd.c                            |   2 +-
- include/linux/blkdev.h                      |   2 +
- include/linux/falloc.h                      |  20 +
- include/linux/fs.h                          |   7 +
- include/linux/mtio.h                        |  60 ++
- include/uapi/linux/ppp-ioctl.h              |   2 +
- include/uapi/linux/ppp_defs.h               |  14 +
- lib/iov_iter.c                              |   1 +
- net/bluetooth/hci_sock.c                    |  21 +-
- net/bluetooth/rfcomm/sock.c                 |  14 +-
- net/rfkill/core.c                           |   2 +-
- net/socket.c                                |   3 +
- net/unix/af_unix.c                          |  19 +
- sound/core/oss/pcm_oss.c                    |   4 +
- sound/oss/dmasound/dmasound_core.c          |   2 +
- 155 files changed, 935 insertions(+), 1394 deletions(-)
- create mode 100644 include/linux/mtio.h
-
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index 9a1b006904a7..7f8430e6b137 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -554,29 +554,58 @@ static __poll_t ppp_poll(struct file *file, poll_table *wait)
+ }
+ 
+ #ifdef CONFIG_PPP_FILTER
+-static int get_filter(void __user *arg, struct sock_filter **p)
++static struct bpf_prog *get_filter(struct sock_fprog *uprog)
++{
++	struct sock_fprog_kern fprog;
++	struct bpf_prog *res = NULL;
++	int err;
++
++	if (!uprog->len)
++		return NULL;
++
++	/* uprog->len is unsigned short, so no overflow here */
++	fprog.len = uprog->len * sizeof(struct sock_filter);
++	fprog.filter = memdup_user(uprog->filter, fprog.len);
++	if (IS_ERR(fprog.filter))
++		return ERR_CAST(fprog.filter);
++
++	err = bpf_prog_create(&res, &fprog);
++	kfree(fprog.filter);
++
++	return err ? ERR_PTR(err) : res;
++}
++
++static struct bpf_prog *ppp_get_filter(struct sock_fprog __user *p)
+ {
+ 	struct sock_fprog uprog;
+-	struct sock_filter *code = NULL;
+-	int len;
+ 
+-	if (copy_from_user(&uprog, arg, sizeof(uprog)))
+-		return -EFAULT;
++	if (copy_from_user(&uprog, p, sizeof(struct sock_fprog)))
++		return ERR_PTR(-EFAULT);
++	return get_filter(&uprog);
++}
+ 
+-	if (!uprog.len) {
+-		*p = NULL;
+-		return 0;
+-	}
++#ifdef CONFIG_COMPAT
++struct sock_fprog32 {
++	unsigned short len;
++	compat_caddr_t filter;
++};
+ 
+-	len = uprog.len * sizeof(struct sock_filter);
+-	code = memdup_user(uprog.filter, len);
+-	if (IS_ERR(code))
+-		return PTR_ERR(code);
++#define PPPIOCSPASS32		_IOW('t', 71, struct sock_fprog32)
++#define PPPIOCSACTIVE32		_IOW('t', 70, struct sock_fprog32)
+ 
+-	*p = code;
+-	return uprog.len;
++static struct bpf_prog *compat_ppp_get_filter(struct sock_fprog32 __user *p)
++{
++	struct sock_fprog32 uprog32;
++	struct sock_fprog uprog;
++
++	if (copy_from_user(&uprog32, p, sizeof(struct sock_fprog32)))
++		return ERR_PTR(-EFAULT);
++	uprog.len = uprog32.len;
++	uprog.filter = compat_ptr(uprog32.filter);
++	return get_filter(&uprog);
+ }
+-#endif /* CONFIG_PPP_FILTER */
++#endif
++#endif
+ 
+ static long ppp_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ {
+@@ -753,55 +782,25 @@ static long ppp_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ 
+ #ifdef CONFIG_PPP_FILTER
+ 	case PPPIOCSPASS:
+-	{
+-		struct sock_filter *code;
+-
+-		err = get_filter(argp, &code);
+-		if (err >= 0) {
+-			struct bpf_prog *pass_filter = NULL;
+-			struct sock_fprog_kern fprog = {
+-				.len = err,
+-				.filter = code,
+-			};
+-
+-			err = 0;
+-			if (fprog.filter)
+-				err = bpf_prog_create(&pass_filter, &fprog);
+-			if (!err) {
+-				ppp_lock(ppp);
+-				if (ppp->pass_filter)
+-					bpf_prog_destroy(ppp->pass_filter);
+-				ppp->pass_filter = pass_filter;
+-				ppp_unlock(ppp);
+-			}
+-			kfree(code);
+-		}
+-		break;
+-	}
+ 	case PPPIOCSACTIVE:
+ 	{
+-		struct sock_filter *code;
++		struct bpf_prog *filter = ppp_get_filter(argp);
++		struct bpf_prog **which;
+ 
+-		err = get_filter(argp, &code);
+-		if (err >= 0) {
+-			struct bpf_prog *active_filter = NULL;
+-			struct sock_fprog_kern fprog = {
+-				.len = err,
+-				.filter = code,
+-			};
+-
+-			err = 0;
+-			if (fprog.filter)
+-				err = bpf_prog_create(&active_filter, &fprog);
+-			if (!err) {
+-				ppp_lock(ppp);
+-				if (ppp->active_filter)
+-					bpf_prog_destroy(ppp->active_filter);
+-				ppp->active_filter = active_filter;
+-				ppp_unlock(ppp);
+-			}
+-			kfree(code);
++		if (IS_ERR(filter)) {
++			err = PTR_ERR(filter);
++			break;
+ 		}
++		if (cmd == PPPIOCSPASS)
++			which = &ppp->pass_filter;
++		else
++			which = &ppp->active_filter;
++		ppp_lock(ppp);
++		if (*which)
++			bpf_prog_destroy(*which);
++		*which = filter;
++		ppp_unlock(ppp);
++		err = 0;
+ 		break;
+ 	}
+ #endif /* CONFIG_PPP_FILTER */
+@@ -827,6 +826,51 @@ static long ppp_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ 	return err;
+ }
+ 
++#ifdef CONFIG_COMPAT
++static long ppp_compat_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
++{
++	struct ppp_file *pf;
++	int err = -ENOIOCTLCMD;
++	void __user *argp = (void __user *)arg;
++
++	mutex_lock(&ppp_mutex);
++
++	pf = file->private_data;
++	if (pf && pf->kind == INTERFACE) {
++		struct ppp *ppp = PF_TO_PPP(pf);
++		switch (cmd) {
++#ifdef CONFIG_PPP_FILTER
++		case PPPIOCSPASS32:
++		case PPPIOCSACTIVE32:
++		{
++			struct bpf_prog *filter = compat_ppp_get_filter(argp);
++			struct bpf_prog **which;
++
++			if (IS_ERR(filter)) {
++				err = PTR_ERR(filter);
++				break;
++			}
++			if (cmd == PPPIOCSPASS32)
++				which = &ppp->pass_filter;
++			else
++				which = &ppp->active_filter;
++			ppp_lock(ppp);
++			if (*which)
++				bpf_prog_destroy(*which);
++			*which = filter;
++			ppp_unlock(ppp);
++			err = 0;
++			break;
++		}
++#endif /* CONFIG_PPP_FILTER */
++		}
++	}
++	mutex_unlock(&ppp_mutex);
++
++	return err;
++}
++#endif
++
+ static int ppp_unattached_ioctl(struct net *net, struct ppp_file *pf,
+ 			struct file *file, unsigned int cmd, unsigned long arg)
+ {
+@@ -895,6 +939,9 @@ static const struct file_operations ppp_device_fops = {
+ 	.write		= ppp_write,
+ 	.poll		= ppp_poll,
+ 	.unlocked_ioctl	= ppp_ioctl,
++#ifdef CONFIG_COMPAT
++	.compat_ioctl	= ppp_compat_ioctl,
++#endif
+ 	.open		= ppp_open,
+ 	.release	= ppp_release,
+ 	.llseek		= noop_llseek,
+diff --git a/fs/compat_ioctl.c b/fs/compat_ioctl.c
+index d537888f3660..eda41b2537f0 100644
+--- a/fs/compat_ioctl.c
++++ b/fs/compat_ioctl.c
+@@ -99,40 +99,6 @@ static int sg_grt_trans(struct file *file,
+ }
+ #endif /* CONFIG_BLOCK */
+ 
+-struct sock_fprog32 {
+-	unsigned short	len;
+-	compat_caddr_t	filter;
+-};
+-
+-#define PPPIOCSPASS32	_IOW('t', 71, struct sock_fprog32)
+-#define PPPIOCSACTIVE32	_IOW('t', 70, struct sock_fprog32)
+-
+-static int ppp_sock_fprog_ioctl_trans(struct file *file,
+-		unsigned int cmd, struct sock_fprog32 __user *u_fprog32)
+-{
+-	struct sock_fprog __user *u_fprog64 = compat_alloc_user_space(sizeof(struct sock_fprog));
+-	void __user *fptr64;
+-	u32 fptr32;
+-	u16 flen;
+-
+-	if (get_user(flen, &u_fprog32->len) ||
+-	    get_user(fptr32, &u_fprog32->filter))
+-		return -EFAULT;
+-
+-	fptr64 = compat_ptr(fptr32);
+-
+-	if (put_user(flen, &u_fprog64->len) ||
+-	    put_user(fptr64, &u_fprog64->filter))
+-		return -EFAULT;
+-
+-	if (cmd == PPPIOCSPASS32)
+-		cmd = PPPIOCSPASS;
+-	else
+-		cmd = PPPIOCSACTIVE;
+-
+-	return do_ioctl(file, cmd, (unsigned long) u_fprog64);
+-}
+-
+ struct ppp_option_data32 {
+ 	compat_caddr_t	ptr;
+ 	u32			length;
+@@ -285,9 +251,6 @@ static long do_ioctl_trans(unsigned int cmd,
+ 		return ppp_gidle(file, cmd, argp);
+ 	case PPPIOCSCOMPRESS32:
+ 		return ppp_scompress(file, cmd, argp);
+-	case PPPIOCSPASS32:
+-	case PPPIOCSACTIVE32:
+-		return ppp_sock_fprog_ioctl_trans(file, cmd, argp);
+ #ifdef CONFIG_BLOCK
+ 	case SG_GET_REQUEST_TABLE:
+ 		return sg_grt_trans(file, cmd, argp);
 -- 
 2.20.0
 
