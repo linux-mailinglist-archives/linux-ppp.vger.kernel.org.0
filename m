@@ -2,151 +2,77 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53DE9D1856
-	for <lists+linux-ppp@lfdr.de>; Wed,  9 Oct 2019 21:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 945AED2AE1
+	for <lists+linux-ppp@lfdr.de>; Thu, 10 Oct 2019 15:17:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729535AbfJITN0 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 9 Oct 2019 15:13:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:45249 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732004AbfJITL0 (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 9 Oct 2019 15:11:26 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MF3Y8-1iKR6136kK-00FVc7; Wed, 09 Oct 2019 21:11:21 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     linux-kernel@vger.kernel.org, y2038@lists.linaro.org,
-        linux-fsdevel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        netdev@vger.kernel.org, linux-ppp@vger.kernel.org,
-        Paul Mackerras <paulus@samba.org>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: [PATCH v6 40/43] compat_ioctl: ppp: move simple commands into ppp_generic.c
-Date:   Wed,  9 Oct 2019 21:10:41 +0200
-Message-Id: <20191009191044.308087-41-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20191009190853.245077-1-arnd@arndb.de>
-References: <20191009190853.245077-1-arnd@arndb.de>
+        id S2388299AbfJJNRt (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 10 Oct 2019 09:17:49 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35499 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388286AbfJJNRp (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 10 Oct 2019 09:17:45 -0400
+Received: by mail-ot1-f67.google.com with SMTP id z6so4834304otb.2
+        for <linux-ppp@vger.kernel.org>; Thu, 10 Oct 2019 06:17:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ub-ac-id.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
+        b=kbDD0ETnfb+9T5ky4afnuU19WL5B3TgSTtrvr8/78l52RfSJ/bD7cjcm8C45XsJ4wr
+         kY8zUv/ms1sLDr56E/0rqAcpldgbTirzVsO1TqrlTRt5AL5IhxusLfWbWkCQZqSDApog
+         xVZixZPZF5pv+wD9wYHHFszyBuRJ0Z0/71+2E/SGgHwnMzv66/86w9uplcX1z0grTv9p
+         1TYZ7MtIagYr+hnMPgyspL8CH18dkY1RexU6NSgr6L6/lGHi7jHNMmmGOoiBuh2azqNd
+         aWHFVXbx5cxjkbX5kJe7PAp4IU2wf06fogqa+YoO9ylF7jna+POCU+xNsHXT6R2wFQg9
+         YqYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
+        b=Ylt6rx/UBafqG68uJrmcxqg4HE6x/k6QXxZ3Os/Yfi8KNgaLnf/f6U4xma7hMlxyGQ
+         +aSmSElS0gwQPetxQYdBx17ZFhhF1IUtO1XnvDUdtmp6Q4n+yvkhiJgcKYxGhn7FrMXM
+         0hQ2zVw8f6hvG02Uq1nB56AYHbVf7cIfEeKYIDtyX60oOn6BB7YufBIjVZtST9VQ8Ck8
+         ku3VYNvNni8UxCRe18bKuB6N3zG2SAgACqGHXSYWw3yGLvAYNeCFtJGx4cTG5kZ6F1dt
+         bn0YPZpL6ib93i/a8RZPhBKCox38+ObAISoBkAzDwzqRM4VPNzGucS8oL622yFB0pXd2
+         DX1A==
+X-Gm-Message-State: APjAAAXRhcohrUXDZrJMS0ikhTmbBjfeizjj4RNrZKbPpyPtwbE1bsfw
+        W2CmLwRdjQsXn2EzRhlZpEF7sk45fRZbJkFCqeH0
+X-Google-Smtp-Source: APXvYqwe5B6z/3dUuNDQtQ0n2oQYOsdY3HQR3dkIin1gqVhu0NNteov05tKzv4DhJBBR4bjK2RG7Phnj6WUHoBrkRYc=
+X-Received: by 2002:a05:6830:1103:: with SMTP id w3mr7909437otq.312.1570713462861;
+ Thu, 10 Oct 2019 06:17:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GXKtyh7vsF4FiTtWLqzwMcIgXtk7RdFF+r5QNo7+0Nai2sQ9ZhK
- i9SPNDUUDqHigBCgTOYByVDXaADBCY/hfUWfQhV7WNKnbp8kRzv8dfcdVmE7KnqpMWsUZIH
- K3ikAZd0KxhjAEJ+tl/PIU48VlX9i8BvVvO8G30rqK5OnH2DKFaZ12/MqG5+Q+rZ+XXTNGu
- ZIArRzmduuzDYGKk1acEQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3LrnoRLdkyI=:MmdFQK6DFWyq3jJb8N7RUn
- IL12ltoI2RKH1Z7YqWoUeNsmeAMI9FDC/Uz17lQPjNA1ZEjhhqaTQzP7NHuD0MreGbUhtvqSL
- En1x8SnofFrD3GHk0fVJKFM3fLj0mGZpj0AhhD5M8C4ZvfWmDXbVavPYoisq4mzZEl2BNOamg
- 7IWHFsuiVDocZEu4YTjNLM0xMGV4MnHrmXnfLiyWjDpoQjPqRoPMB4ndrUN13tIsom2GKDc/w
- cKX1YU2W/UsTHrPdnz4ogyT5r5NTUFq+LNOECzfqX/cqw8ILrB0Y0InFFgQXCuy/U/ZJJgQpx
- SFtqgdWeCtlY4uxb7T+vJgrvH/QQcp7Q8pbFeN9Lai/QSWsM8KgIKn9F/4uf2d9iT3kbQ55VR
- PZ3wWqRCyCHCh00d0ZzrUfZ8jRM00jaxwy6tUDjfIghLQ8Qtqc8VLsUyP27YwXpqfJjWJBaNE
- JyfSe2zvAjXtf274fiEEoUGfggeodfq2pbe6xylyPZhhBhrITJhDWGxQIoDKCp9b79blI6/TI
- 74Noka0qP0upaDaemC8U8f3kGDkpQA/eIZnqpRcc8ScBrd/vZswIdZYCF0JLlBfD4zCZDr2HW
- lgQsa3gMghBFFqxXhOUGBuoqqw1raOWU81Bg1zGdE+nBVFi3e5awK2n8Sz/L1gK4EwYn7DWNq
- RO+6ZzYjwS6UwsrEnZNMyuR2cNaab3A6CyDon9W3whXkKuHq7ZIma079IboVuPB38PWU5kPHw
- jlCpJ8un80WGpqU2t/mPiMcGISukA4qb3BzoJYrzDFKpVz9jn7IoQcDT9OUUG7HpVMZIhb2wX
- zwwZKHMbKwwB77X8PSGHiQVX44xYXSAR26wsIdUa4Vwxy1C8F7sW3gVnzBg1VPahqoHia+xK3
- b8BRFozz+zjiahuPb+2Q==
+Received: by 2002:a4a:3346:0:0:0:0:0 with HTTP; Thu, 10 Oct 2019 06:17:41
+ -0700 (PDT)
+Reply-To: sunrisefundingltd50@gmail.com
+From:   Valentina Yurina <v_yurina@ub.ac.id>
+Date:   Thu, 10 Oct 2019 14:17:41 +0100
+Message-ID: <CAKoEkvu4vc5Yn9-hzxQ5dYmUL=oO69=GSP0FC7O+CGz9Jni8+Q@mail.gmail.com>
+Subject: Apply For Financial investment at a lower rate 2%
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-All ppp commands that are not already handled in ppp_compat_ioctl()
-are compatible, so they can now handled by calling the native
-ppp_ioctl() directly.
-
-Without CONFIG_BLOCK, the generic compat_ioctl table is now empty,
-so add a check to avoid a build failure in the looking function for
-that configuration.
-
-Cc: netdev@vger.kernel.org
-Cc: linux-ppp@vger.kernel.org
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/net/ppp/ppp_generic.c |  4 ++++
- fs/compat_ioctl.c             | 36 ++++-------------------------------
- 2 files changed, 8 insertions(+), 32 deletions(-)
-
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index ce4dd45c541d..267fe2c58087 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -903,6 +903,10 @@ static long ppp_compat_ioctl(struct file *file, unsigned int cmd, unsigned long
- 	}
- 	mutex_unlock(&ppp_mutex);
- 
-+	/* all other commands have compatible arguments */
-+	if (err == -ENOIOCTLCMD)
-+		err = ppp_ioctl(file, cmd, (unsigned long)compat_ptr(arg));
-+
- 	return err;
- }
- #endif
-diff --git a/fs/compat_ioctl.c b/fs/compat_ioctl.c
-index 5e59101ef981..3cf8b6d113c3 100644
---- a/fs/compat_ioctl.c
-+++ b/fs/compat_ioctl.c
-@@ -144,38 +144,6 @@ COMPATIBLE_IOCTL(SG_GET_REQUEST_TABLE)
- COMPATIBLE_IOCTL(SG_SET_KEEP_ORPHAN)
- COMPATIBLE_IOCTL(SG_GET_KEEP_ORPHAN)
- #endif
--/* PPP stuff */
--COMPATIBLE_IOCTL(PPPIOCGFLAGS)
--COMPATIBLE_IOCTL(PPPIOCSFLAGS)
--COMPATIBLE_IOCTL(PPPIOCGASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCSASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCGUNIT)
--COMPATIBLE_IOCTL(PPPIOCGRASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCSRASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCGMRU)
--COMPATIBLE_IOCTL(PPPIOCSMRU)
--COMPATIBLE_IOCTL(PPPIOCSMAXCID)
--COMPATIBLE_IOCTL(PPPIOCGXASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCSXASYNCMAP)
--COMPATIBLE_IOCTL(PPPIOCXFERUNIT)
--/* PPPIOCSCOMPRESS is translated */
--COMPATIBLE_IOCTL(PPPIOCGNPMODE)
--COMPATIBLE_IOCTL(PPPIOCSNPMODE)
--COMPATIBLE_IOCTL(PPPIOCGDEBUG)
--COMPATIBLE_IOCTL(PPPIOCSDEBUG)
--/* PPPIOCSPASS is translated */
--/* PPPIOCSACTIVE is translated */
--COMPATIBLE_IOCTL(PPPIOCGIDLE32)
--COMPATIBLE_IOCTL(PPPIOCGIDLE64)
--COMPATIBLE_IOCTL(PPPIOCNEWUNIT)
--COMPATIBLE_IOCTL(PPPIOCATTACH)
--COMPATIBLE_IOCTL(PPPIOCDETACH)
--COMPATIBLE_IOCTL(PPPIOCSMRRU)
--COMPATIBLE_IOCTL(PPPIOCCONNECT)
--COMPATIBLE_IOCTL(PPPIOCDISCONN)
--COMPATIBLE_IOCTL(PPPIOCATTCHAN)
--COMPATIBLE_IOCTL(PPPIOCGCHAN)
--COMPATIBLE_IOCTL(PPPIOCGL2TPSTATS)
- };
- 
- /*
-@@ -202,6 +170,7 @@ static long do_ioctl_trans(unsigned int cmd,
- 
- static int compat_ioctl_check_table(unsigned int xcmd)
- {
-+#ifdef CONFIG_BLOCK
- 	int i;
- 	const int max = ARRAY_SIZE(ioctl_pointer) - 1;
- 
-@@ -220,6 +189,9 @@ static int compat_ioctl_check_table(unsigned int xcmd)
- 		i--;
- 
- 	return ioctl_pointer[i] == xcmd;
-+#else
-+	return 0;
-+#endif
- }
- 
- COMPAT_SYSCALL_DEFINE3(ioctl, unsigned int, fd, unsigned int, cmd,
 -- 
-2.20.0
+Hello,
 
+We are private lenders based in UK.
+
+Do you need a loan (credit) as soon as possible. Are you in search of
+money to solve your personal needs or finance your business venture,
+then get Your desired loan today! Consult us at Sunrise Funding Ltd.
+
+* We offer personal loan & huge capital loan at 2% interest rate to
+the general public both locally and internationally.
+* Credit amount range from $5,000.00 -- $500,000.00 and above.
+* Special $10,000,000.00 Loan offer for huge project also available.
+* Loan period of 6 months -- 10 years.
+* Loan is granted 24 hours after approval and accredited, directly in
+hand or bank account.
+
+Please note that you are advised to contact us for more details via
+the following e-mail address below;
+
+EMAIL : sunrisefundingltd50@gmail.com
+FIRM : Sunrise Funding Ltd UK.
