@@ -2,89 +2,85 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2D4610E301
-	for <lists+linux-ppp@lfdr.de>; Sun,  1 Dec 2019 19:20:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7964D10E4F9
+	for <lists+linux-ppp@lfdr.de>; Mon,  2 Dec 2019 05:07:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727169AbfLASU4 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sun, 1 Dec 2019 13:20:56 -0500
-Received: from mtax.cdmx.gob.mx ([187.141.35.197]:9691 "EHLO mtax.cdmx.gob.mx"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727072AbfLASU4 (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Sun, 1 Dec 2019 13:20:56 -0500
-X-Greylist: delayed 6603 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 13:20:55 EST
-X-NAI-Header: Modified by McAfee Email Gateway (4500)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
-        t=1575217624; h=DKIM-Filter:X-Virus-Scanned:
-         Content-Type:MIME-Version:Content-Transfer-Encoding:
-         Content-Description:Subject:To:From:Date:Message-Id:
-         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
-         X-AnalysisOut:X-AnalysisOut:X-SAAS-TrackingID:
-         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
-         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=M
-        8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs4
-        8=; b=bBzwQXoHijpn1TS5flbRXa/ysoZQ7ROEHkxCmvbGgQZx
-        GMmBxxQWpbhm3pkb+8t3pioUAAl63jZwSsJ064mZDJ+ge0EKIT
-        MnDcfGu4E+PYMXyxLejjaa0hmEi5h/vm1CYNNtmf91i4HxDVH3
-        UWtzAPc4kNO2/ziDo8c2tszOQ1M=
-Received: from cdmx.gob.mx (correo.cdmx.gob.mx [10.250.108.150]) by mtax.cdmx.gob.mx with smtp
-        (TLS: TLSv1/SSLv3,256bits,ECDHE-RSA-AES256-GCM-SHA384)
-         id 28cd_470c_0d8c9366_091c_437f_84b3_a26a3ffeb04c;
-        Sun, 01 Dec 2019 10:27:03 -0600
-Received: from localhost (localhost [127.0.0.1])
-        by cdmx.gob.mx (Postfix) with ESMTP id E8B1B1E24A4;
-        Sun,  1 Dec 2019 10:18:30 -0600 (CST)
-Received: from cdmx.gob.mx ([127.0.0.1])
-        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 8Hyg3m84vrW6; Sun,  1 Dec 2019 10:18:30 -0600 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by cdmx.gob.mx (Postfix) with ESMTP id 5FF331E2A77;
-        Sun,  1 Dec 2019 10:13:21 -0600 (CST)
-DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx 5FF331E2A77
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
-        s=72359050-3965-11E6-920A-0192F7A2F08E; t=1575216801;
-        bh=M8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs48=;
-        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
-         From:Date:Message-Id;
-        b=kpD7EJAoG7f5ifC9sABCn5968n26uS12NTUelf7l13kBVTWOy/bFNVH2Oh4wPO/82
-         +V2dzMbhGfYwurp2imhe5mZriwrZAq8/Boxk5R4SMouHxr4wYIlPMHO6V39IRc9c+M
-         SKXkwjNSNPEvRUnyRkHPatdyS0tomBm+URDQ4jiw=
-X-Virus-Scanned: amavisd-new at cdmx.gob.mx
-Received: from cdmx.gob.mx ([127.0.0.1])
-        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id xX7GAw50yZNp; Sun,  1 Dec 2019 10:13:21 -0600 (CST)
-Received: from [192.168.0.104] (unknown [188.125.168.160])
-        by cdmx.gob.mx (Postfix) with ESMTPSA id DE6FE1E3111;
-        Sun,  1 Dec 2019 10:04:55 -0600 (CST)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1727388AbfLBEHC (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sun, 1 Dec 2019 23:07:02 -0500
+Received: from mail-il1-f200.google.com ([209.85.166.200]:39026 "EHLO
+        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727298AbfLBEHC (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sun, 1 Dec 2019 23:07:02 -0500
+Received: by mail-il1-f200.google.com with SMTP id v11so1347765ilg.6
+        for <linux-ppp@vger.kernel.org>; Sun, 01 Dec 2019 20:07:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=oWsENjm7d/+QABjuPHBYSJPPMCuN6XI9dZYPsoGDEJo=;
+        b=ZTpjdti+KXpThYZBP2JJXNoEGDVbUe5m4gJQ/Ox0BnoSxxOIxlL+A2YSZ0GpfpAad5
+         pmICii7O36xtFg0CJ+cZ3fd53WN1ddPnQmzeHBIGiOptXSmwOsrL31y0o8UGPPBisZ76
+         h+sIkHM8jCEAZgph9PB1yVpT2hkikJedsqybPnuK/TfbRcZDVu6tYMQ/laRnu5RbKDpQ
+         dXZZHsdPKax147z/Q1CCu4nhxwGipO3qBC4x+N8dTRjlvXdtcfz/gH01yDfdzV7uexs1
+         TAfhhOFiGIquhN+E5F3Zqng7oTkMWLGdu5yJwYxu9Cqb76ildgJeNWCXm9H6nPu9R9M2
+         VI1A==
+X-Gm-Message-State: APjAAAV2S1E2xtvHTLAHJIgvQVL4R6HzPTf6oXtpVnnQoDes1Q9UwO6Y
+        4waRXyP4uTSs+xY7W2bJpN7PsBCkho0kD/lBmhyHm7MlPQpQ
+X-Google-Smtp-Source: APXvYqwbNau2iLq/cBIAuQInsyrPMPEuwnt2BDzeyB8yqBtnk0ZK4FLDDa7c3GeQTvUxRw7rZ0iE6vluQVplMVvE3Si4+oaVnUb7
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Congratulations
-To:     Recipients <aac-styfe@cdmx.gob.mx>
-From:   "Bishop Johnr" <aac-styfe@cdmx.gob.mx>
-Date:   Sun, 01 Dec 2019 17:04:47 +0100
-Message-Id: <20191201160455.DE6FE1E3111@cdmx.gob.mx>
-X-AnalysisOut: [v=2.2 cv=U7TiNaju c=1 sm=1 tr=0 p=6K-Ig8iNAUou4E5wYCEA:9 p]
-X-AnalysisOut: [=zRI05YRXt28A:10 a=T6zFoIZ12MK39YzkfxrL7A==:117 a=9152RP8M]
-X-AnalysisOut: [6GQqDhC/mI/QXQ==:17 a=8nJEP1OIZ-IA:10 a=pxVhFHJ0LMsA:10 a=]
-X-AnalysisOut: [pGLkceISAAAA:8 a=wPNLvfGTeEIA:10 a=M8O0W8wq6qAA:10 a=Ygvjr]
-X-AnalysisOut: [iKHvHXA2FhpO6d-:22]
-X-SAAS-TrackingID: 5d9e3ed5.0.105000569.00-2381.176569450.s12p02m005.mxlogic.net
-X-NAI-Spam-Flag: NO
-X-NAI-Spam-Threshold: 3
-X-NAI-Spam-Score: -5000
-X-NAI-Spam-Rules: 1 Rules triggered
-        WHITELISTED=-5000
-X-NAI-Spam-Version: 2.3.0.9418 : core <6686> : inlines <7165> : streams
- <1840193> : uri <2949750>
+X-Received: by 2002:a5d:8184:: with SMTP id u4mr50614802ion.155.1575259621372;
+ Sun, 01 Dec 2019 20:07:01 -0800 (PST)
+Date:   Sun, 01 Dec 2019 20:07:01 -0800
+In-Reply-To: <000000000000c280ba05988b6242@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000293e9f0598b0b69d@google.com>
+Subject: Re: BUG: sleeping function called from invalid context in __alloc_pages_nodemask
+From:   syzbot <syzbot+4925d60532bf4c399608@syzkaller.appspotmail.com>
+To:     a@unstable.cc, akpm@linux-foundation.org, alex.aring@gmail.com,
+        allison@lohutok.net, andrew@lunn.ch, andy@greyhouse.net,
+        ap420073@gmail.com, aryabinin@virtuozzo.com, ast@domdv.de,
+        b.a.t.m.a.n@lists.open-mesh.org, bridge@lists.linux-foundation.org,
+        christophe.leroy@c-s.fr, cleech@redhat.com, daniel@iogearbox.net,
+        davem@davemloft.net, dja@axtens.net, dsa@cumulusnetworks.com,
+        dvyukov@google.com, edumazet@google.com, f.fainelli@gmail.com,
+        fw@strlen.de, glider@google.com, gor@linux.ibm.com,
+        gregkh@linuxfoundation.org, gustavo@embeddedor.com,
+        gvaradar@cisco.com, haiyangz@microsoft.com, hdanton@sina.com,
+        idosch@mellanox.com, info@metux.net, j.vosburgh@gmail.com, j@w1.fi,
+        jakub.kicinski@netronome.com, jhs@mojatatu.com, jiri@resnulli.us,
+        johan.hedberg@gmail.com, johannes.berg@intel.com,
+        jwi@linux.ibm.com, kasan-dev@googlegroups.com,
+        kstewart@linuxfoundation.org, kvalo@codeaurora.org,
+        kys@microsoft.com, lariel@mellanox.com, linmiaohe@huawei.com,
+        linux-bluetooth@vger.kernel.org, linux-hams@vger.kernel.org,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-ppp@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Money was donated to you by Mr and Mrs Allen and Violet Large, just contact=
- them with this email for more information =
+syzbot has bisected this bug to:
 
+commit ab92d68fc22f9afab480153bd82a20f6e2533769
+Author: Taehee Yoo <ap420073@gmail.com>
+Date:   Mon Oct 21 18:47:51 2019 +0000
 
-EMail: allenandvioletlargeaward@gmail.com
+     net: core: add generic lockdep keys
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=15769712e00000
+start commit:   419593da Add linux-next specific files for 20191129
+git tree:       linux-next
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=17769712e00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=13769712e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7c04b0959e75c206
+dashboard link: https://syzkaller.appspot.com/bug?extid=4925d60532bf4c399608
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16148e9ce00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12a1f786e00000
+
+Reported-by: syzbot+4925d60532bf4c399608@syzkaller.appspotmail.com
+Fixes: ab92d68fc22f ("net: core: add generic lockdep keys")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
