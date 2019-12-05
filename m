@@ -2,74 +2,76 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C709113B7A
-	for <lists+linux-ppp@lfdr.de>; Thu,  5 Dec 2019 06:55:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3B00113D8B
+	for <lists+linux-ppp@lfdr.de>; Thu,  5 Dec 2019 10:07:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725926AbfLEFzd (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Thu, 5 Dec 2019 00:55:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40422 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725880AbfLEFzd (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Thu, 5 Dec 2019 00:55:33 -0500
-Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6F29B21823;
-        Thu,  5 Dec 2019 05:55:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575525332;
-        bh=u/wkIyVMGuxEZcNLrMPfqnPCBRY0g04/VqoEJCpjKiY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TXwgvWGNb85iP5Jbx59mcrUhL23jn7zSnVyvOV7eOLq14ZxZanfivyHZuHpMqc6dO
-         cBsyXo4DGGfm8knyNKGMGWUxM5z3zp9iqxBKGaP9ABgsDY3Zhubf6oaOwOM5bMCeB0
-         ZurN1lMwu4DaOu24IcTOn2baW30lMSlCJfab2O3A=
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Arnd Bergmann <arnd@arndb.de>, Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Paul Mackerras <paulus@samba.org>, bpf@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-ppp@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot <syzbot+eb853b51b10f1befa0b7@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com
-Subject: [PATCH] ppp: fix out-of-bounds access in bpf_prog_create()
-Date:   Wed,  4 Dec 2019 21:54:19 -0800
-Message-Id: <20191205055419.13435-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191205052220.GC1158@sol.localdomain>
-References: <20191205052220.GC1158@sol.localdomain>
+        id S1729017AbfLEJH6 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 5 Dec 2019 04:07:58 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:42185 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726384AbfLEJH5 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 5 Dec 2019 04:07:57 -0500
+Received: from mail-lf1-f42.google.com ([209.85.167.42]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MDQRy-1iVgMe44Tm-00AZOa; Thu, 05 Dec 2019 10:07:55 +0100
+Received: by mail-lf1-f42.google.com with SMTP id n25so1930431lfl.0;
+        Thu, 05 Dec 2019 01:07:54 -0800 (PST)
+X-Gm-Message-State: APjAAAWaX08cRKCjC9kcRjUAcKbVHB6rq2Rap8epvqa5d/be0qLqWlRj
+        NRkNh18YjbBt6U1M1LNYl3e+ju7bTX/N+jI1V/8=
+X-Google-Smtp-Source: APXvYqypV1X5EMz2sl1SKkaAbf4BM9c0wEFFQFI//IuQIHowR6BnovlkX8ELT08+5Z0laudy+q0gKPhwMe9Yp9XTz5g=
+X-Received: by 2002:a19:22cc:: with SMTP id i195mr4781773lfi.148.1575536874347;
+ Thu, 05 Dec 2019 01:07:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191205052220.GC1158@sol.localdomain> <20191205055419.13435-1-ebiggers@kernel.org>
+In-Reply-To: <20191205055419.13435-1-ebiggers@kernel.org>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 5 Dec 2019 10:07:37 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a2Fka2tuCnYAsSM8DHVzV9Zpvj_J7rkGg6zgWLEsU3KAw@mail.gmail.com>
+Message-ID: <CAK8P3a2Fka2tuCnYAsSM8DHVzV9Zpvj_J7rkGg6zgWLEsU3KAw@mail.gmail.com>
+Subject: Re: [PATCH] ppp: fix out-of-bounds access in bpf_prog_create()
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>,
+        Paul Mackerras <paulus@samba.org>, bpf@vger.kernel.org,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        linux-ppp@vger.kernel.org, Networking <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        syzbot <syzbot+eb853b51b10f1befa0b7@syzkaller.appspotmail.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:XiJIUuR/OeqRdx0q/I6GwluGTGsdAMHUl4MQ9R4EKyAkzHom6AR
+ ODog5/k3OD8ftZArXfJ9gzj1bXo0vd6KSsKxMFDh3mq2+UwAwqIozNJjbNFrXoh3ufgFf3E
+ OD6F2mOrYl8HpkOW+aw4YeYHuOkyEDjuukaYJ9XE3e7BcYzz0NtpxN9q1SKaXb6SMWmyObG
+ hqBWPR75Zc9ym6LDePlNA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BEadTGh7wNM=:DRgQGSU66b4UPkvk7ATasF
+ 9Ey/O0yUQ/4D8Y3kcFbWOJ22PXJZ+G1+in5J4mGtqCBlhlQOa/30d+J+6hOmwWE85MDzf8GYO
+ Ejwb/qGjHW1Tijz1FK7yAw7TcIv5g8BG0I96YWzrwInHuFpxx2jlo/MVlj5bpj2vt56F0/JGL
+ iMBTG/+kBKyAQkzHyuv1JSLMn2bm9Ypox57hUDOjQMiBy7gPIuyYtHrjNI7rPXbAyX7TTpX1n
+ nQ0TLqGZJeB542oEvsd3KJ8BwvA3lvze5U16/LibU4XGKakmhY2Gvuhs51UrVSXh6ij58XM6K
+ 2pz/GFcbbMcDKw9lI9KF+OzQkhsPQCHj3ybp9rMEAqW2mnGP0G7IrUwze1kECDwFOh1tijywr
+ FgDva/kTC7hqTriwW5ubDBxWmEEnnoAv5YgbhpX/5xmV7PrgZ3yN8nizgPE+rg6QzGetnYUhS
+ lYJb4bHNBXRBH27/lIyjINtLv5ifRrUpu17pCxoVIOFouAJaDt7xw/EkBtKrG3Cra4rJ7x/T8
+ obrytdlwYs0+o/fDez1/bCGetN8y7zkMsgk8hTxQROqwG4GVT9XbNa0fDhCDxp7+CLPNjLzlA
+ DaePrBcufmX8GH9kbTZ5SXuQU8Rnq/BF9gVsdtsuqSV/qfaBcuuAg1AwrVb8qa42iMAi8gjP5
+ PczD6sUn6cSNmnFn0yi7ndsP2ebW9iDadXqw1MTPEvsi8Nzo+sKFifRN24NBjq+mJ/JtI2DlH
+ S47b0iUG55hZa2aGRPakliTMe1Qwkd6hPhvSrLJt1cFp7W3T/4GRaLvY7LE70SpvAJEaLzPof
+ FMvvPfs9M6DUNo6jeDxXP/4fS4u2E5NZyWgfc+o3XWUWo74pIg0OqgNInpVshdq/s+26OZFxZ
+ Y7PkkYEzHZzXLMaMSiXA==
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-From: Eric Biggers <ebiggers@google.com>
+On Thu, Dec 5, 2019 at 6:55 AM Eric Biggers <ebiggers@kernel.org> wrote:
+>
+> From: Eric Biggers <ebiggers@google.com>
+>
+> sock_fprog_kern::len is in units of struct sock_filter, not bytes.
+>
+> Fixes: 3e859adf3643 ("compat_ioctl: unify copy-in of ppp filters")
+> Reported-by: syzbot+eb853b51b10f1befa0b7@syzkaller.appspotmail.com
+> Signed-off-by: Eric Biggers <ebiggers@google.com>
 
-sock_fprog_kern::len is in units of struct sock_filter, not bytes.
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 
-Fixes: 3e859adf3643 ("compat_ioctl: unify copy-in of ppp filters")
-Reported-by: syzbot+eb853b51b10f1befa0b7@syzkaller.appspotmail.com
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- drivers/net/ppp/ppp_generic.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index 0cb1c2d0a8bc..3bf8a8b42983 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -564,8 +564,9 @@ static struct bpf_prog *get_filter(struct sock_fprog *uprog)
- 		return NULL;
- 
- 	/* uprog->len is unsigned short, so no overflow here */
--	fprog.len = uprog->len * sizeof(struct sock_filter);
--	fprog.filter = memdup_user(uprog->filter, fprog.len);
-+	fprog.len = uprog->len;
-+	fprog.filter = memdup_user(uprog->filter,
-+				   uprog->len * sizeof(struct sock_filter));
- 	if (IS_ERR(fprog.filter))
- 		return ERR_CAST(fprog.filter);
- 
--- 
-2.24.0
-
+Thanks for fixing the bug I introduced!
