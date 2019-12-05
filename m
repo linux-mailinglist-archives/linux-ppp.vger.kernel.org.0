@@ -2,110 +2,131 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87A89112B59
-	for <lists+linux-ppp@lfdr.de>; Wed,  4 Dec 2019 13:22:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06759113B23
+	for <lists+linux-ppp@lfdr.de>; Thu,  5 Dec 2019 06:22:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727649AbfLDMW0 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 4 Dec 2019 07:22:26 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:33175 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727469AbfLDMWS (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 4 Dec 2019 07:22:18 -0500
-Received: by mail-ed1-f67.google.com with SMTP id l63so6498695ede.0
-        for <linux-ppp@vger.kernel.org>; Wed, 04 Dec 2019 04:22:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
-        b=itksFv5A2JLOzo6XVqVzXmSzWKIpGqZTNHrb4xFvrqPmHJ7WwaeLkksg0/ZJSVtv31
-         pzvXZ3OHhHMsql2Vo9oheJQHErj5CDGd5ZvPVjxDn+I4JgVPrQl1nkJy5Nb7wvQoUvM+
-         46lpgbsOy0h7DJvRAy1OQQg0Oi/exT7Imiyfeu4Gtmu6VGYFysEjNlBfvwObnE6M1THW
-         GbhC/d5DVONSKdw6y/qH20L4wjeyxlxCBE+xa1i44NzWc0HgEODgSNCM/bGDvmjdXP55
-         pwYVn13D99Hhzzv+p4qHdhRZEM3zwIJF+S9QDszHcSxOoAqtygRSNU+xVzjWpE9QCD88
-         4SHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
-        b=HkmL9jdJoeTYBG/wFLgFn8x5q3TCEYZ8E93c3hg0Vl52V6H1jr/y7XmrD7k+VJqf+I
-         yyzCvesjIUzC/3/Q9BsdztErKQ7Z0vLtckhTfr1QSNFCDtKTrwZrOxORCvOSU18vdXKK
-         n22dMb8Il8u1vgdC/rMteaeWlJY0qwDLAROaN00BjOvKsISk8xNCwxWqFR6ScAzLkqTR
-         /6zRFf5NJwfdWL/YHLrHgxdTkffGpkXtz6ca4kkid9JiXoPcmnnmRB+NyTnnbF7wyeOf
-         wSFiRiXhQenlRe82EoirqBP0ar16HweQXBvOrbYCo/SNvF9p/eSKXN57swnbxgCTU3Gw
-         v+/g==
-X-Gm-Message-State: APjAAAWQCvnOx5dggzPOsG/LG22XCEtnWY21wa4Izck0kqmMrzJNlzfN
-        pk0ftst/WM8sxBqm4eohc/nQfciYpaQGA4gxDX8=
-X-Google-Smtp-Source: APXvYqwlH4d/NgUk6+TTgeshJl/W0Z846j+vPwdmJMmvDKA5s5alEIOymc5OFboGvVzTvSBGNMpJNF0KpHbTN+gxpY4=
-X-Received: by 2002:aa7:d84b:: with SMTP id f11mr3689948eds.96.1575462136339;
- Wed, 04 Dec 2019 04:22:16 -0800 (PST)
+        id S1725880AbfLEFWY (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 5 Dec 2019 00:22:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54570 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725855AbfLEFWY (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Thu, 5 Dec 2019 00:22:24 -0500
+Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DFDB221835;
+        Thu,  5 Dec 2019 05:22:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1575523342;
+        bh=cDcbALjS9p8OMtR+PsjvwWzmYvy5gvhTJZYhnzaigno=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AeSjwdp/qj4NxlxdEhtqojUndQINUhNFYR/6Fs3r87ZhbMuiHPCqSHf0jX2LvHYk6
+         yYOsxNSAGsJfNiZAD/zaTFs329C/cRd8dzcQ4Tlc9UZ7O4GX8P5kxy6Hxg0XqJwWQK
+         1lfHGjIMdg7xJBacviJ5s8kQcdgaWCXkfi5renkU=
+Date:   Wed, 4 Dec 2019 21:22:20 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Arnd Bergmann <arnd@arndb.de>, Al Viro <viro@zeniv.linux.org.uk>
+Cc:     syzbot <syzbot+eb853b51b10f1befa0b7@syzkaller.appspotmail.com>,
+        ast@kernel.org, bpf@vger.kernel.org, daniel@iogearbox.net,
+        davem@davemloft.net, hawk@kernel.org, jakub.kicinski@netronome.com,
+        john.fastabend@gmail.com, kafai@fb.com,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+        paulus@samba.org, songliubraving@fb.com,
+        syzkaller-bugs@googlegroups.com, yhs@fb.com
+Subject: Re: KASAN: slab-out-of-bounds Read in bpf_prog_create
+Message-ID: <20191205052220.GC1158@sol.localdomain>
+References: <000000000000cacc7e0592c42ce3@google.com>
+ <20190928031510.GD1079@sol.localdomain>
 MIME-Version: 1.0
-Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Wed, 4 Dec 2019 04:22:15
- -0800 (PST)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" <eco.bank1204@gmail.com>
-Date:   Wed, 4 Dec 2019 13:22:15 +0100
-Message-ID: <CAOE+jABwsq4QTifFZJGuzmZ8p9kMY_tMmS5N39hvEALE6d=OJw@mail.gmail.com>
-Subject: God has remembered your prayers I have already sent you Money Gram
- payment of $5000.00 today, MG 1029-8096
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190928031510.GD1079@sol.localdomain>
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Attn, dear Beneficiary.
+Arnd and Al,
 
-God has remembered your prayers
-I have already sent you Money Gram payment of $5000.00 today, MG 1029-8096
-This is because we have finally concluded to effect your transfer
-funds of $4.8,000.000usd
-through MONEY GRAM International Fund transfer Service
-Each payment will be sending to you by $5000.00 daily until the
-($4.8,000.000usd) is completely transferred
-we have this morning sent  MONEY GRAM payment of $5,000.00 in your name today
-So contact the MONEY GRAM Agent to pick up this first payment of $5000 now
+On Fri, Sep 27, 2019 at 08:15:10PM -0700, Eric Biggers wrote:
+> Arnd and Al,
+> 
+> On Tue, Sep 17, 2019 at 11:49:06AM -0700, syzbot wrote:
+> > Hello,
+> > 
+> > syzbot found the following crash on:
+> > 
+> > HEAD commit:    2015a28f Add linux-next specific files for 20190915
+> > git tree:       linux-next
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=11880d69600000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=110691c2286b679a
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=eb853b51b10f1befa0b7
+> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=127c3481600000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1150a70d600000
+> > 
+> > The bug was bisected to:
+> > 
+> > commit 2f4fa2db75e26995709043c8d3de4632ebed5c4b
+> > Author: Al Viro <viro@zeniv.linux.org.uk>
+> > Date:   Thu Apr 18 03:48:01 2019 +0000
+> > 
+> >     compat_ioctl: unify copy-in of ppp filters
+> > 
+> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=145eee1d600000
+> > final crash:    https://syzkaller.appspot.com/x/report.txt?x=165eee1d600000
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=125eee1d600000
+> > 
+> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > Reported-by: syzbot+eb853b51b10f1befa0b7@syzkaller.appspotmail.com
+> > Fixes: 2f4fa2db75e2 ("compat_ioctl: unify copy-in of ppp filters")
+> > 
+> > ==================================================================
+> > BUG: KASAN: slab-out-of-bounds in memcpy include/linux/string.h:404 [inline]
+> > BUG: KASAN: slab-out-of-bounds in bpf_prog_create+0xe9/0x250
+> > net/core/filter.c:1351
+> > Read of size 32768 at addr ffff88809cf74000 by task syz-executor183/8575
+> > 
+> > CPU: 0 PID: 8575 Comm: syz-executor183 Not tainted 5.3.0-rc8-next-20190915
+> > #0
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+> > Google 01/01/2011
+> > Call Trace:
+> >  __dump_stack lib/dump_stack.c:77 [inline]
+> >  dump_stack+0x172/0x1f0 lib/dump_stack.c:113
+> >  print_address_description.constprop.0.cold+0xd4/0x30b mm/kasan/report.c:374
+> >  __kasan_report.cold+0x1b/0x41 mm/kasan/report.c:506
+> >  kasan_report+0x12/0x20 mm/kasan/common.c:634
+> >  check_memory_region_inline mm/kasan/generic.c:185 [inline]
+> >  check_memory_region+0x134/0x1a0 mm/kasan/generic.c:192
+> >  memcpy+0x24/0x50 mm/kasan/common.c:122
+> >  memcpy include/linux/string.h:404 [inline]
+> >  bpf_prog_create+0xe9/0x250 net/core/filter.c:1351
+> >  get_filter.isra.0+0x108/0x1a0 drivers/net/ppp/ppp_generic.c:572
+> >  ppp_get_filter drivers/net/ppp/ppp_generic.c:584 [inline]
+> >  ppp_ioctl+0x129d/0x2590 drivers/net/ppp/ppp_generic.c:801
+> 
+> This is a correct bisection.  This commit needs:
+> 
+> diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+> index 267fe2c58087..f55d7937d6c5 100644
+> --- a/drivers/net/ppp/ppp_generic.c
+> +++ b/drivers/net/ppp/ppp_generic.c
+> @@ -564,8 +564,9 @@ static struct bpf_prog *get_filter(struct sock_fprog *uprog)
+>  		return NULL;
+>  
+>  	/* uprog->len is unsigned short, so no overflow here */
+> -	fprog.len = uprog->len * sizeof(struct sock_filter);
+> -	fprog.filter = memdup_user(uprog->filter, fprog.len);
+> +	fprog.len = uprog->len;
+> +	fprog.filter = memdup_user(uprog->filter,
+> +				   uprog->len * sizeof(struct sock_filter));
+>  	if (IS_ERR(fprog.filter))
+>  		return ERR_CAST(fprog.filter);
+>  
 
-Contact person Mrs. Alan Ude
-Dir. MONEY GRAM Service,Benin
-Phone number: +229 98856728
-E-mail: moneygram.1820@outlook.fr
+Why did you ignore this and merge the buggy commit to mainline anyway?
+I even told you how to fix it...
 
-Ask him to give you the complete mtcn, sender name, question and
-answer to enable you
-pick up the $5000.00 sent today,
-Also you are instructed to re-confirm your information's
-to Mrs.Alan Ude as listed below to avoid wrong transactions.
-
-(1Your Full name:............................................
-(2 Phone number.....................................................
-(3 Contact address:.....................................
-(4 Age:..................................................................
-(5 Country..............................................
-(6) Sex .................................................................
-(7) your occupation...........................................
-
-(8)Passport/By Attach or Drivers License Number:
-Contact Mrs. Alan Ude for your MONEY GRAM payment of $4.8,000.000usd
-Note please: I have paid service fees for you but the only money you
-are required
-to send to Mrs. Alan Ude is $90.00 only Transfer fee before you can
-pick up your transfer today.
-
-Send it to via Money Gram
-Receiver's Name-----Alan Ude
-Country----------Benin
-Address-----------Cotonou
-Quest--------Honest
-Ans-----------Trust
-
-I done all my best for you to receive your transfer now ok.
-We need your urgent reply
-Best Regards
-Rev.Dr Emmanuel Okoye
-CEO Ecobank-benin
-
-If we did not receive it urgent from you today,
-I will go ahead and release you funds to Mrs. Lyndia Ppaulson as your
-representative.
+- Eric
