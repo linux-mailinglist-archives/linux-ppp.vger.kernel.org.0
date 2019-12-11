@@ -2,61 +2,46 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EE98117F08
-	for <lists+linux-ppp@lfdr.de>; Tue, 10 Dec 2019 05:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 826AD11B45D
+	for <lists+linux-ppp@lfdr.de>; Wed, 11 Dec 2019 16:47:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726691AbfLJEcw (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 9 Dec 2019 23:32:52 -0500
-Received: from shards.monkeyblade.net ([23.128.96.9]:39834 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726619AbfLJEcw (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 9 Dec 2019 23:32:52 -0500
-Received: from localhost (unknown [IPv6:2601:601:9f00:1c3::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id F2D7D154F0CDF;
-        Mon,  9 Dec 2019 20:32:51 -0800 (PST)
-Date:   Mon, 09 Dec 2019 20:32:51 -0800 (PST)
-Message-Id: <20191209.203251.2060454946547270295.davem@davemloft.net>
-To:     natechancellor@gmail.com
-Cc:     paulus@samba.org, linux-ppp@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: Re: [PATCH] ppp: Adjust indentation into ppp_async_input
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20191209223859.19013-1-natechancellor@gmail.com>
-References: <20191209223859.19013-1-natechancellor@gmail.com>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Mon, 09 Dec 2019 20:32:52 -0800 (PST)
+        id S1732553AbfLKPrJ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Wed, 11 Dec 2019 10:47:09 -0500
+Received: from mailout02.3bbmail.com ([110.164.252.195]:60721 "EHLO
+        mailout03.3bb.co.th" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729599AbfLKPrI (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 11 Dec 2019 10:47:08 -0500
+X-Greylist: delayed 1684 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Dec 2019 10:47:06 EST
+Authentication-Results: 3bb.co.th;
+        spf=fail smtp.mailfrom=infoccfoundation@amazon.com
+Received: from appserv (mx-ll-110.164.149-9.static.3bb.co.th [110.164.149.9] (may be forged))
+        by mailout03.3bb.co.th (8.16.0.27/8.16.0.27) with ESMTP id xBBFFKZN021602;
+        Wed, 11 Dec 2019 22:15:20 +0700
+Message-ID: <41453-2201912311151530668@appserv>
+To:     "a" <skyteamsbiz@gmail.com>
+Reply-To: "CCULVERT FOUNDATION" <skyteamsbiz@gmail.com>
+From:   "CCULVERT FOUNDATION" <infoccfoundation@amazon.com>
+Subject: Mein letzter Wunsch.
+Date:   Wed, 11 Dec 2019 22:15:30 +0700
+MIME-Version: 1.0
+Content-type: text/plain; charset=windows-874
+Content-Transfer-Encoding: 8BIT
+X-Proofpoint-SPF-Result: fail
+X-Proofpoint-SPF-Record: v=spf1 include:spf1.amazon.com include:spf2.amazon.com
+ include:amazonses.com -all
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-11-25_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=40 suspectscore=1 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=304
+ adultscore=0 classifier=spam adjust=40 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-1911260048
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-From: Nathan Chancellor <natechancellor@gmail.com>
-Date: Mon,  9 Dec 2019 15:38:59 -0700
+Wenn Sie sich für die Finanzierung der STIFTUNG interessieren, schreiben Sie bitte heute über meinen Anwalt zurück
+Grüße,
+Mrs. Cindy Culvert.
+skyteamsbiz@gmail.com
 
-> Clang warns:
-> 
-> ../drivers/net/ppp/ppp_async.c:877:6: warning: misleading indentation;
-> statement is not part of the previous 'if' [-Wmisleading-indentation]
->                                 ap->rpkt = skb;
->                                 ^
-> ../drivers/net/ppp/ppp_async.c:875:5: note: previous statement is here
->                                 if (!skb)
->                                 ^
-> 1 warning generated.
-> 
-> This warning occurs because there is a space before the tab on this
-> line. Clean up this entire block's indentation so that it is consistent
-> with the Linux kernel coding style and clang no longer warns.
-> 
-> Fixes: 6722e78c9005 ("[PPP]: handle misaligned accesses")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/800
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-
-Applied.
