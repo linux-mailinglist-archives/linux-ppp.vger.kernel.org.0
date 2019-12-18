@@ -2,85 +2,94 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5237B11CC52
-	for <lists+linux-ppp@lfdr.de>; Thu, 12 Dec 2019 12:35:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA6AC124B36
+	for <lists+linux-ppp@lfdr.de>; Wed, 18 Dec 2019 16:14:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729033AbfLLLfC (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Thu, 12 Dec 2019 06:35:02 -0500
-Received: from mail-il1-f199.google.com ([209.85.166.199]:43202 "EHLO
-        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729023AbfLLLfB (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Thu, 12 Dec 2019 06:35:01 -0500
-Received: by mail-il1-f199.google.com with SMTP id j17so1381909ilc.10
-        for <linux-ppp@vger.kernel.org>; Thu, 12 Dec 2019 03:35:01 -0800 (PST)
+        id S1727381AbfLRPON (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 18 Dec 2019 10:14:13 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:36172 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727386AbfLRPOE (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 18 Dec 2019 10:14:04 -0500
+Received: by mail-io1-f65.google.com with SMTP id r13so2348008ioa.3
+        for <linux-ppp@vger.kernel.org>; Wed, 18 Dec 2019 07:14:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=RfaUJbE64AqObBUWyZFAX00yFzfv+PMQBeMlfEbyOTSSIZSlP9dNPzblRe9C4/Xp5G
+         OOrfzjlEIPRCszaxaclLviha/Gl6J+8MNE2wJIlQr3g8uWJn+m5NNx6dyOIWXJDzHKAu
+         CFfw6ayoPSChbR+RAE0+B68G/pEf5o1uZqam8GCW/DM3JVJn1rrKg09G5nyaA4x8K46C
+         DidFmOGbhUnnebgzWtKvL2IYqcm0dJ4hRYsroJX5h4wZl5ygcdMBOrPylnEG0iZgtaC4
+         tctA6UVKTV1ZO7eaOpJeM3zJ9lY8Otzi6Az77Sm1wv6CYLTS/yvcKPbBaIHIL7wY9gk+
+         23sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=zFl6E7DmT67W68XqVzR2aCsqjcFpWexNUq+6/CXmVUk=;
-        b=oZ6cVPcGulk8uFpQqUp8NvgUoPHvgXTExK19PwrPoao/36AwKqVFdl46Sid61PGbYt
-         czIAna0OD5ns84XfWPcxzK5bCJZ61jCZe37+quC/AT4fVcRoB7D4VgnYy7uwhFELMH8J
-         4Jr+cRCEkzuTfNMAxltwLcnLwHwCd/rteJWE1ie0rVcVKXPQYoqACWCWJngKw1We+pWI
-         Z6A3ks31It+K3+ziSDULVCVnYCbmO7Vz6tsRQDLkT5n9svy1ZdZLU4yVD6nHu5vJwKdX
-         360Ha1z0pf3zJOrg9KViGk3E371Z14tUjn4Yic1cvMdyhm40eC5izrzQffnkyezej21r
-         PXtw==
-X-Gm-Message-State: APjAAAU3UhhBjtgubGQDsieWpDXV95TXA/iZKrCvFgXAjQUEIwM4apPF
-        izrDCpzK7a3NoIw7NGJFnZ0LeFhBr0o6GkwpLIcRE/ghSyvm
-X-Google-Smtp-Source: APXvYqx7tAF42179GqyQGzxmn7mnoZxL7LgtxR3PNlsI/lOpd2FmYULEa+vakNib69tHnoQvSF7+iHISpB+uiby7hAsvBYRTiqDc
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=dIXZfkNlIQX6kyo2t3bVctQEFXEBrk8TyaseJEnlsBB5gRH8vgSqyWo2HxsmUIgAPl
+         vP1chSYRIqw7yAcAZR/26yNqDXVFwrshs+ci4yqx2fCG4Hp4MOETsLrCpYQTnmmlM2cv
+         419jCWKFHu7AxMqt2YdO/ttg1LlUxKRuggc8lEWhE/4DJZLHGMkwuqQvkA27shJdclQ+
+         d45bS8tqL5wuZ/VtAAxdewJv1ox4kzoAZQ5y/eGqCuGbD4IShCm3CQ34I996KdPBlYUP
+         PmhyDme+dCdNdZh13RhJswsqqtnIwXVnOr5mboFIBiH7aCrUau9b3VSxcyGfmcdmf2T2
+         ZlEg==
+X-Gm-Message-State: APjAAAXNDw+stoNK4YNv18Idp1GDA5+psqYTzSvEd9ym1M5gOF53hk3G
+        ggKg9fmbY51r5b4edmpnkHA/QiT4+M4XRN4RKA==
+X-Google-Smtp-Source: APXvYqyIz9CrpHcrXivylieLEiE1VxRyGUw+E9DXz6VIYz+kYlOCef915g/qsmML8+OoqrwbsBK3G0eW6o6RBALrF/E=
+X-Received: by 2002:a05:6638:950:: with SMTP id f16mr2789501jad.107.1576682043767;
+ Wed, 18 Dec 2019 07:14:03 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a92:3b19:: with SMTP id i25mr7844146ila.85.1576150500982;
- Thu, 12 Dec 2019 03:35:00 -0800 (PST)
-Date:   Thu, 12 Dec 2019 03:35:00 -0800
-In-Reply-To: <000000000000b6b03205997b71cf@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b949ee0599802274@google.com>
-Subject: Re: BUG: corrupted list in __dentry_kill (2)
-From:   syzbot <syzbot+31043da7725b6ec210f1@syzkaller.appspotmail.com>
-To:     a@unstable.cc, alex.aring@gmail.com, allison@lohutok.net,
-        andrew@lunn.ch, andy@greyhouse.net, ap420073@gmail.com,
-        ast@domdv.de, ast@kernel.org, b.a.t.m.a.n@lists.open-mesh.org,
-        bpf@vger.kernel.org, bridge@lists.linux-foundation.org,
-        cleech@redhat.com, daniel@iogearbox.net, davem@davemloft.net,
-        dsa@cumulusnetworks.com, dsahern@gmail.com, dvyukov@google.com,
-        f.fainelli@gmail.com, fw@strlen.de, gregkh@linuxfoundation.org,
-        haiyangz@microsoft.com, hawk@kernel.org, hdanton@sina.com,
-        idosch@mellanox.com, info@metux.net, j.vosburgh@gmail.com, j@w1.fi,
-        jakub.kicinski@netronome.com, jhs@mojatatu.com, jiri@mellanox.com,
-        jiri@resnulli.us, johan.hedberg@gmail.com, johannes.berg@intel.com,
-        john.fastabend@gmail.com, john.hurley@netronome.com,
-        jwi@linux.ibm.com, kafai@fb.com, kstewart@linuxfoundation.org,
-        kvalo@codeaurora.org, kys@microsoft.com,
-        linux-bluetooth@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-ppp@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-wpan@vger.kernel.org,
-        liuhangbin@gmail.com, marcel@holtmann.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Received: by 2002:a02:6603:0:0:0:0:0 with HTTP; Wed, 18 Dec 2019 07:14:03
+ -0800 (PST)
+Reply-To: dhl.expresscourier102156@outlook.fr
+From:   "MS. MARYANNA B. THOMASON" <info.zennitbankplcnigerian@gmail.com>
+Date:   Wed, 18 Dec 2019 16:14:03 +0100
+Message-ID: <CABHzvr=Pq7-TqhY8TPvFCsr+5-DhDQy=XOg-TM13qqbFWeemfQ@mail.gmail.com>
+Subject: =?UTF-8?Q?Urgent_delivery_Notification_of_your_ATM_MASTER_CARD?=
+        =?UTF-8?Q?_Amount=2C=2415=2E800=E2=80=99000=E2=80=9900=2C?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-syzbot has bisected this bug to:
+Attn Dear.
 
-commit ab92d68fc22f9afab480153bd82a20f6e2533769
-Author: Taehee Yoo <ap420073@gmail.com>
-Date:   Mon Oct 21 18:47:51 2019 +0000
+Urgent delivery Notification of your ATM MASTER CARD, Dhl-Benin is
+ready for delivery of your ATM Master card worth $15.800=E2=80=99000=E2=80=
+=9900, as
+approved this morning, Date, 18/12/2019. Through the Intruction from
+INTERNATIONAL MONETARY FUNDS, I.M.F official Directors.
 
-     net: core: add generic lockdep keys
+REGISTRATION NO :EG58945
+PARCEL NUMBER: 140479
+Delivery Schuleded now,
+Finally all we required from you is your ATM Card Proccessing Delivery
+fees $19.00 only which you must send to this DHL service to enable us
+dispatch the parcel to your destination today.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12d37cb6e00000
-start commit:   938f49c8 Add linux-next specific files for 20191211
-git tree:       linux-next
-final crash:    https://syzkaller.appspot.com/x/report.txt?x=11d37cb6e00000
-console output: https://syzkaller.appspot.com/x/log.txt?x=16d37cb6e00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=96834c884ba7bb81
-dashboard link: https://syzkaller.appspot.com/bug?extid=31043da7725b6ec210f1
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12dc83dae00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16ac8396e00000
+Here is our receiving payment details.
+You are advised to send it Via Money Gram Service.
 
-Reported-by: syzbot+31043da7725b6ec210f1@syzkaller.appspotmail.com
-Fixes: ab92d68fc22f ("net: core: add generic lockdep keys")
+Receiver's Name--------Alan Ude
+Country-------Benin Republic.
+City/ Address--------Cotonou
+Test Question--------In God
+Answer-------We Trust
+Amount------------$US19.00 only
+Mtcn-------------
+Sender's Name-------
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Your delivery  ATM card worth $15.800=E2=80=99000=E2=80=9900,
+Is Due for delivery to your address today upon confirmation of
+required fee from you asap.
+
+Call us on this phone number for any inquiry. +229 62819378
+Awaiting your urgent response.
+
+MS. MARYANNA B. THOMASON, Shipment director, DHL Express
+Courier Company-Benin
