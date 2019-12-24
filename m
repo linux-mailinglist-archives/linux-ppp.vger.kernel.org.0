@@ -2,58 +2,71 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9783D129F66
-	for <lists+linux-ppp@lfdr.de>; Tue, 24 Dec 2019 09:47:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CED112A024
+	for <lists+linux-ppp@lfdr.de>; Tue, 24 Dec 2019 11:32:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726184AbfLXIrN (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 24 Dec 2019 03:47:13 -0500
-Received: from mail-qv1-f65.google.com ([209.85.219.65]:36177 "EHLO
-        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726216AbfLXIrN (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Tue, 24 Dec 2019 03:47:13 -0500
-Received: by mail-qv1-f65.google.com with SMTP id m14so7269159qvl.3
-        for <linux-ppp@vger.kernel.org>; Tue, 24 Dec 2019 00:47:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
-        b=PQC8SYLCXx+8aDuDCLCwJgk2oQh3fLzHmMXwhB5xY3bef3Vo9nrhk4Yg6HHmflz15A
-         odr7sEsXszk5IefLinD2h+1zq4e88FBObg36SZAuPRqSewet3Ta9S7nYrpgVd56Fd7Nn
-         pF4UOpFqHS/vFlCYHvNiKKET749oMuh6ba4SGm84XHPjlJH1jZ6bNkVeqECOxLVvUm4D
-         QLX5/qOjMF+sSc2kOy8uf2Xg/YtEl3CfJAdSFbQYNBLHe5VpSisBe2Vhsy7I7HtuscWQ
-         RrXf3skZb21QSlq2mtaYGqsirOIfAXY2wSc5lCy61V/R0NEOho5Faf+a1vRLR5TL05Tc
-         J2BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
-        b=EmCj3zJ4/sfaio7qbKfMxNJOE2mUcXTunZnNLPWM2zXlfSS9r5ec0osMbS0ZzzOyqu
-         SSLnwCMYBq+x6j2LhD3LfeocGOykyOIO3pG8h/RZfEgdIR6F94O4gX4MPw/0MNZMiE+m
-         vo9mICWSx94NgmwXIXeZ2Z6diMzY91ttS5V4iNDsMrsZApUAdwnTE5NsF38/kgUdSEqa
-         L9+ml7DnoMCutrmeKzFWGr+MChG/GAJIdgSekCnMQmKzx7Q3lRl7xHq3wbOu491kWUIj
-         iB6Bycuwoxg7+x0fdRxj/w8q9VGIv2oOUvIjQ74FxZiAQ/Jo0PEZHd8Llc4jDGzkkAVL
-         GCIw==
-X-Gm-Message-State: APjAAAVWyC3ppqOO8CFGb5dqt9tDP7ej2uG4YsG0JDEGEWy40+2NjIqi
-        aLMikLuD3S6qEDoEKkt5j89lLnhnz7SU6iGXN1g=
-X-Google-Smtp-Source: APXvYqzaLbNYw7chXTk9TUUPs6B60DWqUF5k2s4P095bxLhv0swSj+2PMPeIkcEn8uNvF34hBR2yK95ka1103zSo7Q4=
-X-Received: by 2002:a0c:f24a:: with SMTP id z10mr28100861qvl.33.1577177231005;
- Tue, 24 Dec 2019 00:47:11 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:ad4:530a:0:0:0:0:0 with HTTP; Tue, 24 Dec 2019 00:47:10
- -0800 (PST)
-Reply-To: bethnatividad9@gmail.com
-From:   Beth Nat <anthonymoore105@gmail.com>
-Date:   Tue, 24 Dec 2019 08:47:10 +0000
-Message-ID: <CAKqrdYCjdg7tKr1Bgbtcoo-HGDCypDL8xnV8R2ZpiJxfRimm-A@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        id S1726124AbfLXKcr (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 24 Dec 2019 05:32:47 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25]:50680 "EHLO cstnet.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726076AbfLXKcr (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Tue, 24 Dec 2019 05:32:47 -0500
+Received: from localhost.localdomain (unknown [159.226.5.100])
+        by APP-05 (Coremail) with SMTP id zQCowAAXHc1D3AFeEjTIBQ--.98S3;
+        Tue, 24 Dec 2019 17:37:08 +0800 (CST)
+From:   Xu Wang <vulab@iscas.ac.cn>
+To:     paulus@samba.org
+Cc:     davem@davemloft.net, linux-ppp@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] ppp: Remove redundant BUG_ON() check in ppp_pernet
+Date:   Tue, 24 Dec 2019 09:37:04 +0000
+Message-Id: <1577180224-16405-1-git-send-email-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.7.4
+X-CM-TRANSID: zQCowAAXHc1D3AFeEjTIBQ--.98S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrtFW8Jr4UKFyrurWxAw4DXFb_yoW3Jrb_Cw
+        4fCFW3Aw1UAr1q9r4UCws8ZrZay3WkWr1kJrs2grZxX34ktFyrXr95ursrAr4kWrZ5CF9r
+        Ca47ZryrJrWYgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbFkYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
+        cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4
+        A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+        w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
+        vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCFx2Iq
+        xVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r
+        106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AK
+        xVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7
+        xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWU
+        JVW8JbIYCTnIWIevJa73UjIFyTuYvjxUcVWlDUUUU
+X-Originating-IP: [159.226.5.100]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBAgNA102S0V3TwABse
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-How are you today my dear? i saw your profile and it interests me, i
-am a Military nurse from USA. Can we be friend? I want to know more
-about you.
+Passing NULL to ppp_pernet causes a crash via BUG_ON.
+Dereferencing net in net_generici() also has the same effect.
+This patch removes the redundant BUG_ON check on the same parameter.
+
+Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+---
+ drivers/net/ppp/ppp_generic.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index 3bf8a8b..22cc2cb 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -296,8 +296,6 @@ static struct class *ppp_class;
+ /* per net-namespace data */
+ static inline struct ppp_net *ppp_pernet(struct net *net)
+ {
+-	BUG_ON(!net);
+-
+ 	return net_generic(net, ppp_net_id);
+ }
+ 
+-- 
+2.7.4
+
