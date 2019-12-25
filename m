@@ -2,83 +2,71 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 039BE12A0C7
-	for <lists+linux-ppp@lfdr.de>; Tue, 24 Dec 2019 12:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29E8312A5BF
+	for <lists+linux-ppp@lfdr.de>; Wed, 25 Dec 2019 04:07:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726271AbfLXLmV (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 24 Dec 2019 06:42:21 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:37739 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726183AbfLXLmV (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Tue, 24 Dec 2019 06:42:21 -0500
-Received: by mail-lj1-f194.google.com with SMTP id o13so9189819ljg.4
-        for <linux-ppp@vger.kernel.org>; Tue, 24 Dec 2019 03:42:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=A9+/jlzxejOXGqGuMphO+K4YrVBFVrGdSz2snKyj29o=;
-        b=Rw70dVZwXrsRRVRfmfqeZsX4G9Fe2idWs1COznV7TftE3Sdg2noDkvaR6TNS4tp2Py
-         oF2SFqrXaXhzpukBAhGPD50KAYYuds2zmrISXOsJasPJrVe3gPW7MAQR4Wx7UQuabpBK
-         BRvoY5XLKvxNR6y5KGgjH7p2zYP7likMnikIKNzniGQ84wYy3oRsjZpNqUzvam6Q626m
-         U/q4E9UYL4uR+UjIozFFKQmEz46638H+GE/Ar7KCWlqfciRYciRakNciti21cgjJS7vx
-         9m9jZz7VOA4Vix89Y0wLo39cLE9rSTyy3qyeG1Iku4GtH3CgTM7giADWRr5uNr5SeU0r
-         CamA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=A9+/jlzxejOXGqGuMphO+K4YrVBFVrGdSz2snKyj29o=;
-        b=bVAgE5kGZbJQMNzM9ZZmwlY7vdfcIo3lcS7Ox8nPx+Qn3jnXXXryCyaFwassbTHAEG
-         6CU6AVQhaAdoKGaZBXBPCqyIwKA1VsXnIKsRuuFXuDJAFfS2APtu2/vMY8zDwOZmOhO0
-         NhObPYjgOLujLIwG0ZFKtov05DSayrcZCUNkXtGuu6AdtAeSeD30/l5+U0JLcDAUt/b+
-         CJu6FYabnV2mthF9VdXuZOf0GotxeXEM6xJ1/atR2yJ7fv+W60gPKOZjCin2+z75XWzt
-         zGis8NmsDLIBVZqz5Ypwpih5t8w+joWr4Ezj8sMw/11hSHkREZHkGL6wgD7KJxWXMdz5
-         mUyw==
-X-Gm-Message-State: APjAAAUVRTbxmw3iuOkjTyxFpPzqzZLu6Uz/jHFpBVAI0q90gCKoo9hi
-        B3rtILz3CMG/nOdAa7RYNhQBZQ==
-X-Google-Smtp-Source: APXvYqy7dcoXvIYCuzCyChcVd9xAZaFC/RTj2+GYvm2Sv92TzoZuNlWedBq9tndQdoBgWXppPLhMvw==
-X-Received: by 2002:a2e:2d11:: with SMTP id t17mr20102628ljt.177.1577187739239;
-        Tue, 24 Dec 2019 03:42:19 -0800 (PST)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:441d:5f5:f336:feb9:305c:b1aa])
-        by smtp.gmail.com with ESMTPSA id r20sm9818028lfi.91.2019.12.24.03.42.17
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 24 Dec 2019 03:42:18 -0800 (PST)
-Subject: Re: [PATCH] ppp: Remove redundant BUG_ON() check in ppp_pernet
-To:     Xu Wang <vulab@iscas.ac.cn>, paulus@samba.org
+        id S1726328AbfLYDH2 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 24 Dec 2019 22:07:28 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25]:42868 "EHLO cstnet.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726317AbfLYDH2 (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Tue, 24 Dec 2019 22:07:28 -0500
+Received: from localhost.localdomain (unknown [159.226.5.100])
+        by APP-05 (Coremail) with SMTP id zQCowACXn89b0gJeJlojBg--.766S3;
+        Wed, 25 Dec 2019 11:07:08 +0800 (CST)
+From:   Xu Wang <vulab@iscas.ac.cn>
+To:     paulus@samba.org
 Cc:     davem@davemloft.net, linux-ppp@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1577180224-16405-1-git-send-email-vulab@iscas.ac.cn>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <d3b4fbce-3349-d51d-4a2c-220ccadac506@cogentembedded.com>
-Date:   Tue, 24 Dec 2019 14:42:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <1577180224-16405-1-git-send-email-vulab@iscas.ac.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH v2] ppp: Remove redundant BUG_ON() check in ppp_pernet
+Date:   Wed, 25 Dec 2019 03:07:04 +0000
+Message-Id: <1577243224-1923-1-git-send-email-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.7.4
+X-CM-TRANSID: zQCowACXn89b0gJeJlojBg--.766S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrtFW5XFW8XryDuF4xKr4kWFg_yoWxKwc_Cw
+        4fCFW3Aw1UAr1q9r4UCws8ZrZIy3WkWr1kJrs2grZxX34ktFyrXr95ursrAr4kWrZ5CF9r
+        Ca47ZryrJrWYgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbwxYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
+        cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I
+        8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+        F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+        4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF
+        x2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
+        v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
+        67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
+        IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
+        xVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUcVWlDUUUU
+X-Originating-IP: [159.226.5.100]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAMPA1z4ipKwYQAAsu
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Hello!
+Passing NULL to ppp_pernet causes a crash via BUG_ON.
+Dereferencing net in net_generic() also has the same effect.
+This patch removes the redundant BUG_ON check on the same parameter.
 
-On 12/24/2019 12:37 PM, Xu Wang wrote:
+Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+---
+ drivers/net/ppp/ppp_generic.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-> Passing NULL to ppp_pernet causes a crash via BUG_ON.
-> Dereferencing net in net_generici() also has the same effect.
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index 3bf8a8b..22cc2cb 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -296,8 +296,6 @@ static struct class *ppp_class;
+ /* per net-namespace data */
+ static inline struct ppp_net *ppp_pernet(struct net *net)
+ {
+-	BUG_ON(!net);
+-
+ 	return net_generic(net, ppp_net_id);
+ }
+ 
+-- 
+2.7.4
 
-   s/generici/generic/. :-)
-
-> This patch removes the redundant BUG_ON check on the same parameter.
-> 
-> Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
-[...]
-
-MBR, Sergei
