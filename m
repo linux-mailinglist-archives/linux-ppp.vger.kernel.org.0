@@ -2,94 +2,181 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ED5F14326A
-	for <lists+linux-ppp@lfdr.de>; Mon, 20 Jan 2020 20:32:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D0BF14714C
+	for <lists+linux-ppp@lfdr.de>; Thu, 23 Jan 2020 20:00:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728655AbgATTcu (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 20 Jan 2020 14:32:50 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:44774 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726642AbgATTcm (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 20 Jan 2020 14:32:42 -0500
-Received: by mail-ed1-f68.google.com with SMTP id bx28so559125edb.11
-        for <linux-ppp@vger.kernel.org>; Mon, 20 Jan 2020 11:32:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
-        b=I1roYPqxBJzWtUK/EbeI6Kt4sZi+JdSJm6qJbGHrPRZYvHUSh5jIrCeNC6L/G/f0o1
-         SOUBr7y32ZptFoyqXLV46mqkCVXIPksz6dHNenBfKH5ZmZaxgtbXfnD4DPiQngFU9XCO
-         yyR3xavKr41v/xLWwuSw91WJb2uX+wjZFxyyrAuDZ+hvXvCheAMdiLqD+HrlaysRfXCL
-         GNNQRcxyOsqzXo4wRH2J/upuPpeDO5ZRhzNY4HfuYgHfElCshp5fZYHSWkrBX0jAzQvX
-         wM9NfRj8QHz6JxUFOI+rZ3wcUi7Ikp+pHr28kaxr4n7py/KC1H5pYclpR4JTvoTIZ7Jv
-         h8rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
-        b=LSvTEYHauMTfIXsbF/o6Gsqd+M4sFD+OStnHi2+qPGvq7p9O2u3nb+S4wSDqcwOA+X
-         0rZx9y260u+M4yXl0i1wvtUMBeZstu1s3jHgH/KPPTmQV0IsONcyiWOTaLV0GlCd2QG7
-         Eegsmeh7Cm8REWKsPVfozKVYpbOHl6PA4Y0mB5jHXgqDK/au2RFVqrVRbxfyiHSjp0Os
-         FOltjhsqpV7Jj8LuN9qWsC0gdJX21r1ZnoT3Z+3w5hHreVlExeegSX0C8W1P582q9GAD
-         VwbaobLslkRYNABLle6b+ZW4dmQU9QZSdyGSMD2Y+BWAmyG5/AbDKjO4klUc+gEklCGM
-         Pyug==
-X-Gm-Message-State: APjAAAU166THCPVrBVCppqObRC4YN+nY23GJTCY9Ak/ZUt5asfnAQHcm
-        4z0R66cwmGzeLE+nLLUAlqeRKIP9/G5UlWe7ARQ=
-X-Google-Smtp-Source: APXvYqwKjCT5QnfvXWtJkO29cRmoOGR1uhIhw9Ol6eYz9VuYzVaqX/o8Ejt2WLDxZ+bl2CebXLO8AWZ4Emn93SBTQws=
-X-Received: by 2002:a17:906:1fcd:: with SMTP id e13mr898516ejt.333.1579548761316;
- Mon, 20 Jan 2020 11:32:41 -0800 (PST)
+        id S1728831AbgAWTAW (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 23 Jan 2020 14:00:22 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:48374 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727022AbgAWTAV (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 23 Jan 2020 14:00:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=8HR2OlxtYSb8VdzQerDMMYUwatLK4APc/+QQpvP3lEg=; b=hl/QHk5iTlsDRKCfY+NHVGyfL
+        qgqj7dYv7pKzurBROUVNuwRXpgmtf5xN3yRceVvnxS/eNW6WGHi95QfEo03tR4rTgkcR9wKIpjOmb
+        81jLRVHYNsnKtfnjooWbbrFPxwX56OTZ63ybhx80bRhENoVrRLtGFmp5a9OL1jd8EGj42zKv99+eB
+        JwtSr7fZ7Cz//tDfqUVR3E5tPEXA9q0ngG2/f56cyWSgnmbgWjx3we2vtNWgdwVb329LgskVc333M
+        J503k7JhpQBbDcV/o75dUqL1juPCeAu+WcLSbMe1/lmAGA9E3WwrLYl6CMt5DUF3qozC89SWC/IFK
+        whdtZUgpw==;
+Received: from [2601:1c0:6280:3f0::ed68]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iuhiE-0003BI-Ui; Thu, 23 Jan 2020 19:00:19 +0000
+To:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Jan Kara <jack@suse.com>, Theodore Ts'o <tytso@mit.edu>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        linux-ext4@vger.kernel.org,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org,
+        Jan Kara <jack@suse.com>, reiserfs-devel@vger.kernel.org,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        linux-xfs <linux-xfs@vger.kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] Documentation: changes.rst: update several outdated project
+ URLs
+Message-ID: <efb1f518-9e66-c472-d124-4b7d91e56639@infradead.org>
+Date:   Thu, 23 Jan 2020 11:00:12 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
-Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Mon, 20 Jan 2020 11:32:40
- -0800 (PST)
-Reply-To: mcclainejohn.13@gmail.com
-From:   "Prof, William Roberts" <eco.bank1204@gmail.com>
-Date:   Mon, 20 Jan 2020 20:32:40 +0100
-Message-ID: <CAOE+jABpcHQWZWhtskhDFbtTqfBe7h065WE2kC1G+jQD+tQiTA@mail.gmail.com>
-Subject: Contact Diplomatic Agent, Mr. Mcclaine John to receive your ATM CARD
- valued the sum of $12.8Million United States Dollars
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Attn: Dear Beneficiary,
+From: Randy Dunlap <rdunlap@infradead.org>
 
-I wish to inform you that the diplomatic agent conveying your ATM CARD
-valued the sum of $12.8Million United States Dollars has misplaced
-your address and he is currently stranded at (George Bush
-International Airport) Houston Texas USA now
-We required you to reconfirm the following information's below to him
-so that he can deliver your Payment CARD to you today or tomorrow
-morning as information provided with open communications via email and
-telephone for security reasons.
-HERE IS THE DETAILS  HE NEED FROM YOU URGENT
-YOUR FULL NAME:========
-ADDRESS:========
-MOBILE NO:========
-NAME OF YOUR NEAREST AIRPORT:========
-A COPY OF YOUR IDENTIFICATION :========
+Update projects URLs in the changes.rst file.
 
-Note; do contact the diplomatic agent immediately through the
-information's listed below
-Contact Person: Diplomatic Agent, Mr. Mcclaine John
-EMAIL: mcclainejohn.13@gmail.com
-Tel:(223) 777-7518
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Jan Kara <jack@suse.com>
+Cc: "Theodore Ts'o" <tytso@mit.edu>
+Cc: Andreas Dilger <adilger.kernel@dilger.ca>
+Cc: linux-ext4@vger.kernel.org
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
+Cc: Florian Westphal <fw@strlen.de>
+Cc: netfilter-devel@vger.kernel.org
+Cc: coreteam@netfilter.org
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: linux-ppp@vger.kernel.org
+Cc: Jan Kara <jack@suse.com>
+Cc: reiserfs-devel@vger.kernel.org
+Cc: Darrick J. Wong <darrick.wong@oracle.com>
+Cc: linux-xfs@vger.kernel.org
+---
 
-Contact the diplomatic agent immediately
-because he is waiting to hear from you today with the needed information's.
+ Documentation/process/changes.rst                    |   12 ++++++----
+ Documentation/translations/it_IT/process/changes.rst |   12 ++++++----
+ 2 files changed, 16 insertions(+), 8 deletions(-)
 
-NOTE: The Diplomatic agent does not know that the content of the
-consignment box is $12.800,000,00 Million United States Dollars and on
-no circumstances should you let him know the content. The consignment
-was moved from here as family treasures, so never allow him to open
-the box. Please I have paid delivery fees for you but the only money
-you must send to Mcclaine John is your ATM CARD delivery fee $25.00
-only. text Him as you contact Him Immediately
+diff -Naurp linux-next-20200123/Documentation/translations/it_IT/process/changes.rst%WWW linux-next-20200123/Documentation/translations/it_IT/process/changes.rst
+--- linux-next-20200123/Documentation/translations/it_IT/process/changes.rst%WWW	2019-11-24 16:32:01.000000000 -0800
++++ linux-next-20200123/Documentation/translations/it_IT/process/changes.rst	2020-01-23 10:47:56.226457425 -0800
+@@ -391,6 +391,8 @@ E2fsprogs
+ ---------
+ 
+ - <http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.29.tar.gz>
++- <https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/>
++- <https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/>
+ 
+ JFSutils
+ --------
+@@ -400,12 +402,12 @@ JFSutils
+ Reiserfsprogs
+ -------------
+ 
+-- <http://www.kernel.org/pub/linux/utils/fs/reiserfs/>
++- <https://git.kernel.org/pub/scm/linux/kernel/git/jeffm/reiserfsprogs.git/>
+ 
+ Xfsprogs
+ --------
+ 
+-- <ftp://oss.sgi.com/projects/xfs/>
++- <https://git.kernel.org/pub/scm/fs/xfs/xfsprogs-dev.git>
+ 
+ Pcmciautils
+ -----------
+@@ -444,7 +446,9 @@ Rete
+ PPP
+ ---
+ 
+-- <ftp://ftp.samba.org/pub/ppp/>
++- <https://download.samba.org/pub/ppp/>
++- <https://git.ozlabs.org/?p=ppp.git>
++- <https://github.com/paulusmack/ppp/>
+ 
+ 
+ NFS-utils
+@@ -455,7 +459,7 @@ NFS-utils
+ Iptables
+ --------
+ 
+-- <http://www.iptables.org/downloads.html>
++- <https://netfilter.org/projects/iptables/index.html>
+ 
+ Ip-route2
+ ---------
+diff -Naurp linux-next-20200123/Documentation/process/changes.rst%WWW linux-next-20200123/Documentation/process/changes.rst
+--- linux-next-20200123/Documentation/process/changes.rst%WWW	2019-11-24 16:32:01.000000000 -0800
++++ linux-next-20200123/Documentation/process/changes.rst	2020-01-23 10:47:56.226457425 -0800
+@@ -384,6 +384,8 @@ E2fsprogs
+ ---------
+ 
+ - <http://prdownloads.sourceforge.net/e2fsprogs/e2fsprogs-1.29.tar.gz>
++- <https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/>
++- <https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/>
+ 
+ JFSutils
+ --------
+@@ -393,12 +395,12 @@ JFSutils
+ Reiserfsprogs
+ -------------
+ 
+-- <http://www.kernel.org/pub/linux/utils/fs/reiserfs/>
++- <https://git.kernel.org/pub/scm/linux/kernel/git/jeffm/reiserfsprogs.git/>
+ 
+ Xfsprogs
+ --------
+ 
+-- <ftp://oss.sgi.com/projects/xfs/>
++- <https://git.kernel.org/pub/scm/fs/xfs/xfsprogs-dev.git>
+ 
+ Pcmciautils
+ -----------
+@@ -437,7 +439,9 @@ Networking
+ PPP
+ ---
+ 
+-- <ftp://ftp.samba.org/pub/ppp/>
++- <https://download.samba.org/pub/ppp/>
++- <https://git.ozlabs.org/?p=ppp.git>
++- <https://github.com/paulusmack/ppp/>
+ 
+ NFS-utils
+ ---------
+@@ -447,7 +451,7 @@ NFS-utils
+ Iptables
+ --------
+ 
+-- <http://www.iptables.org/downloads.html>
++- <https://netfilter.org/projects/iptables/index.html>
+ 
+ Ip-route2
+ ---------
 
-Thanks,
-with Regards.
-Prof, William Roberts
-Director DHL COURIER SERVICES-Benin
+
