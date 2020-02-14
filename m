@@ -2,71 +2,67 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B821715600F
-	for <lists+linux-ppp@lfdr.de>; Fri,  7 Feb 2020 21:44:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 309D515D9CE
+	for <lists+linux-ppp@lfdr.de>; Fri, 14 Feb 2020 15:51:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727567AbgBGUoO (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 7 Feb 2020 15:44:14 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:37763 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727562AbgBGUoL (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 7 Feb 2020 15:44:11 -0500
-Received: by mail-ot1-f66.google.com with SMTP id d3so608766otp.4
-        for <linux-ppp@vger.kernel.org>; Fri, 07 Feb 2020 12:44:09 -0800 (PST)
+        id S1729415AbgBNOvw (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 14 Feb 2020 09:51:52 -0500
+Received: from mail-wm1-f52.google.com ([209.85.128.52]:56009 "EHLO
+        mail-wm1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726191AbgBNOvw (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 14 Feb 2020 09:51:52 -0500
+Received: by mail-wm1-f52.google.com with SMTP id q9so10218206wmj.5
+        for <linux-ppp@vger.kernel.org>; Fri, 14 Feb 2020 06:51:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=8cDRXBFOpE9J1p6S5H+HXSQg9q3m7pUJ3iUuQ5MPcDc=;
-        b=WJgFJ9PR0yBQ+ciD08Pby60OVZzn3dTgtieZ17slfRQssKmPnwQmAwZPgDIpR6heck
-         dDY9m0nAiR73dL1CtCDLlqWI9lV6barO9i6phYUUcmMyI9lhyUunotwwGjtLNjZZXHps
-         B+ZJy7kS8IDHqb+LatDXLkBcGkPTiMku+kX9Fb92ZmFsnK1n3liOHkc4TmrSz2VBzqpm
-         gOXxQUuwBna/l8aq9nu864h1RGE/T5vMQdJwoV4IagKfmqrsTX7n4WpDLnLJobosvK0X
-         9Z7fBUirFx02ZREq+PBFhuGxFcksAi/eOnsjoHpvtfcuXe3k+tw0qtyYWnKvHtkX+Drl
-         CMWw==
+        h=content-transfer-encoding:from:mime-version:date:subject:message-id
+         :to;
+        bh=wnWxyUhyjW9ysw/612tlNht2E2ihlBty2NnU1mTy1no=;
+        b=vO3saEZvZ5FsaXJY8WhYIdpX314vUWCwfWpfVNln7Pd/Hepe/07Sw2DF5PClCdr2jw
+         dqjh9JwnfPV4NfGXY7BIHptHzJxgpQ0MxhR+1EQgIRLMy5K6fO3RDfJansqKZyImdWql
+         vuh9HdKiaE218gxtswnZiI/opAIUDa9vzVyote7gG+Rf0vFrW0+jiSrfks5bdUiDXd1f
+         WQZzwnvUZWbq8zqQH38K0aoxEzrhiuuhEAbu4mpl2o7kMDuza51+BHwUJdl5qZr6NPdO
+         qSmPHt0fH3sR+Czo+d1bxJd/VgTuPQFs75ixoOl+u3+mZqRQ2uxmHv2n8UT/XqSGdiM9
+         hJnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=8cDRXBFOpE9J1p6S5H+HXSQg9q3m7pUJ3iUuQ5MPcDc=;
-        b=cyDcngojoYvMFrv4yPJg7L42/Ap3+Ie7puQyT64q5qMdRPNAQjeH1uXRJGlP1Dvly1
-         BZ0iT1NoM/yjjprLa/Tau/KpYY3y4XdqTIVsaIRu3kGlQK//h53RNqwGiESn1djsYuOd
-         ArBsj60XvEKhZk3l1jxNeL1JPbEfGqUbejHc4Cre3m8NdLKPJ+Ixd1FoY1qeWfiLYOky
-         ZwisXmsntCLcIC4KNO1XqhaemBZMD5mw3Qb2bb/AX+gstqxTM7g1R+HHWuz0DBUrrDub
-         qhB8llOX11capg/ro8Qv8ENM2U1829NTFAitTm/xEDDJv3AJZxZ9NJXISANXXoX9glhC
-         aHkw==
-X-Gm-Message-State: APjAAAXaFiwz/rbnAeiScQYgM7MhaEZ2PwiEAq5xJFtNSdzrUxECH+VA
-        slu+RAQvTg3CAAGPl9IAh6qZmO/1sMLAeVA9SAY=
-X-Google-Smtp-Source: APXvYqxZ0BHxezvYatUCwR5ujJY2IO6fZCUlpHww8WEnDHAAAY+0VvtiMdEe6JnWZWwDRH8AP8uVvx3q0Y+IviYPdhQ=
-X-Received: by 2002:a9d:7305:: with SMTP id e5mr948882otk.64.1581108248790;
- Fri, 07 Feb 2020 12:44:08 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a4a:d508:0:0:0:0:0 with HTTP; Fri, 7 Feb 2020 12:44:08 -0800 (PST)
-Reply-To: auch197722@gmail.com
-From:   "Mr. Theophilus Odadudu" <cristinamedina0010@gmail.com>
-Date:   Fri, 7 Feb 2020 15:44:08 -0500
-Message-ID: <CAPNvSTj-8q7w5QPmnH26+_3xCKjEWyE+9xcb8QyQs9Xie+iYgg@mail.gmail.com>
-Subject: LETTER OF INQUIRY
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version:date
+         :subject:message-id:to;
+        bh=wnWxyUhyjW9ysw/612tlNht2E2ihlBty2NnU1mTy1no=;
+        b=Hr3xWHKnrXzPgG615+eVjDk/aelImd2VqrNAHTAsgbJpQxFU457+TSHQ6omM4Gh5/B
+         S3RqwS0eCxgTHkmozSZC2J65wmqo1gNPcu/Lp5vAWE4dD5Na2msL7F9sUJ6TtwcQWZUU
+         i+H26yKuBsu6bbiR60anrlXqs84FFsszzwfXA2joNQSK2Uzq43rYPPxLANMQLOtoOvKy
+         OzzwbxGZb8sUcRXuZcGo/A9K+lGuH7zOIjGNxlmx6YmDJ98BeXV8BAtLJlXrbYsEt0An
+         +gt99LnILiN3wlFWkJTycGq217RwSaH0+zcu1kYZLz3iWIj8qQYhqdcpPNukG2DCVJFF
+         NdBg==
+X-Gm-Message-State: APjAAAXzsJh4JmmvffX+stGog3jJ23UukyKn3+AhlEP80R+a+3hdVXdK
+        aa/3lbRlnDMkCCLxMd4KsYxrmSbgQzc=
+X-Google-Smtp-Source: APXvYqyPo3tJiPdaLIp2msQ9doiPoqUUMGSmZaFgqJiqjAgdomQp2ULeZDbqMZW8BFVeJyy4KIEV1w==
+X-Received: by 2002:a05:600c:22c8:: with SMTP id 8mr5120100wmg.178.1581691910707;
+        Fri, 14 Feb 2020 06:51:50 -0800 (PST)
+Received: from [192.168.1.106] (IGLD-84-229-153-129.inter.net.il. [84.229.153.129])
+        by smtp.gmail.com with ESMTPSA id z4sm180250wml.42.2020.02.14.06.51.49
+        for <linux-ppp@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 14 Feb 2020 06:51:49 -0800 (PST)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+From:   igal avraham <igal38@gmail.com>
+Mime-Version: 1.0 (1.0)
+Date:   Fri, 14 Feb 2020 16:51:47 +0200
+Subject: Porting source to OSX 
+Message-Id: <808CF219-67B9-45A0-B1FA-A53E682B0B06@gmail.com>
+To:     linux-ppp@vger.kernel.org
+X-Mailer: iPhone Mail (17C54)
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Good Day,
+Hi,
 
-I work as a clerk in a Bank here in Nigeria, I have a very
-confidential Business Proposition for you. There is a said amount of
-money floating in the bank unclaimed, belonging to the bank Foreign
-customer who die with his family in the Ethiopian Airline crash of
-March 11, 2019.
+Is there a port available for OS X ?
 
-I seek your good collaboration to move the fund for our benefit. we
-have agreed that 40% be yours once you help claim.
+Thanks,
+Igal
 
-Do get back to with 1) Your Full Name: (2) Residential Address: (3)
-Phone, Mobile  (4) Scan Copy of Your ID. to apply for claims of the
-funds.
-
-Regards
-Theophilus Odadudu
