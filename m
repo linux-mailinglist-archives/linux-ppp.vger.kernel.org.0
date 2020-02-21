@@ -2,62 +2,36 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E9C7164574
-	for <lists+linux-ppp@lfdr.de>; Wed, 19 Feb 2020 14:25:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F12261690D8
+	for <lists+linux-ppp@lfdr.de>; Sat, 22 Feb 2020 18:49:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727495AbgBSNZj convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-ppp@lfdr.de>); Wed, 19 Feb 2020 08:25:39 -0500
-Received: from scm.imp.edu.mx ([132.247.16.103]:52996 "EHLO scm.imp.edu.mx"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727849AbgBSNZj (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Wed, 19 Feb 2020 08:25:39 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by scm.imp.edu.mx (Postfix) with ESMTP id D3B6618AD6C;
-        Wed, 19 Feb 2020 06:11:29 -0600 (CST)
-X-Virus-Scanned: by SpamTitan at imp.edu.mx
-Received: from scm.imp.edu.mx (localhost [127.0.0.1])
-        by scm.imp.edu.mx (Postfix) with ESMTP id 9D3E4187E4B;
-        Wed, 19 Feb 2020 04:51:48 -0600 (CST)
-Authentication-Results: scm.imp.edu.mx; none
-Received: from imp.edu.mx (unknown [10.249.93.105])
-        by scm.imp.edu.mx (Postfix) with ESMTP id A57A518DA0C;
-        Wed, 19 Feb 2020 04:51:44 -0600 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by imp.edu.mx (Postfix) with ESMTP id 42659180635F4D;
-        Wed, 19 Feb 2020 04:51:45 -0600 (CST)
-Received: from imp.edu.mx ([127.0.0.1])
-        by localhost (imp.edu.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id AEHVIyCtmFWh; Wed, 19 Feb 2020 04:51:45 -0600 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by imp.edu.mx (Postfix) with ESMTP id 22AF8180635F48;
-        Wed, 19 Feb 2020 04:51:45 -0600 (CST)
-X-Virus-Scanned: amavisd-new at imp.edu.mx
-Received: from imp.edu.mx ([127.0.0.1])
-        by localhost (imp.edu.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id v4mRbSAMbTIG; Wed, 19 Feb 2020 04:51:45 -0600 (CST)
-Received: from [45.147.4.119] (unknown [45.147.4.119])
-        by imp.edu.mx (Postfix) with ESMTPSA id F32BF180635F43;
-        Wed, 19 Feb 2020 04:51:43 -0600 (CST)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726963AbgBVRtk (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sat, 22 Feb 2020 12:49:40 -0500
+Received: from [167.172.150.84] ([167.172.150.84]:36150 "EHLO
+        centos-s-1vcpu-2gb-nyc1-01.localdomain" rhost-flags-FAIL-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726707AbgBVRti (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sat, 22 Feb 2020 12:49:38 -0500
+Received: from localhost (centos-s-1vcpu-2gb-nyc1-01 [127.0.0.1])
+        by centos-s-1vcpu-2gb-nyc1-01.localdomain (Postfix) with SMTP id 81F0017732;
+        Fri, 21 Feb 2020 16:50:47 +0000 (UTC)
+Received: from [51.7.194.114] by localhost with ESMTP id 61145412 for <linda_278@centurytel.net>; Fri, 21 Feb 2020 21:47:38 +0500
+Message-ID: <qo$48v09x4c2--5-$f9@r5u1c0kgq>
+From:   "RECEIVE AND SECURE THIS MONEY FOR ME" <fta447447@gmail.com>
+Reply-To: "RECEIVE AND SECURE THIS MONEY FOR ME" <fta447447@gmail.com>
+To:     linda_278@centurytel.net
+Subject: RECEIVE MONEY IN BANK ACCOUNT REPLY TO fta447447@gmail.com
+Date:   Fri, 21 Feb 20 21:47:38 GMT
+X-Mailer: AOL 7.0 for Windows US sub 118
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: 19-02-2020
-To:     Recipients <mucios@imp.edu.mx>
-From:   "urs portmann" <mucios@imp.edu.mx>
-Date:   Wed, 19 Feb 2020 21:51:42 +1100
-Reply-To: onube@qq.com
-Message-Id: <20200219105143.F32BF180635F43@imp.edu.mx>
+Content-Type: multipart/alternative;
+        boundary="A..C8.._3321CEA_"
+X-Priority: 3
+X-MSMail-Priority: Normal
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Guten Morgen,
-                                          19-02-2020
-Wir haben versucht, Sie zu erreichen und haben noch nichts von Ihnen gehört. Haben Sie unsere letzte E-Mail über Ihre S.p.e.n.d.e erhalten? Wenn nicht, melden Sie sich bitte bei uns, um weitere Informationen zu erhalten.
 
-Wir warten darauf, von Ihnen zu hören, sobald Sie diese Nachricht erhalten, die Sie bei der weiteren Vorgehensweise unterstützt.
+--A..C8.._3321CEA_--
 
-Mfg
-urs portmann
