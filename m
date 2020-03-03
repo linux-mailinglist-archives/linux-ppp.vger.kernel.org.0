@@ -2,60 +2,66 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D045A1753E8
-	for <lists+linux-ppp@lfdr.de>; Mon,  2 Mar 2020 07:40:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 955D11781BD
+	for <lists+linux-ppp@lfdr.de>; Tue,  3 Mar 2020 20:02:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726694AbgCBGk3 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 2 Mar 2020 01:40:29 -0500
-Received: from mail.dsns.gov.ua ([194.0.148.101]:33306 "EHLO mail.dsns.gov.ua"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726204AbgCBGk2 (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Mon, 2 Mar 2020 01:40:28 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.dsns.gov.ua (Postfix) with ESMTP id A8C511FC7E1F;
-        Sun,  1 Mar 2020 22:36:01 +0200 (EET)
-Received: from mail.dsns.gov.ua ([127.0.0.1])
-        by localhost (mail.dsns.gov.ua [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id JsHPPEjz2xg0; Sun,  1 Mar 2020 22:36:01 +0200 (EET)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.dsns.gov.ua (Postfix) with ESMTP id CD10F1FA362A;
-        Sun,  1 Mar 2020 22:05:46 +0200 (EET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.dsns.gov.ua CD10F1FA362A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dsns.gov.ua;
-        s=1E60DAC0-2607-11E9-81E6-7A77C2B36653; t=1583093147;
-        bh=njlCkWFc0hcw8eBX6ul4CN7Q0eDgIqGtksJn7ge99kc=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=hms9C6GPLlRlQNCYtQ2toMs3ClMiPzgkk/mR4WQxcYU6tpVKdY3Cw7EaB57TqROvw
-         8SIc4n9OiA40i7EkONZT8k1HjH49riZnDMqDjXA7dxLJ4Bo/IUY7CHP0+UbaivDTqe
-         ccD71usHFlOBfwsHssDZ2mIShswGr7Ervvvr2OnvhBN8CTjKGPz4MnyGDA3WS8vQA6
-         +8xNfcp9T7uiXsHicG+8sxahcsXnx9c1cHpHbEWReL/P4sce+9DJ93gTeecW5kpmZM
-         IvGPV1YmVNwjkxushITIqo0qsYdmr8djfBV/b+doYzRxEeJq4Ie3cxmxzJYi4i1FZy
-         ZNF4u2o3b4huw==
-X-Virus-Scanned: amavisd-new at dsns.gov.ua
-Received: from mail.dsns.gov.ua ([127.0.0.1])
-        by localhost (mail.dsns.gov.ua [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id BJbF3S7QcyPh; Sun,  1 Mar 2020 22:05:46 +0200 (EET)
-Received: from mail.dsns.gov.ua (localhost [127.0.0.1])
-        by mail.dsns.gov.ua (Postfix) with ESMTP id B0F9B1FC4E95;
-        Sun,  1 Mar 2020 21:59:48 +0200 (EET)
-Date:   Sun, 1 Mar 2020 21:59:48 +0200 (EET)
-From:   Peter Wong <sport08@dsns.gov.ua>
-Reply-To: petrwong@hotmail.com
-Message-ID: <1314446558.3674585.1583092788690.JavaMail.zimbra@dsns.gov.ua>
-Subject: Hello
+        id S2387746AbgCCSFq (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 3 Mar 2020 13:05:46 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:37905 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731911AbgCCSFq (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Tue, 3 Mar 2020 13:05:46 -0500
+Received: by mail-io1-f65.google.com with SMTP id s24so4629853iog.5
+        for <linux-ppp@vger.kernel.org>; Tue, 03 Mar 2020 10:05:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=Dwixi1EI1CdoSCBPh9ZUJ9H2SUS7/DPuKnXPo1wyGO9pr2ipz4cVpqXcYk0YHDaPL3
+         3pTXqOs4ikNBL8xPpW2n2VpHFjsIVwZiPoIHHK8i3vNy9p1eweAi6Ca43U+R3aNjbZ9c
+         wkp354n4E7GmevQVvkHz38JLxUmX0KNb0GRIaTMXjUN7N438Ax0yyGedcE1D/1AafxiR
+         9ndDlt/UPpo0mDFX5JrivT5nhKHLQuTiPj6EUW510eSCpkBr34N7QtkhYs9lKkC17Do3
+         CjuNRjHP4NFfgOTr7407rrSfshPJxHsCHbSX3kl5FRmsmAqNF/I2pRVgSYOFu9zo3X2F
+         0XXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=rghIW0iCL5a0LWmxLQ7Axfpu5XfWrKoHPWvwWFsUBh/Vo1tAlI3pZNSg1y8KnTQKVr
+         m6qGtmrMCzkb0NEXNtEOabrrThlZcNfc1wts54s/XmuWZ+uwLlvVsaKaqGfetBugSq/A
+         0W/ii9kEmieOuJC/EjU/IfAv8kmDiMsHAbCsH4c+2/p2qO/N2rHScRGxnXW4YRkOYRZB
+         FTFDsm7WEBg6GdobscqRH1RYTOtULHA+8syQRxdCxPF9LIGbodQiH9ulPI+vLOMyRtze
+         M+nAsNNE9ThYpwpZJ/fDU1zu/pRhOJktqoN9CB32Y7QduYpTmsSnfKuPsZ+F50/SWdAW
+         1WAg==
+X-Gm-Message-State: ANhLgQ2IhXy73r0q+f6pNDmCVBKvBvjbRD1Atg8Y2HUB8MB1+c/lTeig
+        uCdmkAeTbYgU3VLAPllapEiNfQGd6X4bBUTbRUs=
+X-Google-Smtp-Source: ADFU+vsDbJ7xM6wnLpFq/EqIXCZvUijxXGceyBvGjhFZ/y6H6zjACEZyH87k1qoZmjXpB7j1RK7GCvfhxSG6teNgU+A=
+X-Received: by 2002:a6b:6011:: with SMTP id r17mr4813343iog.220.1583258745203;
+ Tue, 03 Mar 2020 10:05:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [5.154.174.49, 172.68.102.151]
-X-Mailer: Zimbra 8.8.15_GA_3899 (zclient/8.8.15_GA_3899)
-Thread-Index: QDiGNMxb89tOxY1vOzGfXokne4cQUg==
-Thread-Topic: Hello
-To:     unlisted-recipients:; (no To-header on input)
+Received: by 2002:a02:9f04:0:0:0:0:0 with HTTP; Tue, 3 Mar 2020 10:05:44 -0800 (PST)
+Reply-To: dr.challynoah@gmail.com
+From:   DR CHALLY NOAH <mayorabrahamedge404@gmail.com>
+Date:   Tue, 3 Mar 2020 19:05:44 +0100
+Message-ID: <CALqVJWcXz6HkkCnC_QjXoWyB_0KG64G_ZUwkcrgf7s1EVnprLQ@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-
-
-Can we talk now?
+Hello Dear,
+What Have Kept You Waiting To Claim Your $600,000.00 USD Compensation Award?
+This said fund was issued out by the UNITED NATIONS To compensate
+you.Please If You Have Not Claim Your Fund (Award),Kindly contact me
+at   DR.CHALLYNOAH@GMAIL.COM   for further details on how to proceed your
+fund (award)release to you or better still reply back Immediately You
+Receive This Information For An Urgent Confirmation And Release Of Your
+Fund To You Without Delays, as your email was listed among those to be
+compensated this year.Congratulations..
+Best Regards,
+Dr Chally Noah.
+Minister Of Finance On Foreign Remittance:
