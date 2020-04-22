@@ -2,86 +2,76 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69A2A1B4DCA
-	for <lists+linux-ppp@lfdr.de>; Wed, 22 Apr 2020 21:57:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8A9F1B4FB8
+	for <lists+linux-ppp@lfdr.de>; Thu, 23 Apr 2020 00:00:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726119AbgDVT5T (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 22 Apr 2020 15:57:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725779AbgDVT5T (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 22 Apr 2020 15:57:19 -0400
-X-Greylist: delayed 368 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 22 Apr 2020 12:57:18 PDT
-Received: from tuna.sandelman.ca (tuna.sandelman.ca [IPv6:2607:f0b0:f:3:216:3eff:fe7c:d1f3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECC30C03C1A9
-        for <linux-ppp@vger.kernel.org>; Wed, 22 Apr 2020 12:57:18 -0700 (PDT)
-Received: from sandelman.ca (obiwan.sandelman.ca [IPv6:2607:f0b0:f:2::247])
-        by tuna.sandelman.ca (Postfix) with ESMTP id B8D4F3897B;
-        Wed, 22 Apr 2020 15:49:16 -0400 (EDT)
-Received: from localhost (localhost [IPv6:::1])
-        by sandelman.ca (Postfix) with ESMTP id 655A7D1C;
-        Wed, 22 Apr 2020 15:51:04 -0400 (EDT)
-From:   Michael Richardson <mcr@sandelman.ca>
-To:     =?us-ascii?Q?=3D=3FUTF-8=3FQ=3FDavid=5FBala=3DC5=3DBEic=3F=3D?= 
-        <xerces9@gmail.com>
-cc:     linux-ppp@vger.kernel.org
+        id S1725895AbgDVWAz (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 22 Apr 2020 18:00:55 -0400
+Received: from carlson.workingcode.com ([50.78.21.49]:40282 "EHLO
+        carlson.workingcode.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725839AbgDVWAz (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 22 Apr 2020 18:00:55 -0400
+Received: from [50.78.21.49] (carlson [50.78.21.49])
+        (authenticated bits=0)
+        by carlson.workingcode.com (8.15.2/8.15.2/SUSE Linux 0.8) with ESMTPSA id 03MM0qIa030862
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Wed, 22 Apr 2020 18:00:52 -0400
+DKIM-Filter: OpenDKIM Filter v2.10.3 carlson.workingcode.com 03MM0qIa030862
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=workingcode.com;
+        s=carlson; t=1587592853;
+        bh=POJmzhiOf8pCraTpFTFmTnTnZMQSaON067K5TzHruF4=;
+        h=Subject:To:References:From:Date:In-Reply-To;
+        b=wXB/vuBNNR8xetwrQq3cpEMQPMrFEG0dmGSp2Tyn9eKnY910Y0ur7OmPl8RsYesCx
+         NvsJQyLP9xhw62Qw9UFCM9tQfnFB2N5zMp8+k4VhZuhdzAsaAqY62zl8rKLUSslvZ8
+         BrK1MoNDDySHLUqH67kpEC9odGIExBOvj8TXsiCQ=
 Subject: Re: PPPoE Modem hangup after random time - how to debug?
-In-Reply-To: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com>
+To:     =?UTF-8?Q?David_Bala=c5=beic?= <xerces9@gmail.com>,
+        linux-ppp@vger.kernel.org
 References: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com>
-X-Mailer: MH-E 8.6; nmh 1.7+dev; GNU Emacs 25.1.1
-X-Face: $\n1pF)h^`}$H>Hk{L"x@)JS7<%Az}5RyS@k9X%29-lHB$Ti.V>2bi.~ehC0;<'$9xN5Ub#
- z!G,p`nR&p7Fz@^UXIn156S8.~^@MJ*mMsD7=QFeq%AL4m<nPbLgmtKK-5dC@#:k
+From:   James Carlson <carlsonj@workingcode.com>
+Message-ID: <e1ab31e7-66a2-5bd8-1b95-27fa65d0974c@workingcode.com>
+Date:   Wed, 22 Apr 2020 18:00:52 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
-Date:   Wed, 22 Apr 2020 15:51:04 -0400
-Message-ID: <18466.1587585064@localhost>
+In-Reply-To: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-DCC-x.dcc-servers-Metrics: carlson 104; Body=2 Fuz1=2 Fuz2=2
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
+On 2020-04-22 13:45, David Balažic wrote:
+> Hi!
+> 
+> I have a router running openwrt connected to a GPON ONT, running a
+> PPPoE connection (hw details below).
 
+This looks to be (possibly) a PPPoE failure, though there's nothing
+interesting in the log messages provided.  If there were an interesting
+log message, it would almost certainly come somewhere (perhaps even
+*minutes*) before that initial "Modem hangup" message.
 
-Hi, I found that some PPPoE BMS do not emit IPCP echo responses if there is
-also traffic.  Since I have a static IPv4/v6, and there is DNS requests and
-script kiddies, there is *ALWAYS* half a megabit/s of traffic, which is
-probably atypical for many residential users who get random IPs.
-I.e. they have some sort of "lcp-echo-adaptive" going on, but not in a good
-way.
+The definitive test would be to run a packet capture on the Ethernet
+interface itself (*not* on the PPP interface) with something like
+Wireshark and determine what happens in the lead-up to the failure.  I'd
+expect the system is just getting a stray PADT from the peer, if it's
+some kind of PPPoE problem.
 
-I had to force lcp-echo-interval to 0, which was a bit difficult to get right
-in the OpenWRT UI.  I had tried to increase echo-failure to 30, but that
-didn't help consistently.
+If it isn't, then possibly it's something else.  I think that the last
+time I looked at the PPPoE implementation on Linux it was a bit hokey --
+it ran PPP over a pty pair and then decoded the framing in user space
+and wrote it back out over Ethernet using PPPoE.  I hope it's not still
+like that, as I haven't looked at it in years, but it may well be.  An
+internal error in that logic could also cause a "hangup" message,
+although hopefully along with some kind of system log about a core file
+as well.
 
-The other problem is that Bell Canada only answers PADI's once every five
-minutes.  It's total BS.
+(The implementation on other platforms, such as Solaris, was a bit more
+solid.)
 
-Modem Hangup would normally be because the DCD signal went down, but on
-PPPoE, that can't happen, I think.  I did see that when LCP failed, but I
-also had debugging that told me it had failed.  maybe that's just off for
-you.
-
---
-]               Never tell me the odds!                 | ipv6 mesh networks [
-]   Michael Richardson, Sandelman Software Works        |    IoT architect   [
-]     mcr@sandelman.ca  http://www.sandelman.ca/        |   ruby on rails    [
-
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEbsyLEzg/qUTA43uogItw+93Q3WUFAl6goCgACgkQgItw+93Q
-3WWdMQf/TzdEgiNnDvlZSBLyg5FnMqzjYNWC2zkVNpYAnhlo4lOdwLa2e/yfD3fT
-I80pJQCR6cQFm/jYUPJlm7ZkOwK96M5iH9KO/rkYINIuorDCa+xZ9bizBQ4eyi13
-fL7zsds4QNMOwGMyYyEHmeEedkrhDm1XZmbzU7S5AI3rRMTzFBa6LuK1UpxYzTY7
-6c2mdQ3rHguSzuWQeYDrIuBMc9M1IpnRzaCVltQmIzn+eyZX1ojU72qRMqoVGoEu
-a3zTG7huPcJFY5ntrpmVUb1zgm4GCdRBzYNWWncTClbF3kZ400r+W1gMTQIkqMMZ
-UAzdBTEFJ9JAt1GFq/Y7G3mI7dtgvA==
-=kPb9
------END PGP SIGNATURE-----
---=-=-=--
+-- 
+James Carlson         42.703N 71.076W         <carlsonj@workingcode.com>
