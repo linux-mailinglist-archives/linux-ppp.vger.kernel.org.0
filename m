@@ -2,123 +2,86 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5428E1B4C11
-	for <lists+linux-ppp@lfdr.de>; Wed, 22 Apr 2020 19:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69A2A1B4DCA
+	for <lists+linux-ppp@lfdr.de>; Wed, 22 Apr 2020 21:57:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726100AbgDVRpZ (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 22 Apr 2020 13:45:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48044 "EHLO
+        id S1726119AbgDVT5T (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 22 Apr 2020 15:57:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726060AbgDVRpY (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 22 Apr 2020 13:45:24 -0400
-Received: from mail-ua1-x934.google.com (mail-ua1-x934.google.com [IPv6:2607:f8b0:4864:20::934])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CB62C03C1A9
-        for <linux-ppp@vger.kernel.org>; Wed, 22 Apr 2020 10:45:24 -0700 (PDT)
-Received: by mail-ua1-x934.google.com with SMTP id c17so2584410uae.12
-        for <linux-ppp@vger.kernel.org>; Wed, 22 Apr 2020 10:45:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=RD4KhO9cpC4y7rgrSF3OBrtdL0LZO7TvFX8EhWiK5Ew=;
-        b=mKsMC3DLq2GqlWKQmEmvGRa1m62MyFvjXe1Vomk2w3J7PIaWnVSzMTNegYMNGKQ+Oe
-         /bLbjUBGeR/egVZKDWOQljYJwS0YFWOquIHd609jTG/EDkogsqe/DcNkJ1pO8yLipadP
-         PaOILT1SpK72/BikbirQjTHP/bALswtOcDYZOogI+jq7EfFuZR2s+LZKDfi/OfkWwZMq
-         vSxKEp5bm72x+E2yEneOjhb+jguzvfnpQYrSOLRKY1rpeV73chotx0SQkvwvVB/ImWPj
-         h1FMCRBY0Tpr5zJy54yUXXoqIGEbWoE4ZsPqZPx8oneqpaDh9d7TVIeGNVDQQq9Yc89q
-         OSdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=RD4KhO9cpC4y7rgrSF3OBrtdL0LZO7TvFX8EhWiK5Ew=;
-        b=FWF6hKQmm5q4Dk9KwbqE2wiTRQjNHfas0Vy2ymMxKsaR03whuE96dNbjaQtdLRe8Vu
-         BYkfP0U1eqZTCse26fSRQgnDnmVGLj2ckjlurqImcSFWspaPpqNyYqA5ZWltqos9UzoE
-         INJBMnsIe44+w5bGmmdXmnabCRiftHdk0XeBULKDbWwcNbfSC5Ws2oQAOs2/goDSLorL
-         io82/OcAUCsoB6i1EuFKe7kZ4J5f678fVVbtVxB2N2DEkKbtvHHaaKZ7JVLM1Ww07dNL
-         DGQpviJ9ZQrh6T4PiCYk7NbJ9uGG8zI1kPd+dWTN0lxjU7l0FOZ0HIKvQlrZ8PRFqojX
-         kXyQ==
-X-Gm-Message-State: AGi0PuaAROrtJJXga7gyQOhZaM3qu71FTxYOFSzjiSmiMZ7+A78RH292
-        +cEc/FJD8KkVl/buF1glinrm/BilwVc4NuWEfDoHpjM25fw=
-X-Google-Smtp-Source: APiQypLNPUt3p2ysdNB+/l2zcrcFAwIo0y26PhH9eHveEMmNQAfaadu/qQaADGrqzkw6qJglMncWq2B54C5+NNz38aA=
-X-Received: by 2002:a67:eb17:: with SMTP id a23mr21890873vso.111.1587577522953;
- Wed, 22 Apr 2020 10:45:22 -0700 (PDT)
+        by vger.kernel.org with ESMTP id S1725779AbgDVT5T (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 22 Apr 2020 15:57:19 -0400
+X-Greylist: delayed 368 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 22 Apr 2020 12:57:18 PDT
+Received: from tuna.sandelman.ca (tuna.sandelman.ca [IPv6:2607:f0b0:f:3:216:3eff:fe7c:d1f3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECC30C03C1A9
+        for <linux-ppp@vger.kernel.org>; Wed, 22 Apr 2020 12:57:18 -0700 (PDT)
+Received: from sandelman.ca (obiwan.sandelman.ca [IPv6:2607:f0b0:f:2::247])
+        by tuna.sandelman.ca (Postfix) with ESMTP id B8D4F3897B;
+        Wed, 22 Apr 2020 15:49:16 -0400 (EDT)
+Received: from localhost (localhost [IPv6:::1])
+        by sandelman.ca (Postfix) with ESMTP id 655A7D1C;
+        Wed, 22 Apr 2020 15:51:04 -0400 (EDT)
+From:   Michael Richardson <mcr@sandelman.ca>
+To:     =?us-ascii?Q?=3D=3FUTF-8=3FQ=3FDavid=5FBala=3DC5=3DBEic=3F=3D?= 
+        <xerces9@gmail.com>
+cc:     linux-ppp@vger.kernel.org
+Subject: Re: PPPoE Modem hangup after random time - how to debug?
+In-Reply-To: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com>
+References: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com>
+X-Mailer: MH-E 8.6; nmh 1.7+dev; GNU Emacs 25.1.1
+X-Face: $\n1pF)h^`}$H>Hk{L"x@)JS7<%Az}5RyS@k9X%29-lHB$Ti.V>2bi.~ehC0;<'$9xN5Ub#
+ z!G,p`nR&p7Fz@^UXIn156S8.~^@MJ*mMsD7=QFeq%AL4m<nPbLgmtKK-5dC@#:k
 MIME-Version: 1.0
-From:   =?UTF-8?Q?David_Bala=C5=BEic?= <xerces9@gmail.com>
-Date:   Wed, 22 Apr 2020 19:45:12 +0200
-Message-ID: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com>
-Subject: PPPoE Modem hangup after random time - how to debug?
-To:     linux-ppp@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
+Date:   Wed, 22 Apr 2020 15:51:04 -0400
+Message-ID: <18466.1587585064@localhost>
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Hi!
-
-I have a router running openwrt connected to a GPON ONT, running a
-PPPoE connection (hw details below).
-
-The problem is, that after some random time one to 20 hours, the
-connection breaks. Then in about a minute it reconnects (successfully,
-each time).
-This happens almost every day.
-
-I enabled the debug option, but there is nothing useful in the logs:
-
-** there is nothing related before this line **
-Tue Apr 21 10:04:32 2020 daemon.notice pppd[6515]: Modem hangup
-Tue Apr 21 10:04:32 2020 daemon.info pppd[6515]: Connect time 1094.4 minutes.
-Tue Apr 21 10:04:32 2020 daemon.info pppd[6515]: Sent 612360704 bytes,
-received 3423392867 bytes.
-Tue Apr 21 10:04:32 2020 daemon.notice netifd: Network device
-'pppoe-wan' link is down
-Tue Apr 21 10:04:32 2020 daemon.debug pppd[6515]: Script
-/lib/netifd/ppp-down started (pid 7655)
-Tue Apr 21 10:04:32 2020 daemon.notice pppd[6515]: Connection terminated.
-Tue Apr 21 10:04:32 2020 daemon.debug pppd[6515]: Send PPPOE Discovery
-V1T1 PADT session 0x1 length 28
-Tue Apr 21 10:04:32 2020 daemon.debug pppd[6515]:  dst
-a4:xx:xx:xx:xx:44  src c4:xx:xx:xx:xx:ed
-Tue Apr 21 10:04:32 2020 daemon.debug pppd[6515]:  [host-uniq  00 00
-19 73] [AC-cookie  ed 89 xx xx xx xx xx xx xx xx xx xx xx xx xx 75]
-Tue Apr 21 10:04:32 2020 daemon.info pppd[6515]: Sent PADT
-Tue Apr 21 10:04:32 2020 daemon.debug pppd[6515]: Waiting for 1 child
-processes...
-Tue Apr 21 10:04:32 2020 daemon.debug pppd[6515]:   script
-/lib/netifd/ppp-down, pid 7655
-Tue Apr 21 10:04:32 2020 daemon.debug pppd[6515]: Script
-/lib/netifd/ppp-down finished (pid 7655), status = 0x1
-Tue Apr 21 10:04:32 2020 daemon.info pppd[6515]: Exit.
+--=-=-=
+Content-Type: text/plain
 
 
-The command line is:
+Hi, I found that some PPPoE BMS do not emit IPCP echo responses if there is
+also traffic.  Since I have a static IPv4/v6, and there is DNS requests and
+script kiddies, there is *ALWAYS* half a megabit/s of traffic, which is
+probably atypical for many residential users who get random IPs.
+I.e. they have some sort of "lcp-echo-adaptive" going on, but not in a good
+way.
 
- /usr/sbin/pppd nodetach ipparam wan ifname pppoe-wan
-lcp-echo-interval 1 lcp-echo-failure 5 lcp-echo-adaptive +ipv6 set
-AUTOIPV6=1 nodefaultroute usepeerdns maxfail 1 user XXXXXX password
-YYYYYY ip-up-script /lib/netifd/ppp-up ipv6-up-script
-/lib/netifd/ppp6-up ip-down-script /lib/netifd/ppp-down
-ipv6-down-script /lib/netifd/ppp-down mtu 1492 mru 1492 plugin
-rp-pppoe.so nic-eth1.3902
+I had to force lcp-echo-interval to 0, which was a bit difficult to get right
+in the OpenWRT UI.  I had tried to increase echo-failure to 30, but that
+didn't help consistently.
 
-(the PPPoE goes over VLAN 3902, pppd version is  2.4.7)
+The other problem is that Bell Canada only answers PADI's once every five
+minutes.  It's total BS.
 
-I wrote about this on the openwrt forum [1], not much progress unfortunately.
+Modem Hangup would normally be because the DCD signal went down, but on
+PPPoE, that can't happen, I think.  I did see that when LCP failed, but I
+also had debugging that told me it had failed.  maybe that's just off for
+you.
 
-Any ides? How to proceed? Sniff packets?
+--
+]               Never tell me the odds!                 | ipv6 mesh networks [
+]   Michael Richardson, Sandelman Software Works        |    IoT architect   [
+]     mcr@sandelman.ca  http://www.sandelman.ca/        |   ruby on rails    [
 
-What does normally prompt pppd to to print "Modem hangup" ?
 
-Thanks in advance,
-David
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-[1] https://forum.openwrt.org/t/pppoe-disconnects-every-few-hours/61239
+-----BEGIN PGP SIGNATURE-----
 
-Setup details:
-
-ONT: Innbox G21 (provided by ISP)
-router: Netgear WNDR 3700v2 running OpenWRT 19.7.2
-ISP provided router (not in use): Ubee TVW625  - I did not see such
-disconnections when using this router (I ran a script calling ping in
-a loop, for days, logging output, not problem except a lost (single)
-packet every now and then)
+iQEzBAEBCAAdFiEEbsyLEzg/qUTA43uogItw+93Q3WUFAl6goCgACgkQgItw+93Q
+3WWdMQf/TzdEgiNnDvlZSBLyg5FnMqzjYNWC2zkVNpYAnhlo4lOdwLa2e/yfD3fT
+I80pJQCR6cQFm/jYUPJlm7ZkOwK96M5iH9KO/rkYINIuorDCa+xZ9bizBQ4eyi13
+fL7zsds4QNMOwGMyYyEHmeEedkrhDm1XZmbzU7S5AI3rRMTzFBa6LuK1UpxYzTY7
+6c2mdQ3rHguSzuWQeYDrIuBMc9M1IpnRzaCVltQmIzn+eyZX1ojU72qRMqoVGoEu
+a3zTG7huPcJFY5ntrpmVUb1zgm4GCdRBzYNWWncTClbF3kZ400r+W1gMTQIkqMMZ
+UAzdBTEFJ9JAt1GFq/Y7G3mI7dtgvA==
+=kPb9
+-----END PGP SIGNATURE-----
+--=-=-=--
