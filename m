@@ -2,85 +2,72 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E1FD1B5175
-	for <lists+linux-ppp@lfdr.de>; Thu, 23 Apr 2020 02:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 446571B5238
+	for <lists+linux-ppp@lfdr.de>; Thu, 23 Apr 2020 04:01:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726006AbgDWAll (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 22 Apr 2020 20:41:41 -0400
-Received: from tuna.sandelman.ca ([209.87.249.19]:37222 "EHLO
-        tuna.sandelman.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725895AbgDWAll (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 22 Apr 2020 20:41:41 -0400
-X-Greylist: delayed 17430 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Apr 2020 20:41:41 EDT
-Received: from sandelman.ca (obiwan.sandelman.ca [209.87.249.21])
-        by tuna.sandelman.ca (Postfix) with ESMTP id 7899C3897A;
-        Wed, 22 Apr 2020 20:39:49 -0400 (EDT)
-Received: from localhost (localhost [IPv6:::1])
-        by sandelman.ca (Postfix) with ESMTP id 2055E39;
-        Wed, 22 Apr 2020 20:41:37 -0400 (EDT)
-From:   Michael Richardson <mcr@sandelman.ca>
-To:     James Carlson <carlsonj@workingcode.com>
-cc:     =?us-ascii?Q?=3D=3FUTF-8=3FQ=3FDavid=5FBala=3Dc5=3Dbeic=3F=3D?= 
-        <xerces9@gmail.com>, linux-ppp@vger.kernel.org
+        id S1726046AbgDWCBr (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 22 Apr 2020 22:01:47 -0400
+Received: from carlson.workingcode.com ([50.78.21.49]:41282 "EHLO
+        carlson.workingcode.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726002AbgDWCBq (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 22 Apr 2020 22:01:46 -0400
+Received: from [192.168.254.66] ([192.168.254.66])
+        (authenticated bits=0)
+        by carlson.workingcode.com (8.15.2/8.15.2/SUSE Linux 0.8) with ESMTPSA id 03N21cp4010339
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Wed, 22 Apr 2020 22:01:39 -0400
+DKIM-Filter: OpenDKIM Filter v2.10.3 carlson.workingcode.com 03N21cp4010339
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=workingcode.com;
+        s=carlson; t=1587607299;
+        bh=vvKx6hnGEicpXcdMiaPdfHKapgCgdRaGrkz9CTTjM/U=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=w0DclsBIKO7biRQzI6CUhyrpJL3kQ+wnTWY2B9BaXjReXwKssKrfFB01pFYn5QrAx
+         tzgIIHHGjZeYguo+eahWLvhJ3p6u1DNdcryN7F4ukHOd2Cg5Zk+J5JtTba4GCNjJQm
+         vGYzGXjTM4c5QiCDu5eGjJpZimY59H9oaUEDGasU=
 Subject: Re: PPPoE Modem hangup after random time - how to debug?
-In-Reply-To: <e1ab31e7-66a2-5bd8-1b95-27fa65d0974c@workingcode.com>
-References: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com> <e1ab31e7-66a2-5bd8-1b95-27fa65d0974c@workingcode.com>
-X-Mailer: MH-E 8.6; nmh 1.7+dev; GNU Emacs 25.1.1
-X-Face: $\n1pF)h^`}$H>Hk{L"x@)JS7<%Az}5RyS@k9X%29-lHB$Ti.V>2bi.~ehC0;<'$9xN5Ub#
- z!G,p`nR&p7Fz@^UXIn156S8.~^@MJ*mMsD7=QFeq%AL4m<nPbLgmtKK-5dC@#:k
+To:     Michael Richardson <mcr@sandelman.ca>
+Cc:     =?UTF-8?Q?David_Bala=c5=beic?= <xerces9@gmail.com>,
+        linux-ppp@vger.kernel.org
+References: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com>
+ <e1ab31e7-66a2-5bd8-1b95-27fa65d0974c@workingcode.com>
+ <21061.1587602497@localhost>
+From:   James Carlson <carlsonj@workingcode.com>
+Message-ID: <9547fb41-f4a8-ab9c-3413-a212df71389c@workingcode.com>
+Date:   Wed, 22 Apr 2020 22:01:38 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
-Date:   Wed, 22 Apr 2020 20:41:37 -0400
-Message-ID: <21061.1587602497@localhost>
+In-Reply-To: <21061.1587602497@localhost>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-DCC-x.dcc-servers-Metrics: carlson 104; Body=3 Fuz1=3 Fuz2=3
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
+On 4/22/20 8:41 PM, Michael Richardson wrote:
+> 
+> James Carlson <carlsonj@workingcode.com> wrote:
+>      > If it isn't, then possibly it's something else.  I think that the last
+>      > time I looked at the PPPoE implementation on Linux it was a bit hokey --
+>      > it ran PPP over a pty pair and then decoded the framing in user space
+>      > and wrote it back out over Ethernet using PPPoE.  I hope it's not still
+>      > like that, as I haven't looked at it in years, but it may well be.  An
+>      > internal error in that logic could also cause a "hangup" message,
+>      > although hopefully along with some kind of system log about a core file
+>      > as well.
+> 
+> No, that's not how PPPoE has worked for at least 15 years.
+> There is a PPPoE socket and the IP packets do not leave the kernel.
+> I have built BMS systems that handle thousands of sessions on 8-core
+> systems.
 
+OK; thanks for the correction, and it's good to hear.  The ahdlc hacks 
+I've seen were just inherently unstable.
 
-James Carlson <carlsonj@workingcode.com> wrote:
-    > If it isn't, then possibly it's something else.  I think that the last
-    > time I looked at the PPPoE implementation on Linux it was a bit hokey --
-    > it ran PPP over a pty pair and then decoded the framing in user space
-    > and wrote it back out over Ethernet using PPPoE.  I hope it's not still
-    > like that, as I haven't looked at it in years, but it may well be.  An
-    > internal error in that logic could also cause a "hangup" message,
-    > although hopefully along with some kind of system log about a core file
-    > as well.
+That makes it ever more likely that this is just the provider's doing.
 
-No, that's not how PPPoE has worked for at least 15 years.
-There is a PPPoE socket and the IP packets do not leave the kernel.
-I have built BMS systems that handle thousands of sessions on 8-core
-systems.
-
-We had to move to 64-bit kernels because we needed such a lot of control
-structures that we'd run out 32-bit kernel memory long before we ran out of
-CPU.  (this was for oversubscribed rather slow last miles, not VDSL2)
-
---
-]               Never tell me the odds!                 | ipv6 mesh networks [
-]   Michael Richardson, Sandelman Software Works        |    IoT architect   [
-]     mcr@sandelman.ca  http://www.sandelman.ca/        |   ruby on rails    [
-
-
-
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEbsyLEzg/qUTA43uogItw+93Q3WUFAl6g5EAACgkQgItw+93Q
-3WVulAf7B+CL2RPgi3d4UyD/tZvpPvMeI/GLtN4NK6P12edRmWnY66D6PXD0sIPO
-KDiLs435Hn23TOw5mCdlUkyUFB4HtgqPhgB8tQRwSN6bKEZniQMvmgpe9el03bgz
-vU22ZwFt449Wj+BP6W0IxmutUzocB42PIuRx50kBwk2rKO3G1HZbg8LAz60ArOaS
-gdwn6my7dG1amm1zPyU0QrYAkKmxJaZSE73DKSolXTd4Nnad4ihkPJVkfs9w6QtY
-u4t8tnXuqHxmq7XFrKQmKpYnyyHPCMg1W5d7Pvl3IIBs7D7s8UFxeqzErnuquYgY
-sdRwKnCzkx85A61a1WviDezvurGKYg==
-=acYZ
------END PGP SIGNATURE-----
---=-=-=--
+-- 
+James Carlson         42.703N 71.076W         <carlsonj@workingcode.com>
