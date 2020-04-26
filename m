@@ -2,65 +2,102 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DD3A1B7C40
-	for <lists+linux-ppp@lfdr.de>; Fri, 24 Apr 2020 18:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 530611B8ADA
+	for <lists+linux-ppp@lfdr.de>; Sun, 26 Apr 2020 03:38:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728308AbgDXQzE (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 24 Apr 2020 12:55:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37734 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726753AbgDXQzD (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 24 Apr 2020 12:55:03 -0400
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5571BC09B046
-        for <linux-ppp@vger.kernel.org>; Fri, 24 Apr 2020 09:55:02 -0700 (PDT)
-Received: by mail-qt1-x844.google.com with SMTP id h26so8164799qtu.8
-        for <linux-ppp@vger.kernel.org>; Fri, 24 Apr 2020 09:55:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=msOcY7HvC8x2TdCAAesfC3vMfIYQf8whvK2MvC8OIvc=;
-        b=kHMCNb5hAkAeAeEwBt7xYW6TCzki1b7Lxtjnnt5jjwWF7csBWjW2jC7wiulLL+udkG
-         EDNou4LAMdKchtXZzI7HPE8SpXEw2/7DRgzjNV+pXigodIY+WE/f9ucg96HncK49I/7q
-         MnQLhKjntSOq1sOLGpcsbEjOf+xbgdm3Vfg6a6xjCq/qMHVpdPhFdd4F0ZSeHfd1ZxZF
-         1NrIivdfajQToJZjk1+udl8cFZsnzf0xCO9e3tCsJftx44fRdYejokpVO3ffCBJyQVnk
-         aV9Lm9D873wfKIHy8dmz5Op7hblx8XFJMrkl657R4AYMD9sJLQqNJy5CLJH4kyNuNzYx
-         fD4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=msOcY7HvC8x2TdCAAesfC3vMfIYQf8whvK2MvC8OIvc=;
-        b=YdkqGFHuSoQCtcpXNEWpgH2QJ5YVYHsNsAlCL8tLzkP0qq7QofjSMM2Iv6XFtOlUVX
-         Lw+e+IyZK0eBstt4vDJ2uc7nsIJgsHtUURatGFaE2QIlubm10NzNPBEcJBcKLOhVECVa
-         HzRRMfOEC6V/prXPc9dvRLZLIB+D/E436+M1cvWmp8fS6U0BlQnr0+PH+s1tox9esKJq
-         RlCRdzzY2Ez8sA58n0LSM7ev4JQCUKjo9sMKLgCbGzdejXlMMUco4z56+QmwkRvbkqf5
-         0HzG5IkS+8WkXxqfjRBi4nt5i5xlv1GBnRGTasuAIpMu5sWsxZuAHSKfvS8dgvp9UH5f
-         RNfQ==
-X-Gm-Message-State: AGi0PubE6pvk5nbroNM2k/Sc/fRYv7hKZhzQaTXLh5MXty/6eVM//Awz
-        0PB3i66EJyQS5JA7Yc1GDcp4wFoBAjPtRX7epA==
-X-Google-Smtp-Source: APiQypLFASDl4I78suxuEYcreK4Q4wyYjlNOm7bIGguvLtAfXa2nRC7XqI3out4Tali21QkZfKJSS16Bdxt69NsPsIQ=
-X-Received: by 2002:ac8:83b:: with SMTP id u56mr10753053qth.350.1587747301593;
- Fri, 24 Apr 2020 09:55:01 -0700 (PDT)
+        id S1726087AbgDZBih (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sat, 25 Apr 2020 21:38:37 -0400
+Received: from tuna.sandelman.ca ([209.87.249.19]:58757 "EHLO
+        tuna.sandelman.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725931AbgDZBih (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sat, 25 Apr 2020 21:38:37 -0400
+Received: from sandelman.ca (obiwan.sandelman.ca [IPv6:2607:f0b0:f:2::247])
+        by tuna.sandelman.ca (Postfix) with ESMTP id 7C8783897D;
+        Sat, 25 Apr 2020 21:36:45 -0400 (EDT)
+Received: from localhost (localhost [IPv6:::1])
+        by sandelman.ca (Postfix) with ESMTP id C95B091E;
+        Sat, 25 Apr 2020 21:38:35 -0400 (EDT)
+From:   Michael Richardson <mcr@sandelman.ca>
+To:     =?us-ascii?Q?=3D=3FUTF-8=3FQ=3FDavid=5FBala=3DC5=3DBEic=3F=3D?= 
+        <xerces9@gmail.com>
+cc:     linux-ppp@vger.kernel.org
+Subject: Re: PPPoE Modem hangup after random time - how to debug?
+In-Reply-To: <CAPJ9Yc_iOxyDzrL9cs_ERSEjnVttYgk4JFqhO7T=yg03420LMA@mail.gmail.com>
+References: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com> <e1ab31e7-66a2-5bd8-1b95-27fa65d0974c@workingcode.com> <21061.1587602497@localhost> <9547fb41-f4a8-ab9c-3413-a212df71389c@workingcode.com> <CAPJ9Yc_C0tAi5RrzK--rugHQpaE1UigqHUX4vWWuwg_kMfmqPw@mail.gmail.com> <CAPJ9Yc_JEuDV4yEjhyJp-+bo7fkYcFrW58vypqZzAyjRFcuvoA@mail.gmail.com> <CAPJ9Yc9AYUeaZy7UnmfJG+9zLZd0ud3STRpdW-+c1Qgazgdt0g@mail.gmail.com> <7689.1587657698@localhost> <CAPJ9Yc9rdbwd0OTcJhmuqG_r6qPfYKwiScLOxiwe41_ye_PNGw@mail.gmail.com> <CAPJ9Yc9uuOKk=fh3Ke7riuZN2JgB2Ma3F2Njy69_6nms1kC=bQ@mail.gmail.com> <CAPJ9Yc_iOxyDzrL9cs_ERSEjnVttYgk4JFqhO7T=yg03420LMA@mail.gmail.com>
+X-Mailer: MH-E 8.6; nmh 1.7+dev; GNU Emacs 25.1.1
+X-Face: $\n1pF)h^`}$H>Hk{L"x@)JS7<%Az}5RyS@k9X%29-lHB$Ti.V>2bi.~ehC0;<'$9xN5Ub#
+ z!G,p`nR&p7Fz@^UXIn156S8.~^@MJ*mMsD7=QFeq%AL4m<nPbLgmtKK-5dC@#:k
 MIME-Version: 1.0
-Received: by 2002:a0c:f40a:0:0:0:0:0 with HTTP; Fri, 24 Apr 2020 09:55:01
- -0700 (PDT)
-Reply-To: neiltrotters26@gmail.com
-From:   Neil Trotter <laddykoble@gmail.com>
-Date:   Fri, 24 Apr 2020 09:55:01 -0700
-Message-ID: <CABgxNaGsZk41cJmqyB7gpQ2yKgLu0ioMAhFEpW2ocmQVQsjc9w@mail.gmail.com>
-Subject: Wir haben beschlossen, Ihnen zu spenden?
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
+Date:   Sat, 25 Apr 2020 21:38:35 -0400
+Message-ID: <29906.1587865115@localhost>
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
---=20
-Ich bin Neil Trotter, ein Lottogewinner und Philanthrop. Ich spende
-Ihnen und Ihrer Familie einen Betrag von 900.000,00 Euro. Kontaktieren
-Sie mich =C3=BCber meine E-Mail-Adresse (neiltrotters26@gmail.com) f=C3=BCr
-Verzeichnisse.
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+David Bala=C5=BEic <xerces9@gmail.com> wrote:
+    >> OK, more data:
+    >> I started tcpdump with the -e option as suggested on openwrt forum:
+    >> tcpdump -e -v -i eth1.3902 pppoed
+    >>
+    >> on disconnect, this was logged (times are UTC):
+    >>
+    >>
+    >> tcpdump: listening on eth1.3902, link-type EN10MB (Ethernet), capture
+    >> size 262144 bytes
+    >> 18:23:09.204991 a4:7b:2c:9e:c7:44 (oui Unknown) > 44:4e:6d:fd:c7:39
+    >> (oui Unknown), ethertype PPPoE D (0x8863), length 97: PPPoE PADO
+    >> [Service-Name] [AC-Name "SIMB_TABOR_BNG1"] [Host-Uniq
+    >> 0x44************long_number******************************AA]
+    >> [AC-Cookie ".5b************v"]
+
+    > Isnt this strange? The dst addr is not my router or any other known.
+    > Also the Host-Uniq value is different.
+    > As if is traffic meant for someone else.
+
+oh, I understand.
+thank you for noting this.
+So, it's as if you are getting a PPPoE message for someone else, and when
+that happens, the interface is dying.
+Is it always the same ethernet address?
+
+Do you have ebtables?  Could you arrange to filter out packets like that?
+That would point to there being some kernel bug.
+
+Clearly, your ISP has some other bug that they are sending stuff down the
+wrong pipe, but that could just be hash collisions that they assume are
+"harmless".
+
+=2D-
+]               Never tell me the odds!                 | ipv6 mesh network=
+s [
+]   Michael Richardson, Sandelman Software Works        |    IoT architect =
+  [
+]     mcr@sandelman.ca  http://www.sandelman.ca/        |   ruby on rails  =
+  [
+
+
+
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEbsyLEzg/qUTA43uogItw+93Q3WUFAl6k5hsACgkQgItw+93Q
+3WV5FggAvnEIBKIhJC3Cl1igLcJICFlQJ8U/cJhoIGjiOaBlUo5ZY91DOyaVrtBM
+sv8BG4t7Tev2Zi55NRZHHyaDYYnVtkelUidq+152PYZyA0sLNGJw9fjzU7SIIyfe
+/wfvhUxf3jmmLn5gJtLLM1DvswnLWWS/vp3+d64IdNsg8opiR9NZql3vM+x2DGcA
+kdpx9ueu12YuNUCEMBELd4PaPCwGzyrQivWs1vcEuaVeIRHP5HXI8uEKFk+iuO5K
+w66X/WT5DwSv+cvDV0yPyBvgMOO5cJ0wH4aPVw5EFIjpocGb8FxSzGQi7yfo6eAb
+eV41cigtbSGOYBUAZdo7y8H/xe/Y0Q==
+=q1HO
+-----END PGP SIGNATURE-----
+--=-=-=--
