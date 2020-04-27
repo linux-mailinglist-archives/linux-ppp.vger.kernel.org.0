@@ -2,123 +2,62 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FD571BA0A5
-	for <lists+linux-ppp@lfdr.de>; Mon, 27 Apr 2020 11:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEB641BA2A3
+	for <lists+linux-ppp@lfdr.de>; Mon, 27 Apr 2020 13:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbgD0J7i (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 27 Apr 2020 05:59:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48486 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726537AbgD0J7i (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 27 Apr 2020 05:59:38 -0400
-Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com [IPv6:2607:f8b0:4864:20::929])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17F18C0610D5
-        for <linux-ppp@vger.kernel.org>; Mon, 27 Apr 2020 02:59:38 -0700 (PDT)
-Received: by mail-ua1-x929.google.com with SMTP id y10so16696655uao.8
-        for <linux-ppp@vger.kernel.org>; Mon, 27 Apr 2020 02:59:38 -0700 (PDT)
+        id S1727104AbgD0Llg (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 27 Apr 2020 07:41:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36078 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726721AbgD0Llf (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 27 Apr 2020 07:41:35 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12256C0A3BF2
+        for <linux-ppp@vger.kernel.org>; Mon, 27 Apr 2020 04:41:35 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id r14so8893868pfg.2
+        for <linux-ppp@vger.kernel.org>; Mon, 27 Apr 2020 04:41:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=E5FR/vTYBwV7C7despNpuNc/th3RGQUqZNAsHw6VSoQ=;
-        b=DnL9kekv8Govk6FKxt+AxPZIZfyX/qe/6cUYtTskISd3BgOiFcE1rJ6agXiAfjAyHi
-         JV343jqPVdq0u+KlkCXy+JzNsraze5t6DLhiE0pUUKrL7tR4Wqu8wYxxBPW4UujQEHP1
-         uF72jaL3RA7/vePKlzPBTw9ToXgwdmzZG9G90OHQ6343vyHXGqtZxKY2Q/DwMGdbk+UA
-         GeTbZBU+jtYuk275MCAXZ2NiHhiak55Yd2fhFugstzrTgU0OfR3Y4YO1YYlCl12H65Cy
-         vcqDpsrd6YmhEuMUgAExcvVYW1bfpg+iWzp1usRzMcY/UiqQM0B6X/7b7nkj5KdyvF/z
-         QBFg==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
+        b=uI1U3pP4FazEZaTfkDGgaf1Qyb1hL6AlgZB9tozzlJtw0tc2p0xAeW9BNdbY4A2XuL
+         JYn8lE6gg3HqjBgRaTT8CTSOLDZ9E79yDyBM0EGnWldSdHyzrk+BT/7frJGn/PAhMIrE
+         VCZdq7yfljhgiOOYhIeLP2AIIFXvLFMREe3IREMgf/Wimn5okrCaqK4gkS0+n2Tqfq3c
+         EFYh4cYLyK3nIET0YOm2adzDe5W5QN3hsgSvwW72euh+PRPDs3oxC82+7cfg/ZGTOz8/
+         eTagf6SblJMWIJeJ59y/zg3//EVOq9RPByBfKkQCDUJB6vE62XJLcx9qUgZNIxoYrz8S
+         JAeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=E5FR/vTYBwV7C7despNpuNc/th3RGQUqZNAsHw6VSoQ=;
-        b=EnQRN+zi6XPxP5AJ9v/yOpHuEpGgZkgkDVvHlDjUa0YIKCXdYrmx8Ldvl91XjIq9mg
-         9FTur+2AoYctaXRLbNPZSZkrx7YJQWudNecrr8xqAeZh89tc5B06ukqVMB/bTVbgxnqY
-         6qjvbsDxCoNfgOp+4kw03iuMEVAaQeSfocvqlsCXulNqg8Qgi74RhWuTzIPZ7nunh7FL
-         vibPqG1a+vCuc/GUDYvOr7M3fu3kJjmjI7hUF5f8U+BlY9za3QzcGG+9Yo/rtEA/ziUG
-         wPiaIxG8JzGj0T7BMQE1fqSKx1iLPol1Jp6md49a3hTQExouPpCh5gNMrL2FIXyO9En/
-         d//Q==
-X-Gm-Message-State: AGi0PuYyYO1ZQgTFdu2LKn2LMN4fG9X2/czQbmoh271jJXMS7U/QCyBh
-        2BwVdang+ssJZLYe8IEJ2BbFiIxO3iItV4ZmA2TTAIjiUlw=
-X-Google-Smtp-Source: APiQypKRgUwESunpsl/z4xRij5ptqGqNIPpu6gPSoc8kJ7FBz0ztHBoCJBmyi/c47sCZsjVBN2qpDZf2tQZLCcEeOxA=
-X-Received: by 2002:a67:ea93:: with SMTP id f19mr16750255vso.216.1587981576458;
- Mon, 27 Apr 2020 02:59:36 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
+        b=bI58Rkw30l/xn/ZG6afdUipMk0Nqib6S0gKJYRsfEQue+hDDwroQqyyav/MNuSVEsF
+         o0nuq+Umi/9PFRzsl8L4bkzVGihvuHQ7T3BNb5/HU4QFhpFb4h4WWHQxpxC4iTi+ieQl
+         dQqi0fsiOnmYzERskq5Qv1YU9Ikt1wEkTsvza5/OB9ZSAeiFY+tBlH8agyuDQMOFV9kf
+         NPXNcJOPlbVSoRy71q5BrNJYT52xxSTKUACWcboqzQiJq//slzfCInnGalZP8tgnJD0T
+         KU266h0kuzZe1+aMRvum22fsoH8naM9VA4VLWFPuHCreuot/+hfLWO30c/HVEj4bsYli
+         P4Lw==
+X-Gm-Message-State: AGi0PuY9gDjIRcT0785XeaPXmvPFU2niyLFVCNfgyVYfTZunAYri0507
+        eDgERwOJyZmvJ72fr9Agt7rXm8wMPvJqo4IdOHu69uiZ2xU=
+X-Google-Smtp-Source: APiQypJWdjzUZMbeRoAX94bUJV0IgwyoF5kUG7iPo3CBzKxW8lStFNsM/6tz3An/TyzRuH2Qw14DtavsVumw6JVLls0=
+X-Received: by 2002:a6b:7d4a:: with SMTP id d10mr4072296ioq.70.1587987694042;
+ Mon, 27 Apr 2020 04:41:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com>
- <e1ab31e7-66a2-5bd8-1b95-27fa65d0974c@workingcode.com> <21061.1587602497@localhost>
- <9547fb41-f4a8-ab9c-3413-a212df71389c@workingcode.com> <CAPJ9Yc_C0tAi5RrzK--rugHQpaE1UigqHUX4vWWuwg_kMfmqPw@mail.gmail.com>
- <CAPJ9Yc_JEuDV4yEjhyJp-+bo7fkYcFrW58vypqZzAyjRFcuvoA@mail.gmail.com>
- <CAPJ9Yc9AYUeaZy7UnmfJG+9zLZd0ud3STRpdW-+c1Qgazgdt0g@mail.gmail.com>
- <7689.1587657698@localhost> <CAPJ9Yc9rdbwd0OTcJhmuqG_r6qPfYKwiScLOxiwe41_ye_PNGw@mail.gmail.com>
- <CAPJ9Yc9uuOKk=fh3Ke7riuZN2JgB2Ma3F2Njy69_6nms1kC=bQ@mail.gmail.com>
- <CAPJ9Yc_iOxyDzrL9cs_ERSEjnVttYgk4JFqhO7T=yg03420LMA@mail.gmail.com>
- <29906.1587865115@localhost> <CAPJ9Yc-Tj+pLJ_vfLuERUi-2oGadeaWTJSkDFNw0rLoqMCmL3Q@mail.gmail.com>
- <CAPJ9Yc8AQZnATT07zUC0397vSGCuuh8STyQRbdBk5LLPp3Xfyg@mail.gmail.com> <5466.1587953651@localhost>
-In-Reply-To: <5466.1587953651@localhost>
-From:   =?UTF-8?Q?David_Bala=C5=BEic?= <xerces9@gmail.com>
-Date:   Mon, 27 Apr 2020 11:59:25 +0200
-Message-ID: <CAPJ9Yc_9E5PjDf7duYusKo3KnQ8kXUA7xkdiNgc2Vtsu3ufEUg@mail.gmail.com>
-Subject: Re: PPPoE Modem hangup after random time - how to debug?
-To:     Michael Richardson <mcr@sandelman.ca>
-Cc:     linux-ppp@vger.kernel.org
+Received: by 2002:a5d:8f89:0:0:0:0:0 with HTTP; Mon, 27 Apr 2020 04:41:33
+ -0700 (PDT)
+Reply-To: convy0090@gmail.com
+From:   Ruben CONVY <andrewboccc@gmail.com>
+Date:   Mon, 27 Apr 2020 12:41:33 +0100
+Message-ID: <CAHVC0+Ag87TMCmfNNwWbxXOFxn5166q8GG5wEfPjwtixj9=EXQ@mail.gmail.com>
+Subject: Why continued silence 2
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Mon, 27 Apr 2020 at 04:14, Michael Richardson <mcr@sandelman.ca> wrote:
->
->
-> David Bala=C5=BEic <xerces9@gmail.com> wrote:
->     > Sun Apr 26 17:34:57 2020 daemon.debug pppd[20289]: sent [IPV6CP
->     > ConfReq id=3D0x1 <addr fe80::d035:60ed:928e:f741>]
->     > Sun Apr 26 17:35:00 2020 daemon.debug pppd[20289]: sent [IPV6CP
->     > ConfReq id=3D0x1 <addr fe80::d035:60ed:928e:f741>]
->     > Sun Apr 26 17:35:03 2020 daemon.debug pppd[20289]: sent [IPV6CP
->     > ConfReq id=3D0x1 <addr fe80::d035:60ed:928e:f741>]
->     > Sun Apr 26 17:35:06 2020 daemon.debug pppd[20289]: sent [IPV6CP
->     > ConfReq id=3D0x1 <addr fe80::d035:60ed:928e:f741>]
->     > Sun Apr 26 17:35:09 2020 daemon.warn pppd[20289]: IPV6CP: timeout
->     > sending Config-Requests
->
-> Could this be the reason for the hangup?
-> pppd gets tired of no IPv6, decides it should hangup?
-
-These lines are logged in the 30 seconds after the connection is
-established. Later they never show up. It was like that for all
-connections thus far.
-
->     > The strange part is in the tcpdump there is a PADT sent to an
->     > "unknown" MAC and my pppd responds. At least that is how I see it.
->
->     > You think NOT putting the interface into promiscuous mode (done by
->     > tcpdump) would prevent this?
->     > Anyway, now I startted tcpdump with the -p option:  tcpdump -e -v -=
-p
->     > -i eth1 vlan 3902 and pppoed
->
-> It could be that promisc mode (no -p) means that the PADT makes something
-> break, different than what you are investigating.  -p avoid promisc mode,=
- so
-> would avoid seeing that packet.
->
-> You mention in another thread that you were trying to do DHCPv6 on a
-> different (non-PPPoE) interface.  I don't see how that would matter unles=
-s
-> the failure caused netifd to decide to retry it all.
->
-> It seems that you ought to try the noipv6 option to pppd.
-
-I removed it (from the system config, the file /etc/config/network ).
-I also removed that "other interface", so there is no IPv6 stuff left.
-The new command line is:
-/usr/sbin/pppd nodetach ipparam wan ifname pppoe-wan lcp-echo-interval
-1 lcp-echo-failure 5 lcp-echo-adaptive nodefaultroute usepeerdns
-maxfail 1 user YYYYYY password XXXXX ip-up-script /lib/netifd/ppp-up
-ip-down-script /lib/netifd/ppp-down mtu 1492 mru 1492 plugin
-rp-pppoe.so nic-eth1.3902
-
-For the record: The new connection with new settings was started on
-Mon Apr 27 09:47:48 (UTC)
+Did you receive my previous email regarding your family inheritance?
+Reply strictly through: convy0090@gmail.com
+Best Regards,
+Ruben CONVY
