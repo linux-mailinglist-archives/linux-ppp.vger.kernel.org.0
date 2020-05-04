@@ -2,60 +2,54 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8681E1C3F13
-	for <lists+linux-ppp@lfdr.de>; Mon,  4 May 2020 17:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72C351C400B
+	for <lists+linux-ppp@lfdr.de>; Mon,  4 May 2020 18:37:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726551AbgEDPyj (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 4 May 2020 11:54:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37112 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725941AbgEDPyj (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 4 May 2020 11:54:39 -0400
-Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEF80C061A0E
-        for <linux-ppp@vger.kernel.org>; Mon,  4 May 2020 08:54:38 -0700 (PDT)
-Received: by mail-ua1-x92b.google.com with SMTP id r2so4926891uam.7
-        for <linux-ppp@vger.kernel.org>; Mon, 04 May 2020 08:54:38 -0700 (PDT)
+        id S1729586AbgEDQhD (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 4 May 2020 12:37:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43808 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729551AbgEDQhC (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 4 May 2020 12:37:02 -0400
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA7DC061A0E
+        for <linux-ppp@vger.kernel.org>; Mon,  4 May 2020 09:37:01 -0700 (PDT)
+Received: by mail-ua1-x92d.google.com with SMTP id i5so59898uaq.1
+        for <linux-ppp@vger.kernel.org>; Mon, 04 May 2020 09:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=bC/EavGwQJNEu16czcJB1MPQJWmO9eMBGmZSsWNJ09c=;
-        b=QabzX3l9xEfUlOD8FcpNW+HM9dH1LC3E+0PaYaQoWlbbSMOLqkjTSwkJQK19Ntv2EL
-         +pIkmoPSwSQLS5C7Fn67/JKTE7d+aX8daSgp1NaG+OXTe8FgDX1LHPb0eLAS1MY1bhPS
-         9sEstMYGKEmJbh8lkWnorBh8JbEjW8l9iMeVh4TDqDQG7N9cCRJd+F4nX8BjTHFNLV69
-         xrbPX6pZneuZNhoTh+lS/RFAKEuFzApcbog9aQqTWovBGCYuSyJIStWQwXc4dTBWi12d
-         uHkPEucjRtq8P9h+xkEScIlCsQWlg3NzsfFxp1t42Ve4nFcm1BdPt/Vs1XGHm1ly910z
-         gAJQ==
+        bh=OKE5LJxEZbKsp8WQcPvszCDSQpCo9MUZnbbvPkebtO8=;
+        b=jH+xC04Q+jR6J8OULNsw9HlCG+46ycjAp8rRtN2QSgVbJ+as7QKPxNZv/PyMSOwTD+
+         Yh499XkKL46qslPqLUHceoFJeY+PU5/wtnCXgrgUGHUzf47fH7X4dvJ4lsu/8zFk5zle
+         U6a2r5FEw9ceM4ZMdnHHcrxh5KFc1la1yVTRAUpT3ugRf/dlApQWazn1OZsSXK6JHs6S
+         IZclyonMDhd3QxXYerWA85a/7oIMbOe1BQXbYgKrQvIaz7YtXJ+PmUazT4WbLVKlsvAb
+         xtWixLebdWotdA3ZC4HmEuXPL/XdbxIN24nUyI9nUw+fUpkfJuQzQb9DFhZmc4rqiFKN
+         Sq2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bC/EavGwQJNEu16czcJB1MPQJWmO9eMBGmZSsWNJ09c=;
-        b=fMGXV2yVkr0g5KC2IONPqeBK/7BC5+nu4qXHcgCtDcaJuwDmnY0xM0EF8MTWXbll9s
-         e7W7TQSvG25TWQ0Uc/IhQhMLZUEZiGjpvtYyAVkjhNQbrr/JvnJATxWEJKRd+gPzzEH0
-         tOv7hXpHHHJYsF9Q5Yv5vBVx+48yG51diLsT1mAm8617HoG1rpPXsloA7kZwp/N2RkGv
-         48RsgklbAMsML5Ap5FxDuIASFTJc9UgyMECBIIMB3/SbY2z0vWPVH+Ir9oYVDmlLBHto
-         UuIz+8k5c8+NomoytJDfXxjmP2yG21If6sucMTcCHW4NHLUBDfqkc9d3Fx9qROmGVdIn
-         q7ww==
-X-Gm-Message-State: AGi0PuYtBHOLhAasHI+QdMZ0QwttiOZdOKgQ3zmrYxSbUTcOxZQrTKU4
-        G6jzuM/dT8+3TLRi37dc0ueAJbIvkJ/1XWKr51Lzi3MI
-X-Google-Smtp-Source: APiQypIZzLPW5vq1PSsp1ic1augjX6yNNs4XH4kYj7l77eae0YkAsST48N3Dgoh/P8JC7w8wunBwA9U1hU0ARoPijlM=
-X-Received: by 2002:a9f:2508:: with SMTP id 8mr7359104uaz.115.1588607677936;
- Mon, 04 May 2020 08:54:37 -0700 (PDT)
+        bh=OKE5LJxEZbKsp8WQcPvszCDSQpCo9MUZnbbvPkebtO8=;
+        b=MuQq3IkjApUH0qcn6MMGYA4Q54JLsC76y7IhdpyrzaVhxiKJMf4bjSSJkAVY6w2XN7
+         KVP56K6NiYDgWg3FCozdzLzjHkwUJHeOF0oyWicbTqExgUm4UmtbzU2xZ7UhkEuHlLZg
+         wf7lP0XcyW3SL8Gg56fUn8KJuLjs0ygEhfztJMsBzF1q44ObjztmEtPhHpOR8kHXQsdB
+         FJyCsuiy3BPfT8E8SP2X7JoIMn4EFl2Rv7P5Jt93vHKQF2Gy+w2LsqqB+wnonbj9dC1x
+         z1PYX2rjATYsx0ioZZv0hObyGVkOal+/6pPwo8MGnyrUPqbzM62WVtyUgToTVYM21LJf
+         PPkg==
+X-Gm-Message-State: AGi0PubYui99mJOEe8BEJS2blA0e90qG0yrLy0wB70ICYNeORpDK4QqS
+        mnswuYocivRZt8wJRowJWpswdeCE1Lp7Yv86FYE=
+X-Google-Smtp-Source: APiQypIGde1pP6Js5WXlMjLDEudYBdt8uglX4OMBzisx8mBHLVR60/K+N0VEFxs25yZxKgt1aVWFnWGX4LxIVQ66B7c=
+X-Received: by 2002:ab0:710c:: with SMTP id x12mr12816980uan.45.1588610220514;
+ Mon, 04 May 2020 09:37:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <21061.1587602497@localhost> <9547fb41-f4a8-ab9c-3413-a212df71389c@workingcode.com>
- <CAPJ9Yc_C0tAi5RrzK--rugHQpaE1UigqHUX4vWWuwg_kMfmqPw@mail.gmail.com>
- <CAPJ9Yc_JEuDV4yEjhyJp-+bo7fkYcFrW58vypqZzAyjRFcuvoA@mail.gmail.com>
- <CAPJ9Yc9AYUeaZy7UnmfJG+9zLZd0ud3STRpdW-+c1Qgazgdt0g@mail.gmail.com>
- <20200424155459.GB21114@pc-3.home> <CAPJ9Yc_kHZKCSG7o7YtU7YCvAF4+OPm9MJzYK12mmQOg5FQD2w@mail.gmail.com>
- <CAPJ9Yc82m71opZ5nkxqtGuJ8rsuY83opnZPOiS7_DWjiC4JFrg@mail.gmail.com>
- <20200428110033.GA25921@pc-3.home> <CAPJ9Yc_nBzy5zWPBAOgD2FPmnOegHUEYi+vpURtwm8z9wHeoQw@mail.gmail.com>
- <20200504122740.GA27585@pc-3.home>
-In-Reply-To: <20200504122740.GA27585@pc-3.home>
+References: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com>
+ <CAPJ9Yc8eDBsGtFy_juZ3Z6biKKD4-JoNg0icv4otHK=o66aBZw@mail.gmail.com> <20200504130149.GB27585@pc-3.home>
+In-Reply-To: <20200504130149.GB27585@pc-3.home>
 From:   =?UTF-8?Q?David_Bala=C5=BEic?= <xerces9@gmail.com>
-Date:   Mon, 4 May 2020 17:54:26 +0200
-Message-ID: <CAPJ9Yc8JyaaevLwuTriytxF7axtCchv790Vm=Tw01oz+eZEEOg@mail.gmail.com>
+Date:   Mon, 4 May 2020 18:36:48 +0200
+Message-ID: <CAPJ9Yc_kvqAD5d1XJGQmzVC5d8_HXtp5aH-4OSyqBXDLu1Na8g@mail.gmail.com>
 Subject: Re: PPPoE Modem hangup after random time - how to debug?
 To:     Guillaume Nault <gnault@redhat.com>
 Cc:     linux-ppp@vger.kernel.org
@@ -65,10 +59,18 @@ Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Mon, 4 May 2020 at 14:27, Guillaume Nault <gnault@redhat.com> wrote:
->
-> Also, please avoid wrapping your log lines, that makes them close to
-> unreadable.
+On Mon, 4 May 2020 at 15:01, Guillaume Nault <gnault@redhat.com> wrote:
+> You can use "%pM" for printing MAC addresses. Also, it'd be interesting
+> to have information about promisc mode:
+>   "dev %s, flags: %#x, promiscuity %u",
+>   dev->name, dev->flags, dev->promiscuity,
 
-Sorry about that, it is gmail.com doing it. (a long time know issue
-they refuse to fix).
+"ifdown wan" triggers a PADT response from the server, and then this
+code prints:
+
+ dev eth1.3902, flags: 0x1003, promiscuity 0
+
+I'll report later values printed when a stray PADT appears.
+
+Regards,
+David
