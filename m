@@ -2,131 +2,82 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3B0D1C7382
-	for <lists+linux-ppp@lfdr.de>; Wed,  6 May 2020 17:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9C411C73ED
+	for <lists+linux-ppp@lfdr.de>; Wed,  6 May 2020 17:16:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728590AbgEFPCU (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 6 May 2020 11:02:20 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58300 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728428AbgEFPCT (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 6 May 2020 11:02:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1588777338;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=+Dv+DHkhKOQP6mTut6kauOxkYmf2yMstrWO0f6ICOxU=;
-        b=buGKmYbFZUbnSftMxqRC65TCuBa2IFLt2hCH8fWKQp0SZzf0aBHp905PS8jNQBLdj7lkUS
-        0cYqjjuoEGJoAEBJjNNx1ROL6AYFgKzByJ4UKpLbTXzc0NoTgR0l34Leu9PnvAuUlmpJr+
-        jDZ0bFtdBf/iUvsK8tGumyr939llTnA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-I6yEvsa2OVyjSOTAcoQkcw-1; Wed, 06 May 2020 11:02:16 -0400
-X-MC-Unique: I6yEvsa2OVyjSOTAcoQkcw-1
-Received: by mail-wr1-f71.google.com with SMTP id g10so1457494wrr.10
-        for <linux-ppp@vger.kernel.org>; Wed, 06 May 2020 08:02:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=+Dv+DHkhKOQP6mTut6kauOxkYmf2yMstrWO0f6ICOxU=;
-        b=qWKgx+tM29n23Nj1jJq7sVqyd02p8iEWS8QJmcFO9++oAhBFPU2eQBGea+b1tb4AZU
-         nHY9xQP4ujLNMYR8h0qHcck0sxxpX07O7ZCshWMMWuKFcbjQGXO8sqiix0DYODBYmyrB
-         RZQJFZ3pFR3cVMVG6sbh3gLw4AUdkIrVqIOM6qW5DgU6ixlubS7EpedVZxqG5zyDruLC
-         BO5xKp4gyr0Dnxfmkegl5Mz5u9km9/3ZZY9ZlC8+3RKCBdDsn2zlyItz014N+VWpGS4H
-         iSb088BSfJwxTi+TO2Cj4ErL8LJLmlE/Jc5xnQa3Tpeg9U/TEy1F9gay3uDK15MDBqvr
-         ajGQ==
-X-Gm-Message-State: AGi0Pubo2IYtDmWZMaZvAEXfLmZPQaO6gI7bPgAsXXJZaW3YA3NDBGhN
-        mUWta2kIuTT6DgcXcuEAKo4g8ZtrQe6uT9lzUftGK/p5bdQeCt+Bq4g2XH1PNxcIn1U8HO0SavK
-        n+M0Ji3m3jzGe/gGcW66a
-X-Received: by 2002:a7b:cf25:: with SMTP id m5mr5215124wmg.65.1588777334754;
-        Wed, 06 May 2020 08:02:14 -0700 (PDT)
-X-Google-Smtp-Source: APiQypIrl5j6/oIt6BTc7ms6o6LXcN9tIJbyV4UAFvyhUAf7vYKETKnjb2HvbbWWCnE8v6GxDN4KnA==
-X-Received: by 2002:a7b:cf25:: with SMTP id m5mr5215089wmg.65.1588777334517;
-        Wed, 06 May 2020 08:02:14 -0700 (PDT)
-Received: from pc-3.home (2a01cb0585138800b113760e11343d15.ipv6.abo.wanadoo.fr. [2a01:cb05:8513:8800:b113:760e:1134:3d15])
-        by smtp.gmail.com with ESMTPSA id o6sm3264698wrw.63.2020.05.06.08.02.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2020 08:02:13 -0700 (PDT)
-Date:   Wed, 6 May 2020 17:02:10 +0200
-From:   Guillaume Nault <gnault@redhat.com>
-To:     David =?utf-8?Q?Bala=C5=BEic?= <xerces9@gmail.com>
-Cc:     linux-ppp@vger.kernel.org
+        id S1729517AbgEFPP4 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 6 May 2020 11:15:56 -0400
+Received: from carlson.workingcode.com ([50.78.21.49]:37722 "EHLO
+        carlson.workingcode.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729368AbgEFPPz (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 6 May 2020 11:15:55 -0400
+Received: from [50.78.21.49] (carlson [50.78.21.49])
+        (authenticated bits=0)
+        by carlson.workingcode.com (8.15.2/8.15.2/SUSE Linux 0.8) with ESMTPSA id 046FFkTm015378
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Wed, 6 May 2020 11:15:46 -0400
+DKIM-Filter: OpenDKIM Filter v2.10.3 carlson.workingcode.com 046FFkTm015378
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=workingcode.com;
+        s=carlson; t=1588778147;
+        bh=mHhUezNMsEM+eQ76eBMBpldByvtMtHSB5Q/w15L93uY=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=PGvGlavNcU+VYUIAIRYicpgxWi8ZQSQJRgV7InzDOf5gO9lFycGnW5lt+7isXauQW
+         J8Ay1MkjxSBCQj9LdkKXFI3N62AB3+PBM2eau4nIgaVv5+9e6FpftzA93++bsP4iFG
+         SMVUK68WstJCbO+Gti7eYHCXsUFdOfdidbiM5juA=
 Subject: Re: PPPoE Modem hangup after random time - how to debug?
-Message-ID: <20200506150210.GB21453@pc-3.home>
+To:     Guillaume Nault <gnault@redhat.com>,
+        =?UTF-8?Q?David_Bala=c5=beic?= <xerces9@gmail.com>
+Cc:     linux-ppp@vger.kernel.org
 References: <CAPJ9Yc8Wvxb_UoqGu=wrrWX2HP5AwE98jvcS3XYnvevxa0RZpg@mail.gmail.com>
  <CAPJ9Yc8eDBsGtFy_juZ3Z6biKKD4-JoNg0icv4otHK=o66aBZw@mail.gmail.com>
  <20200504130149.GB27585@pc-3.home>
  <CAPJ9Yc_kvqAD5d1XJGQmzVC5d8_HXtp5aH-4OSyqBXDLu1Na8g@mail.gmail.com>
  <20200504181159.GA7717@pc-3.home>
- <CAPJ9Yc8KxAHuw-PsF2uJuW+Ec5HNzhVqVR7yQgrWRwUWeT=ekA@mail.gmail.com>
+ <CAPJ9Yc-a4ax_RgYLJT71ukkcPasz+z2dU6bm9yiE+k664JhNqA@mail.gmail.com>
+ <20200506142619.GA21453@pc-3.home>
+From:   James Carlson <carlsonj@workingcode.com>
+Message-ID: <b222ca9e-34bd-7a43-e426-3cd0a622edbf@workingcode.com>
+Date:   Wed, 6 May 2020 11:15:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200506142619.GA21453@pc-3.home>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPJ9Yc8KxAHuw-PsF2uJuW+Ec5HNzhVqVR7yQgrWRwUWeT=ekA@mail.gmail.com>
+X-DCC-x.dcc-servers-Metrics: carlson 104; Body=3 Fuz1=3 Fuz2=3
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Mon, May 04, 2020 at 08:43:26PM +0200, David Balažic wrote:
-> On Mon, 4 May 2020 at 20:12, Guillaume Nault <gnault@redhat.com> wrote:
-> >
-> > On Mon, May 04, 2020 at 06:36:48PM +0200, David Balažic wrote:
-> > > On Mon, 4 May 2020 at 15:01, Guillaume Nault <gnault@redhat.com> wrote:
-> > > > You can use "%pM" for printing MAC addresses. Also, it'd be interesting
-> > > > to have information about promisc mode:
-> > > >   "dev %s, flags: %#x, promiscuity %u",
-> > > >   dev->name, dev->flags, dev->promiscuity,
-> > >
-> > > "ifdown wan" triggers a PADT response from the server, and then this
-> > > code prints:
-> > >
-> > >  dev eth1.3902, flags: 0x1003, promiscuity 0
-> > >
-> > I'm not sure what "ifdown wan" is supposed to do. Assuming "wan" is the
-> > name of your ppp interface (wasn't it "pppoe-wan" in your previous
-> > logs?) and that ifdown works like on Debian, then it makes sense that
-> > the peer disconnects the PPPoE session by sending a PADT. At least now
-> > the device isn't in promisc mode.
+On 2020-05-06 10:26, Guillaume Nault wrote:
+> On Wed, May 06, 2020 at 11:52:48AM +0200, David Balažic wrote:
+>> (the last line is from my fix, the connection is now not dropped when
+>> the PADT is not for us; works fine, my connection stays up and
+>> working)
+>>
+> Looks like a more fundamental issue. This frame shouldn't have been
+> accepted in the first place. Can you also print the packet class
+> ("... pkt_type %u", ..., skb->pkt_type)?
 > 
-> Yes, "wan" is the interface alias. ifdown "closes" it... sends a PADT
-> to the server, server replies with PADT...
-> 
-Thanks.
+> Testing the destination MAC here is likely to just paper over the
+> problem.
 
-> > > I'll report later values printed when a stray PADT appears.
-> > >
-> > Okay, but please keep printing the destination MAC address of the
-> > packet. I was providing the flags/promiscuity string just to get extra
-> > information, not to replace your original log.
-> >
-> > Also, what's the driver of your NIC (ethtool -i eth1)?
-> 
-> # ethtool  -i eth1
-> driver: ag71xx
-> 
-Ok, can you connect this interface directly to a box under your control
-and use this box to ping the ag71xx interface using an invalid
-destination MAC address?
+Having either sketchy (e.g., CRC hash filter based) or just absent
+hardware filtering of unicast addresses isn't an unknown property for
+some Ethernet devices.  Relying on exact match from the underlying
+hardware seems like a bad idea.  (Some, for instance, can either receive
+"all multicast" or can filter using the low N bits of the CRC to index
+into a 2^N-bit hash table, but can't really exclude a unicast packet
+that happens to match the low N bits of a selectively enabled multicast
+address.  See, for example, the PowerQUICC implementation.  But there
+are quite a few that work like this.  It wouldn't surprise me in the
+least that 'ar71xx' [Atheros/Qualcomm?] is like this.)
 
-Assuming your other box runs Linux and the IP address assigned to the
-ag71xx NIC is 192.0.2.1, the test would look like this:
+I agree that having to test the MAC address right here is a bit lame and
+that the driver itself ought to assist the hardware in doing the Right
+Thing.
 
-$ ping 192.0.2.1    # Basic test. Also makes Linux get the peer dst MAC
-
-$ ip neighbour list # Show the peer dst MAC
-192.0.2.1 dev ethX lladdr aa:bb:cc:dd:ee:ff REACHABLE
-
-$ ip neighbour replace 192.0.2.1 dev ethX lladdr aa:bb:cc:dd:ee:f0
-
-$ ping 192.0.2.1   # Try to ping again, this time using a wrong dst MAC
-
-> Regards,
-> David
-> 
-
+-- 
+James Carlson         42.703N 71.076W         <carlsonj@workingcode.com>
