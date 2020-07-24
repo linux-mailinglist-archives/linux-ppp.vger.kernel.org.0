@@ -2,22 +2,22 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A45122C0D7
-	for <lists+linux-ppp@lfdr.de>; Fri, 24 Jul 2020 10:34:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BA2B22C327
+	for <lists+linux-ppp@lfdr.de>; Fri, 24 Jul 2020 12:31:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727856AbgGXIej convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-ppp@lfdr.de>); Fri, 24 Jul 2020 04:34:39 -0400
-Received: from mx2.itam.mx ([148.205.229.36]:39376 "EHLO mx2.itam.mx"
+        id S1726520AbgGXKbI convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Fri, 24 Jul 2020 06:31:08 -0400
+Received: from mx2.itam.mx ([148.205.229.36]:33934 "EHLO mx2.itam.mx"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726638AbgGXIei (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Fri, 24 Jul 2020 04:34:38 -0400
-Received: from cronos.itam.mx (hydrus2b.itam.mx [148.205.228.143])
-        by mx2.itam.mx  with ESMTP id 06O8WGHk032324-06O8WGHp032324
+        id S1726329AbgGXKbH (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Fri, 24 Jul 2020 06:31:07 -0400
+Received: from cronos2.itam.mx (cronos2.itam.mx [148.205.148.141])
+        by mx2.itam.mx  with ESMTP id 06OAQICo012859-06OAQICv012859
         (version=TLSv1.0 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-        Fri, 24 Jul 2020 03:32:17 -0500
-Received: from [10.28.175.153] (105.0.7.102) by cronos.itam.mx
- (148.205.148.91) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 24 Jul
- 2020 03:32:16 -0500
+        Fri, 24 Jul 2020 05:26:18 -0500
+Received: from [10.28.175.153] (105.0.7.102) by cronos2.itam.mx
+ (148.205.148.141) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 24 Jul
+ 2020 05:26:18 -0500
 Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -25,9 +25,9 @@ Content-Description: Mail message body
 Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
 To:     Recipients@vger.kernel.org
 From:   ''Tayeb@vger.kernel.org, Souami''@vger.kernel.org
-Date:   Fri, 24 Jul 2020 10:32:02 +0200
+Date:   Fri, 24 Jul 2020 12:26:02 +0200
 Reply-To: <charlesjacksonjr001@gmail.com>
-Message-ID: <0e876fbb-4d08-4f9e-99e3-e12da92f5c33@CRONOS.itam.mx>
+Message-ID: <b2c9d7a1-a5b3-4e24-89be-09101a0a7613@CRONOS2.itam.mx>
 X-Originating-IP: [105.0.7.102]
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
