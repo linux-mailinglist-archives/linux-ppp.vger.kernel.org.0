@@ -2,51 +2,51 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 79C48228FEB
-	for <lists+linux-ppp@lfdr.de>; Wed, 22 Jul 2020 07:42:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A45122C0D7
+	for <lists+linux-ppp@lfdr.de>; Fri, 24 Jul 2020 10:34:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728159AbgGVFmE convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-ppp@lfdr.de>); Wed, 22 Jul 2020 01:42:04 -0400
-Received: from smtp.utu.edu.uy ([190.0.150.6]:49256 "EHLO delta45.utu.edu.uy"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726696AbgGVFmD (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Wed, 22 Jul 2020 01:42:03 -0400
-X-Greylist: delayed 481 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Jul 2020 01:41:53 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by delta45.utu.edu.uy (Postfix) with ESMTP id A0FDF1D0EF10;
-        Wed, 22 Jul 2020 02:32:12 -0300 (GMT+3)
-Received: from delta45.utu.edu.uy ([127.0.0.1])
-        by localhost (delta45.utu.edu.uy [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id j-d5-xIHkuKF; Wed, 22 Jul 2020 02:32:12 -0300 (GMT+3)
-Received: from localhost (localhost [127.0.0.1])
-        by delta45.utu.edu.uy (Postfix) with ESMTP id DC7E81D0EF09;
-        Wed, 22 Jul 2020 02:32:11 -0300 (GMT+3)
-X-Virus-Scanned: amavisd-new at delta45.utu.edu.uy
-Received: from delta45.utu.edu.uy ([127.0.0.1])
-        by localhost (delta45.utu.edu.uy [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id z5KYbxFuF39p; Wed, 22 Jul 2020 02:32:11 -0300 (GMT+3)
-Received: from delta45.utu.edu.uy (delta45 [172.17.1.45])
-        by delta45.utu.edu.uy (Postfix) with ESMTP id 7FB051D0EEFB;
-        Wed, 22 Jul 2020 02:32:10 -0300 (GMT+3)
-Date:   Wed, 22 Jul 2020 02:32:10 -0300 (GMT-03:00)
-From:   Darlehen Bedienung <aemartinez@utu.edu.uy>
-Reply-To: info_innoxcapitalservicesolution@aol.com
-Message-ID: <754360867.138094.1595395930510.JavaMail.zimbra@utu.edu.uy>
-Subject: 
+        id S1727856AbgGXIej convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Fri, 24 Jul 2020 04:34:39 -0400
+Received: from mx2.itam.mx ([148.205.229.36]:39376 "EHLO mx2.itam.mx"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726638AbgGXIei (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Fri, 24 Jul 2020 04:34:38 -0400
+Received: from cronos.itam.mx (hydrus2b.itam.mx [148.205.228.143])
+        by mx2.itam.mx  with ESMTP id 06O8WGHk032324-06O8WGHp032324
+        (version=TLSv1.0 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+        Fri, 24 Jul 2020 03:32:17 -0500
+Received: from [10.28.175.153] (105.0.7.102) by cronos.itam.mx
+ (148.205.148.91) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 24 Jul
+ 2020 03:32:16 -0500
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [172.17.1.45]
-X-Mailer: Zimbra 8.8.12_GA_3866 (zclient/8.8.12_GA_3866)
-X-Authenticated-User: aemartinez@utu.edu.uy
-Thread-Index: sHxyVNlBzwToKpIuoIGp0++CnI1oLA==
-Thread-Topic: 
-To:     unlisted-recipients:; (no To-header on input)
+Content-Description: Mail message body
+Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
+To:     Recipients@vger.kernel.org
+From:   ''Tayeb@vger.kernel.org, Souami''@vger.kernel.org
+Date:   Fri, 24 Jul 2020 10:32:02 +0200
+Reply-To: <charlesjacksonjr001@gmail.com>
+Message-ID: <0e876fbb-4d08-4f9e-99e3-e12da92f5c33@CRONOS.itam.mx>
+X-Originating-IP: [105.0.7.102]
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
+Hallo
+
+Ich bin Charles W. Jackson aus North Carolina, Vereinigte Staaten von Amerika, und ich bin der Gewinner des Mega-Millionen-Jackpots von 344 Millionen US-Dollar. Ich spende die Summe von 2.000.000 Millionen Euro als Teil der Hilfsgelder f�r das Corona-Virus.
+
+Dies ist Ihr Spendencode: [CJ530342019]
+
+www.youtube.com/watch?v=BSr8myiLPMQ
+
+Bitte antworten Sie auf diese E-Mail mit dem SPENDERCODE:
+
+charlesjacksonjr001@gmail.com
+
+Ich hoffe, dass Sie und Ihre Familie dies durchkommen
 
 
-Schönen Tag,Wir sind zuverlässige, vertrauenswürdige Kreditgeber, Wir bieten Darlehen an Unternehmen und Privatpersonen zu niedrigen und günstigen Zinssatz von 2%. Sind Sie auf der Suche nach einem Business-Darlehen, persönliche Darlehen, Schuldenkonsolidierung, unbesicherte Darlehen, Venture Capital. Kontaktieren Sie uns mit Name, Land, Darlehensbetrag, Dauer und Telefonnummer.GrüßeHerr DA COSTA DARREN FAY
+Herr Charles Jackson
