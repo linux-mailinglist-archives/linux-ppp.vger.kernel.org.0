@@ -2,48 +2,57 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EC9122C932
-	for <lists+linux-ppp@lfdr.de>; Fri, 24 Jul 2020 17:30:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABADD23EF63
+	for <lists+linux-ppp@lfdr.de>; Fri,  7 Aug 2020 16:51:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726957AbgGXP3k (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 24 Jul 2020 11:29:40 -0400
-Received: from [125.140.134.231] ([125.140.134.231]:53505 "EHLO
-        WIN-DAONO245HJF" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726593AbgGXP3i (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 24 Jul 2020 11:29:38 -0400
-Received: from User ([66.154.113.229]) by WIN-DAONO245HJF with Microsoft SMTPSVC(8.5.9600.16384);
-         Sat, 25 Jul 2020 00:23:30 +0900
-Reply-To: <christopherwang36@gmail.com>
-From:   "CHRISTOPHER WANG" <christopherwang36@gmail.com>
-Subject: INVESTMENT
-Date:   Fri, 24 Jul 2020 08:23:47 -0700
+        id S1726030AbgHGOu4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Fri, 7 Aug 2020 10:50:56 -0400
+Received: from mail.furshetcrimea.ru ([193.27.243.220]:51882 "EHLO
+        furshetcrimea.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726793AbgHGOu4 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 7 Aug 2020 10:50:56 -0400
+X-Greylist: delayed 4996 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Aug 2020 10:50:54 EDT
+Received: from [154.118.61.214] (account info@furshetcrimea.ru HELO [192.168.8.100])
+  by furshetcrimea.ru (CommuniGate Pro SMTP 6.1.10)
+  with ESMTPA id 11097447; Fri, 07 Aug 2020 16:34:43 +0300
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <WIN-DAONO245HJFs0J1008ef90d@WIN-DAONO245HJF>
-X-OriginalArrivalTime: 24 Jul 2020 15:23:30.0864 (UTC) FILETIME=[63269B00:01D661CE]
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Bei Interesse antworten.
+To:     Recipients <info@furshetcrimea.ru>
+From:   info@furshetcrimea.ru
+Date:   Fri, 07 Aug 2020 14:22:06 +0100
+Reply-To: mattiassjoborg751@gmail.com
+X-Antivirus: Avast (VPS 200807-0, 08/07/2020), Outbound message
+X-Antivirus-Status: Clean
+Message-ID: <auto-000011097447@furshetcrimea.ru>
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
+Schöne Grüße,
 
+Mein Name ist MATTIAS SJOBORG, ich bin Schweizer Staatsbürger und (Vorsitzender des Vergütungs- und Nominierungsausschusses) von Tethys Petroleum, einem multinationalen Ölkonzern mit Sitz in London-England, Großbritannien. Ich bitte Sie um Ihre Hilfe, um die Summe von vierzig Millionen Dollar abzurufen, die aus zwei Sendungsboxen besteht.
 
-Good day,
+Dieses Geld wurde von der Firma erworben und von einem Diplomaten begleitet und korrekt in einer Sicherheitsfirma in Amerika hinterlegt. Mein Grund dafür ist, dass ich von der Firma zu lange um meine Ansprüche betrogen wurde, nur weil ich kein bin Britisch. Die Kontaktdaten des Diplomaten erhalten Sie, wenn Sie Ihr Interesse bekunden, mir zu helfen.
 
-You were recommended by a mutual associate. I write you regarding an investment of bearer bonds I made on behalf of a client. 
+Jede der Schachteln enthält 20 Mio. USD. Für Ihre Hilfe bin ich bereit, 40% an Sie freizugeben. Aus Sicherheitsgründen wurde die Sendung als VERTRAULICHE DIPLOMATISCHE DOKUMENTE registriert, und ich kann erklären, warum dies so erklärt wurde. Denken Sie daran, dass der Diplomat den Inhalt der Sendung nicht kennt. Er ist seit einem Monat dort, während ich nach einem zuverlässigen Partner suchen möchte. Ich werde das Land verlassen, sobald die Sendung für Sie an Sie geliefert wird Private Investitionen und ich haben geschworen, niemals nach London zurückzukehren. Bitte, ich brauche Ihre dringende Antwort, bevor meine Pläne, das Unternehmen zu verlassen, entdeckt werden.
 
-       The investment was made in 2009 and has been under my management. The said investor is deceased. The window is now available to assign these bonds to any name or company of my choice. I have all the necessary information to achieve this within 10 banking days.
-      
-       The total value of the bond is 100million pounds sterling, in a million pound denominations.
-      
-        If you can handle this, do contact me at your earliest convenience via my email christopherwang36@gmail.com
-So we can discuss the final details Thank you.
- 
-Mr CHRISTOPHER WANG
+www.tethyspetroleum.com/tethys/static/EN_US/au_seniormanagement.html
+
+Im Moment ist die sicherste Form der Korrespondenz meine eigene E-Mail-Adresse. Bitte antworten Sie im Interesse der Vertraulichkeit nur über meine direkte E-Mail-Adresse. Antworten Sie zusammen mit Ihrer direkten Telefon- und Faxnummer, unter der ich Sie alternativ erreichen kann.
+
+Bitte, wenn Sie nicht bereit und interessiert sind, mir zu helfen, löschen Sie bitte diese E-Mail aus Ihrer E-Mail und tun Sie so, als hätten Sie sie nie erhalten.
+
+Freundliche Grüße,
+Mr.Mattias Sjoborg
+(Vorsitzender des Vergütungs- und Nominierungsausschusses)
+Tethys Petroleum.
+London, England
+
+-- 
+This email has been checked for viruses by Avast antivirus software.
+https://www.avast.com/antivirus
+
