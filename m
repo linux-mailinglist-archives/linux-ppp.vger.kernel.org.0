@@ -2,96 +2,94 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBAD724582C
-	for <lists+linux-ppp@lfdr.de>; Sun, 16 Aug 2020 16:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D95022460C3
+	for <lists+linux-ppp@lfdr.de>; Mon, 17 Aug 2020 10:46:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729579AbgHPOcR (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sun, 16 Aug 2020 10:32:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57188 "EHLO
+        id S1726336AbgHQIq2 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 17 Aug 2020 04:46:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729621AbgHPObb (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sun, 16 Aug 2020 10:31:31 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C8B8C0612F5
-        for <linux-ppp@vger.kernel.org>; Sun, 16 Aug 2020 07:28:42 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id g75so11860091wme.4
-        for <linux-ppp@vger.kernel.org>; Sun, 16 Aug 2020 07:28:42 -0700 (PDT)
+        with ESMTP id S1726089AbgHQIq1 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 17 Aug 2020 04:46:27 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F95FC061388;
+        Mon, 17 Aug 2020 01:46:27 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id f193so7881426pfa.12;
+        Mon, 17 Aug 2020 01:46:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=NAKDDu3zYGlp6/1rTFA3zLXzfLNUWElMFpld1DGXTqZ3f2C1G5vMMGgQBtzYdv61gR
-         j0gW2VjYzcAEQEK9JcrA+yGSHFEXNhE9RNkaz3uxkanP37gacJrIVytgT7/c7zGkA2Dy
-         XJB3L8ToVDoWAD9Rvm7U849RIrxncLk9xI9S/Uu5ZGT/cXsim2IUQmYeZsKFSBsv6kJT
-         3kDR9KLYjND6JPpx0YTAndrQaTelzP3558OkivI4ykhj79/nak1F6z80uX1/EQIXmTKV
-         I+kUa6Zt2XAbNuMItIuLndMdaWWyo32PYvWKoOywYCMLUV2UDlYdbpJ66arhF+MiPCa0
-         yMKA==
+        h=from:to:cc:subject:date:message-id;
+        bh=nb32zZpaq5DzYInbkLOMoGw5CQr0RQ3ACjmDsPtmqPo=;
+        b=kWD2M2eRZOtNKawmTSq/yR75QnpAQBoo9exQE9wtVhu6SSt87u6RRdzQxwglUNqioj
+         7WYux5yzIUJyhFvD5OINhiFFLd724EmEC2YNnx3Sc1cXlrKxDnGgcqdD3VVVRUylIwnt
+         kAYLhayOSk7rO5Q7p6gypk/paOlMsKMGySrpR/sn4q1aJktG20z5+Ls0eohB5473ifSz
+         zckKko/KXt0ABJ/jjHnrHAUN09HaXj5S2kjk5L+SJtUtbLn1dmS3L74fombWkdECCLPn
+         pfG9VHUyUc+prdm2/eGq1xnFUuOsUkmHaauTfzqVYno9/OC85K1M0Sujq7sBg2MTtrHz
+         fMGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=KW/+G0F4VAiVWw4Nmlp0IzpQkQOreyP5QmM8EVBLCtcOlO0Vo83bOVi4aQwW/qWUcz
-         71oUXurb0m3Jw5Pdi4pHx08jchLJ1wSwxIv0aPqGdazZpsB5k04popZLOd8JIWJY/4tW
-         mV3agzz0RHH/kCjLj3xaYUGkY7QFN0dfjZQTXJ7skFkBkx7QWJnuki9ZJ9BXHwP1LmB3
-         4zS/mnfCC/N+YK2Oz3mHLMCbfgRbYlRZ2OrHC3TUcaKjI5+zosraAvhi0zoh6sQoY4RM
-         awSqWuvc/770iyZXeRcvw+e4yArf9HbB+goOUxmI1mUKpqK/wzxiPYWmyfhGviDsPfBa
-         qv3g==
-X-Gm-Message-State: AOAM5327/jh1c2cSqhFq8Uk4yIqv5DdmeKaBzB6GbFwkYrXpYUlxs9w9
-        uie4tjOQkGRKSfM/I0/z9d1/IHvp6JxJQiGtwayLnjt86HE=
-X-Google-Smtp-Source: ABdhPJydZZ8FQlFGmrB/EDLy0Z8gH5X03F6EFXypW4K1vf8iv94WhLhI3iwPKgeJEaRZZocHWED4lUmYPOBkTFPeX+4=
-X-Received: by 2002:a1c:a1c7:: with SMTP id k190mr10461870wme.1.1597588111746;
- Sun, 16 Aug 2020 07:28:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a5d:6cd3:0:0:0:0:0 with HTTP; Sun, 16 Aug 2020 07:28:30
- -0700 (PDT)
-Reply-To: sctnld11170@tlen.pl
-From:   "Mr. Scott Donald" <confianzayrentabilidad@gmail.com>
-Date:   Sun, 16 Aug 2020 07:28:30 -0700
-Message-ID: <CANrrfX7wwL97G=jb--8nb9jH8oRO8T90L6NGSfg1HfnzMyyHcw@mail.gmail.com>
-Subject: Hello, Please
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=nb32zZpaq5DzYInbkLOMoGw5CQr0RQ3ACjmDsPtmqPo=;
+        b=YEopDIBQZ5qG0LfAZ3s4UOLDOUAWr9yPGREmUsvxzXpFuDZfO4kTL7/xMQZ+CbTvA7
+         8VQq9Lk2duGpiii5+N+hy+ynKn987BvGn7kmXJb6UMqq8Es388Ub/u8wJBtOoCfimXU3
+         mE1Our9DF0U5ruzyuUjOnKCccUW5qPj5r+z5/dQGnI76uNilIMyb3MNux6+QdTBom9Fp
+         G8O4Mn/tJ6YCN06ar/gWWXbVIy93OV7Wat49Lq6Sct+x57KR+fbn3ZcTBaff7F+1tI3u
+         mihn/8CTvQnJ+e6VPoxs49bj189xH6bT0tlWf7I9hPsf6/ABbtenRw9/9Sox01ML7Lyw
+         sK4w==
+X-Gm-Message-State: AOAM533jzq4tY5iX3kirqnfnl50e3rrbdzuYkY69Y7j4wPfAiar7I4W5
+        YHUByL2UFCxP4Rc0jqL3+h0=
+X-Google-Smtp-Source: ABdhPJyypHx7MJA5JHgOzBfYE6gKoueYyuVnnKWVkRcqK6wFFKpCEGwC321zfv2ZqVmfnfvsZtfVag==
+X-Received: by 2002:a63:b21a:: with SMTP id x26mr2662719pge.424.1597653986591;
+        Mon, 17 Aug 2020 01:46:26 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.202.98])
+        by smtp.gmail.com with ESMTPSA id ml18sm16418443pjb.43.2020.08.17.01.46.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2020 01:46:25 -0700 (PDT)
+From:   Allen Pais <allen.cryptic@gmail.com>
+To:     m.grzeschik@pengutronix.de, davem@davemloft.net, paulus@samba.org,
+        oliver@neukum.org, woojung.huh@microchip.com, petkan@nucleusys.com
+Cc:     keescook@chromium.org, netdev@vger.kernel.org,
+        linux-ppp@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, Allen Pais <allen.lkml@gmail.com>
+Subject: [PATCH 0/8] drivers: net: convert tasklets to use new tasklet_setup()
+Date:   Mon, 17 Aug 2020 14:16:02 +0530
+Message-Id: <20200817084614.24263-1-allen.cryptic@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
---=20
-Dear Friend,
+From: Allen Pais <allen.lkml@gmail.com>
 
-I'm Mr. Scott Donald a Successful businessMan dealing with
-Exportation, I got your mail contact through search to let you know my
-intension and my Ugly Situation Am a dying Man here in Los Angeles
-California Hospital Bed in (USA), I Lost my Wife and my only Daughter
-for Covid-19 and I also have a problem in my Health and I can die
-anytime I Know,
+Commit 12cc923f1ccc ("tasklet: Introduce new initialization API")'
+introduced a new tasklet initialization API. This series converts 
+all the net/* drivers to use the new tasklet_setup() API
 
-I have a project that I am about to hand over to you. and I already
-instructed the Bankia S.A. Madrid, Spain(BSA) to transfer my fund sum
-of =C2=A33,7M GBP. Equivalent to =E2=82=AC4,077,033.91 EUR, to you as to en=
-able you
-to give 50% of this fund to Charitable Home in your State and take 50%
-don't think otherwise and why would anybody send someone you barely
-know to help you deliver a message, help me do this for the happiness
-of my soul and for God to mercy me and my Family and give Us a good
-place.
+Allen Pais (8):
+  net: dccp: convert tasklets to use new tasklet_setup() API
+  net: ipv4: convert tasklets to use new tasklet_setup() API
+  net: mac80211: convert tasklets to use new tasklet_setup() API
+  net: mac802154: convert tasklets to use new tasklet_setup() API
+  net: rds: convert tasklets to use new tasklet_setup() API
+  net: sched: convert tasklets to use new tasklet_setup() API
+  net: smc: convert tasklets to use new tasklet_setup() API
+  net: xfrm: convert tasklets to use new tasklet_setup() API
 
-please, do as I said there was someone from your State that I deeply
-love so very very much and I miss her so badly I have no means to
-reach any Charitable Home there. that is why I go for a personal
-search of the Country and State and I got your mail contact through
-search to let you know my Bitterness and please, help me is getting
-Dark I ask my Doctor to help me keep you notice failure for me to
-reach you in person Your urgent Response, here is my Doctor Whats-app
-Number for urgent notice +13019692737
+ net/dccp/timer.c           | 10 +++++-----
+ net/ipv4/tcp_output.c      |  8 +++-----
+ net/mac80211/ieee80211_i.h |  4 ++--
+ net/mac80211/main.c        | 14 +++++---------
+ net/mac80211/tx.c          |  5 +++--
+ net/mac80211/util.c        |  5 +++--
+ net/mac802154/main.c       |  8 +++-----
+ net/rds/ib_cm.c            | 14 ++++++--------
+ net/sched/sch_atm.c        |  9 +++++----
+ net/smc/smc_cdc.c          |  6 +++---
+ net/smc/smc_wr.c           | 14 ++++++--------
+ net/xfrm/xfrm_input.c      |  7 +++----
+ 12 files changed, 47 insertions(+), 57 deletions(-)
 
-Hope To Hear From You. I'm sending this email to you for the second
-time yet no response from you.
+-- 
+2.17.1
 
-My Regards.
-
-Mr. Scott Donald
-CEO
