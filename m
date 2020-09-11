@@ -2,79 +2,52 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7134C265955
-	for <lists+linux-ppp@lfdr.de>; Fri, 11 Sep 2020 08:28:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8910E266978
+	for <lists+linux-ppp@lfdr.de>; Fri, 11 Sep 2020 22:19:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725550AbgIKG2A convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-ppp@lfdr.de>); Fri, 11 Sep 2020 02:28:00 -0400
-Received: from mail.flex.co.jp ([211.8.82.123]:52558 "EHLO www.flex.co.jp"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725468AbgIKG17 (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Fri, 11 Sep 2020 02:27:59 -0400
-Received: from live.com.mx ([103.89.89.225])
-        (authenticated bits=0)
-        by www.flex.co.jp (MTA) with ESMTP id 0898njCX009536
-        for <linux-ppp@vger.kernel.org>; Wed, 9 Sep 2020 17:49:55 +0900
-Reply-To: powerinthewords@yahoo.co.jp
-From:   piyin.crhe@live.com.mx
-To:     linux-ppp@vger.kernel.org
-Subject: =?utf-8?Q?=5BSpam=5D?=
- We are still waiting for your email...
-Date:   09 Sep 2020 01:49:54 -0700
-Message-ID: <20200909014953.2F211EF555A89887@live.com.mx>
-MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-X-SpamInfo: FortiGuard-AntiSpam ip, connection black ip 103.89.89.225
+        id S1725842AbgIKUTz (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 11 Sep 2020 16:19:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51504 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725832AbgIKUTz (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 11 Sep 2020 16:19:55 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 606C9C061795;
+        Fri, 11 Sep 2020 13:19:55 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 137CD1365DC87;
+        Fri, 11 Sep 2020 13:03:01 -0700 (PDT)
+Date:   Fri, 11 Sep 2020 13:19:43 -0700 (PDT)
+Message-Id: <20200911.131943.1509486357233508252.davem@davemloft.net>
+To:     allen.lkml@gmail.com
+Cc:     m.grzeschik@pengutronix.de, paulus@samba.org, oliver@neukum.org,
+        woojung.huh@microchip.com, petkan@nucleusys.com,
+        keescook@chromium.org, netdev@vger.kernel.org,
+        linux-ppp@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH 0/8] drivers: net: convert tasklets to use new
+ tasklet_setup()
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <CAOMdWSJohOLK023ZM-yTnZiNHdy2TfyyWV3+iuuQiALiYV2NLQ@mail.gmail.com>
+References: <20200817084614.24263-1-allen.cryptic@gmail.com>
+        <CAOMdWSJohOLK023ZM-yTnZiNHdy2TfyyWV3+iuuQiALiYV2NLQ@mail.gmail.com>
+X-Mailer: Mew version 6.8 on Emacs 27.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [2620:137:e000::1:9]); Fri, 11 Sep 2020 13:03:01 -0700 (PDT)
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Dear Beneficiary,
+From: Allen <allen.lkml@gmail.com>
+Date: Fri, 11 Sep 2020 11:26:52 +0530
 
-We wish to inform you that a power of attorney was forwarded to 
-our office  by two gentlemen regarding your unclaimed fund of $56 
-Million Dollar. One of them is an American citizen named Mr. 
-Robert Porter and the other is Mr. Wilhelm Berg a Swedish 
-citizen.We have be waiting for you to contact us since last year.
+> Will you pick these up or should I send these out again when I
+> have fixed the two patches on the other thread.
 
-The document claims these gentlemen to be your authorized 
-representatives, and the power of attorney states that you are 
-already deceased.  It further states that your death was due to 
-lung cancer, with your date of death being January 27th, 2020.
-
-They have now submitted a new account to replace the receiving 
-account that was in the original claim of funds. These funds have 
-remained unclaimed for quite some time and the need for 
-resolution is pressing. Below is the new account they have 
-submitted.
-
-Account Name's :  Robert Porter /Wilhelm Berg
-Account: 5007-29 438 66
-IBAN-nr: SE4150000000050072943866
-Bic-kod: ESSESESS
-Skandinaviska Enskilda Banken. (SEB :)
-SWEDEN .
-
-In the event that you are in fact still alive, we ask that you 
-confirm your existence by responding to this email. You are to 
-view this as a matter requiring immediate attention and response. 
-We have 48 hr monitoring of all activities within Federal Reserve 
-Bank.On this regard,you will be directed to any of our office 
-center that you will go in person to sign the final papers,
-because we have our payment center in Europe,Asia,America and 
-Canada.You will go to any of the office that you will be directed 
-to with the copy of the documents of your fund.
-
-We have contacted the bank in the Sweden asking them to wait for 
-further directives from Federal Reserve Bank, prior to 
-authorizing any withdrawals in any form.  Our request is based 
-entirely on our attempt to verify that you are in fact deceased, 
-before money is wrongly disbursed.
-
-Your in Service,
-
-Robert Steven Kaplan
-2200 N Pearl St, Dallas, TX 75201, United States
+Always resend.
