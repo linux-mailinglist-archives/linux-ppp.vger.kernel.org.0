@@ -2,94 +2,70 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E470269ACE
-	for <lists+linux-ppp@lfdr.de>; Tue, 15 Sep 2020 03:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 765D6269CD9
+	for <lists+linux-ppp@lfdr.de>; Tue, 15 Sep 2020 06:08:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726034AbgIOBCr (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 14 Sep 2020 21:02:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46184 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725999AbgIOBCr (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Mon, 14 Sep 2020 21:02:47 -0400
-Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0F2AB20897;
-        Tue, 15 Sep 2020 01:02:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600131766;
-        bh=rcUTiEDscKq9WvyrbhZMnGd9sESz+6KVCA3cBx84RRM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=1Nff53bF1ooiZft2vuwx9AyOPhB18fxB0omFu+iP+s1M2dbXGNTA0sttkQASTlIsL
-         ZXk+1efvDrUrVXv8m7m8ahYvD08dIzAOFZGKuLlS3ycYc5u5cVlKqvIsqP4TDcjGAc
-         XXVA3Fs31/Cu7c/5hgVo4fxLZuyvAfftommXZG90=
-Date:   Mon, 14 Sep 2020 18:02:44 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Allen Pais <allen.lkml@gmail.com>
-Cc:     davem@davemloft.net, m.grzeschik@pengutronix.de, paulus@samba.org,
+        id S1726034AbgIOEI1 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 15 Sep 2020 00:08:27 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:60196 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726019AbgIOEI0 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Tue, 15 Sep 2020 00:08:26 -0400
+Received: from [192.168.0.114] (unknown [49.207.201.19])
+        by linux.microsoft.com (Postfix) with ESMTPSA id CC99A2079101;
+        Mon, 14 Sep 2020 21:08:22 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CC99A2079101
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1600142906;
+        bh=/Mv5O1UvntEWYO8o10jBuHAlAU79rMAqzjgJe/3Oa7A=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=aeijkIQXAIyRP2tcHlaMQ99msmsBL61eYnzE1d3QWbN0OJxg+kF9QGg7d3y1kRNlC
+         s3+2oYzYUoLK73yukMAN9RwlpqXYqryv8NBN9oYgwLEXilXK5q7Dtd/WoAPoN6Cjkk
+         ECPUCzowsifuZ0/pqTO4UbJp6udPFoPtjpbeNv3w=
+Subject: Re: [RESEND net-next v2 00/12]drivers: net: convert tasklets to use
+ new tasklet_setup() API
+To:     David Miller <davem@davemloft.net>, allen.lkml@gmail.com
+Cc:     m.grzeschik@pengutronix.de, kuba@kernel.org, paulus@samba.org,
         oliver@neukum.org, woojung.huh@microchip.com,
         UNGLinuxDriver@microchip.com, petkan@nucleusys.com,
         netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-ppp@vger.kernel.org, Allen Pais <apais@linux.microsoft.com>,
-        Romain Perier <romain.perier@gmail.com>
-Subject: Re: [RESEND net-next v2 01/12] net: mvpp2: Prepare to use the new
- tasklet API
-Message-ID: <20200914180244.3581836c@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20200914073131.803374-2-allen.lkml@gmail.com>
+        linux-ppp@vger.kernel.org
 References: <20200914073131.803374-1-allen.lkml@gmail.com>
-        <20200914073131.803374-2-allen.lkml@gmail.com>
+ <20200914.132438.1323071673363556958.davem@davemloft.net>
+From:   Allen Pais <apais@linux.microsoft.com>
+Message-ID: <a43cb15f-a543-3099-ee8a-63de4bd15e66@linux.microsoft.com>
+Date:   Tue, 15 Sep 2020 09:38:15 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200914.132438.1323071673363556958.davem@davemloft.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-ppp-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Mon, 14 Sep 2020 13:01:20 +0530 Allen Pais wrote:
-> From: Allen Pais <apais@linux.microsoft.com>
 > 
-> The future tasklet API will no longer allow to pass an arbitrary
-> "unsigned long" data parameter. The tasklet data structure will need to
-> be embedded into a data structure that will be retrieved from the tasklet
-> handler. Currently, there are no ways to retrieve the "struct mvpp2_port
-> *" from a given "struct mvpp2_port_pcpu *". This commit adds a new field
-> to get the address of the main port for each pcpu context.
+>> From: Allen Pais <apais@linux.microsoft.com>
+>>
+>> ommit 12cc923f1ccc ("tasklet: Introduce new initialization API")'
+>> introduced a new tasklet initialization API. This series converts
+>> all the net/* drivers to use the new tasklet_setup() API
+>>
+>> This series is based on v5.9-rc5
 > 
-> Signed-off-by: Romain Perier <romain.perier@gmail.com>
-> Signed-off-by: Allen Pais <apais@linux.microsoft.com>
-> ---
->  drivers/net/ethernet/marvell/mvpp2/mvpp2.h      | 1 +
->  drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c | 1 +
->  2 files changed, 2 insertions(+)
+> I don't understand how this works, you're not passing the existing
+> parameter any more so won't that crash until the final parts of the
+> conversion?
 > 
-> diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2.h b/drivers/net/ethernet/marvell/mvpp2/mvpp2.h
-> index 32753cc771bf..198860a4527d 100644
-> --- a/drivers/net/ethernet/marvell/mvpp2/mvpp2.h
-> +++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2.h
-> @@ -861,6 +861,7 @@ struct mvpp2_port_pcpu {
->  	struct hrtimer tx_done_timer;
->  	struct net_device *dev;
->  	bool timer_scheduled;
-> +	struct mvpp2_port *port;
->  };
->  
->  struct mvpp2_queue_vector {
-> diff --git a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-> index 6e140d1b8967..e8e68e8acdb3 100644
-> --- a/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-> +++ b/drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c
-> @@ -6025,6 +6025,7 @@ static int mvpp2_port_probe(struct platform_device *pdev,
->  		err = -ENOMEM;
->  		goto err_free_txq_pcpu;
->  	}
-> +	port->pcpu->port = port;
->  
->  	if (!port->has_tx_irqs) {
->  		for (thread = 0; thread < priv->nthreads; thread++) {
+> This is like a half-transformation that will break bisection.
 
-Not 100% sure but I think this is yours:
+  I understand, I will re-work on it and send it out.
 
-drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:6442:13: warning: dereference of noderef expression
 
-port->pcpu is __percpu, no?
+> 
+> I'm not applying this series, sorry.
+> 
+
