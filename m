@@ -2,45 +2,64 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D35127FA95
-	for <lists+linux-ppp@lfdr.de>; Thu,  1 Oct 2020 09:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A48B2281BF3
+	for <lists+linux-ppp@lfdr.de>; Fri,  2 Oct 2020 21:27:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725894AbgJAHrS (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Thu, 1 Oct 2020 03:47:18 -0400
-Received: from mail2.grupovidela.com ([212.31.54.87]:47588 "EHLO
-        grupovidela.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725938AbgJAHrF (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Thu, 1 Oct 2020 03:47:05 -0400
-X-Greylist: delayed 62085 seconds by postgrey-1.27 at vger.kernel.org; Thu, 01 Oct 2020 03:47:00 EDT
-Received: from User ([94.102.54.226])
-        (user=varios@grupovidela.com mech=LOGIN bits=0)
-        by fortimail.grupovidela.com  with ESMTP id 08UEUh9R015477-08UEUh9T015477;
-        Wed, 30 Sep 2020 16:30:44 +0200
-Message-Id: <202009301430.08UEUh9R015477-08UEUh9T015477@fortimail.grupovidela.com>
-Reply-To: <fulanlan28@gmail.com>
-From:   "Mr. Fu Lan" <aitor@coacan.es>
-Subject: YOUR EARLY REPLY
-Date:   Wed, 30 Sep 2020 07:30:48 -0700
+        id S2388442AbgJBT1A convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Fri, 2 Oct 2020 15:27:00 -0400
+Received: from mx.metalurgs.lv ([81.198.125.103]:60845 "EHLO mx.metalurgs.lv"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725991AbgJBT07 (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Fri, 2 Oct 2020 15:26:59 -0400
+X-Greylist: delayed 551 seconds by postgrey-1.27 at vger.kernel.org; Fri, 02 Oct 2020 15:26:59 EDT
+Received: from mx.metalurgs.lv (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id B783360D44
+        for <linux-ppp@vger.kernel.org>; Fri,  2 Oct 2020 22:16:56 +0300 (EEST)
+Received: from kas30pipe.localhost (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id 5C9BB60835
+        for <linux-ppp@vger.kernel.org>; Fri,  2 Oct 2020 22:16:56 +0300 (EEST)
+Received: by mx.metalurgs.lv (Postfix, from userid 1005)
+        id DBB4560884; Fri,  2 Oct 2020 22:16:55 +0300 (EEST)
+Received: from [100.64.1.74] (unknown [190.15.125.50])
+        (Authenticated sender: admin)
+        by mx.metalurgs.lv (Postfix) with ESMTPA id 0EDE65D3DD;
+        Fri,  2 Oct 2020 22:16:48 +0300 (EEST)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-X-FEAS-AUTH-USER: varios@grupovidela.com
-To:     unlisted-recipients:; (no To-header on input)
+Content-Description: Mail message body
+To:     Recipients <financialcapability6@gmail.com>
+From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
+Date:   Fri, 02 Oct 2020 16:16:42 -0300
+Reply-To: binmurrah@gmail.com
+X-SpamTest-Envelope-From: financialcapability6@gmail.com
+X-SpamTest-Group-ID: 00000000
+X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
+X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
+X-SpamTest-Info: {DATE: unreal year}
+X-SpamTest-Method: none
+X-SpamTest-Rate: 55
+X-SpamTest-Status: Not detected
+X-SpamTest-Status-Extended: not_detected
+X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
+Message-ID: <20201002191655.DBB4560884@mx.metalurgs.lv>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
+Subject: Low Rate Loan.
+X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
+         bases: 20140401 #7726142, check: 20201002 notchecked
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-YOUR EARLY REPLY 
+Hello Dear,
 
-It is understandable that you might be a little bit apprehensive because
-you do not know me but I have a lucrative business proposal of mutual
-interest to share with you.$222,695.415.00 million United States dollars
-your earliest response will be appreciated.
-Email: fulanlan28@gmail.com
-Kind Regards,
-Mr. Fu Lan
+We are Investment Company offering Corporate and Personal
+Loan at 3% Interest Rate for a duration of 10Years.
+
+We also pay 1% commission to brokers, who introduce project
+owners for finance or other opportunities.
+
+Please get back to me if you are interested for more
+details.
+
+Yours faithfully,
+Hashim Bin 
