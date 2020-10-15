@@ -2,69 +2,52 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5431328CAA1
-	for <lists+linux-ppp@lfdr.de>; Tue, 13 Oct 2020 10:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42B8228F3E8
+	for <lists+linux-ppp@lfdr.de>; Thu, 15 Oct 2020 15:54:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404176AbgJMIxE convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-ppp@lfdr.de>); Tue, 13 Oct 2020 04:53:04 -0400
-Received: from [178.252.167.140] ([178.252.167.140]:63826 "EHLO EXG16.DOE.ir"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2404183AbgJMIww (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Tue, 13 Oct 2020 04:52:52 -0400
-X-Greylist: delayed 902 seconds by postgrey-1.27 at vger.kernel.org; Tue, 13 Oct 2020 04:52:51 EDT
-Received: from doe.ir (217.218.14.250) by EXG16.DOE.ir (172.20.1.44) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1261.35; Tue, 13 Oct
- 2020 12:07:45 +0330
-Reply-To: <imfc@mail2washington.com>
-From:   "Mrs. Roonie Holbrook" <n.saffar@doe.ir>
-To:     <linux-ppp@vger.kernel.org>
-Subject: From Mrs. Roonie Holbrook !!
-Date:   Tue, 13 Oct 2020 01:37:23 -0700
-Message-ID: <20201013013714.C76277163B8B3761@doe.ir>
+        id S1730424AbgJONx7 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 15 Oct 2020 09:53:59 -0400
+Received: from edge.kilargo.pl ([77.252.52.110]:24065 "EHLO edge.kilargo.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729735AbgJONx6 (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Thu, 15 Oct 2020 09:53:58 -0400
+X-Greylist: delayed 601 seconds by postgrey-1.27 at vger.kernel.org; Thu, 15 Oct 2020 09:53:22 EDT
+Received: from mail.kilargo.pl (77.252.52.107) by edge.kilargo.pl
+ (77.252.52.109) with Microsoft SMTP Server (TLS) id 8.3.485.1; Thu, 15 Oct
+ 2020 15:41:40 +0200
+Received: from User (185.248.12.71) by MAIL.kilargo.pl (172.22.0.36) with
+ Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 15 Oct 2020 14:54:55 +0200
+Reply-To: <kim.leang2011@yahoo.com>
+From:   Kim Leang <mechanik@kilargo.pl>
+Subject: Greeting! !!
+Date:   Thu, 15 Oct 2020 15:54:58 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [217.218.14.250]
-X-ClientProxiedBy: EXG16.DOE.ir (172.20.1.44) To EXG16.DOE.ir (172.20.1.44)
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <b8fd632900dc4ad4a113512e7781e06f@mail.kilargo.pl>
+To:     Undisclosed recipients:;
+X-Originating-IP: [185.248.12.71]
+X-ClientProxiedBy: mail.kilargo.pl (172.22.0.36) To MAIL.kilargo.pl
+ (172.22.0.36)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A295AAB9B6B647163
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Attention,
+Greeting!
 
-Nice day and Congratulations !!!.
+I am contacting you to receive and share with me an abandoned fund ( $21,537.000.00 ) left in our bank by a deceased customer. I was going through the Internet search when I found your email address. My name is Mr. Kim Leang.
 
-You are qualified for the IMFC Covid 19 grant of $750,000.00 
-dollars to support the people in your community. Now respond to 
-details to claim your money.
+I want to utilize this opportunity and make use of this fund if I should present your name to the bank to stand as his business associate/ trustee for the fund to be released to you via Visa card for easy withdrawals in any VISA ATM machine anywhere in the World.
 
-You are directed to contact the below Office of Paymaster General 
-immediately through his contact details below:
+The bank will also give you international online transfer options. With these you can transfer the funds without any risk.
 
-Mr. Williams Fox
-Email: claim.dept@mail2finance.com 
+Should you be interested in working with me in this project? Please reply back and let's benefit from this golden opportunity.You are my first contact. I shall wait a few days and if I do not hear from you, I shall look for another person.
 
-This is to avoid mistake while transferring your overdue payment 
-to you, You have to forward to him below details of yours to 
-start processing your payment file and this ref: 
-UN/FM14/WB/Covid-19:
- 
-Your Full Name:
-Your Contact Address:
-State:
-Country:
-Telephone and Fax Number:
-Occupation:
-Age:
- 
-Kindly get back to Mr. Williams Fox  as soon as possible so that 
-he will direct you on what to do for the claims through our 
-Affiliated Bank.
- 
-
-Best regards
-
-Mrs. Roonie Holbrook
-IMFC Grant Claim Department
-Email: imfc@mail2washington.com
+Thanks and have a nice day,
+Mr. Kim Leang.
