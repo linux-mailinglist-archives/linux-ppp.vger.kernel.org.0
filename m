@@ -2,64 +2,82 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 509B529053E
-	for <lists+linux-ppp@lfdr.de>; Fri, 16 Oct 2020 14:37:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD3F12A08C0
+	for <lists+linux-ppp@lfdr.de>; Fri, 30 Oct 2020 16:00:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407622AbgJPMha (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 16 Oct 2020 08:37:30 -0400
-Received: from cpanel.giganet.cl ([190.96.78.139]:39766 "EHLO
-        cpanel.giganet.cl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407562AbgJPMhY (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 16 Oct 2020 08:37:24 -0400
-X-Greylist: delayed 20782 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Oct 2020 08:37:10 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=dplgrout.cl
-        ; s=default; h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:
-        Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=TrgUs68YRs3neP+PfrvGhLoeMXh3YzKv5z9oCWPJ0m4=; b=m/ABHCVvyLYD2QkkwOjuWUgGFG
-        i9BJXsIic9wHOFEzjhXFPbcsR2XTWptcrmKLSqDrJOV7hGJM6za5nSEFhd4CC/+eaHHsgS48/E2jM
-        qvMpEeazlOlIrwSs4xM+Zdf/REorOK5GVU6ZAJUjCzQuCMv9dTVBPKuexZxj1Qoi2hPLiQ576Ik0L
-        XzwzerIXphINfmlVQ0r0UMIuChB1Vcn201QVmD2skB/Nh9D/yp0E95Av9ZMQq7ln6H0uEUnu/2/5Y
-        /CHuMEs39xrrgaYDtG7jTh3PfukIIcCJEs3b52/mZokA1w+tDL1dp0MaV2Z+qYj+Bzs13o0ru0vv/
-        Mq733mMw==;
-Received: from [::1] (port=55048 helo=cpanel.giganet.cl)
-        by cpanel.giganet.cl with esmtpa (Exim 4.93)
-        (envelope-from <info@controlypotencia.com>)
-        id 1kTJ7f-0009vt-N3; Fri, 16 Oct 2020 03:21:51 -0300
+        id S1726989AbgJ3PAg (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 30 Oct 2020 11:00:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39474 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726981AbgJ3PAb (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 30 Oct 2020 11:00:31 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFDA4C0613BA
+        for <linux-ppp@vger.kernel.org>; Fri, 30 Oct 2020 07:59:36 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id 23so7198723ljv.7
+        for <linux-ppp@vger.kernel.org>; Fri, 30 Oct 2020 07:59:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
+        b=TjZDjTDUyG5IOPAjtKhDz6bJNm6DqwPh3GYjQnJOtk58Qe+VS+LrjG9D+UJTL89L5a
+         hPszd6YttBU2gVDN4Hgd0nVvKmUsgBGa0RfR9y4dU1VG6wqrOSeXXlqa/jT4b2a91QjD
+         sT+ma7QKBtdbME0ZKxl0kc6DEI2BSZsRxuMkNkQsvOWxO6URWAKkh65L3Tk879AJ4LqG
+         Bj9eXYFDUcjXqha9S32esb82rsLCjf9rEdFYrDoZfWxC18Um3HNxqbzetSufrWkdrmWB
+         Hgfuw2XlX0g8ZkLr3paRT5DvZbKL3ccSJq24BaLzNsiQWn1tArC4uUyPSHMQ3hVqPZo6
+         Sb9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
+        b=SNj8YJ22PaZuKe/CTJo0r0+cGSlFuchMqCeK62RqCXnL6gTXfNu/1tkzhE/qbTyWeD
+         Z/hVyizfrUodHhMlmRzOCSrrWVB1whY8p0VxGWZipZNS8nYG07oJY2/pQzRDoELaN07k
+         GlAzMYiFRmd0P/2yApkQTR2Z3CDlUTAtnJtUw+ckQvbriWKPQ6elXWl1uU2cGqxIWJ6/
+         auqqAbVZUVF4oPK1aQ/ZPGb8VYBcGRf1vd/ksVKm9fcOPeQT2Y8Wi0vum5o6SD4qKSLV
+         l4zbFI6nx3IebUAuu4WooovrxY/lFOmMetTj7w+U/NXhWr+R2yujdLxOdCNr1d6sM5rW
+         y9gg==
+X-Gm-Message-State: AOAM530zfKDSVeUXQioD73kZ7XMdj6Xb6K3A9FsF4Q4Pg7UBXkWwlWf/
+        cNFQ72vxyR6l6DA5XIauh+jHdQyk5U7OdtVO1RI+3LTdcQ==
+X-Google-Smtp-Source: ABdhPJz0XXuJnPS5g3+lbBiW+XXmkDUqYoNBDu76t3os6QvlPQSI6Onyl30CWs+Md1o+E0r28qs03HXLpOQosKz8YWo=
+X-Received: by 2002:a50:f307:: with SMTP id p7mr2761574edm.235.1604069974505;
+ Fri, 30 Oct 2020 07:59:34 -0700 (PDT)
 MIME-Version: 1.0
-Date:   Fri, 16 Oct 2020 03:21:50 -0300
-From:   Ying Chongan <info@controlypotencia.com>
+Received: by 2002:a50:f14c:0:0:0:0:0 with HTTP; Fri, 30 Oct 2020 07:59:34
+ -0700 (PDT)
+Reply-To: li.anable85@gmail.com
+From:   Liliane Abel <k.griest04@gmail.com>
+Date:   Fri, 30 Oct 2020 15:59:34 +0100
+Message-ID: <CABAZL7=b-NWks3DKb=fdDjnu_xt_-CcJCqf-F5s0yQCFVH73-A@mail.gmail.com>
+Subject: 
 To:     undisclosed-recipients:;
-Subject: Investment opportunity
-Reply-To: yingchongan@zohomail.com
-User-Agent: Roundcube Webmail/1.4.8
-Message-ID: <e70e5a6e462f92c7f06eea146a612430@controlypotencia.com>
-X-Sender: info@controlypotencia.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel.giganet.cl
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - controlypotencia.com
-X-Get-Message-Sender-Via: cpanel.giganet.cl: authenticated_id: mariapaz.lopez@dplgrout.cl
-X-Authenticated-Sender: cpanel.giganet.cl: mariapaz.lopez@dplgrout.cl
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Greetings,
+Dearest
 
-This email is for an opportunity to invest in any lucrative business in 
-your country.
+Greeting my dear, I am Liliane Abel by name, The only daughter of late
+Mr.Benson Abel. My father is one of the top Politician in our country
+and my mother is a farmers and cocoa merchant when they were both
+alive. After the death of my mother, long ago, my father was
+controlling their business until he was poisoned by his business
+associates which he suffered and died.
 
-We offer a quick loan at low interest rate, if you are interested, 
-please reply to yingchongan@gmail.com for more details.
-
-Sincerely: Ying Chongan
+Before the death of my father, He told me about (two million five
+hundred thousand united states dollars) which he deposited in the bank
+in Lome-Togo, It was the money he intended to transfer overseas for
+investment before he was poisoned. He also instructed me that I should
+seek for foreign partners in any country of my choice who will assist
+me transfer this money in overseas account where the money will be
+wisely invested.
+I am seeking for your kind assistance in the following ways:  (1) to
+provide a safe bank account into where the money will be transferred
+for investment. (2) To serve as a guardian of this fund since I am a
+girl of 19 years old. (3) To make arrangement for me to come over to
+your country to further my education. This is my reason for writing to
+you. Please if you are willing to assist me I will offer you 25% of
+the total money. Reply if  you are interested
+Best regards.
+Liliane Abel.
