@@ -2,68 +2,66 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5A1D2BFB09
-	for <lists+linux-ppp@lfdr.de>; Sun, 22 Nov 2020 22:53:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B89642C6031
+	for <lists+linux-ppp@lfdr.de>; Fri, 27 Nov 2020 07:42:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726681AbgKVVu1 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sun, 22 Nov 2020 16:50:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33830 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726296AbgKVVu1 (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sun, 22 Nov 2020 16:50:27 -0500
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E6DC0613CF;
-        Sun, 22 Nov 2020 13:50:26 -0800 (PST)
-Received: by mail-ej1-x642.google.com with SMTP id z5so512474ejp.4;
-        Sun, 22 Nov 2020 13:50:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:sender:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to;
-        bh=holMzMixu6L4mPkY4KLX0AXrH3B7KLU6Q1+gVZ1hbDo=;
-        b=TnXlN4ldBjSgvAJgHY3T7vW9Ah283ksAmG/FdquMjOZgT+Bv/lPfHOurJbnzow4d2K
-         WkeLuX83GKuRW9SDF7dTwt5dp4cm75H35X3R1+3m27nAtUm40+IFLPxmLS7v1uGkKHO1
-         uxE948eZOQ2viFVEZb2urqvYOvPhewco+NNfi0aF7+XhSn5Abtdk/PHagpRGeNrdHWlE
-         gUSpUVyJB1ib7msceREHc/uZjUSvUA0x7PCjT4tQdrFT2e74CnrmQQgpC+9Kg1GmkURW
-         CPFF/a9bQ96VM1bM2FXUYB8LYYH9uqLOctB1dZhYKcPgXorMiyY3jCqJOjQWOCyzIsR8
-         G+dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:sender:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to;
-        bh=holMzMixu6L4mPkY4KLX0AXrH3B7KLU6Q1+gVZ1hbDo=;
-        b=nrHexLh3ZbMmW01VstD939A9TRTSE/YQ83nELn6EfqLiFCKbMNckDPGKxTebCuxLE9
-         Iid73WEvcx4s5iLIoGddEB0m+SeVDyQwDcEstjZ/r8VermBKQNozEPEv/IeI7izpnHAt
-         r9W8ycDeDfllon7dKttN3F+kCMFUn0Bsq/MD9rgN3XZT4UtPPDhnYOojH8rMBOs1uGlB
-         q8CPDeI5plxY+38fptzULhoKo1xucHxxXyR0HWg0g86bLOfNPWJjdvGcg8MWqbYrJZ58
-         He+96v+/ZDSq/AikgPiOYTfzcGp5s+rERcJ3oreS+crP50ZCfBCcntAuXypBnpYGPlz3
-         ab0g==
-X-Gm-Message-State: AOAM5300GJ5qIwKsuH43gzYOHDCZCwJ/CAcZA4s9lUD7DTsaYU1rTjLm
-        w/dR+5X6Yd9KKY0v49TbRFqPpjG9DAA=
-X-Google-Smtp-Source: ABdhPJy8RsgFxVJC6xng+s7wc1yIOJggFktbwGbFXSy5aOBwsXWy3RF3vXttwMVJEULoT8UVWu+Xrw==
-X-Received: by 2002:a17:906:6d8e:: with SMTP id h14mr18193647ejt.522.1606081825652;
-        Sun, 22 Nov 2020 13:50:25 -0800 (PST)
-Received: from [192.168.43.48] ([197.210.35.67])
-        by smtp.gmail.com with ESMTPSA id e17sm4016232edc.45.2020.11.22.13.50.20
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Sun, 22 Nov 2020 13:50:25 -0800 (PST)
-Message-ID: <5fbadd21.1c69fb81.8dfc7.11d1@mx.google.com>
-Sender: Baniko Diallo <banidiallo23@gmail.com>
-From:   Adelina Zeuki <adelinazeuki@gmail.com>
-X-Google-Original-From: "Adelina Zeuki" <  adelinazeuki@gmail.comm >
-Content-Type: text/plain; charset="iso-8859-1"
+        id S2387557AbgK0GmT (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 27 Nov 2020 01:42:19 -0500
+Received: from kivit.com.ua ([68.183.7.199]:52180 "EHLO kivit.com.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387494AbgK0GmT (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Fri, 27 Nov 2020 01:42:19 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by kivit.com.ua (Postfix) with ESMTP id A728DF0B6AA;
+        Fri, 27 Nov 2020 06:04:30 +0200 (EET)
+Received: from kivit.com.ua ([127.0.0.1])
+        by localhost (kivit.com.ua [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id xa7CcOYNWilj; Fri, 27 Nov 2020 06:04:30 +0200 (EET)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by kivit.com.ua (Postfix) with ESMTP id EE7AEF1152D;
+        Fri, 27 Nov 2020 04:21:25 +0200 (EET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 kivit.com.ua EE7AEF1152D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kivit.com.ua;
+        s=F63F4CB0-F591-11E9-BB9E-CB59FF2C00BF; t=1606443686;
+        bh=3nrn+IPJ6KsXqLvfEW7959xOeqRxjw7dnMTRz7zfiEA=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=LX4QFLxs7LG6aIHL9RQ8eqYyCtMfTkoFy1l5J4YofObBd647t3bPw47OcdGkivRdC
+         CSDKzCDNv4dV1iA/1D50CRdprLFppXUPa9zRK9GNewxsLW5Uo0qBrD4lOfXjwtihxg
+         ciDWsfmQ96FhqohsFCDTI3ttHMHye6QiG/py1cK9HrvVMd6RRB/5E61VFC8puPuOOv
+         6oL7O/hnhzapeMjaTZ5vJlnwUCR6dhwxl9livK6XM+PO41/ffzyqYa/I1QRxmj8J/t
+         J7D0LkKxnNnvvxEteqZv37c/ZPo6lBogM0HU/4NIMaSVsoFcE0K3fCts4LCG3EUi5P
+         GM7TUfTEMUevQ==
+X-Virus-Scanned: amavisd-new at kivit.com.ua
+Received: from kivit.com.ua ([127.0.0.1])
+        by localhost (kivit.com.ua [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id oYq4GGPpmnF0; Fri, 27 Nov 2020 04:21:25 +0200 (EET)
+Received: from [197.174.0.22] (unknown [197.174.0.22])
+        by kivit.com.ua (Postfix) with ESMTPSA id B7677ED6A00;
+        Fri, 27 Nov 2020 03:02:33 +0200 (EET)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Description: Mail message body
-Subject: Hello !!
-To:     Recipients <adelinazeuki@gmail.comm>
-Date:   Sun, 22 Nov 2020 21:50:14 +0000
-Reply-To: adelinazeuki@gmail.com
+Subject: =?utf-8?q?Ihre_Spende=3A_=E2=82=AC_2=2C000=2C000=2E00_Euro?=
+To:     Recipients <konstantinov@kivit.com.ua>
+From:   "Jeff Lindsay" <konstantinov@kivit.com.ua>
+Date:   Thu, 26 Nov 2020 17:02:27 -0800
+Reply-To: povertysolutionsorg@gmail.com
+Message-Id: <20201127010233.B7677ED6A00@kivit.com.ua>
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Hi dear,
-
-Can i talk with you ?
+Ich bin Jeff Lindsay, ein =C3=A4lterer B=C3=BCrger aus Kalifornien, USA. Ic=
+h habe einen Jackpot von 447,8 Millionen Dollar gewonnen, der gr=C3=B6=C3=
+=9Fte Lotterie-Jackpot. Im Namen meiner Familie und aus gutem Willen spende=
+n wir Ihnen und Ihrer Familie einen Betrag von (=E2=82=AC 2.000.000,00 EUR)=
+. Ich versuche, die =C3=B6ffentlichen Waisenh=C3=A4user zu erreichen. Trage=
+n Sie zur Armutsbek=C3=A4mpfung bei und sorgen Sie f=C3=BCr eine angemessen=
+e Gesundheitsversorgung f=C3=BCr Einzelpersonen, insbesondere w=C3=A4hrend =
+dieser Welt. Pandemic Covid 19. Ich m=C3=B6chte auch, dass Sie einen Teil d=
+ieser Spende in die =C3=B6ffentliche Infrastruktur investieren, um Arbeitsl=
+osen in Ihrem Land Arbeitspl=C3=A4tze zu bieten. Ich habe dich gew=C3=A4hlt=
+, weil ich an dich glaube. Ich brauche Ihre uneingeschr=C3=A4nkte Mitarbeit=
+ in Bezug auf diese Spende. Bitte kontaktieren Sie mich hier zur=C3=BCck un=
+ter meiner privaten E-Mail: jeffpovertyhome@gmail.com
