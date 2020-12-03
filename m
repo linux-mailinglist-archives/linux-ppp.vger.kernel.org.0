@@ -2,66 +2,60 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B89642C6031
-	for <lists+linux-ppp@lfdr.de>; Fri, 27 Nov 2020 07:42:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85B742CD19E
+	for <lists+linux-ppp@lfdr.de>; Thu,  3 Dec 2020 09:47:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387557AbgK0GmT (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 27 Nov 2020 01:42:19 -0500
-Received: from kivit.com.ua ([68.183.7.199]:52180 "EHLO kivit.com.ua"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387494AbgK0GmT (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Fri, 27 Nov 2020 01:42:19 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by kivit.com.ua (Postfix) with ESMTP id A728DF0B6AA;
-        Fri, 27 Nov 2020 06:04:30 +0200 (EET)
-Received: from kivit.com.ua ([127.0.0.1])
-        by localhost (kivit.com.ua [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id xa7CcOYNWilj; Fri, 27 Nov 2020 06:04:30 +0200 (EET)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by kivit.com.ua (Postfix) with ESMTP id EE7AEF1152D;
-        Fri, 27 Nov 2020 04:21:25 +0200 (EET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 kivit.com.ua EE7AEF1152D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kivit.com.ua;
-        s=F63F4CB0-F591-11E9-BB9E-CB59FF2C00BF; t=1606443686;
-        bh=3nrn+IPJ6KsXqLvfEW7959xOeqRxjw7dnMTRz7zfiEA=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=LX4QFLxs7LG6aIHL9RQ8eqYyCtMfTkoFy1l5J4YofObBd647t3bPw47OcdGkivRdC
-         CSDKzCDNv4dV1iA/1D50CRdprLFppXUPa9zRK9GNewxsLW5Uo0qBrD4lOfXjwtihxg
-         ciDWsfmQ96FhqohsFCDTI3ttHMHye6QiG/py1cK9HrvVMd6RRB/5E61VFC8puPuOOv
-         6oL7O/hnhzapeMjaTZ5vJlnwUCR6dhwxl9livK6XM+PO41/ffzyqYa/I1QRxmj8J/t
-         J7D0LkKxnNnvvxEteqZv37c/ZPo6lBogM0HU/4NIMaSVsoFcE0K3fCts4LCG3EUi5P
-         GM7TUfTEMUevQ==
-X-Virus-Scanned: amavisd-new at kivit.com.ua
-Received: from kivit.com.ua ([127.0.0.1])
-        by localhost (kivit.com.ua [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id oYq4GGPpmnF0; Fri, 27 Nov 2020 04:21:25 +0200 (EET)
-Received: from [197.174.0.22] (unknown [197.174.0.22])
-        by kivit.com.ua (Postfix) with ESMTPSA id B7677ED6A00;
-        Fri, 27 Nov 2020 03:02:33 +0200 (EET)
-Content-Type: text/plain; charset="utf-8"
+        id S1729978AbgLCIqA (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 3 Dec 2020 03:46:00 -0500
+Received: from mail.boldwhite24.com ([80.211.42.67]:47908 "EHLO
+        mail.boldwhite24.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728805AbgLCIqA (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 3 Dec 2020 03:46:00 -0500
+Received: by mail.boldwhite24.com (Postfix, from userid 1001)
+        id ECC90A2BDA; Thu,  3 Dec 2020 08:45:14 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=boldwhite24.com;
+        s=mail; t=1606985117;
+        bh=hS3ibs4caZkahrzgcMN2TAJo2B2H5Muwb2NidDYlIzQ=;
+        h=Date:From:To:Subject:From;
+        b=gsztK8jReLHS1cmmGxBis3RMoCDjv6qqFnwdDpK5wZ7/wLCZmVLxJNWSueqaEUsIM
+         3H/diHTwoTTVS28cUhCGSkmgmwLK2eFI0RQFwXwC7mWmv/wFXspPCOFB+Vq+1Ck42+
+         0CgYHM40m4CZSa1nvMODpXx7h4Kd1eqSPHibzbvsT6dC9QHa/zsfwz/qQ2yCt3AnI4
+         ZJl+1Xykspw71JiiUNe2Sa/GuCXdth4/BXqgDzTcG5JvvD9+FhDEDq50LAvFmTkhiu
+         /P+wo23ADFpe7AmSwcM72+EagItc/5tibI9Crtgs8ukx4ikDEpAZA88LTsl6Lo1aKf
+         22fDHZpHaxXgw==
+Received: by mail.boldwhite24.com for <linux-ppp@vger.kernel.org>; Thu,  3 Dec 2020 08:45:13 GMT
+Message-ID: <20201203074501-0.1.2m.amg1.0.iojmhg6grj@boldwhite24.com>
+Date:   Thu,  3 Dec 2020 08:45:13 GMT
+From:   =?UTF-8?Q? "Diego_S=C3=A1nchez" ?= <diego.sanchez@boldwhite24.com>
+To:     <linux-ppp@vger.kernel.org>
+Subject: Disinfection
+X-Mailer: mail.boldwhite24.com
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Ihre_Spende=3A_=E2=82=AC_2=2C000=2C000=2E00_Euro?=
-To:     Recipients <konstantinov@kivit.com.ua>
-From:   "Jeff Lindsay" <konstantinov@kivit.com.ua>
-Date:   Thu, 26 Nov 2020 17:02:27 -0800
-Reply-To: povertysolutionsorg@gmail.com
-Message-Id: <20201127010233.B7677ED6A00@kivit.com.ua>
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Ich bin Jeff Lindsay, ein =C3=A4lterer B=C3=BCrger aus Kalifornien, USA. Ic=
-h habe einen Jackpot von 447,8 Millionen Dollar gewonnen, der gr=C3=B6=C3=
-=9Fte Lotterie-Jackpot. Im Namen meiner Familie und aus gutem Willen spende=
-n wir Ihnen und Ihrer Familie einen Betrag von (=E2=82=AC 2.000.000,00 EUR)=
-. Ich versuche, die =C3=B6ffentlichen Waisenh=C3=A4user zu erreichen. Trage=
-n Sie zur Armutsbek=C3=A4mpfung bei und sorgen Sie f=C3=BCr eine angemessen=
-e Gesundheitsversorgung f=C3=BCr Einzelpersonen, insbesondere w=C3=A4hrend =
-dieser Welt. Pandemic Covid 19. Ich m=C3=B6chte auch, dass Sie einen Teil d=
-ieser Spende in die =C3=B6ffentliche Infrastruktur investieren, um Arbeitsl=
-osen in Ihrem Land Arbeitspl=C3=A4tze zu bieten. Ich habe dich gew=C3=A4hlt=
-, weil ich an dich glaube. Ich brauche Ihre uneingeschr=C3=A4nkte Mitarbeit=
- in Bezug auf diese Spende. Bitte kontaktieren Sie mich hier zur=C3=BCck un=
-ter meiner privaten E-Mail: jeffpovertyhome@gmail.com
+Good morning,
+
+looking for companies interested in raising additional capital by diversi=
+fying their offer in soaps, liquids and gels for hand disinfection and co=
+smetics for body and hair care.
+
+The distribution of innovative products corresponding to the current pref=
+erences of customers in the field of hygiene and preventive healthcare al=
+lows our partners to gain new markets and achieve better economic results=
+=2E
+
+In addition to products with bactericidal action, our range includes show=
+er gels, shampoos and hair conditioners, as well as efficient, concentrat=
+ed detergents.
+
+The versatility (suitable for all skin types) combined with an affordable=
+ price means that customers make an informed choice of a product among ot=
+hers available on the market.
+
+Are you interested in cooperation?
+
+Diego S=C3=A1nchez
