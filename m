@@ -2,68 +2,53 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E31E92E856E
-	for <lists+linux-ppp@lfdr.de>; Fri,  1 Jan 2021 20:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3032E92D8
+	for <lists+linux-ppp@lfdr.de>; Mon,  4 Jan 2021 10:52:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727173AbhAATmx (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 1 Jan 2021 14:42:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33042 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727142AbhAATmx (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 1 Jan 2021 14:42:53 -0500
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB96C061573
-        for <linux-ppp@vger.kernel.org>; Fri,  1 Jan 2021 11:42:12 -0800 (PST)
-Received: by mail-yb1-xb29.google.com with SMTP id k4so20228069ybp.6
-        for <linux-ppp@vger.kernel.org>; Fri, 01 Jan 2021 11:42:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=pUSeSSa3QZE2AHr74rSG8fP87FeP4PPF0NJmOCRtWH0=;
-        b=PGAA5S5/lOPCGHJKZL7JFKjDseXl4fwY1qPd1gyu3d/BrKu3U32tpoAle52Ah7obPL
-         ghh8e0GMB8aTt6U4ZKdBEg+6v5TBHZSL0u04ySDinkxUFlXyQ97Oy8z78dfSb6kXM0oW
-         LAwu4NZB3aysPjCqsWGgBhRDMUdfRcs/A7mEuVtFDiDVpHOagmLqO75Rlstmx+5M0vHD
-         6F08W3SUQk8UdWwT4l5Z832CA8q0VlBSNdU2AevGk/i4EpJy5llx12Y7hCuGLnr6BZPh
-         FL+HHs/x2OJLHJoAbrYjZqp2bbjUrcXEL6UvsBY1pFtn05f+uyXIT/5aNY+Zei6OWKck
-         grww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=pUSeSSa3QZE2AHr74rSG8fP87FeP4PPF0NJmOCRtWH0=;
-        b=XMHn1GoGqeYX6+BcR9pYJFxu8yq2Cgu4JT5XMoB16cB/2YMeT7Rstom3NhraEpx7ZI
-         cBhkGfwOoxpyXdoJEpQJ+r0dSRIvKKB0Qbrcwq1xmA4w2wwQmLCMNaLgjjtU7VDQu/Mw
-         hNQuJBMH0SyXXHCs9ArvT60HeBfaJmooz0NZixz9aNHR5ktloIvl7uRH4GP7uFTjJLRI
-         h8ElwegO1fr9KgeahvAJhI/NYWo4UVRQEdUe5ObcsAmyJbYx7jo6byWbIJ2h5IZ1vgMl
-         sQHVQPD7ttZCp1llTH1bVAa2kXgGM8k4Q+e4z/R6dgPl1LKAmPB+NgvkE8iQL4dp1nbm
-         XALQ==
-X-Gm-Message-State: AOAM5334mjF1g0q0E7l7t+pv2MfZgdwCcECt9h0zjAD9QpXdI6n2Nsxu
-        sKTTlVCr5caJ08Jg/kr1CRBC4BHK/n64IR1ESSs=
-X-Google-Smtp-Source: ABdhPJwkRy17c6jR1zuvjRrTAndJRFHcHi5o0C3tjUzK+KsyYiadGqxMZ2vZTSGpw/F2nx69LvTj0HhkF5RbDuqDGhg=
-X-Received: by 2002:a25:77d3:: with SMTP id s202mr83500005ybc.148.1609530131248;
- Fri, 01 Jan 2021 11:42:11 -0800 (PST)
+        id S1726616AbhADJv1 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Mon, 4 Jan 2021 04:51:27 -0500
+Received: from post.dks.ru ([194.226.89.161]:53176 "EHLO post.dks.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725468AbhADJv0 (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Mon, 4 Jan 2021 04:51:26 -0500
+X-Greylist: delayed 1608 seconds by postgrey-1.27 at vger.kernel.org; Mon, 04 Jan 2021 04:51:24 EST
+Received: from ksmg.dks.lan (unknown [172.17.112.11])
+        by post.dks.ru (Postfix) with ESMTP id 94328270863;
+        Mon,  4 Jan 2021 12:21:42 +0300 (MSK)
+Received: from [192.168.88.237] (unknown [212.154.23.124])
+        (Authenticated sender: zapros@dks.ru)
+        by post.dks.ru (Postfix) with ESMTP id 955CF26F446;
+        Mon,  4 Jan 2021 12:21:36 +0300 (MSK)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Received: by 2002:a05:7110:31c2:b029:2f:40b6:9b83 with HTTP; Fri, 1 Jan 2021
- 11:42:10 -0800 (PST)
-Reply-To: mrsmariaelisabethschaeffler122@gmail.com
-From:   Maria-Elisabeth Schaeffler 
-        <mrsmariaelisabethschaeffler122@gmail.com>
-Date:   Fri, 1 Jan 2021 11:42:10 -0800
-Message-ID: <CAGKDuDV0VhUMikJqOGC4HsvRPe-yFy4trepd8wr5BOmYmoFL7Q@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: YOUR URGENT RESPONSE !!!!
+To:     Recipients <zapros@dks.ru>
+From:   "Mr. Kim Leang" <zapros@dks.ru>
+Date:   Mon, 04 Jan 2021 01:22:02 -0800
+Reply-To: kimleang575@yahoo.com
+Message-Id: <20210104092136.955CF26F446@post.dks.ru>
+X-KLMS-Rule-ID: 7
+X-KLMS-Message-Action: clean
+X-KLMS-AntiSpam-Status: not scanned, disabled by settings
+X-KLMS-AntiSpam-Interceptor-Info: not scanned
+X-KLMS-AntiPhishing: Clean, bases: 2021/01/04 08:40:00
+X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2021/01/04 05:34:00 #16008269
+X-KLMS-AntiVirus-Status: Clean, skipped
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
---=20
-Herzliche Gl=C3=BCckw=C3=BCnsche !!!
+Greeting!
 
-Ich, Frau Maria Elisabeth Schaeffler, habe 1.000.000,00 Euro
-gespendet. Wenn Sie an meiner Spende interessiert sind, kontaktieren
-Sie mich bitte f=C3=BCr weitere Informationen per E-Mail:
-mariaelisabethschaeffler717@gmail.com Vielen Dank Frau Maria Elisabeth
-Schaeffler
+I am contacting you to receive and share with me an abandoned fund ( $21,537.000.00 ) left in our bank by a deceased customer. I was going through the Internet search when I found your email address. My name is Mr. Kim Leang.
+
+I want to utilize this opportunity and make use of this fund if I should present your name to the bank to stand as his business associate/ trustee for the fund to be released to you via Visa card for easy withdrawals in any VISA ATM machine anywhere in the World.
+
+The bank will also give you international online transfer options. With these you can transfer the funds without any risk.
+
+Should you be interested in working with me in this project? Please reply back and let's benefit from this golden opportunity.You are my first contact. I shall wait a few days and if I do not hear from you, I shall look for another person.
+
+Thanks and have a nice day,
+Mr. Kim Leang
