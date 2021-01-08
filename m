@@ -2,181 +2,85 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14F842EA5C6
-	for <lists+linux-ppp@lfdr.de>; Tue,  5 Jan 2021 08:16:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDF752EEF2F
+	for <lists+linux-ppp@lfdr.de>; Fri,  8 Jan 2021 10:11:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725730AbhAEHP6 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-ppp@lfdr.de>); Tue, 5 Jan 2021 02:15:58 -0500
-Received: from smtp.h3c.com ([60.191.123.50]:48819 "EHLO h3cspam02-ex.h3c.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725710AbhAEHP6 (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Tue, 5 Jan 2021 02:15:58 -0500
-Received: from DAG2EX08-IDC.srv.huawei-3com.com ([10.8.0.71])
-        by h3cspam02-ex.h3c.com with ESMTP id 1057EJp3068645;
-        Tue, 5 Jan 2021 15:14:19 +0800 (GMT-8)
-        (envelope-from gao.yanB@h3c.com)
-Received: from DAG2EX08-IDC.srv.huawei-3com.com (10.8.0.71) by
- DAG2EX08-IDC.srv.huawei-3com.com (10.8.0.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 5 Jan 2021 15:14:21 +0800
-Received: from DAG2EX08-IDC.srv.huawei-3com.com ([fe80::81d1:43f5:5563:4c58])
- by DAG2EX08-IDC.srv.huawei-3com.com ([fe80::81d1:43f5:5563:4c58%10]) with
- mapi id 15.01.2106.002; Tue, 5 Jan 2021 15:14:21 +0800
-From:   Gaoyan <gao.yanB@h3c.com>
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        "kuba@kernel.org" <kuba@kernel.org>
-CC:     "jirislaby@kernel.org" <jirislaby@kernel.org>,
-        "paulus@samba.org" <paulus@samba.org>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-ppp@vger.kernel.org" <linux-ppp@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: Re: [PATCH] [v2]net:ppp: remove disc_data_lock in ppp line discipline
-Thread-Topic: [PATCH] [v2]net:ppp: remove disc_data_lock in ppp line
- discipline
-Thread-Index: AdbgF4nu3oTHId93RmKcCrU29a4qZwC+8wyA
-Date:   Tue, 5 Jan 2021 07:14:21 +0000
-Message-ID: <1eb0a5f2eb524fbe83eac2349132e09d@h3c.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.99.161.27]
-x-sender-location: DAG2
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1727824AbhAHJJf (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 8 Jan 2021 04:09:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726120AbhAHJJe (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 8 Jan 2021 04:09:34 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E2B0C0612F5
+        for <linux-ppp@vger.kernel.org>; Fri,  8 Jan 2021 01:08:54 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id b9so13691296ejy.0
+        for <linux-ppp@vger.kernel.org>; Fri, 08 Jan 2021 01:08:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=PJG9QNzBFnfOyrtjckCB6hvyZWPKotvDVB0RCXKMRWg=;
+        b=clO391Mhx9FI1RZ5q+5zuXr9krhQuNXQOfmMwFzlnOFFY0WIQB4NYIVUyTQ2mPMqWU
+         OEXNZk2gFUrFFuTyM/R19cmelOjnrC+KdXAvcwvHTPjtNOzZ/Fx+n4/H+TY63UdivU00
+         oQssCELiRD1llUBg/a6sWS99U1YES2H2PXjicY+Pfqc9Uin1+2Ms/lrSixwPPY8Uvgee
+         EZasxE1R4ANlyqLJPLlmRva13RQVm3V4RikJx84aevtK2TC1rzmXDYh25I3jqZb4AThD
+         KmhCu4NA2vlFaQuZLRPQqynjtr03rgf9l4E3uyMUMLD0NtnQlpI97oE7J+ucK5//sBUu
+         zQZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=PJG9QNzBFnfOyrtjckCB6hvyZWPKotvDVB0RCXKMRWg=;
+        b=qGjTWn1Lr4vSl3mBc0zL6B3Z1lfqeDUXsUvBs5SvglHI56ZKaa5sdR23pCo/UE2gEz
+         NhI0YCUz0kHIJlt8LJNmrhQch1okLsq1hVWXAFZX84adLd7ENzHVJr5cUhYT/ISeNEuc
+         enWPza0X12mykuJFLSUpM+CYNhZ/9RqnUfSssvA2jtGDicBuZJY1Vq0M8DKGAQyzpcaT
+         YLpuJsysj2beo10hHJNho4CSa86cQ2mf1ojQWRqydySoJ3bvny0XEcb18N9l4pbUkTYs
+         4yQGluiAyRPoHzwpOXH+NjyVl01f1U6vrW5nU+ebSt5yRfL11KL+eJXOrI7TE44lTNvC
+         pC3Q==
+X-Gm-Message-State: AOAM5335WHRr0Nv6kI4g/86g+k5ifwHyXooHV6kWeFPAZxYQm5kmuJW6
+        x89iHJhdF+jXPb5vcPRgXZC6wetlu1wpKxv3jUc=
+X-Google-Smtp-Source: ABdhPJxD+BfoFssqcS9SjEeFLFrO5IDpJjwPcoaTKeXNXJxGtXyIDw87VWw5DlCwbstcLbUUSnEWB/3dQg7gvLQl/1s=
+X-Received: by 2002:a17:906:718b:: with SMTP id h11mr2035762ejk.241.1610096932790;
+ Fri, 08 Jan 2021 01:08:52 -0800 (PST)
 MIME-Version: 1.0
-X-DNSRBL: 
-X-MAIL: h3cspam02-ex.h3c.com 1057EJp3068645
+Received: by 2002:a05:6402:64d:0:0:0:0 with HTTP; Fri, 8 Jan 2021 01:08:51
+ -0800 (PST)
+Reply-To: mariaelisabethschaeffler717@gmail.com
+From:   Maria Elisabeth Schaeffler <accesgroupbank@gmail.com>
+Date:   Fri, 8 Jan 2021 01:08:51 -0800
+Message-ID: <CA+Eyg0g9PFAfE3W-yh-To=HL-zv9GJYseoy5UO_usbgkjJN7-g@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Hi Greg KH:
+--=20
+Hallo,
 
-On Fri, 1 Jan 2021 09:18:48 +0100, Greg KH wrote:
->On Fri, Jan 01, 2021 at 11:37:18AM +0800, Gao Yan wrote:
->> In tty layer, it provides tty->ldisc_sem to protect all tty_ldisc_ops
->> including ppp_sync_ldisc. So I think tty->ldisc_sem can also protect
->> tty->disc_data, and the disc_data_lock is not necessary.
->>
->> Signed-off-by: Gao Yan <gao.yanB@h3c.com>
->> ---
->>  drivers/net/ppp/ppp_async.c   | 11 ++---------
->>  drivers/net/ppp/ppp_synctty.c | 12 ++----------
->>  2 files changed, 4 insertions(+), 19 deletions(-)
->
->What changed from v1?
+Ich bin Maria Elisabeth Schaeffler, eine deutsche Gesch=C3=A4ftsfrau,
+Investorin und Gesch=C3=A4ftsf=C3=BChrerin der Schaeffler Gruppe. Ich bin e=
+iner
+der Eigent=C3=BCmer der Schaeffler Gruppe. Ich habe 25 Prozent meines
+pers=C3=B6nlichen Verm=C3=B6gens f=C3=BCr wohlt=C3=A4tige Zwecke verschenkt=
+. Und ich habe
+auch zugesagt, den Rest von 25% in diesem Jahr 2020 an Einzelpersonen
+zu verschenken. Ich habe beschlossen, Ihnen 1.000.000,00 Euro zu
+spenden. Wenn Sie an meiner Spende interessiert sind, kontaktieren Sie
+mich f=C3=BCr weitere Informationen.
 
-just change some description.
+Sie k=C3=B6nnen auch mehr =C3=BCber mich =C3=BCber den unten stehenden Link=
+ lesen
 
->And how did you test this?  Why remove this lock, is it causing problems somewhere for it to be here?
+https://en.wikipedia.org/wiki/Maria-Elisabeth_Schaeffler
 
-Somedays ago, There is a problem of 4.14 kernel in n_tty line discipline. Specific description is here:
-Link: https://lkml.org/lkml/2020/12/9/339
-
-At the beginning I tried to add a lock in the layer of n_tty, until I find the patch that helps me a lot.
-Link: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.9-rc4&id=83d817f41070c48bc3eb7ec18e43000a548fca5c
-About the patch, Specific description is here:
-Link: https://lkml.org/lkml/2018/8/29/555
-
-So after referring to the previous patch, it is unnecessary to add a lock to protect disc_data in n_tty_close and n_tty_flush_buffer. And 
-I think it is the same with ppp line discipline.
-
-More detailed explanation:
-We have a potential race on dereferencing tty->disc_data, so we should use some locks to avoid the competition.
-In the current version, it defines disc_data_lock to protect the race of ppp_asynctty_receive and ppp_asynctty_close.
-However, I think when cpu A is running ppp_asynctty_receive, another cpu B will not run ppp_asynctty_close at the same time.
-The reasons are as follows:
-
-Cpu A will hold tty->ldisc_sem before running ppp_asynctty_receive. If cpu B wants to run ppp_asynctty_close,
-it must wait until cpu A release tty->ldisc_sem after ppp_asynctty_receive.
-
-So I think tty->ldisc_sem already can protect the tty->disc_data in ppp line discipline just like n_tty line discipline.
-
-Thanks.
-Gao Yan
-
->Signed-off-by: Gao Yan <gao.yanB@h3c.com>
->---
-> drivers/net/ppp/ppp_async.c   | 11 ++---------
-> drivers/net/ppp/ppp_synctty.c | 12 ++----------
-> 2 files changed, 4 insertions(+), 19 deletions(-)
->
->diff --git a/drivers/net/ppp/ppp_async.c b/drivers/net/ppp/ppp_async.c
->index 29a0917a8..20b50facd 100644
->--- a/drivers/net/ppp/ppp_async.c
->+++ b/drivers/net/ppp/ppp_async.c
->@@ -127,17 +127,13 @@ static const struct ppp_channel_ops async_ops = {
->  * FIXME: this is no longer true. The _close path for the ldisc is
->  * now guaranteed to be sane.
->  */
->-static DEFINE_RWLOCK(disc_data_lock);
->
-> static struct asyncppp *ap_get(struct tty_struct *tty)
-> {
->-   struct asyncppp *ap;
->+   struct asyncppp *ap = tty->disc_data;
->
->-   read_lock(&disc_data_lock);
->-   ap = tty->disc_data;
->    if (ap != NULL)
->        refcount_inc(&ap->refcnt);
->-   read_unlock(&disc_data_lock);
->    return ap;
-> }
->
->@@ -214,12 +210,9 @@ ppp_asynctty_open(struct tty_struct *tty)
-> static void
-> ppp_asynctty_close(struct tty_struct *tty)
-> {
->-   struct asyncppp *ap;
->+   struct asyncppp *ap = tty->disc_data;
->
->-   write_lock_irq(&disc_data_lock);
->-   ap = tty->disc_data;
->    tty->disc_data = NULL;
->-   write_unlock_irq(&disc_data_lock);
->    if (!ap)
->        return;
->
->diff --git a/drivers/net/ppp/ppp_synctty.c b/drivers/net/ppp/ppp_synctty.c
->index 0f338752c..53fb68e29 100644
->--- a/drivers/net/ppp/ppp_synctty.c
->+++ b/drivers/net/ppp/ppp_synctty.c
->@@ -129,17 +129,12 @@ ppp_print_buffer (const char *name, const __u8 *buf, int count)
->  *
->  * FIXME: Fixed in tty_io nowadays.
->  */
->-static DEFINE_RWLOCK(disc_data_lock);
->-
-> static struct syncppp *sp_get(struct tty_struct *tty)
-> {
->-   struct syncppp *ap;
->+   struct syncppp *ap = tty->disc_data;
->
->-   read_lock(&disc_data_lock);
->-   ap = tty->disc_data;
->    if (ap != NULL)
->        refcount_inc(&ap->refcnt);
->-   read_unlock(&disc_data_lock);
->    return ap;
-> }
->
->@@ -213,12 +208,9 @@ ppp_sync_open(struct tty_struct *tty)
-> static void
-> ppp_sync_close(struct tty_struct *tty)
-> {
->-   struct syncppp *ap;
->+   struct syncppp *ap = tty->disc_data;
->
->-   write_lock_irq(&disc_data_lock);
->-   ap = tty->disc_data;
->    tty->disc_data = NULL;
->-   write_unlock_irq(&disc_data_lock);
->    if (!ap)
->        return;
->
->--
->2.17.1
->
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Herzliche Gr=C3=BC=C3=9Fe,
+Frau Maria-Elisabeth Schaeffler,
+CEO
+Schaeffler Gruppe.
+Email:mariaelisabethschaeffler717@gmail.com
