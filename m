@@ -2,46 +2,57 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE7F42F088D
-	for <lists+linux-ppp@lfdr.de>; Sun, 10 Jan 2021 18:13:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADE57300F30
+	for <lists+linux-ppp@lfdr.de>; Fri, 22 Jan 2021 22:51:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726303AbhAJRNa convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-ppp@lfdr.de>); Sun, 10 Jan 2021 12:13:30 -0500
-Received: from mail.univ-alger.dz ([193.194.83.97]:35734 "EHLO
-        mail.univ-alger.dz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726250AbhAJRNa (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sun, 10 Jan 2021 12:13:30 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.univ-alger.dz (Postfix) with ESMTP id 6D3E350870B5;
-        Tue,  5 Jan 2021 17:56:53 +0100 (CET)
-Received: from mail.univ-alger.dz ([127.0.0.1])
-        by localhost (mail.univ-alger.dz [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id CFFKQ8Iy89LC; Tue,  5 Jan 2021 17:56:53 +0100 (CET)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.univ-alger.dz (Postfix) with ESMTP id 673595087340;
-        Tue,  5 Jan 2021 17:56:48 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mail.univ-alger.dz
-Received: from mail.univ-alger.dz ([127.0.0.1])
-        by localhost (mail.univ-alger.dz [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 4H7UkzL7MVJG; Tue,  5 Jan 2021 17:56:48 +0100 (CET)
-Received: from [10.10.10.23] (unknown [193.148.18.54])
-        by mail.univ-alger.dz (Postfix) with ESMTPSA id B752C508738D;
-        Tue,  5 Jan 2021 17:56:35 +0100 (CET)
-Content-Type: text/plain; charset="utf-8"
+        id S1730192AbhAVVuC (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 22 Jan 2021 16:50:02 -0500
+Received: from mail.padangpariamankab.go.id ([103.94.3.123]:36642 "EHLO
+        mail.padangpariamankab.go.id" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729832AbhAVVt6 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 22 Jan 2021 16:49:58 -0500
+X-Greylist: delayed 2856 seconds by postgrey-1.27 at vger.kernel.org; Fri, 22 Jan 2021 16:48:42 EST
+Received: from localhost (localhost [127.0.0.1])
+        by mail.padangpariamankab.go.id (Postfix) with ESMTP id 104756E6C6F;
+        Sat, 23 Jan 2021 03:48:10 +0700 (WIB)
+Received: from mail.padangpariamankab.go.id ([127.0.0.1])
+        by localhost (mail.padangpariamankab.go.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id UPgbObr7Wv6e; Sat, 23 Jan 2021 03:48:09 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.padangpariamankab.go.id (Postfix) with ESMTP id 30E656E6981;
+        Sat, 23 Jan 2021 03:48:09 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.padangpariamankab.go.id 30E656E6981
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=padangpariamankab.go.id; s=D2C6CDEC-3607-11EA-BC8A-EEDE4AB8B776;
+        t=1611348489; bh=4AhSoXRU63EAbbOwseUY/pxjidGey07DskAQ7pZ9AvE=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=HThFhYOADhRCtO5N541vi9Gyg7fJmmutk/OT2THWWyfJ95sWN76AgwUEgQZtSvKhP
+         x/LxSc8MhKoXFOnNTieirEJIp/EcM8e1Pjx1VBDwhPK07CSOtfO2YNC/YwcDHmyfyz
+         2Lf9drxpZNkkPji5hrUXs8+6FbGouclsglppsLR4=
+X-Virus-Scanned: amavisd-new at padangpariamankab.go.id
+Received: from mail.padangpariamankab.go.id ([127.0.0.1])
+        by localhost (mail.padangpariamankab.go.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id kgpMt5_cpBWX; Sat, 23 Jan 2021 03:48:08 +0700 (WIB)
+Received: from mail.padangpariamankab.go.id (mail.padangpariamankab.go.id [103.94.3.123])
+        by mail.padangpariamankab.go.id (Postfix) with ESMTP id B15016E6C6F;
+        Sat, 23 Jan 2021 03:48:05 +0700 (WIB)
+Date:   Sat, 23 Jan 2021 03:48:05 +0700 (WIB)
+From:   GREENLIGHT <rsud@padangpariamankab.go.id>
+Reply-To: "Greenlight Financial Services " <greenlightservices@usa.com>
+Message-ID: <1668595482.19502.1611348485649.JavaMail.zimbra@padangpariamankab.go.id>
+Subject: Update
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?Sie_haben_eine_Spende_von_=E2=82=AC_5=2E800=2E000=2C00=2E?=
-To:     Recipients <z.benamor@univ-alger.dz>
-From:   "Mrs. Mavis" <z.benamor@univ-alger.dz>
-Date:   Tue, 05 Jan 2021 08:56:24 -0800
-Reply-To: wanczykm61@gmail.com
-Message-Id: <20210105165635.B752C508738D@mail.univ-alger.dz>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [103.94.3.123]
+X-Mailer: Zimbra 8.8.15_GA_3895 (zclient/8.8.15_GA_3895)
+Thread-Index: YwDzoLjYr5wvIyGTK9ZPzksGXyGLMw==
+Thread-Topic: Update
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Sie haben eine Spende von € 5.800.000,00. von Mavis Wanczyk antworten Sie mit diesem Code [MW530342019], um die Spende zu erhalten
 
 
-Vous avez un don de 5 800 000,00 €. de Mavis Wanczyk répondez avec ce code [MW530342019] pour recevoir le don
+We offer Reliable/Low Interest Rate Financial Services to Companies & Individuals including; Start-Up Business, Loans & Mortgage ETC. Apply Now
