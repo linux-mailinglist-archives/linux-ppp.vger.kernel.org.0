@@ -2,100 +2,156 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4102307F7F
-	for <lists+linux-ppp@lfdr.de>; Thu, 28 Jan 2021 21:24:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 515083098DF
+	for <lists+linux-ppp@lfdr.de>; Sun, 31 Jan 2021 00:49:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231235AbhA1UX4 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Thu, 28 Jan 2021 15:23:56 -0500
-Received: from spe9-3.ucebox.co.za ([197.242.159.170]:35296 "EHLO
-        spe9-3.ucebox.co.za" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229817AbhA1UXz (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Thu, 28 Jan 2021 15:23:55 -0500
-Received: from cornucopia.aserv.co.za ([154.0.175.203])
-        by spe5.ucebox.co.za with esmtps (TLSv1.2:AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <manornutgrovemanor@gmail.com>)
-        id 1l5BoE-0000tT-KY; Thu, 28 Jan 2021 20:14:51 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by cornucopia.aserv.co.za (Postfix) with ESMTPA id 3AB20C2E22;
-        Thu, 28 Jan 2021 20:13:33 +0200 (SAST)
+        id S232378AbhA3Xsn (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sat, 30 Jan 2021 18:48:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230168AbhA3Xsc (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sat, 30 Jan 2021 18:48:32 -0500
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C65EC061573;
+        Sat, 30 Jan 2021 15:47:52 -0800 (PST)
+Received: by mail-ej1-x62e.google.com with SMTP id rv9so18534573ejb.13;
+        Sat, 30 Jan 2021 15:47:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZUHZvq9Ynb7GHrViRpXoA7KwnYEZy9HTSBIIQWPzb7w=;
+        b=V+2iyN966+5XCIkHlDCAXztkdHMSl6foNUeYMYbUBi808e6bcNNz6Hbeo8uSokQ2Bl
+         zQjEBolLQoG9CpV1b4TDCMQg8GvOgiXaeqbAM+l4slTMunFZidnl18oSab5biVLn/9wV
+         8hwJMmsLa7HxrXCIWrb3bXDzTbRwjeVrRL1mUKLMECVAAUE5X1LHr2jOyyExaNZR6pcv
+         g7NtChUG0shlKAIfwlZX+dfZsSHXc7hs4ahgjGaz2xt4AIfkpZXyoNpNIWwV3lCxAKfA
+         tazrdUraPp7IDcC9qay24avUPuFhnUPDwVIdqjFmhhAYN4Bpi8fXU0VVvODxaVWY7LEA
+         ZTkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=ZUHZvq9Ynb7GHrViRpXoA7KwnYEZy9HTSBIIQWPzb7w=;
+        b=bcVP76tQPky+/Lp0H9SLWSBEIwESGj3zy9/HWt45saM+UDxHUUDw1s2bgX0YklawdS
+         YdfdjFcd9FXtcYDDfo4DSCDyoaoaw0Adi07moh5W14ty+3BWgvXi7+XMJq8qqIjzNEr2
+         c1lExqPctnvMZqXA437A4NO/RrW9fDbADk54XQH/5Qis3qsSwNjo8YhFVid5Nc6O1eTi
+         9u1cbR9fLX3vV6B39H7GZagnISShSK/EIKh7QAOq/mbrGdVPx8ZMxhxJ8Vpvx28GEf5b
+         1ptkBkqGEwzPfcGfi9eie8aYdtZHVQ8ktJ7gXN+xnP348AAftiH9j+Uxa+7YHDCQLubP
+         pi/A==
+X-Gm-Message-State: AOAM532L7wbj8M2Eu/Tuxf/AZKU80ZIGOSqashlJ2kjmkyxcA/wxEjzR
+        Qd4CxkxeGGYFP/yTNddwTgJfRlvD60/3cM4y
+X-Google-Smtp-Source: ABdhPJz4YzDVMWOOElK4WClzBaGKcVmh7tugHohhd18MB43G9kZ3KDIW+GCpZbFVtb6Vtpna2NzhFw==
+X-Received: by 2002:a17:906:958f:: with SMTP id r15mr10772898ejx.360.1612050471142;
+        Sat, 30 Jan 2021 15:47:51 -0800 (PST)
+Received: from stitch.. ([80.71.140.73])
+        by smtp.gmail.com with ESMTPSA id u17sm6628009edr.0.2021.01.30.15.47.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Jan 2021 15:47:50 -0800 (PST)
+Sender: Emil Renner Berthing <emil.renner.berthing@gmail.com>
+From:   Emil Renner Berthing <kernel@esmil.dk>
+To:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-ppp@vger.kernel.org
+Cc:     Emil Renner Berthing <kernel@esmil.dk>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        UNGLinuxDriver@microchip.com, Petko Manolov <petkan@nucleusys.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Jing Xiangfeng <jingxiangfeng@huawei.com>,
+        Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/9] drivers: net: update tasklet_init callers
+Date:   Sun, 31 Jan 2021 00:47:21 +0100
+Message-Id: <20210130234730.26565-1-kernel@esmil.dk>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Thu, 28 Jan 2021 20:13:33 +0200
-From:   Nut Grove Manor <manornutgrovemanor@gmail.com>
-To:     undisclosed-recipients:;
-Subject: Invitation To Quote
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <6b6afbe17591d2cf6354daa881775586@gmail.com>
-X-Sender: manornutgrovemanor@gmail.com
-X-Originating-IP: 154.0.175.203
-X-Afrihost-Domain: pesci.aserv.co.za
-X-Afrihost-Username: 154.0.175.203
-Authentication-Results: ucebox.co.za; auth=pass smtp.auth=154.0.175.203@pesci.aserv.co.za
-X-Afrihost-Outgoing-Class: unsure
-X-Afrihost-Outgoing-Evidence: Combined (0.71)
-X-Recommended-Action: accept
-X-Filter-ID: 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
- 3Rcn
-X-Report-Abuse-To: spam@spe1.ucebox.co.za
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Good Day Sir
+This updates the remaining callers of tasklet_init() in drivers/net
+to the new API introduced in 
+commit 12cc923f1ccc ("tasklet: Introduce new initialization API")
 
-We are please to invite you/your company to quote the following item
-listed
-below:
+All changes are done by coccinelle using the following semantic patch.
+Coccinelle needs a little help parsing drivers/net/arcnet/arcnet.c
 
-Product/Model No: TM9653 PRESSURE REGULATOR
-Product Name:MEKO
-Qty. 30 units
+@ match @
+type T;
+T *container;
+identifier tasklet;
+identifier callback;
+@@
+	tasklet_init(&container->tasklet, callback, (unsigned long)container);
 
-Compulsory,Kindly send your quotation
-for immediate approval.
+@ patch1 depends on match @
+type match.T;
+identifier match.tasklet;
+identifier match.callback;
+identifier data;
+identifier container;
+@@
+-void callback(unsigned long data)
++void callback(struct tasklet_struct *t)
+{
+	...
+-	T *container = (T *)data;
++	T *container = from_tasklet(container, t, tasklet);
+	...
+}
 
-Kind Regards,
-Albert Bourla
-PFIZER B.V Supply Chain Manager
-Tel: +31(0)208080 880
-ADDRESS: Rivium Westlaan 142, 2909 LD
-Capelle aan den IJssel, Netherlands
+@ patch2 depends on match @
+type match.T;
+identifier match.tasklet;
+identifier match.callback;
+identifier data;
+identifier container;
+@@
+-void callback(unsigned long data)
++void callback(struct tasklet_struct *t)
+{
+	...
+-	T *container;
++	T *container = from_tasklet(container, t, tasklet);
+	...
+-	container = (T *)data;
+	...
+}
+
+@ depends on (patch1 || patch2) @
+match.T *container;
+identifier match.tasklet;
+identifier match.callback;
+@@
+-	tasklet_init(&container->tasklet, callback, (unsigned long)container);
++	tasklet_setup(&container->tasklet, callback);
+
+
+Emil Renner Berthing (9):
+  arcnet: use new tasklet API
+  caif_virtio: use new tasklet API
+  ifb: use new tasklet API
+  ppp: use new tasklet API
+  net: usb: hso: use new tasklet API
+  net: usb: lan78xx: use new tasklet API
+  net: usb: pegasus: use new tasklet API
+  net: usb: r8152: use new tasklet API
+  net: usb: rtl8150: use new tasklet API
+
+ drivers/net/arcnet/arcnet.c    |  7 +++----
+ drivers/net/caif/caif_virtio.c |  8 +++-----
+ drivers/net/ifb.c              |  7 +++----
+ drivers/net/ppp/ppp_async.c    |  8 ++++----
+ drivers/net/ppp/ppp_synctty.c  |  8 ++++----
+ drivers/net/usb/hso.c          | 10 +++++-----
+ drivers/net/usb/lan78xx.c      |  6 +++---
+ drivers/net/usb/pegasus.c      |  7 +++----
+ drivers/net/usb/r8152.c        |  8 +++-----
+ drivers/net/usb/rtl8150.c      |  6 +++---
+ 10 files changed, 34 insertions(+), 41 deletions(-)
+
+-- 
+2.30.0
+
