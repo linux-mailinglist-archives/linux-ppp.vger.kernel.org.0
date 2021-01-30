@@ -2,51 +2,51 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BBC93098DE
-	for <lists+linux-ppp@lfdr.de>; Sun, 31 Jan 2021 00:49:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41A113098E2
+	for <lists+linux-ppp@lfdr.de>; Sun, 31 Jan 2021 00:49:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232349AbhA3Xsm (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sat, 30 Jan 2021 18:48:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44108 "EHLO
+        id S232422AbhA3Xsr (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sat, 30 Jan 2021 18:48:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230517AbhA3Xsd (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sat, 30 Jan 2021 18:48:33 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67945C061574;
-        Sat, 30 Jan 2021 15:47:53 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id d2so14809514edz.3;
-        Sat, 30 Jan 2021 15:47:53 -0800 (PST)
+        with ESMTP id S231923AbhA3Xse (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sat, 30 Jan 2021 18:48:34 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D126C06174A;
+        Sat, 30 Jan 2021 15:47:54 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id i8so2120467ejc.7;
+        Sat, 30 Jan 2021 15:47:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5opFbc9GXOiDzoGX7Mdpij1lxqzsIU+iWus0/IPai1Y=;
-        b=gnPSiUQ7XA1pmo8A9e8MOqyvDfgsVhA9FXF2FnSVF17ljc6WUH8ZRJi8oo4aOGKid+
-         2VLyXXyu0jGAjnfFBj643k5+p5oaeEilaluaze+QZEzYGW7nxMNBmzW7fGG8x6GpA9dO
-         GOUgL81i7pDNxC6id1xoPVpD0RBL5puGy3pr/Z/JxpOR3zwd5TZH98Y2R90qiohx5FlI
-         XOaM0hj1Uy2h5sAAiDIN2b5T0rsXPDw/NgbVFsiwElELsrxx8usEv0rc1ZPfdh6r3t+X
-         xN/erEoOold2UaIaR9fks+Owd5sKmO8eMPGrqIwXF8Qovd2t+5t/QBRdIYsrrPTCSXJr
-         hMXA==
+        bh=0Yo9kNchCDDIWynezRjAttZ2661/CkVAgV5LpPo25MQ=;
+        b=le7TELf5GzAEJhC/2f8Vmt/Yhk547GHEGEl81Tk8hEMQ0V+kTHOFSsuJYT3K12A3dk
+         11nxA//swONE977C+sEUMerqh+MXRl8DkEP0cxkj4ftoKtJPjHtnfCdQEg7AqrgC2nRi
+         Yzh/6j6K6Zdoyg9o7SENkIgwAc541J1rqyKNaSLeImzDsdPeCPuPyN/QBbpdsBR7a/Qx
+         REbrDUtUkWqm4vyxR7Hsl/fzGRB5VDKL2r7M5Dfe1YIbcLKAPG+LwIAuJ/D8G7XJapJD
+         oX4bRJv+0u1BG63evr/wioNd1sTmxrsMM3nCIdIYKysOTQsNTANXblrjUJsJRQLDRCKP
+         mfnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=5opFbc9GXOiDzoGX7Mdpij1lxqzsIU+iWus0/IPai1Y=;
-        b=BAuWxPBaWjnzrRMRJQD7DNWJn5Sj+n/TL+ae9/CIPMNC9Fl++s/lB/FhbVgEaQAue0
-         YTGP5qSNXim707sEDOpJI7X7KkPcQm/Yd61HkwX1lrbI8ZC4L/p344HHCDkceA1NvHGl
-         0LHWgfWn22Y+GJmt4MUTb6ULbGY2v3RNJcq704XXyjhGGk5cCzUtlSMS7YvWjZMqWTIM
-         kHHbzU81FtdyQc4RRgzK28tNBsq4ixDTCWJSpWc9qq9dhEC6vbzytUb8CDCYS/kb3/Z1
-         EvQfnr+8kZxIbi6Bg56ch6Z8/DFDBG3feJFr/MbX7yVvN0Bp5kdPRkNyK1cE434RHSdz
-         KoIQ==
-X-Gm-Message-State: AOAM532gzjDG440Q6LhsX+cHa17FKlivS5OsYzXamaHfMHACYyIHIb/K
-        KTUZCqKcA1w4jT8UP7G5w8pSxZkqF6h9mkWe
-X-Google-Smtp-Source: ABdhPJxT/xoRO4n8PBEt6uAecRXvTXhIeTVTpJIiLGUmKwacac7MDFi4UBTQmzHef6Rfg4Gu6hkjqQ==
-X-Received: by 2002:aa7:c7d8:: with SMTP id o24mr12230542eds.328.1612050472199;
-        Sat, 30 Jan 2021 15:47:52 -0800 (PST)
+        bh=0Yo9kNchCDDIWynezRjAttZ2661/CkVAgV5LpPo25MQ=;
+        b=QGkjEYAK0HCWwC4ubSPdVd2KMKTjiv3a2TRwdzyeaGItf6PtGerFoOCdo47jqUi5MT
+         NFVu1iZO03I/wMO2Ib6IgOlBg5lTKPn7vr49PBy9pHOZzwyTxcNy9VePW8xUkKJK/W+4
+         I9XT6IJyekeQGTPFJbjKPPhZdowcwc1Q0/Ak1CRskTRYGnXHjQRdrXvJIUlTsdWd8bpb
+         2wQ+8oejU8xpJjXaJyflJ4TLm+DAjvV6yBXuIEn7+zWKJsSu3cThslPG5ShVkxol1MC/
+         2cj9tS/uSrgWQAKTQDblQXAPQlrE4DVD2xys7/nSk3hwaR3teDLK85l3kFGF2Jck8SO9
+         kbLA==
+X-Gm-Message-State: AOAM532iWFBPZFJ3RoQbWxLkpYVsD/+b30HlwFFUpf5l2tEH4U6SaSHc
+        JKJF6JOJkgBkJ923h1wHgzskrkkkJ799UDyR
+X-Google-Smtp-Source: ABdhPJwV3Uo1wvgSQtJ/dCUIGhCjQ3Ee5XDLIEZPsbmU7AH5hLZlhTCA+cCFSauCpTPB7QLIxWJDgw==
+X-Received: by 2002:a17:906:46d3:: with SMTP id k19mr10774940ejs.546.1612050473207;
+        Sat, 30 Jan 2021 15:47:53 -0800 (PST)
 Received: from stitch.. ([80.71.140.73])
-        by smtp.gmail.com with ESMTPSA id u17sm6628009edr.0.2021.01.30.15.47.51
+        by smtp.gmail.com with ESMTPSA id u17sm6628009edr.0.2021.01.30.15.47.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 15:47:51 -0800 (PST)
+        Sat, 30 Jan 2021 15:47:52 -0800 (PST)
 Sender: Emil Renner Berthing <emil.renner.berthing@gmail.com>
 From:   Emil Renner Berthing <kernel@esmil.dk>
 To:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -61,9 +61,9 @@ Cc:     Emil Renner Berthing <kernel@esmil.dk>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Jing Xiangfeng <jingxiangfeng@huawei.com>,
         Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/9] arcnet: use new tasklet API
-Date:   Sun, 31 Jan 2021 00:47:22 +0100
-Message-Id: <20210130234730.26565-2-kernel@esmil.dk>
+Subject: [PATCH 2/9] caif_virtio: use new tasklet API
+Date:   Sun, 31 Jan 2021 00:47:23 +0100
+Message-Id: <20210130234730.26565-3-kernel@esmil.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210130234730.26565-1-kernel@esmil.dk>
 References: <20210130234730.26565-1-kernel@esmil.dk>
@@ -78,35 +78,36 @@ commit 12cc923f1ccc ("tasklet: Introduce new initialization API")
 
 Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
 ---
- drivers/net/arcnet/arcnet.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/net/caif/caif_virtio.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/net/arcnet/arcnet.c b/drivers/net/arcnet/arcnet.c
-index e04efc0a5c97..69d8920e394b 100644
---- a/drivers/net/arcnet/arcnet.c
-+++ b/drivers/net/arcnet/arcnet.c
-@@ -393,9 +393,9 @@ static void arcnet_timer(struct timer_list *t)
- 	}
+diff --git a/drivers/net/caif/caif_virtio.c b/drivers/net/caif/caif_virtio.c
+index 47a6d62b7511..106f089eb2a8 100644
+--- a/drivers/net/caif/caif_virtio.c
++++ b/drivers/net/caif/caif_virtio.c
+@@ -598,9 +598,9 @@ static netdev_tx_t cfv_netdev_tx(struct sk_buff *skb, struct net_device *netdev)
+ 	return NETDEV_TX_OK;
  }
  
--static void arcnet_reply_tasklet(unsigned long data)
-+static void arcnet_reply_tasklet(struct tasklet_struct *t)
+-static void cfv_tx_release_tasklet(unsigned long drv)
++static void cfv_tx_release_tasklet(struct tasklet_struct *t)
  {
--	struct arcnet_local *lp = (struct arcnet_local *)data;
-+	struct arcnet_local *lp = from_tasklet(lp, t, reply_tasklet);
+-	struct cfv_info *cfv = (struct cfv_info *)drv;
++	struct cfv_info *cfv = from_tasklet(cfv, t, tx_release_tasklet);
+ 	cfv_release_used_buf(cfv->vq_tx);
+ }
  
- 	struct sk_buff *ackskb, *skb;
- 	struct sock_exterr_skb *serr;
-@@ -483,8 +483,7 @@ int arcnet_open(struct net_device *dev)
- 		arc_cont(D_PROTO, "\n");
- 	}
+@@ -716,9 +716,7 @@ static int cfv_probe(struct virtio_device *vdev)
+ 	cfv->ctx.head = USHRT_MAX;
+ 	netif_napi_add(netdev, &cfv->napi, cfv_rx_poll, CFV_DEFAULT_QUOTA);
  
--	tasklet_init(&lp->reply_tasklet, arcnet_reply_tasklet,
--		     (unsigned long)lp);
-+	tasklet_setup(&lp->reply_tasklet, arcnet_reply_tasklet);
+-	tasklet_init(&cfv->tx_release_tasklet,
+-		     cfv_tx_release_tasklet,
+-		     (unsigned long)cfv);
++	tasklet_setup(&cfv->tx_release_tasklet, cfv_tx_release_tasklet);
  
- 	arc_printk(D_INIT, dev, "arcnet_open: resetting card.\n");
- 
+ 	/* Carrier is off until netdevice is opened */
+ 	netif_carrier_off(netdev);
 -- 
 2.30.0
 
