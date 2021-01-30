@@ -2,51 +2,51 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AD9C3098E0
-	for <lists+linux-ppp@lfdr.de>; Sun, 31 Jan 2021 00:49:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7475130993A
+	for <lists+linux-ppp@lfdr.de>; Sun, 31 Jan 2021 01:06:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232408AbhA3Xsp (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sat, 30 Jan 2021 18:48:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44122 "EHLO
+        id S232236AbhAaAEz (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sat, 30 Jan 2021 19:04:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232321AbhA3Xsh (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sat, 30 Jan 2021 18:48:37 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68E9DC0613D6;
-        Sat, 30 Jan 2021 15:47:56 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id n6so14747010edt.10;
-        Sat, 30 Jan 2021 15:47:56 -0800 (PST)
+        with ESMTP id S232490AbhA3XtP (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sat, 30 Jan 2021 18:49:15 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 733DAC0613ED;
+        Sat, 30 Jan 2021 15:47:57 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id i8so2120557ejc.7;
+        Sat, 30 Jan 2021 15:47:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1zRwD9qdAbO8fK598YRqxgb8mENfF+ajdr9W7w7+HkI=;
-        b=Ohy7riB2thMin4OEstXOEn/eLXtkv998O6y0+FvfpNSYWu+23y99sNMmDhwS78t4Yq
-         NMq7iWUIOsTkKBkCa0h7lRebOEYTeuiG+kvXuoN+GDr39McsTuwlPMHrSSt7Sb4pximB
-         ++asPFQkaDe9WD/3/4PkB9fPGpMpvWOvH9yd4KrcmO/FEwhkBXmWVwfpZt1MqxesqZAK
-         mCpnJqzWEA6vWSgzY1ngEdH+1GI7lA34WEWYeyyJzH531pfrnq8EO95FyAbg4ucjyPPL
-         eDuXhiSdfC7CwdnfrE3Y4uOUQUuBz/neUytCBjmmlXVhyes1YnpbvoYV/yZSNQ6d2mYN
-         WcZw==
+        bh=l1vBwvopkVoZW1LdSHZ0VntQhbz1e+J1ify4RkFAUDg=;
+        b=nCgfM79Cv1gKTkdnZi+iTVkIXmdJIhRtPl2up6JysfrtdUsAtapHTnrBj9JOzzuP3y
+         6jteTY5b+UbXw3j3hUYB0UsRYQbJzqONVhX2mEeHFMnuiSRKLtg9UfO5TWsSzR5XQeAi
+         txdjfDP8I8CcLFDTptZLCUIZAiwBVOllsCEAG5kGLHEflBrhPzQzOfymbJDMD9V1fCD9
+         xqLAQwFQZ11O0Qr7g1JkwsQ8mKpZY10Im3F4b9TrZvGcDR7zKOfbTYwppG4/4JNCtjHl
+         mBNpEdQKCA6jVqbUitSl8lMMrRGieegva9AxUhmKRze8N4SMPWCh4gaKPhrj4r6MjpUu
+         L66Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=1zRwD9qdAbO8fK598YRqxgb8mENfF+ajdr9W7w7+HkI=;
-        b=J5H9ZrecplGWFDgizAKH1VvCHdie0VS8hI13gW4WsGu+v8+xQ/0aPbcurwXMPffrZ9
-         a9T5D9Xit+jQq532L9+rvZM0KqmZVLWmdgwyKZDULXrRY0RTCmdoi6SI86Q6Lc36GdUo
-         R0G0y0C4+CuOMsRaDmN7IWsBk9X0LuYbEbEsFSxa6r68KQ0cwykX351F2VwCiNZUBaOi
-         yxLj+Cc1yNUjhAgfIto/1k13zXE9DF6yQdcJLjE2aDqcb6mvSm/66XPWfoH8P2829KRY
-         SFioH9k1j97FWNNINlCozXHuZcAZmFL8YSNG/r5EBX3pPmYR++2Idp//CpxVcfc7H8G6
-         EwIQ==
-X-Gm-Message-State: AOAM533WSFeznIPLQfhCl3GZJwopG1zkJ9xornzDuaYJp7wtNFweAZcm
-        iVbwsqQCYwxNxKfBRijlCze1foLrJY+3Rl24
-X-Google-Smtp-Source: ABdhPJxiIz46Vt1P0xn/IbTDl3Bas4tq2o8OftuhU9qGcPDm2XgWBaZOIX7kG3EQMvyhnncrtuRw2w==
-X-Received: by 2002:aa7:cdc7:: with SMTP id h7mr12234530edw.353.1612050475189;
-        Sat, 30 Jan 2021 15:47:55 -0800 (PST)
+        bh=l1vBwvopkVoZW1LdSHZ0VntQhbz1e+J1ify4RkFAUDg=;
+        b=loi/M1nfOXXN3wLawYi1oakN50JIQQGnUUvoj9udLsjIHGPtnKO0/6Vkl9I8E+f0FH
+         3T3jijMME4fdCUUlxNW4RTb1cv6OkISAQpuugKHhb/FxR7MEOAPgTsc1BoSebXgNMIMt
+         63ZSfTHvqlc7nS5mqebPFptmnTLC/xcGArdI+5QFyrr3AFokSr+VRlQClCQT628fj5CM
+         9kKY7ikmtle22XP8qgNBbzBNFpbOEWxqoojBTho6xxz3XHXd/ip/0m9r8MJopXfcoV0R
+         mF5E4O7nBuMLG1spwdAeTG5xcp27ystQjDwFPKBPcDPbfQEQ537usRWE8KXsNs9miKyg
+         bL0g==
+X-Gm-Message-State: AOAM530ZP88MTke1MddPD7c1LIXoMT1H9A6+e62IIw2IRniNS7sAeEuL
+        f7QmYnTb2TN6Edf6mV/FKlORb6vCTI7g4aHw
+X-Google-Smtp-Source: ABdhPJzpHTsZkK8Pa94gAzrIL7rzOqlHSImWy/F8RfwN3spTn1VbC9nzYNpa8S+xYB+ItKRu4NxBaQ==
+X-Received: by 2002:a17:906:bc5a:: with SMTP id s26mr10653887ejv.327.1612050476291;
+        Sat, 30 Jan 2021 15:47:56 -0800 (PST)
 Received: from stitch.. ([80.71.140.73])
-        by smtp.gmail.com with ESMTPSA id u17sm6628009edr.0.2021.01.30.15.47.54
+        by smtp.gmail.com with ESMTPSA id u17sm6628009edr.0.2021.01.30.15.47.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 15:47:54 -0800 (PST)
+        Sat, 30 Jan 2021 15:47:55 -0800 (PST)
 Sender: Emil Renner Berthing <emil.renner.berthing@gmail.com>
 From:   Emil Renner Berthing <kernel@esmil.dk>
 To:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -61,9 +61,9 @@ Cc:     Emil Renner Berthing <kernel@esmil.dk>,
         Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Jing Xiangfeng <jingxiangfeng@huawei.com>,
         Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/9] ppp: use new tasklet API
-Date:   Sun, 31 Jan 2021 00:47:25 +0100
-Message-Id: <20210130234730.26565-5-kernel@esmil.dk>
+Subject: [PATCH 5/9] net: usb: hso: use new tasklet API
+Date:   Sun, 31 Jan 2021 00:47:26 +0100
+Message-Id: <20210130234730.26565-6-kernel@esmil.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210130234730.26565-1-kernel@esmil.dk>
 References: <20210130234730.26565-1-kernel@esmil.dk>
@@ -73,83 +73,43 @@ Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-This converts the async and synctty drivers to use the new tasklet API n
+This converts the driver to use the new tasklet API introduced in
 commit 12cc923f1ccc ("tasklet: Introduce new initialization API")
 
 Signed-off-by: Emil Renner Berthing <kernel@esmil.dk>
 ---
- drivers/net/ppp/ppp_async.c   | 8 ++++----
- drivers/net/ppp/ppp_synctty.c | 8 ++++----
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/net/usb/hso.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/net/ppp/ppp_async.c b/drivers/net/ppp/ppp_async.c
-index 29a0917a81e6..2b66cf301b0e 100644
---- a/drivers/net/ppp/ppp_async.c
-+++ b/drivers/net/ppp/ppp_async.c
-@@ -101,7 +101,7 @@ static void ppp_async_input(struct asyncppp *ap, const unsigned char *buf,
- 			    char *flags, int count);
- static int ppp_async_ioctl(struct ppp_channel *chan, unsigned int cmd,
- 			   unsigned long arg);
--static void ppp_async_process(unsigned long arg);
-+static void ppp_async_process(struct tasklet_struct *t);
- 
- static void async_lcp_peek(struct asyncppp *ap, unsigned char *data,
- 			   int len, int inbound);
-@@ -179,7 +179,7 @@ ppp_asynctty_open(struct tty_struct *tty)
- 	ap->lcp_fcs = -1;
- 
- 	skb_queue_head_init(&ap->rqueue);
--	tasklet_init(&ap->tsk, ppp_async_process, (unsigned long) ap);
-+	tasklet_setup(&ap->tsk, ppp_async_process);
- 
- 	refcount_set(&ap->refcnt, 1);
- 	init_completion(&ap->dead);
-@@ -488,9 +488,9 @@ ppp_async_ioctl(struct ppp_channel *chan, unsigned int cmd, unsigned long arg)
-  * to the ppp_generic code, and to tell the ppp_generic code
-  * if we can accept more output now.
+diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
+index ef6dd012b8c4..31d51346786a 100644
+--- a/drivers/net/usb/hso.c
++++ b/drivers/net/usb/hso.c
+@@ -1213,9 +1213,10 @@ static void hso_std_serial_read_bulk_callback(struct urb *urb)
+  * This needs to be a tasklet otherwise we will
+  * end up recursively calling this function.
   */
--static void ppp_async_process(unsigned long arg)
-+static void ppp_async_process(struct tasklet_struct *t)
+-static void hso_unthrottle_tasklet(unsigned long data)
++static void hso_unthrottle_tasklet(struct tasklet_struct *t)
  {
--	struct asyncppp *ap = (struct asyncppp *) arg;
-+	struct asyncppp *ap = from_tasklet(ap, t, tsk);
- 	struct sk_buff *skb;
+-	struct hso_serial *serial = (struct hso_serial *)data;
++	struct hso_serial *serial = from_tasklet(serial, t,
++						 unthrottle_tasklet);
+ 	unsigned long flags;
  
- 	/* process received packets */
-diff --git a/drivers/net/ppp/ppp_synctty.c b/drivers/net/ppp/ppp_synctty.c
-index 0f338752c38b..86ee5149f4f2 100644
---- a/drivers/net/ppp/ppp_synctty.c
-+++ b/drivers/net/ppp/ppp_synctty.c
-@@ -90,7 +90,7 @@ static struct sk_buff* ppp_sync_txmunge(struct syncppp *ap, struct sk_buff *);
- static int ppp_sync_send(struct ppp_channel *chan, struct sk_buff *skb);
- static int ppp_sync_ioctl(struct ppp_channel *chan, unsigned int cmd,
- 			  unsigned long arg);
--static void ppp_sync_process(unsigned long arg);
-+static void ppp_sync_process(struct tasklet_struct *t);
- static int ppp_sync_push(struct syncppp *ap);
- static void ppp_sync_flush_output(struct syncppp *ap);
- static void ppp_sync_input(struct syncppp *ap, const unsigned char *buf,
-@@ -177,7 +177,7 @@ ppp_sync_open(struct tty_struct *tty)
- 	ap->raccm = ~0U;
- 
- 	skb_queue_head_init(&ap->rqueue);
--	tasklet_init(&ap->tsk, ppp_sync_process, (unsigned long) ap);
-+	tasklet_setup(&ap->tsk, ppp_sync_process);
- 
- 	refcount_set(&ap->refcnt, 1);
- 	init_completion(&ap->dead_cmp);
-@@ -480,9 +480,9 @@ ppp_sync_ioctl(struct ppp_channel *chan, unsigned int cmd, unsigned long arg)
-  * to the ppp_generic code, and to tell the ppp_generic code
-  * if we can accept more output now.
-  */
--static void ppp_sync_process(unsigned long arg)
-+static void ppp_sync_process(struct tasklet_struct *t)
- {
--	struct syncppp *ap = (struct syncppp *) arg;
-+	struct syncppp *ap = from_tasklet(ap, t, tsk);
- 	struct sk_buff *skb;
- 
- 	/* process received packets */
+ 	spin_lock_irqsave(&serial->serial_lock, flags);
+@@ -1264,9 +1265,8 @@ static int hso_serial_open(struct tty_struct *tty, struct file *filp)
+ 		serial->rx_state = RX_IDLE;
+ 		/* Force default termio settings */
+ 		_hso_serial_set_termios(tty, NULL);
+-		tasklet_init(&serial->unthrottle_tasklet,
+-			     hso_unthrottle_tasklet,
+-			     (unsigned long)serial);
++		tasklet_setup(&serial->unthrottle_tasklet,
++			      hso_unthrottle_tasklet);
+ 		result = hso_start_serial_device(serial->parent, GFP_KERNEL);
+ 		if (result) {
+ 			hso_stop_serial_device(serial->parent);
 -- 
 2.30.0
 
