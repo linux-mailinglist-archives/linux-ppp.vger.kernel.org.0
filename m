@@ -2,64 +2,57 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C65630CF06
-	for <lists+linux-ppp@lfdr.de>; Tue,  2 Feb 2021 23:36:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 755F530D252
+	for <lists+linux-ppp@lfdr.de>; Wed,  3 Feb 2021 05:09:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235867AbhBBWeb (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 2 Feb 2021 17:34:31 -0500
-Received: from [20.39.40.203] ([20.39.40.203]:61037 "EHLO optinix.in"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S230091AbhBBWeU (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Tue, 2 Feb 2021 17:34:20 -0500
-dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
-        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
-        b=Z/qoYR5e93G/1E5Uh8tLreepyziGYShILI7fcXozE97A3DqZKBadv9kcBZBcmHZnqAUcLkt0g+COxgI6WqJ5gdfKqksQSW540KJaAE4DNiZ+EZYtErJhsiZnZCgjfp9yI8W2dpgN2EsH5zUvgVY6Bl2MWU8ziaGqy1DCXSk4DXXi+2CTtkJX9uQrf2ohPvP7bhav6zr4dJxTQjQYoopWjV3h9j7RqQq/UIXqX3VBjVDZARoXQTZUB0KN0A
-        F7X8DeijiSCFEdYkkdQwasjHi3K0B6KloKBXegK0TgQ39PHt5t2MVnmtmeZadY0DbdImfujjk25mqjLTG700JJRoTl9A==
-Received: from User (Unknown [52.231.31.5])
-        by optinix.in with ESMTP
-        ; Sat, 30 Jan 2021 02:14:15 +0000
-Message-ID: <B0CC978E-0149-4652-A2D0-17DE1F49BCC1@optinix.in>
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <support@digitalsol.in>
-Subject: Re:read
-Date:   Sat, 30 Jan 2021 02:14:13 -0000
+        id S231929AbhBCEIL (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 2 Feb 2021 23:08:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40064 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231624AbhBCEIK (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Tue, 2 Feb 2021 23:08:10 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ED77264E24;
+        Wed,  3 Feb 2021 04:07:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612325249;
+        bh=miefNvKjeVLjN1Z5g7rQg56Y1QCwzBxIa/641+I2Bn8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cWyokbi/iQ4ucxexlYPIRgAEq9l0Y4LKcfbiykR3fG7BAarZcP2cVAL0syUGydTGt
+         33pxyIbAVWDSktQEaxfGAGfKMQy2wD66nLkeUegv9RFk6qI/lyfr4Q2wk/S8r1VwKp
+         9q6xE+ByGLOhjjwOAXcBOGcSrGTC2MxY229Qp6z8ZCTctrC0oTgM7UnT1bFZm2+X4o
+         0c7ojs9UEWpSqnkkjKO3qGFKWb8s1zIc4jky7XeicJML5ivx5mIoGugY7ttO/h/yH7
+         I3wG9tS/C5BWn2ApzeqLpgTsYw5B3RHIjBi+UhKToj5Shs6yUtV1/JShiggP9eLcIm
+         3bnNSOTB7vAVQ==
+Date:   Tue, 2 Feb 2021 20:07:27 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Emil Renner Berthing <kernel@esmil.dk>
+Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-ppp@vger.kernel.org,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Paul Mackerras <paulus@samba.org>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        UNGLinuxDriver@microchip.com, Petko Manolov <petkan@nucleusys.com>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Jing Xiangfeng <jingxiangfeng@huawei.com>,
+        Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/9] drivers: net: update tasklet_init callers
+Message-ID: <20210202200727.4641cd7e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20210130234730.26565-1-kernel@esmil.dk>
+References: <20210130234730.26565-1-kernel@esmil.dk>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Hello,
+On Sun, 31 Jan 2021 00:47:21 +0100 Emil Renner Berthing wrote:
+> This updates the remaining callers of tasklet_init() in drivers/net
+> to the new API introduced in 
+> commit 12cc923f1ccc ("tasklet: Introduce new initialization API")
+> 
+> All changes are done by coccinelle using the following semantic patch.
+> Coccinelle needs a little help parsing drivers/net/arcnet/arcnet.c
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
-
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
-
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
-
-Regards,
-Ms. Reem.
-
+Applied, thanks!
