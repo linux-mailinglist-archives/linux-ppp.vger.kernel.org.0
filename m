@@ -2,57 +2,68 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 755F530D252
-	for <lists+linux-ppp@lfdr.de>; Wed,  3 Feb 2021 05:09:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81F8630DE50
+	for <lists+linux-ppp@lfdr.de>; Wed,  3 Feb 2021 16:37:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231929AbhBCEIL (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 2 Feb 2021 23:08:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40064 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231624AbhBCEIK (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Tue, 2 Feb 2021 23:08:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ED77264E24;
-        Wed,  3 Feb 2021 04:07:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612325249;
-        bh=miefNvKjeVLjN1Z5g7rQg56Y1QCwzBxIa/641+I2Bn8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=cWyokbi/iQ4ucxexlYPIRgAEq9l0Y4LKcfbiykR3fG7BAarZcP2cVAL0syUGydTGt
-         33pxyIbAVWDSktQEaxfGAGfKMQy2wD66nLkeUegv9RFk6qI/lyfr4Q2wk/S8r1VwKp
-         9q6xE+ByGLOhjjwOAXcBOGcSrGTC2MxY229Qp6z8ZCTctrC0oTgM7UnT1bFZm2+X4o
-         0c7ojs9UEWpSqnkkjKO3qGFKWb8s1zIc4jky7XeicJML5ivx5mIoGugY7ttO/h/yH7
-         I3wG9tS/C5BWn2ApzeqLpgTsYw5B3RHIjBi+UhKToj5Shs6yUtV1/JShiggP9eLcIm
-         3bnNSOTB7vAVQ==
-Date:   Tue, 2 Feb 2021 20:07:27 -0800
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Emil Renner Berthing <kernel@esmil.dk>
-Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-ppp@vger.kernel.org,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Paul Mackerras <paulus@samba.org>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        UNGLinuxDriver@microchip.com, Petko Manolov <petkan@nucleusys.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Jing Xiangfeng <jingxiangfeng@huawei.com>,
-        Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/9] drivers: net: update tasklet_init callers
-Message-ID: <20210202200727.4641cd7e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20210130234730.26565-1-kernel@esmil.dk>
-References: <20210130234730.26565-1-kernel@esmil.dk>
+        id S234420AbhBCPhi (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 3 Feb 2021 10:37:38 -0500
+Received: from 198-20-226-115.unifiedlayer.com ([198.20.226.115]:56722 "EHLO
+        198-20-226-115.unifiedlayer.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S234512AbhBCPgR (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 3 Feb 2021 10:36:17 -0500
+X-Greylist: delayed 29383 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Feb 2021 10:35:24 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=carnivalassure.com.bd; s=default; h=Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=miRpAdBSO5eDo01VDX+EK9bqGCmqMjXHS3kO16T6iWw=; b=BeRp52iTZNZnIj6Yk4q4qmVg1o
+        TGW3OyQQDqdIygbFzrOvnb1VFlTwDZeYzPg7x0gcAhNqpY+RPOU8XZPJCHVzHp7N6NMkd40+DlrAZ
+        BxMd0S46HbScvjeaenOH3+S94exP2AbS+FzziGjhE87mUv7G1Yf3DGvnuFRQOMF8rB7m0VxjRMPDd
+        55/dxUiSnVbBa0JImuQYYXUpRt83SOvMPmEy3tm7HhC6eVNF+f6Wxow3WBSbpKE+vZC1jXRKKl9C1
+        bK6OQxLWFq7P4uMl6BygkP9QC4QklVZQU7qWYFjfzBfV8UP2ROnwJjNJGJIyClrEEjRpgcDNFfVIx
+        4EKHpC7g==;
+Received: from [127.0.0.1] (port=46990 helo=dot.dotlines.com.sg)
+        by dot.dotlines.com.sg with esmtpa (Exim 4.93)
+        (envelope-from <noreply@carnivalassure.com.bd>)
+        id 1l7CVy-0005dS-7D; Wed, 03 Feb 2021 01:23:50 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Date:   Wed, 03 Feb 2021 01:23:49 -0600
+From:   Francois Pinault <noreply@carnivalassure.com.bd>
+To:     undisclosed-recipients:;
+Subject: Hello/Hallo
+Organization: Donation
+Reply-To: francoispinault1936@outlook.com
+Mail-Reply-To: francoispinault1936@outlook.com
+Message-ID: <6b70d71c493b5c027dd3ef878f38d028@carnivalassure.com.bd>
+X-Sender: noreply@carnivalassure.com.bd
+User-Agent: Roundcube Webmail/1.3.15
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - dot.dotlines.com.sg
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - carnivalassure.com.bd
+X-Get-Message-Sender-Via: dot.dotlines.com.sg: authenticated_id: noreply@carnivalassure.com.bd
+X-Authenticated-Sender: dot.dotlines.com.sg: noreply@carnivalassure.com.bd
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Sun, 31 Jan 2021 00:47:21 +0100 Emil Renner Berthing wrote:
-> This updates the remaining callers of tasklet_init() in drivers/net
-> to the new API introduced in 
-> commit 12cc923f1ccc ("tasklet: Introduce new initialization API")
-> 
-> All changes are done by coccinelle using the following semantic patch.
-> Coccinelle needs a little help parsing drivers/net/arcnet/arcnet.c
 
-Applied, thanks!
+
+-- 
+Hallo, ich bin Herr Francois Pinault, ich habe Ihnen gespendet. Sie 
+können mein Profil auf Wikipedia, Google oder Forbes überprüfen.
+
+Für Ihren Spendenanspruch und weitere Informationen kontaktieren Sie 
+mich umgehend unter francoispinault1936@outlook.com
+
+Mit freundlichen Grüßen,
+Herr Francois Pinault
