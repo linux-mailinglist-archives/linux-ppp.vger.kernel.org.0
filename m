@@ -2,374 +2,282 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45D0731B460
-	for <lists+linux-ppp@lfdr.de>; Mon, 15 Feb 2021 04:26:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8943D31B5A6
+	for <lists+linux-ppp@lfdr.de>; Mon, 15 Feb 2021 08:32:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229687AbhBODY5 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sun, 14 Feb 2021 22:24:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52972 "EHLO
+        id S229993AbhBOHb2 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 15 Feb 2021 02:31:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229979AbhBODY1 (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sun, 14 Feb 2021 22:24:27 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2620C0611BC
-        for <linux-ppp@vger.kernel.org>; Sun, 14 Feb 2021 19:22:13 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id z11so8050002lfb.9
-        for <linux-ppp@vger.kernel.org>; Sun, 14 Feb 2021 19:22:13 -0800 (PST)
+        with ESMTP id S229597AbhBOHb0 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 15 Feb 2021 02:31:26 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F76BC061574
+        for <linux-ppp@vger.kernel.org>; Sun, 14 Feb 2021 23:30:46 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id h7so144797wmq.0
+        for <linux-ppp@vger.kernel.org>; Sun, 14 Feb 2021 23:30:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=NQgYVr7qq+o7gJZ9kqvT5i7Qq3VfwwaNB/l2CBMZDZM=;
-        b=blsk16ra11V7fXYnz4LRNir0QiC25PfKtrZg/SCJXVIg3xYU0OKdIbfRvHdQQ7h5ej
-         YZ8f2QGQHn5yliJn1Vhlwovbr8F6AkZoD/hhME17CgOdFA9XvExvybGgzSCmcdjQVx0Q
-         ATqNLV14A4h9LJyaMRg7pMUITug4IYtKlIEmCYbxLlyFn9yUPCiZRUBD5Ra79yf03Ecj
-         GQjQHHu2Bt/kFU+q8M11YPp2OfPv4MjkBv3Govufj8Rrx6b8ThNqHRGTDcwk6H6m6CRz
-         EzeIHWkkwtpuudrRFIRcgpHRJkIgcn0P4m4rcc8cvbQEzFCVO5x9nQgfPSBSWMswR4/j
-         eT9Q==
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Ps78Zx/SHUNMZ885xjtz+klmVcEwNh1mCiwqUQLhFpI=;
+        b=Y1WDRaFHkfKVEtd4DEpOzplDBmZ9y9wo5Iy1ItSDabDNsvIqOPaQyhr7547ptSZyVr
+         ye7RACt/lu6Kf3cTz2Lpk0kOO9rgKU7Q0ijpjMk9Kh/76QFXDjVe0UU5NZ966HKhFFXe
+         r3XoVcrlktFRg+iKo/mYLHu4UToYKbJy1bpcO/EBHW8rJzi0zXkSCO2IqUVgma73CE1X
+         IagwtqoTWxTZgb2icoYWRSBiTQcPPLJaRo94wK+iZUp/1c2W0S6wAjVZVVxhecQJULOR
+         k2ZdufHWbNkHyuiJkpGqmyr34vvc+/7L3/VLZ5wu8pGeomBPgW2b4N/Ams4LMRJs+Nhd
+         CDFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=NQgYVr7qq+o7gJZ9kqvT5i7Qq3VfwwaNB/l2CBMZDZM=;
-        b=Uv8HvwAq2gf0+kovR73yZrek/BhU41p8XP4iCbl2OKxYet9ZqDsoApx3ZSRCwoAPCV
-         60xN1+/JQgUL6hLquNj8Sccy8EW93D63kpOS/fSOXAQB3HzlYcrWlGr7RwWt9873aL38
-         8Ihu+C3HRGF+t53uAatHtof7hi2vuxIkXNXZHX0DES1nJa+6oCqTlxzXgFdwMJIYYPQn
-         WdM3Uu/WQx9QUw7/Mi+eYYYTTkUktHsI+MuwNSwTSpVYW1UU5hKqdDBN1i+GxB4WHtGc
-         13XMxsJ9hgQJ/VZGj4VGZa+oX9shGW18/+m8mIbAuOwwYyRN+8MDcTJymPnOyty23Xkl
-         bEfQ==
-X-Gm-Message-State: AOAM533kHwkvEu632wDFefv7byl/A8VKoS0h1m/TOuVQCJEN9NdUYMN3
-        5sa1WsUE11OpOcEyboe9+vtAha8jr3CHTFEFTjnqdT+n6vw=
-X-Google-Smtp-Source: ABdhPJzZDA2DYg5HE2cawkXd+uDIaqzvsDNsABrBmzeYIJs4UyVIr61y3BdPvWNFJcJHz98sYJJty/8Pp8gx50FnOAo=
-X-Received: by 2002:a05:651c:2c5:: with SMTP id f5mr8127694ljo.357.1613359330852;
- Sun, 14 Feb 2021 19:22:10 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Ps78Zx/SHUNMZ885xjtz+klmVcEwNh1mCiwqUQLhFpI=;
+        b=nkhkEirNVPQINWzTBQ8Ohokyzx/JkTQxfB506JJ3eriGklP+XrISrsbQPVe/X0Is4a
+         50fwqlW6QW6KcZBifqCJCaI8ugcH1kfg7NVjCYboxfBtGgyLSkHvwKAD8BtVBVRoKLcN
+         m5B3nkHwQsrxL6vYqfpW2jPNG6zklN2MZumpFhTBfSOrXTSmjQeh6qcg/8lhkye4FXbj
+         Mx0lys3aBsSCZi+CgvJQyP8qwQ4rOVz0j8NCyoHyWCu9L7OMtvZJw6VYAW4XIeYrFQFe
+         Xeh43OpzoM/wQas+NuWmWDrDO4l5zcX4uqDVFWZuc4/MgfUYoTjtfsb5qbBo38jL/w00
+         pU0Q==
+X-Gm-Message-State: AOAM530ixXUGEpjNIrxMal3jc+hvsixTvXj0+zGn/d458KI+A1bZaGkI
+        M39Qietoa6wqKQVB6J2B4DYbSe1DqCo=
+X-Google-Smtp-Source: ABdhPJy3lRzL/7vLuB6xgttAT6u407pHunpixeglLWNCUqkfUfEY9OYWsBTY4ZDklC/ABZMZNbkIkw==
+X-Received: by 2002:a1c:408a:: with SMTP id n132mr12818925wma.86.1613374245015;
+        Sun, 14 Feb 2021 23:30:45 -0800 (PST)
+Received: from w530 ([87.166.147.84])
+        by smtp.gmail.com with ESMTPSA id v11sm22915367wrr.3.2021.02.14.23.30.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Feb 2021 23:30:44 -0800 (PST)
+Date:   Mon, 15 Feb 2021 08:30:26 +0100
+From:   =?UTF-8?B?QmrDtnJu?= Kirchner <bjkit89@gmail.com>
+To:     James Carlson <carlsonj@workingcode.com>
+Cc:     linux-ppp@vger.kernel.org
+Subject: Re: Problem with M2M PPP connection
+Message-ID: <20210215083026.189b4bc1@w530>
+In-Reply-To: <1a006a06-5155-74a9-21be-fb6fcfc891e1@workingcode.com>
+References: <20210210101740.1bae8b93@w530>
+        <1a006a06-5155-74a9-21be-fb6fcfc891e1@workingcode.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:aa6:c205:0:b029:c0:808b:1af2 with HTTP; Sun, 14 Feb 2021
- 19:22:09 -0800 (PST)
-Reply-To: lindawilliam2026@gmail.com
-From:   lucky frank <luckyfrank353@gmail.com>
-Date:   Mon, 15 Feb 2021 03:22:09 +0000
-Message-ID: <CAN6orYuLUXtYRiVw=x4GKS-Pq=h2vqnvH3-nqYkf4UMLm4x8-A@mail.gmail.com>
-Subject: KONTAKTIEREN SIE DEN BANKDIREKTOR.
-To:     undisclosed-recipients:;
-Content-Type: multipart/mixed; boundary="000000000000cf9b9805bb577d2c"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
---000000000000cf9b9805bb577d2c
-Content-Type: text/plain; charset="UTF-8"
+Hello James,
+
+thank you for your tips. You were right, I could dramatically shorten
+the configuration. It let to the same behaviour. I had another LTE IoT
+modem available (this time a Quectel BG96 chip) and I tested the same,
+shortened, configuration with this modem. This time it worked out of
+the box and I can ping in both directions the relevant hosts over the
+PPP connection.
+
+So, maybe it is something specific with the BC66 chip or even the Olimex
+device hosting the BC66 chip. Unfortunately Quectel's documentation on
+PPP with the BC66 chip only describes the configuration on Windows
+hosts. In this document they describe lots of specific configuration
+changes (like switching off different authentication methods, etc.).
+That's why my first configuration was so convoluted, because I tried
+to adapt the Windows specific options to PPP options.
 
 
+Again, thank you for your help and support, it really helped.=20
+I consider switching modems now...
 
---000000000000cf9b9805bb577d2c
-Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document; 
-	name="CONTATE URGENTEMENTE O DIRETOR DO BANCO ORA..docx"
-Content-Disposition: attachment; 
-	filename="CONTATE URGENTEMENTE O DIRETOR DO BANCO ORA..docx"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: file0
+Regards
 
-UEsDBBQABgAIAAAAIQAJJIeCgQEAAI4FAAATAAgCW0NvbnRlbnRfVHlwZXNdLnhtbCCiBAIooAAC
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC0
-lE1Pg0AQhu8m/geyVwPbejDGlPag9ahNrPG8LkPZyH5kZ/v17x1KS6qhpVq9kMAy7/vMCzOD0UqX
-0QI8KmtS1k96LAIjbabMLGWv08f4lkUYhMlEaQ2kbA3IRsPLi8F07QAjqjaYsiIEd8c5ygK0wMQ6
-MHSSW69FoFs/407IDzEDft3r3XBpTQAT4lBpsOHgAXIxL0M0XtHjmsRDiSy6r1+svFImnCuVFIFI
-+cJk31zirUNClZt3sFAOrwiD8VaH6uSwwbbumaLxKoNoInx4Epow+NL6jGdWzjX1kByXaeG0ea4k
-NPWVmvNWAiJlrsukOdFCmR3/QQ4M6xLw7ylq3RPt31QoxnkOkj52dx4a46rppLbYq+12gxAopFNM
-vv6CcVfouFXuRFjC+8u/UeyJd4LkNBpT8V7CCYn/MIxGuhMi0LwD31z7Z3NsZI5Z0mRMvHVI+8P/
-ou3dgqiqYxo5Bz4oaFZE24g1jrR7zu4Pqu2WQdbizTfbdPgJAAD//wMAUEsDBBQABgAIAAAAIQAe
-kRq38wAAAE4CAAALAAgCX3JlbHMvLnJlbHMgogQCKKAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjJLbSgNBDIbvBd9hyH032woi0tneSKF3
-IusDhJnsAXcOzKTavr2jILpQ217m9OfLT9abg5vUO6c8Bq9hWdWg2JtgR99reG23iwdQWchbmoJn
-DUfOsGlub9YvPJGUoTyMMaui4rOGQSQ+ImYzsKNchci+VLqQHEkJU4+RzBv1jKu6vsf0VwOamaba
-WQ1pZ+9AtcdYNl/WDl03Gn4KZu/Yy4kVyAdhb9kuYipsScZyjWop9SwabDDPJZ2RYqwKNuBpotX1
-RP9fi46FLAmhCYnP83x1nANaXg902aJ5x687HyFZLBZ9e/tDg7MvaD4BAAD//wMAUEsDBBQABgAI
-AAAAIQB8O5c5IgEAALkDAAAcAAgBd29yZC9fcmVscy9kb2N1bWVudC54bWwucmVscyCiBAEooAAB
-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
---000000000000cf9b9805bb577d2c--
+Bj=C3=B6rn
+
+Am Wed, 10 Feb 2021 12:22:57 -0500
+schrieb James Carlson <carlsonj@workingcode.com>:
+
+> On 2021-02-10 04:17, Bj=C3=B6rn Kirchner wrote:
+> > Dear list readers,
+> >=20
+> > I am stuck with the following problem and I hope you can give me
+> > some hints or advice. It looks to me like a configuration or
+> > routing error. =20
+>=20
+> A broad hint first: less configuration is always better.  Not only
+> have the developers chosen the defaults very carefully to make them
+> work in the widest range of cases, but the protocol itself is
+> designed to negotiate the available options in order to settle on the
+> correct link parameters.  A giant configuration file either says
+> "this set-up is really brittle" or possibly "wow, the peer I'm forced
+> to talk to is flaming garbage."
+>=20
+> I'm not saying you're necessarily doing anything wrong here, but that
+> laundry list is at least suspicious, and I'd certainly wonder why it
+> is set up that way.
+>=20
+> A summary analysis: other than three questionable options
+> ("nodefaultroute", "noaccomp", "nopcomp") and what appears to be a
+> broken serial interface ("nocdtrcts", "local"), I don't see anything
+> in particular going wrong at the PPP level.  The problems, whatever
+> they may be, are elsewhere.
+>=20
+> > I have an Olimex NB-IoT-DevKit with a Quectel BC66 LTE-NB1 chip
+> > which =20
+>=20
+> Ah, the legacy of GPRS.  Fortunately, I haven't kept up with this
+> "NB-IoS" stuff, but if it's from the same folks who designed that
+> earlier gear, then there are some things to be aware of here:
+>=20
+> - The actual authentication and IP address assignment is done through
+>   some other protocol, not PPP, and is typically done during the LCP
+>   negotiation, and completely behind your back.
+>=20
+> - Any failures that occur during that hidden work are almost always
+>   completely invisible.  If it's a bad user name or password, the peer
+>   usually assigns a bogus IP address and just fails to provide any
+>   service.  There are no error messages.  No way to know, at least via
+>   PPP messages.
+>=20
+> > and the P-t-P=E2=80=99s address. My problem is, that I cannot reach any=
+thing
+> > via that connection. I cannot ping the P-t-P, I cannot ping other
+> > addresses. The ISP=E2=80=99s support confirmed that PPP was a viable op=
+tion
+> > to =20
+>=20
+> That's typically what's expected when the authentication phase fails
+> or when the client is otherwise "unauthorized."
+>=20
+> I strongly suspect that the problem is with the "AT" commands in the
+> chat script.  I have no way of verifying those.
+>=20
+> On to some (overly detailed) notes about your PPP configuration:
+>=20
+> > refuse-chap             # (from /etc/ppp/peers/quectel-ppp)
+> > refuse-mschap           # (from /etc/ppp/peers/quectel-ppp)
+> > refuse-mschap-v2                # (from /etc/ppp/peers/quectel-ppp)
+> > refuse-eap              # (from /etc/ppp/peers/quectel-ppp) =20
+>=20
+> These really aren't necessary.  If you don't have username/passphrase
+> pairs configured into the /etc/ppp/*-secrets files for this peer, then
+> pppd will automatically refuse those protocols.  And the peer isn't
+> even asking for authentication from us ... so these do nothing.
+>=20
+> > user *          # (from /etc/ppp/peers/quectel-ppp)
+> > password ??????         # (from /etc/ppp/peers/quectel-ppp) =20
+>=20
+> These are apparently useless.  The peer isn't asking for
+> authentication at all via PPP.  (Though, to be fair, this could be
+> because the chat script is setting things up incorrectly.  Maybe it
+> would ask if the "modem" were set up correctly ... ?)
+>=20
+> > remotename 3gppp                #
+> > (from /etc/ppp/peers/quectel-ppp) =20
+>=20
+> If you're not doing authentication, then this may be useless.
+>=20
+> > record /tmp/quectel.record              #
+> > (from /etc/ppp/peers/quectel-ppp) =20
+>=20
+> Not sure why you'd want that.  It's really an internal debug option
+> intended for PPP developers.  I suggest leaving it out as it can
+> certainly complicate things.  It forces the pppd daemon to run on top
+> of a pty pair and write the "raw" AHDLC data to a file for later
+> analysis.
+>=20
+> > nocdtrcts               # (from /etc/ppp/peers/quectel-ppp)
+> > local           # (from /etc/ppp/peers/quectel-ppp) =20
+>=20
+> Those two are a real shame.  This serial device really has no modem
+> control lines at all?  Even if you get this working, it's possible
+> that it won't work very well at all.
+>=20
+> "nocdtrcts" means "no hardware flow control exists."  This means that
+> CTS/RTS aren't used.  And if one side or the other encounters an
+> overflow, then it'll just drop bytes silently, causing packets to be
+> dropped.  With enough of that, the link will be utterly unusable.
+>=20
+> If the device you're using really is that horrible, then I'd check to
+> see if it can do at least XON/XOFF ("xonxoff") software flow control.
+> Something is better than nothing at all.
+>=20
+> "local" means "no modem on/off hook signaling."  This means that
+> DTR/DCD aren't used.  That means that if the other end hangs up for
+> some reason, then you'll get no notice at all.  Bytes will just stop
+> flowing mysteriously.
+>=20
+> If that's really the case, then I *strongly* recommend using the
+> "lcp-echo-failure" and "lcp-echo-interval" options.  This allows PPP's
+> LCP layer to detect link failure.  Otherwise, you're shooting packets
+> into the dark.
+>=20
+> > noaccomp                # (from /etc/ppp/peers/quectel-ppp)
+> > nopcomp         # (from /etc/ppp/peers/quectel-ppp) =20
+>=20
+> These two appear to be incorrect.  The peer is asking for these two
+> common options, and you've configured it intentionally to refuse them.
+> I don't see why anyone would do that.  Note that these are *NOT*
+> related to data compression in any way.  The "compression" they're
+> referring to here is just omitting some constant bytes from the PPP
+> header.
+>=20
+> ACFC gets rid of the static HDLC "FF 03" at the start of every PPP
+> frame.  PFC gets rid of the extra "00" byte for network protocols less
+> than 0100 -- this means that IP shows up as "21" instead of "00 21".
+> Having both options on (the default) means saving 3 bytes per packet.
+>=20
+> Unless you know for sure that you're operating over an HDLC link using
+> multi-point addressing, or that the peer has horrible bugs in its
+> basic PPP implementation, turning ACFC off likely makes little sense.
+>=20
+> See RFC 1661 sections 6.5 and 6.6 for details.
+>=20
+> > novj            # (from /etc/ppp/peers/quectel-ppp)
+> > novjccomp               # (from /etc/ppp/peers/quectel-ppp) =20
+>=20
+> The peer isn't offering VJ header compression, so these likely don't
+> do much.  Note that "vjccomp" is dependent on "vj", so saying "novj"
+> alone is sufficient to turn off both.
+>=20
+> > nodefaultroute          # (from /etc/ppp/peers/quectel-ppp) =20
+>=20
+> This is a little weird.  Are you sure?  I thought this was supposed to
+> be your connection to the Internet.  If so, then you certainly want to
+> have pppd establish a default route for you.  (Doing so manually is at
+> best error-prone.)
+>=20
+> Just make sure you remove the system's default route (if any) before
+> starting pppd.
+>=20
+> > noremoteip              # (from /etc/ppp/peers/quectel-ppp) =20
+>=20
+> This appears to be unnecessary, but may be harmless.  The peer is
+> offering an IP address for itself, so the option doesn't come into
+> play.
+>=20
+> > noccp           # (from /etc/ppp/peers/quectel-ppp)
+> > nobsdcomp               # (from /etc/ppp/peers/quectel-ppp)
+> > nopredictor1            # (from /etc/ppp/peers/quectel-ppp) =20
+>=20
+> "noccp" is sufficient.  The rest of those protocols are dependent on
+> CCP negotiation.  You can't get there if CCP is turned off.
+>=20
+> > Output from ifconfig ppp0:
+> > root@raspberrypi:~# ifconfig ppp0
+> > ppp0: flags=3D4305<UP,POINTOPOINT,RUNNING,NOARP,MULTICAST>  mtu 1500
+> >         inet 10.43.124.1  netmask 255.255.255.255  destination
+> > 10.0.0.1 ppp  txqueuelen 3  (Point-to-Point Protocol)
+> >         RX packets 3  bytes 30 (30.0 B)
+> >         RX errors 0  dropped 0  overruns 0  frame 0
+> >         TX packets 3  bytes 30 (30.0 B)
+> >         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0 =20
+>=20
+> Nothing looks wrong there.
+>=20
+> > If you need more information I am eager to provide those. Do you
+> > have any suggestions how to be able to receive the hosts on the
+> > "other" side? =20
+>=20
+> I don't know what that means.
+>=20
+> However, wireshark is an excellent tool to use if you think that
+> there's a problem at the network level, rather than just the basic
+> connection itself.
+>=20
+
