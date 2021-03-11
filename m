@@ -2,68 +2,60 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5799B333FD0
-	for <lists+linux-ppp@lfdr.de>; Wed, 10 Mar 2021 15:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 585B53372BD
+	for <lists+linux-ppp@lfdr.de>; Thu, 11 Mar 2021 13:35:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230183AbhCJOBj (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 10 Mar 2021 09:01:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54034 "EHLO
+        id S233196AbhCKMfV (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 11 Mar 2021 07:35:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232587AbhCJOBT (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 10 Mar 2021 09:01:19 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE12AC061760
-        for <linux-ppp@vger.kernel.org>; Wed, 10 Mar 2021 06:01:18 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id dx17so38915279ejb.2
-        for <linux-ppp@vger.kernel.org>; Wed, 10 Mar 2021 06:01:18 -0800 (PST)
+        with ESMTP id S233163AbhCKMew (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 11 Mar 2021 07:34:52 -0500
+Received: from ustc.edu.cn (email6.ustc.edu.cn [IPv6:2001:da8:d800::8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 53606C061574;
+        Thu, 11 Mar 2021 04:34:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=5rh8dKjg0pKk0KNWl2xSO7nhxy+c296f7suB18dXI8U=;
-        b=NRys/JVgIifMs/VJcA3qxZwyt7VHc80TVQPtrFTbXgnYmg8X2NJt4edDx/oy8xJfnH
-         4kEmg4xqymUo4bKVUZW8evb4ZssZYn1ao9fRmO9Ck+QolrGB1zpVvCvr0duPidoqchwp
-         5FWub1ITyXlRu4HialhPIglQCOksUcjnUPeAoyujqqXO0Q6QGB6TQSyfy20nPZTjztiQ
-         FmRJPN3FkWLk5WgQ335YqhGCu2MsIivQcU3lNJinLxDDa0cSv/2C5ccHGH2/lL7Yw7pJ
-         gvMfL+h4VRj8so8S0SkRRWYiz6NWJ6piGdDnyePVglxIMevfIr8276fGtegf2ApQXI8q
-         OCmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=5rh8dKjg0pKk0KNWl2xSO7nhxy+c296f7suB18dXI8U=;
-        b=jb4ziZ6xcv1RziuQN+LaurTEwQTfz4PoW3bPls9xVbW+DuP2KzJxQz3LmuBuKBjXyo
-         G2L6KXwB4SXF/vMPXHXD/JVA4yJ3QXzd3wt58/J/gL1gQzN0esAhW5MUEHfVk+mdcMYv
-         Lje5+9+rL3VJaMIFAkqWzc4A1xJdd59OsF18X4XIGOLCS4ORlxCO+6cnx7cp4e5YR6dW
-         D2CvcmNJmGScnI1jrpEMcNmGSvjKXelCubSTH0fYup0Lj8GkCoNWKBQhXIAJZKt6EI0s
-         1qsrzOw6MSbt1TB1mxYPSAZyWJfTI/iayqkghnLPrZqJ1y4lzhzfrdVNfxlXWebMUC8b
-         fukQ==
-X-Gm-Message-State: AOAM530jRW89q+eDByMiLqd97dybTWdpgsHl62+f+tZ8jiezw7wT5rn4
-        EznIXmHuhJApWrKFIQLahboI7oh/lgmNSq1GiXA=
-X-Google-Smtp-Source: ABdhPJytB6NSUorcr8eD+98rcO1p2jWS4nnEquxcHuUcQVP4Yz7JOZD4wvG5FyttQxluaKz/5Hl+LY+4JZqDHnAyKfE=
-X-Received: by 2002:a17:906:959:: with SMTP id j25mr3813128ejd.553.1615384874534;
- Wed, 10 Mar 2021 06:01:14 -0800 (PST)
+        d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID;
+        bh=ryfXHe18DN1UjZnxckhWgKsLfHZNN7X4RUYg2FqUcMo=; b=Uf6DLvNnY63HV
+        LvMaIuLY6sE+wc+X9lW5C4SPDAy+V3Xd9m8xwAqQrgpYG6cN90XQVsRIihmS3PpM
+        guwvCZNmp+Vp/WWi/1cEtcHP9qSqe1/MWdZVkeqfZ4CcnZxVKAQI5QK9AK1soyhf
+        ER1p2tvr9b2J6OLePgZifs8UaZq2FQ=
+Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Thu, 11 Mar
+ 2021 20:34:44 +0800 (GMT+08:00)
+X-Originating-IP: [202.79.170.108]
+Date:   Thu, 11 Mar 2021 20:34:44 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   lyl2019@mail.ustc.edu.cn
+To:     paulus@samba.org, davem@davemloft.net
+Cc:     linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [BUG] net/ppp: A use after free in ppp_unregister_channe
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
+ 20190610(cb3344cf) Copyright (c) 2002-2021 www.mailtech.cn ustc-xl
+X-SendMailWithSms: false
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Received: by 2002:ab4:92c3:0:0:0:0:0 with HTTP; Wed, 10 Mar 2021 06:01:13
- -0800 (PST)
-From:   JOHN UMAH <pastorjohnumnewaposchurch@gmail.com>
-Date:   Wed, 10 Mar 2021 14:01:13 +0000
-Message-ID: <CANw=0K6gD7r=Jz8gnsZbVAu7YRVEpo9uYzpqYSAnfTz2LtBBFg@mail.gmail.com>
-Subject: Caleb Leo Foundation,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <6057386d.ca12.1782148389e.Coremail.lyl2019@mail.ustc.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: LkAmygCHiBhkDkpgRUoMAA--.0W
+X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/1tbiAQsRBlQhn5AN0QACs5
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW7Jw
+        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+        daVFxhVjvjDU=
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Caleb Leo Foundation
-1501 K St NWWashington DC 20005
-United States of America
-You've received $ 1,300,000 from the Calab Leo Foundation course
-Humanitarian aid / poverty reduction program.
-In the case of claims for this gift, please fill in the following form;
+File: drivers/net/ppp/ppp_generic.c
 
-Full name:
-Telephone number:
-State:
-Country:
-kindly respond for more details.
-in God We Trust.
+In ppp_unregister_channel, pch could be freed in ppp_unbridge_channels()
+but after that pch is still in use. Inside the function ppp_unbridge_channels,
+if "pchbb == pch" is true and then pch will be freed.
+
+I checked the commit history and found that this problem is introduced from
+4cf476ced45d7 ("ppp: add PPPIOCBRIDGECHAN and PPPIOCUNBRIDGECHAN ioctls").
+
+I have no idea about how to generate a suitable patch, sorry.
