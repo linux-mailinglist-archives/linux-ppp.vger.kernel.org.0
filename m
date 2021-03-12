@@ -2,60 +2,110 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 585B53372BD
-	for <lists+linux-ppp@lfdr.de>; Thu, 11 Mar 2021 13:35:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DEA73389E5
+	for <lists+linux-ppp@lfdr.de>; Fri, 12 Mar 2021 11:21:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233196AbhCKMfV (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Thu, 11 Mar 2021 07:35:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34774 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233163AbhCKMew (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Thu, 11 Mar 2021 07:34:52 -0500
-Received: from ustc.edu.cn (email6.ustc.edu.cn [IPv6:2001:da8:d800::8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 53606C061574;
-        Thu, 11 Mar 2021 04:34:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID;
-        bh=ryfXHe18DN1UjZnxckhWgKsLfHZNN7X4RUYg2FqUcMo=; b=Uf6DLvNnY63HV
-        LvMaIuLY6sE+wc+X9lW5C4SPDAy+V3Xd9m8xwAqQrgpYG6cN90XQVsRIihmS3PpM
-        guwvCZNmp+Vp/WWi/1cEtcHP9qSqe1/MWdZVkeqfZ4CcnZxVKAQI5QK9AK1soyhf
-        ER1p2tvr9b2J6OLePgZifs8UaZq2FQ=
-Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Thu, 11 Mar
- 2021 20:34:44 +0800 (GMT+08:00)
-X-Originating-IP: [202.79.170.108]
-Date:   Thu, 11 Mar 2021 20:34:44 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   lyl2019@mail.ustc.edu.cn
-To:     paulus@samba.org, davem@davemloft.net
-Cc:     linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [BUG] net/ppp: A use after free in ppp_unregister_channe
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
- 20190610(cb3344cf) Copyright (c) 2002-2021 www.mailtech.cn ustc-xl
-X-SendMailWithSms: false
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=UTF-8
+        id S233318AbhCLKUe (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 12 Mar 2021 05:20:34 -0500
+Received: from mail.katalix.com ([3.9.82.81]:54882 "EHLO mail.katalix.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232892AbhCLKUE (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Fri, 12 Mar 2021 05:20:04 -0500
+X-Greylist: delayed 424 seconds by postgrey-1.27 at vger.kernel.org; Fri, 12 Mar 2021 05:20:04 EST
+Received: from localhost (82-69-49-219.dsl.in-addr.zen.co.uk [82.69.49.219])
+        (Authenticated sender: tom)
+        by mail.katalix.com (Postfix) with ESMTPSA id 059E4835E5;
+        Fri, 12 Mar 2021 10:12:59 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=katalix.com; s=mail;
+        t=1615543979; bh=fxXe6I1aSG6SQ/i16YVUY5JNgwXtt14li56ntHRbnoo=;
+        h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+         Content-Disposition:In-Reply-To:From;
+        z=Date:=20Fri,=2012=20Mar=202021=2010:12:58=20+0000|From:=20Tom=20P
+         arkin=20<tparkin@katalix.com>|To:=20lyl2019@mail.ustc.edu.cn|Cc:=2
+         0paulus@samba.org,=20davem@davemloft.net,=20linux-ppp@vger.kernel.
+         org,=0D=0A=09netdev@vger.kernel.org,=20linux-kernel@vger.kernel.or
+         g|Subject:=20Re:=20[BUG]=20net/ppp:=20A=20use=20after=20free=20in=
+         20ppp_unregister_channe|Message-ID:=20<20210312101258.GA4951@katal
+         ix.com>|References:=20<6057386d.ca12.1782148389e.Coremail.lyl2019@
+         mail.ustc.edu.cn>|MIME-Version:=201.0|Content-Disposition:=20inlin
+         e|In-Reply-To:=20<6057386d.ca12.1782148389e.Coremail.lyl2019@mail.
+         ustc.edu.cn>;
+        b=sguwCApzj0ZtEa8x8DRyYXUxnDj7Yp2FujIJ2/lG/q9FIufJheBxzq9pym/SIMlsw
+         LhoczNet61yZdohGuxCyL/+zEj0gf6L0LHLQ9/4lmwJIDz3GN6xuWSrqnhhAC35Nmw
+         OnLnLBLbHi3oveJXrMU9Uyu76xXhXAUW5b2jLY6vpo/UGkFV4s1Hfl/uJWu319EPRZ
+         MmBSgRMT14qs0eeKiBwYEN4bslKaTLsT04rhGw1LVXEVs+vjd5XR+0G/3NcfGLoXjd
+         D/mGL0PoUYN+2nwWV44crYkBVDA7KS3wGQruCHLQq0wTv6wmrKgEaKUQSO3vhpsSsl
+         RlQZzQlF5x9nA==
+Date:   Fri, 12 Mar 2021 10:12:58 +0000
+From:   Tom Parkin <tparkin@katalix.com>
+To:     lyl2019@mail.ustc.edu.cn
+Cc:     paulus@samba.org, davem@davemloft.net, linux-ppp@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [BUG] net/ppp: A use after free in ppp_unregister_channe
+Message-ID: <20210312101258.GA4951@katalix.com>
+References: <6057386d.ca12.1782148389e.Coremail.lyl2019@mail.ustc.edu.cn>
 MIME-Version: 1.0
-Message-ID: <6057386d.ca12.1782148389e.Coremail.lyl2019@mail.ustc.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: LkAmygCHiBhkDkpgRUoMAA--.0W
-X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/1tbiAQsRBlQhn5AN0QACs5
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW7Jw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
+Content-Disposition: inline
+In-Reply-To: <6057386d.ca12.1782148389e.Coremail.lyl2019@mail.ustc.edu.cn>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-File: drivers/net/ppp/ppp_generic.c
 
-In ppp_unregister_channel, pch could be freed in ppp_unbridge_channels()
-but after that pch is still in use. Inside the function ppp_unbridge_channels,
-if "pchbb == pch" is true and then pch will be freed.
+--Dxnq1zWXvFF0Q93v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I checked the commit history and found that this problem is introduced from
-4cf476ced45d7 ("ppp: add PPPIOCBRIDGECHAN and PPPIOCUNBRIDGECHAN ioctls").
+Thanks for the report!
 
-I have no idea about how to generate a suitable patch, sorry.
+On  Thu, Mar 11, 2021 at 20:34:44 +0800, lyl2019@mail.ustc.edu.cn wrote:
+> File: drivers/net/ppp/ppp_generic.c
+>=20
+> In ppp_unregister_channel, pch could be freed in ppp_unbridge_channels()
+> but after that pch is still in use. Inside the function ppp_unbridge_chan=
+nels,
+> if "pchbb =3D=3D pch" is true and then pch will be freed.
+
+Do you have a way to reproduce a use-after-free scenario?
+
+=46rom static analysis I'm not sure how pch would be freed in
+ppp_unbridge_channels when called via. ppp_unregister_channel.
+
+In theory (at least!) the caller of ppp_register_net_channel holds=20
+a reference on struct channel which ppp_unregister_channel drops.
+
+Each channel in a bridged pair holds a reference on the other.
+
+Hence on return from ppp_unbridge_channels, the channel should not have
+been freed (in this code path) because the ppp_register_net_channel
+reference has not yet been dropped.
+
+Maybe there is an issue with the reference counting or a race of some
+sort?
+
+> I checked the commit history and found that this problem is introduced fr=
+om
+> 4cf476ced45d7 ("ppp: add PPPIOCBRIDGECHAN and PPPIOCUNBRIDGECHAN ioctls").
+>=20
+> I have no idea about how to generate a suitable patch, sorry.
+
+--Dxnq1zWXvFF0Q93v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEsUkgyDzMwrj81nq0lIwGZQq6i9AFAmBLPqIACgkQlIwGZQq6
+i9BImgf/VhpowGVVPkfWqgkYkfOsWZfxmDueUkeoSFD2dVhLeTNU/jnOGI400Cc0
+Yk+sEFL4fqmjZPjsjIGBlhdpndQJbW+yCKh+G/xmU9ynd9xe+0KrP0WpToJ5Dd3+
+1aCU4n1y5h8MhP6i0BuFe4KQ7K0SSIoSqubAyAF56bHp15arsHGaFB5clBQwy/Nj
+LBW4St5DNAOQTc9heT+s+rhC6LSzXJgz9URaGkwbPtFuFIYmkloFvTRwqC3YJGCQ
+OKF6B3w3uow6gxIX/K3MSRsrDiktsYRNiK1jqOM7l8Jm9qP1EaarbqdCN7W5RhBk
+GecNJWitncHg1zyx+SvpFTVJbxjxYA==
+=npR2
+-----END PGP SIGNATURE-----
+
+--Dxnq1zWXvFF0Q93v--
