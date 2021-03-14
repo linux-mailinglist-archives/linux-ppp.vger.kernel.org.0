@@ -2,87 +2,111 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 676E6339048
-	for <lists+linux-ppp@lfdr.de>; Fri, 12 Mar 2021 15:48:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA2DC339FF9
+	for <lists+linux-ppp@lfdr.de>; Sat, 13 Mar 2021 19:36:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231733AbhCLOsY (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 12 Mar 2021 09:48:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231730AbhCLOsV (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 12 Mar 2021 09:48:21 -0500
-Received: from ustc.edu.cn (email6.ustc.edu.cn [IPv6:2001:da8:d800::8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 10DDAC061574;
-        Fri, 12 Mar 2021 06:48:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Cc:Subject:
-        In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Message-ID; bh=eNe3lMdiYSlKSx8VAknAbgTJQAiODgr25WWb
-        vEVvKw8=; b=vkd8x3CPwQqjbSXY7DrdPHrJ/u/bevx/DjhcTz2DIjOi/l7PcaiK
-        14bsSV96+2nPgBytfc6g0dfksZJyi149ANM4bHe6JFTPq8IYvYAHLEPA46bIm1MZ
-        ret2tV0E7+NTrAJOhwcfj4VDtgenVGLpCkIgb7cLqxlWh3ngh2xPjks=
-Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Fri, 12 Mar
- 2021 22:47:53 +0800 (GMT+08:00)
-X-Originating-IP: [114.214.251.230]
-Date:   Fri, 12 Mar 2021 22:47:53 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   lyl2019@mail.ustc.edu.cn
-To:     "Tom Parkin" <tparkin@katalix.com>
-Cc:     paulus@samba.org, davem@davemloft.net, linux-ppp@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: Re: [BUG] net/ppp: A use after free in ppp_unregister_channe
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
- 20190610(cb3344cf) Copyright (c) 2002-2021 www.mailtech.cn ustc-xl
-In-Reply-To: <20210312101258.GA4951@katalix.com>
-References: <6057386d.ca12.1782148389e.Coremail.lyl2019@mail.ustc.edu.cn>
- <20210312101258.GA4951@katalix.com>
-X-SendMailWithSms: false
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+        id S234334AbhCMSgS convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Sat, 13 Mar 2021 13:36:18 -0500
+Received: from smtp.econet.co.zw ([77.246.51.158]:65277 "EHLO
+        ironportDMZ.econet.co.zw" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S234286AbhCMSf6 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sat, 13 Mar 2021 13:35:58 -0500
+X-Greylist: delayed 472 seconds by postgrey-1.27 at vger.kernel.org; Sat, 13 Mar 2021 13:35:46 EST
+IronPort-SDR: 2VH7uDjPUxuRF84kGIuoHHaISSCuqZi+ufUVCFmh+/0u/DCFCtj5VFDT1b4h9dNnVvA6flspH+
+ 3h9rw6M4gXRTOO/x00E/RP0IaZ5bJ/VFJjak29BaaBMRsZ8SomhBLF6NshxP1CgwykLJQtbFhT
+ f57yb5yFlreJnhCu99okX5fHlhFOs37BIGqeR55agFxRF7WOiDsNKvGtFuzjle44yqE/60PUcB
+ eSRuIQK9gCbtZaBXI6W4OKIxrnCmM+n1gcMJCNZUjbl9kcbsSMLo+94gqXFyBTYwkpasFfSfmL
+ xM0=
+IronPort-HdrOrdr: A9a23:z3onBKxoaNoCa6u/wVCbKrPwgr1zdoIgy1knxilNYDZSddGVkN
+ 3roe8S0gX6hC1UdHYrn92BP6foewK+ybde544NMbC+GDT3oWfAFuFfxKbr3jGIIUPD38FH06
+ MIScRDIfnRKXQ/ssrg+gm/FL8boeWv1Kyzn+/RwzNMYGhRGsddxjx0AAqaDUF6LTMubfFSKL
+ Om6tNDt36cfx0sA/iTPXUZQ/PF4+TCiZOOW29/Ozcc9AKMgTm0gYSULzGk2H4lIkpy6IZn1V
+ Lgmwz9opy5s/ehygLNvlWjiqh+qZ/EwttHCNfksLlwFhzcziKpYIhGfpHqhkFTnMifrG8wkN
+ /WowoxVv4DiU/sQg==
+X-IronPort-AV: E=Sophos;i="5.81,245,1610402400"; 
+   d="scan'208";a="3444522"
+Received: from unknown (HELO WVALE-MB-SVR-05.econetzw.local) ([192.168.101.173])
+  by ironportLAN.econet.co.zw with ESMTP; 13 Mar 2021 20:27:52 +0200
+Received: from WVALE-CAS-SVR-9.econetzw.local (192.168.101.184) by
+ WVALE-MB-SVR-05.econetzw.local (192.168.101.173) with Microsoft SMTP Server
+ (TLS) id 15.0.1473.3; Sat, 13 Mar 2021 20:27:48 +0200
+Received: from User (165.231.148.189) by WVALE-CAS-SVR-9.econetzw.local
+ (10.10.11.230) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Sat, 13 Mar 2021 20:27:59 +0200
+Reply-To: <r19772744@daum.net>
+From:   "Reem E. A" <chawora@econet.co.zw>
+Subject: Re:
+Date:   Sat, 13 Mar 2021 18:27:46 -0800
 MIME-Version: 1.0
-Message-ID: <2ad7aaa2.fcad.17826e87afb.Coremail.lyl2019@mail.ustc.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: LkAmygBXXDwZf0tg0AcVAA--.2W
-X-CM-SenderInfo: ho1ojiyrz6zt1loo32lwfovvfxof0/1tbiAQoSBlQhn5CimQABsf
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-        CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-        daVFxhVjvjDU=
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 8BIT
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <96f8ff6fe77b4507830ab5cf78a93340@WVALE-CAS-SVR-9.econetzw.local>
+To:     Undisclosed recipients:;
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-DQoNCg0KPiAtLS0tLeWOn+Wni+mCruS7ti0tLS0tDQo+IOWPkeS7tuS6ujogIlRvbSBQYXJraW4i
-IDx0cGFya2luQGthdGFsaXguY29tPg0KPiDlj5HpgIHml7bpl7Q6IDIwMjEtMDMtMTIgMTg6MTI6
-NTggKOaYn+acn+S6lCkNCj4g5pS25Lu25Lq6OiBseWwyMDE5QG1haWwudXN0Yy5lZHUuY24NCj4g
-5oqE6YCBOiBwYXVsdXNAc2FtYmEub3JnLCBkYXZlbUBkYXZlbWxvZnQubmV0LCBsaW51eC1wcHBA
-dmdlci5rZXJuZWwub3JnLCBuZXRkZXZAdmdlci5rZXJuZWwub3JnLCBsaW51eC1rZXJuZWxAdmdl
-ci5rZXJuZWwub3JnDQo+IOS4u+mimDogUmU6IFtCVUddIG5ldC9wcHA6IEEgdXNlIGFmdGVyIGZy
-ZWUgaW4gcHBwX3VucmVnaXN0ZXJfY2hhbm5lDQo+IA0KPiBUaGFua3MgZm9yIHRoZSByZXBvcnQh
-DQo+IA0KPiBPbiAgVGh1LCBNYXIgMTEsIDIwMjEgYXQgMjA6MzQ6NDQgKzA4MDAsIGx5bDIwMTlA
-bWFpbC51c3RjLmVkdS5jbiB3cm90ZToNCj4gPiBGaWxlOiBkcml2ZXJzL25ldC9wcHAvcHBwX2dl
-bmVyaWMuYw0KPiA+IA0KPiA+IEluIHBwcF91bnJlZ2lzdGVyX2NoYW5uZWwsIHBjaCBjb3VsZCBi
-ZSBmcmVlZCBpbiBwcHBfdW5icmlkZ2VfY2hhbm5lbHMoKQ0KPiA+IGJ1dCBhZnRlciB0aGF0IHBj
-aCBpcyBzdGlsbCBpbiB1c2UuIEluc2lkZSB0aGUgZnVuY3Rpb24gcHBwX3VuYnJpZGdlX2NoYW5u
-ZWxzLA0KPiA+IGlmICJwY2hiYiA9PSBwY2giIGlzIHRydWUgYW5kIHRoZW4gcGNoIHdpbGwgYmUg
-ZnJlZWQuDQo+IA0KPiBEbyB5b3UgaGF2ZSBhIHdheSB0byByZXByb2R1Y2UgYSB1c2UtYWZ0ZXIt
-ZnJlZSBzY2VuYXJpbz8NCj4gDQo+IEZyb20gc3RhdGljIGFuYWx5c2lzIEknbSBub3Qgc3VyZSBo
-b3cgcGNoIHdvdWxkIGJlIGZyZWVkIGluDQo+IHBwcF91bmJyaWRnZV9jaGFubmVscyB3aGVuIGNh
-bGxlZCB2aWEuIHBwcF91bnJlZ2lzdGVyX2NoYW5uZWwuDQo+IA0KPiBJbiB0aGVvcnkgKGF0IGxl
-YXN0ISkgdGhlIGNhbGxlciBvZiBwcHBfcmVnaXN0ZXJfbmV0X2NoYW5uZWwgaG9sZHMgDQo+IGEg
-cmVmZXJlbmNlIG9uIHN0cnVjdCBjaGFubmVsIHdoaWNoIHBwcF91bnJlZ2lzdGVyX2NoYW5uZWwg
-ZHJvcHMuDQo+IA0KPiBFYWNoIGNoYW5uZWwgaW4gYSBicmlkZ2VkIHBhaXIgaG9sZHMgYSByZWZl
-cmVuY2Ugb24gdGhlIG90aGVyLg0KPiANCj4gSGVuY2Ugb24gcmV0dXJuIGZyb20gcHBwX3VuYnJp
-ZGdlX2NoYW5uZWxzLCB0aGUgY2hhbm5lbCBzaG91bGQgbm90IGhhdmUNCj4gYmVlbiBmcmVlZCAo
-aW4gdGhpcyBjb2RlIHBhdGgpIGJlY2F1c2UgdGhlIHBwcF9yZWdpc3Rlcl9uZXRfY2hhbm5lbA0K
-PiByZWZlcmVuY2UgaGFzIG5vdCB5ZXQgYmVlbiBkcm9wcGVkLg0KPiANCj4gTWF5YmUgdGhlcmUg
-aXMgYW4gaXNzdWUgd2l0aCB0aGUgcmVmZXJlbmNlIGNvdW50aW5nIG9yIGEgcmFjZSBvZiBzb21l
-DQo+IHNvcnQ/DQo+IA0KPiA+IEkgY2hlY2tlZCB0aGUgY29tbWl0IGhpc3RvcnkgYW5kIGZvdW5k
-IHRoYXQgdGhpcyBwcm9ibGVtIGlzIGludHJvZHVjZWQgZnJvbQ0KPiA+IDRjZjQ3NmNlZDQ1ZDcg
-KCJwcHA6IGFkZCBQUFBJT0NCUklER0VDSEFOIGFuZCBQUFBJT0NVTkJSSURHRUNIQU4gaW9jdGxz
-IikuDQo+ID4gDQo+ID4gSSBoYXZlIG5vIGlkZWEgYWJvdXQgaG93IHRvIGdlbmVyYXRlIGEgc3Vp
-dGFibGUgcGF0Y2gsIHNvcnJ5Lg0KDQpUaGlzIGlzc3VlIHdhcyByZXBvcnRlZCBieSBhIHBhdGgt
-c2Vuc2l0aXZlIHN0YXRpYyBhbmFseXplciBkZXZlbG9wZWQgYnkgb3VyIExhYiwNCnRodXMgaSBo
-YXZlIG5vdCBhIGNyYXNoIG9yIGJ1ZyBsb2cuDQoNCkFzIHRoZSByZXR1cm4gdHlwZSBvZiBwcHBf
-dW5icmlkZ2VfY2hhbm5lbHMoKSBpcyBhIGludCwgY2FuIHdlIHJldHVybiBhIHZhbHVlIHRvDQpp
-bmZvcm0gY2FsbGVyIHRoYXQgdGhlIGNoYW5uZWwgaXMgZnJlZWQ/DQoNCg==
+Hello,
+
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (2) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home on their behalf and
+for our "Mutual Benefits".
+
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Turkish Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
+
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+reem.alhashimi@yandex.com
+
+Regards,
+Ms. Reem.
+This mail was sent through Econet Wireless, a Global telecoms leader.
+
+DISCLAIMER
+
+The information in this message is confidential and is legally privileged. It is intended solely for the addressee. Access to this message by anyone else is unauthorized. If received in error please accept our apologies and notify the sender immediately. You must also delete the original message from your machine. If you are not the intended recipient, any use, disclosure, copying, distribution or action taken in reliance of it, is prohibited and may be unlawful. The information, attachments, opinions or advice contained in this email are not the views or opinions of Econet Wireless, its subsidiaries or affiliates. Econet Wireless therefore accepts no liability for claims, losses, or damages arising from the inaccuracy, incorrectness, or lack of integrity of such information.
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/AgileBanner.png]
+WORK ISN'T A PLACE
+IT'S WHAT WE DO
+________________________________
+
+
+
+
+
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/telephone.png]
+
+
+
+
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/email.png]
+
+<mailto:>
+
+
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/location.png]
+
+
+
+
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/website.png]
+
+www.econet.co.zw<https://www.econet.co.zw>
+
+
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/inspired.jpg]
