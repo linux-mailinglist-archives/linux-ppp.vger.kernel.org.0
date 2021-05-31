@@ -2,62 +2,67 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62162392D89
-	for <lists+linux-ppp@lfdr.de>; Thu, 27 May 2021 14:05:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D754A3967FD
+	for <lists+linux-ppp@lfdr.de>; Mon, 31 May 2021 20:37:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234800AbhE0MHB (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Thu, 27 May 2021 08:07:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43610 "EHLO
+        id S230323AbhEaSi7 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 31 May 2021 14:38:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234798AbhE0MHA (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Thu, 27 May 2021 08:07:00 -0400
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 616A2C061574
-        for <linux-ppp@vger.kernel.org>; Thu, 27 May 2021 05:05:26 -0700 (PDT)
-Received: by mail-io1-xd2b.google.com with SMTP id d25so198589ioe.1
-        for <linux-ppp@vger.kernel.org>; Thu, 27 May 2021 05:05:26 -0700 (PDT)
+        with ESMTP id S230288AbhEaSi5 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 31 May 2021 14:38:57 -0400
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 650DDC061574
+        for <linux-ppp@vger.kernel.org>; Mon, 31 May 2021 11:37:11 -0700 (PDT)
+Received: by mail-io1-xd2c.google.com with SMTP id d25so12787334ioe.1
+        for <linux-ppp@vger.kernel.org>; Mon, 31 May 2021 11:37:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Sycq7Ny6SrbnkRtuMEA59JYCkKBxb774kr4FnjlAunE=;
-        b=r08F5K6vaNIsNjlk29gTc+CUARO7CDlUQHZUtQpMzc2k0BsgnXFG8cbIG4L/hpKRNT
-         iU8bhlLUzAAzrYdpXr7WMnAYmSvlBk2sJs+AVN93c+54XFhSRSCO2E2E6c6UpwH/9Ric
-         PbBx/fk1TjZSrmTZ2MT2pBqHIgz1U1OR/RXieIWuWf/VPqdVHU6cpwzduUfjhWJlF8bA
-         QcH96gBtOt9oi0bLs3Q0yRxkSME/Whx1Ll83wWpeEF8c5AaG9TLwlzkwxpC1nD6LFmtn
-         TPt/z71GLb06e8pcpP3vTiByuqqMUzMwceNhzm0EKTKsZVy+Ws3fulsIJGDFF3O5cujh
-         o5Rw==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=IFJn9hzIDt81XJU9NNIoX/Ob20/anNJAd1gw5P1DUJw=;
+        b=bspWkuzoPI8qvHYMq4HsUTGFo8E3vlJpnhSdrC+vy3ThSGm8nU41ZifZGIB6KNiuJp
+         rsZuifBFDUPbuPeun4ylx3RWMlSKq1F3te2muvJ1JI5Zpl5hC4qAjMexO9MVAbZLLECH
+         MPZNIlIMXABZxByu9KRNDGicBhjPlS/kyeOVgJfgQs1Rd5yTfO5LM0ydV1HPbe/8Mclp
+         kY2Hx0LHVrSEzq5Axy1FBHfOiieIVbmpOycfAEwUWv62U0oAekWXhgVIVezTcwnEdZ+3
+         QBT2WCYB++BMYNNY9LUtSzky3OgrwIEtAVOluau6NyTf06H6K4BI/nwKFH58xGOR+frp
+         S/ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=Sycq7Ny6SrbnkRtuMEA59JYCkKBxb774kr4FnjlAunE=;
-        b=Vmb476FmK6ciuY/IDFd4jMsrt03hPLd2rKSps+UsvazW5l3wxkQwIf5CIarAdkmG1C
-         elNWs3fka1Wh2ArAd/kgqGkgr98gnGHsBE96zKnKNNGgGikbSz4goA2k6/TDgEL28P9j
-         jUYvHOOZglmeQiQ+9gqfLBhs0E1dfGcuh6f5MEm6esiOS/UcV+gLxCUn6z2cB7Pi8tOV
-         VCDiS89Ne/NtKELDxwBN9AV7PwTqQUcQeQL/a9R6LzD0hkT7OjxzAJ7YKLgZsEkUCcQV
-         6qqSm5t26GtE5w6wPnZmhOuZ6itlnv+08z2a/nZSjFG65Ot35aJ9lOk7yVZHwdzbAK7R
-         yswg==
-X-Gm-Message-State: AOAM533Vli/6LYyU6lApJaDbfhVbq88o+XYjh1JrgIeWnPK8H7Ujd7XR
-        zm8vCa8wG/G6pogx7tt7FJ3giV1YIq/7+zwgz+o=
-X-Google-Smtp-Source: ABdhPJzktHZW9aAqT5QeZ//sxnYEZGxCjICbd6Fb/Zj3hI8t7Ilvoy9DJkQl9iXoZDzKODUrJ5qATBGIpfWV9XdVRA0=
-X-Received: by 2002:a5e:c744:: with SMTP id g4mr2592026iop.26.1622117125725;
- Thu, 27 May 2021 05:05:25 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=IFJn9hzIDt81XJU9NNIoX/Ob20/anNJAd1gw5P1DUJw=;
+        b=PGK31KTuac1RAteC1COmuhfuWFyF4ytBBSgEz4og+28yrHsouX0SUmf5F4Hgi49yjw
+         6X2pLVdrt9uGriuxPEciu32ypyXxgzc23t//UxG8zt/WPRWISM3/Op5oaACOFp2wap9a
+         Me31aAGT3Nu6SvFPgfqgaKYisjIb3L/0SMY/O14KTP1gogCo9tieVTcToueDiUVHjiZC
+         ihVUrQ0wvZ8OM2OnrI9vBDTL5AlG4dsUe7rv6RPOVtJjq8WuBp1zSQHaqTb/nct1MCE6
+         78kFG4xmsuFG5RNc9vllTZ61Xwa0XukAACv1nFFF0xz/C33ukUR6gU0v4GHoeL6SxjJM
+         bjrA==
+X-Gm-Message-State: AOAM532KxHMSqFX5lhEDGvMcDaMEyswXa1eC3fee8MkjEQb6+IX/lm2k
+        nzS5RhC41hrsojeuAW9XKdRO/KqfqrazIKSGTwxx/hcqU4cyFg==
+X-Google-Smtp-Source: ABdhPJyQs+qV3jGxaPUaJFbpgh8EoSAVxWjUKjBsfzQsTCKmYsOJP5Ecc9ymZl9iEFTWq8yFQKHlTaFy29kqj5iaeBg=
+X-Received: by 2002:a05:6638:148c:: with SMTP id j12mr4988475jak.74.1622486230494;
+ Mon, 31 May 2021 11:37:10 -0700 (PDT)
 MIME-Version: 1.0
-Reply-To: kmark@iname.com
-From:   mark koffi <mrmarkkoffi2000@gmail.com>
-Date:   Thu, 27 May 2021 12:05:13 +0000
-Message-ID: <CABfujoOYqQzh7-y91ZwA215Cgfu6LewAvoHdQ613=HDzjZm70Q@mail.gmail.com>
-Subject: cc
-To:     Bill Guerriero <william.guerriero@cgc.edu>
+From:   Artem Mygaiev <joculator@gmail.com>
+Date:   Mon, 31 May 2021 21:36:58 +0300
+Message-ID: <CAJwc6KsAwMXDcw8LH6s9JUDLPyBOsaohReG4kt4r0q8bR86D4A@mail.gmail.com>
+Subject: PPP ECP (RFC1968) support
+To:     linux-ppp@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Greetings .....
-I am contacting you to assist  in retrieving a fund of US$ 10.5m
-deposited by Mr.  IGOR   which was deposited  in the bank before it
-got confiscated by the bank. if you are willing to carry on with it
-Get back to me for more details
-Regards
-MarK
+Hello
+
+Going through the pppd and drivers/net/ppp/* code I cannot find a finished
+implementation of ECP encryption. The only relevant commit in pppd I can see
+is adding ECP patches from Frank Cusack including beginnings of ecp.c which,
+as it seems, was never finished. On a kernel side I can only see MPPE
+compressor and nothing related to ECP.
+
+Am I missing something? Maybe there is some repo with unfinished work?
+
+Appreciate any pointers
+
+Best regards,
+Artem Mygaiev
