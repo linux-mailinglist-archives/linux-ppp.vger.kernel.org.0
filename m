@@ -2,66 +2,41 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B5E73B1E0E
-	for <lists+linux-ppp@lfdr.de>; Wed, 23 Jun 2021 17:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 818CD3B5068
+	for <lists+linux-ppp@lfdr.de>; Sun, 27 Jun 2021 01:02:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231514AbhFWP4z convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-ppp@lfdr.de>); Wed, 23 Jun 2021 11:56:55 -0400
-Received: from [183.90.58.236] ([183.90.58.236]:51760 "EHLO ns1.zackeruz.tk"
+        id S229794AbhFZXFM convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Sat, 26 Jun 2021 19:05:12 -0400
+Received: from [210.180.118.67] ([210.180.118.67]:52482 "EHLO blank.cafe24.com"
         rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231491AbhFWP4x (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Wed, 23 Jun 2021 11:56:53 -0400
-Received: from johnlewis.com (unknown [192.168.20.1])
-        by ns1.zackeruz.tk (Postfix) with ESMTPSA id 7E7D78462E0
-        for <linux-ppp@vger.kernel.org>; Wed, 23 Jun 2021 23:54:34 +0800 (+08)
-Reply-To: robert_turner@johnlewis-trading.com,
-          pippawicks.sales@johnlewis-trading.com
-From:   John Lewis & Partnersip <robert.turner107@johnlewis.com>
-To:     linux-ppp@vger.kernel.org
-Subject: 6/23/2021 Product Inquiry 
-Date:   23 Jun 2021 15:54:33 +0000
-Message-ID: <20210623094114.C9147F7BA228EC5B@johnlewis.com>
+        id S229556AbhFZXFL (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Sat, 26 Jun 2021 19:05:11 -0400
+Received: from IP-130-143.dataclub.eu (ip-130-143.dataclub.info [84.38.130.143] (may be forged))
+        (authenticated bits=0)
+        by blank.cafe24.com (8.14.7/8.14.7) with ESMTP id 15H5Yaiw002633
+        for <linux-ppp@vger.kernel.org>; Thu, 17 Jun 2021 14:34:52 +0900
+Message-Id: <202106170534.15H5Yaiw002633@blank.cafe24.com>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
 Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: BUSINESS LOAN/PROJECT FUNDING...67
+To:     linux-ppp@vger.kernel.org
+From:   "Smith Green" <ssbinvestmentsllc@citromail.hu>
+Date:   Thu, 17 Jun 2021 08:34:45 +0300
+Reply-To: ssbinvestmentsllc@citromail.hu
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Dear linux-ppp
+Dear Sir/Madam,
 
-The famous brand John Lewis Partnership, is UK's largest multi-
-channel retailer with over 126 shops and multiple expansion in 
-Africa furnished by European/Asian/American products. We are 
-sourcing new products to attract new customers and also retain 
-our existing ones, create new partnerships with companies dealing 
-with different kinds of goods globally.
+Our Investors are based in the middle east with a profound track record. We invite you to take advantage of our investment loan program to fund your existing or intending projects. We offer a straight or convertible loan investment program for projects with high-returns and payback prospects without the usual rigid procedures of conventional lenders.
+ 
+Kindly forward a copy of your Executive business summary for our review: info@ssbinvestmentsllc.us
 
-Your company's products are of interest to our market as we have 
-an amazing market for your products.
-
-Provide us your current catalog through email to review more. We 
-hope to be able to order with you and start a long-term friendly,
-respectable and solid business partnership. Please we would 
-appreciate it if you could send us your stock availability via 
-email if any.
-
-Our payment terms are 15 days net in Europe, 30 days Net in UK 
-and 30 days net in Asia/USA as we operate with over 5297 
-suppliers around the globe for the past 50 years now. For 
-immediate response Send your reply to robert_turner@johnlewis-
-trading.com for us to be able to 
-treat with care and urgency.
-
-
-Best Regards
-
-Rob Turner
-Head Of Procurement Operations
-John Lewis & Partners.
-robert_turner@johnlewis-trading.com
-Tel: +44-7451-274090
-WhatsApp: +447497483925
-www.johnlewis.com
-REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN 
+ 
+Best Regards.
+Smith Green
+E:info@ssbinvestmentsllc.us
+International investment broker
