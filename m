@@ -2,56 +2,59 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F5093BC3DD
-	for <lists+linux-ppp@lfdr.de>; Tue,  6 Jul 2021 00:14:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C404B3BF7F2
+	for <lists+linux-ppp@lfdr.de>; Thu,  8 Jul 2021 12:05:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233137AbhGEWRR (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 5 Jul 2021 18:17:17 -0400
-Received: from static-190-25-223-138.static.etb.net.co ([190.25.223.138]:46176
-        "EHLO correo.hdv.gov.co" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233065AbhGEWRQ (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 5 Jul 2021 18:17:16 -0400
+        id S231472AbhGHKHw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Thu, 8 Jul 2021 06:07:52 -0400
+Received: from mail8.turbodal.cl ([200.27.120.195]:50165 "EHLO
+        debian.turbodal.cl" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S231324AbhGHKHv (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 8 Jul 2021 06:07:51 -0400
+X-Greylist: delayed 11349 seconds by postgrey-1.27 at vger.kernel.org; Thu, 08 Jul 2021 06:07:51 EDT
+Received: from mail4.turbodal.cl (unknown [192.100.110.128])
+        by debian.turbodal.cl (Postfix) with ESMTPS id 0710116B2D7;
+        Thu,  8 Jul 2021 02:23:08 -0400 (-04)
+Received: from mail4.turbodal.cl (localhost [127.0.0.1])
+        by mail4.turbodal.cl (Postfix) with ESMTPS id B167462E031B;
+        Thu,  8 Jul 2021 02:23:33 -0400 (-04)
 Received: from localhost (localhost [127.0.0.1])
-        by correo.hdv.gov.co (Postfix) with ESMTP id BFC7E2204813;
-        Mon,  5 Jul 2021 15:42:54 -0500 (-05)
-Received: from correo.hdv.gov.co ([127.0.0.1])
-        by localhost (correo.hdv.gov.co [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id byRtbtOvO4jL; Mon,  5 Jul 2021 15:42:54 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by correo.hdv.gov.co (Postfix) with ESMTP id 826D82204631;
-        Mon,  5 Jul 2021 15:42:53 -0500 (-05)
-DKIM-Filter: OpenDKIM Filter v2.10.3 correo.hdv.gov.co 826D82204631
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hdv.gov.co;
-        s=11DF984A-9D1F-11E6-B193-F2669FC4C452; t=1625517773;
-        bh=Po3+jYC7/Rg7V8Ibt2yKIqN5eintSYPogxawXJ1TVGE=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=RC1wtq81DNRVum0KpGODBW5wpIRvKZItOzRVgfJfCgis7rSLLseqUP7EUyC0cQJed
-         5rLToL05oXuPuU2NmIm9pvtZSvHt01ed+bSmAQWhH+vMeQVlGIGYuYRrYl6ibbh7t/
-         K7vMawvxW6Ktok4/F3ZwSeAiVuBnpXNKFerTrDLY=
-X-Virus-Scanned: amavisd-new at correo.hdv.gov.co
-Received: from correo.hdv.gov.co ([127.0.0.1])
-        by localhost (correo.hdv.gov.co [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 8bp2uUHGmpwI; Mon,  5 Jul 2021 15:42:53 -0500 (-05)
-Received: from [10.1.237.235] (unknown [154.13.1.139])
-        by correo.hdv.gov.co (Postfix) with ESMTPSA id 0955922047BA;
-        Mon,  5 Jul 2021 15:42:46 -0500 (-05)
+        by mail4.turbodal.cl (Postfix) with ESMTP id 95E6762E0706;
+        Thu,  8 Jul 2021 02:23:33 -0400 (-04)
+Received: from mail4.turbodal.cl ([127.0.0.1])
+        by localhost (mail4.turbodal.cl [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 6KavgMMse9tj; Thu,  8 Jul 2021 02:23:33 -0400 (-04)
+Received: from cris-PC.wifi (unknown [105.9.19.190])
+        by mail4.turbodal.cl (Postfix) with ESMTPSA id 7729A62E0406;
+        Thu,  8 Jul 2021 02:23:25 -0400 (-04)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8BIT
 Content-Description: Mail message body
-Subject: RE:
-To:     Recipients <planeacion.arquitecto@hdv.gov.co>
-From:   planeacion.arquitecto@hdv.gov.co
-Date:   Mon, 05 Jul 2021 22:42:33 +0200
-Reply-To: callumfoundation18@gmail.com
-Message-Id: <20210705204247.0955922047BA@correo.hdv.gov.co>
+Subject: spende von 2,000,000 euro
+To:     Recipients <fae.eva@ptt.cl>
+From:   ''michael weirsky'' <fae.eva@ptt.cl>
+Date:   Thu, 08 Jul 2021 08:23:08 +0200
+Reply-To: mikeweirskyspende@gmail.com
+Message-Id: <20210708062325.7729A62E0406@mail4.turbodal.cl>
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-F=C3=BCr Sie wurde eine Spende in H=C3=B6he von 2.800.000,00 =E2=82=AC gesp=
-endet. Bitte antworten Sie auf diese E-Mail, um die Spenderin (MRS. LERYNNE=
- WEST) f=C3=BCr weitere Informationen zu gespendeten Mitteln zu kontaktiere=
-n.
+Lieber Freund,
 
-Sch=C3=B6ne Gr=C3=BC=C3=9Fe
+Ich bin Herr Mike Weirsky, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 273million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen.
+Das ist dein Spendencode: [MW530342019]
+
+www.youtube.com/watch?v=un8yRTmrYMY
+
+
+Antworten Sie mit dem SPENDE-CODE an diese 
+
+E-Mail:mikeweirskyspende@gmail.com
+
+
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+
+Grüße
+Herr Mike Weirsky
