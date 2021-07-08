@@ -2,59 +2,46 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C404B3BF7F2
-	for <lists+linux-ppp@lfdr.de>; Thu,  8 Jul 2021 12:05:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38B403C148B
+	for <lists+linux-ppp@lfdr.de>; Thu,  8 Jul 2021 15:42:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231472AbhGHKHw convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-ppp@lfdr.de>); Thu, 8 Jul 2021 06:07:52 -0400
-Received: from mail8.turbodal.cl ([200.27.120.195]:50165 "EHLO
-        debian.turbodal.cl" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S231324AbhGHKHv (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Thu, 8 Jul 2021 06:07:51 -0400
-X-Greylist: delayed 11349 seconds by postgrey-1.27 at vger.kernel.org; Thu, 08 Jul 2021 06:07:51 EDT
-Received: from mail4.turbodal.cl (unknown [192.100.110.128])
-        by debian.turbodal.cl (Postfix) with ESMTPS id 0710116B2D7;
-        Thu,  8 Jul 2021 02:23:08 -0400 (-04)
-Received: from mail4.turbodal.cl (localhost [127.0.0.1])
-        by mail4.turbodal.cl (Postfix) with ESMTPS id B167462E031B;
-        Thu,  8 Jul 2021 02:23:33 -0400 (-04)
-Received: from localhost (localhost [127.0.0.1])
-        by mail4.turbodal.cl (Postfix) with ESMTP id 95E6762E0706;
-        Thu,  8 Jul 2021 02:23:33 -0400 (-04)
-Received: from mail4.turbodal.cl ([127.0.0.1])
-        by localhost (mail4.turbodal.cl [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 6KavgMMse9tj; Thu,  8 Jul 2021 02:23:33 -0400 (-04)
-Received: from cris-PC.wifi (unknown [105.9.19.190])
-        by mail4.turbodal.cl (Postfix) with ESMTPSA id 7729A62E0406;
-        Thu,  8 Jul 2021 02:23:25 -0400 (-04)
-Content-Type: text/plain; charset="utf-8"
+        id S231822AbhGHNpW (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 8 Jul 2021 09:45:22 -0400
+Received: from mx-n01.wc2.phx1.stabletransit.com ([207.246.242.247]:45548 "HELO
+        mx-n01.wc2.phx1.stabletransit.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with SMTP id S231842AbhGHNpW (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 8 Jul 2021 09:45:22 -0400
+X-Greylist: delayed 598 seconds by postgrey-1.27 at vger.kernel.org; Thu, 08 Jul 2021 09:45:12 EDT
+Received: by mx-n01.wc2.phx1.stabletransit.com (Postfix, from userid 114)
+        id 5A90362941; Thu,  8 Jul 2021 08:32:31 -0500 (CDT)
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
+        mx-n01.wc2.phx1.stabletransit.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.6 required=6.0 tests=BAYES_50,FREEMAIL_FROM,
+        FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,SUBJ_ALL_CAPS,
+        T_FILL_THIS_FORM_SHORT,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.2
+X-Spam-Virus: No
+Received: from php-v027.wc2.phx1.stabletransit.com (unknown [10.40.206.156])
+        by mx-n01.wc2.phx1.stabletransit.com (Postfix) with ESMTP id 94F9062068
+        for <linux-ppp@vger.kernel.org>; Thu,  8 Jul 2021 08:32:30 -0500 (CDT)
+Received: from digilu (uid 2914979)
+        (envelope-from mabeljohnson@citromail.hu)
+        id 20156
+        by php-v027.wc2.phx1.stabletransit.com (DragonFly Mail Agent v0.11);
+        Thu, 08 Jul 2021 08:32:30 -0500
+To:     linux-ppp@vger.kernel.org
+Subject: WORK OF GOD.
+X-PHP-Originating-Script: 2914979:class.engine.php(12) : runtime-created function
+Date:   Thu, 8 Jul 2021 08:32:30 -0500
+From:   MARY JOHNSON <mabeljohnson@citromail.hu>
+Reply-To: mj224294@gmail.com
+Message-ID: <3609978e3f928d6442af64a44ad72f98@jackieleestudio.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: spende von 2,000,000 euro
-To:     Recipients <fae.eva@ptt.cl>
-From:   ''michael weirsky'' <fae.eva@ptt.cl>
-Date:   Thu, 08 Jul 2021 08:23:08 +0200
-Reply-To: mikeweirskyspende@gmail.com
-Message-Id: <20210708062325.7729A62E0406@mail4.turbodal.cl>
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Lieber Freund,
+I am Mrs. Mary Johnson,78years,an aging widow suffering from cancer, I am on admission at a hospital.I would like to willfully entrust the rest of my monetary assets to you, Kindly reply back with your full Name, cellphone, address, to enable me to send you a letter of authorization to contact my bank first inland bank nigeria plc so that they can transfer my funds to your account for the purpose of helping the poor as indicated on my WILL.
 
-Ich bin Herr Mike Weirsky, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 273million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen.
-Das ist dein Spendencode: [MW530342019]
-
-www.youtube.com/watch?v=un8yRTmrYMY
-
-
-Antworten Sie mit dem SPENDE-CODE an diese 
-
-E-Mail:mikeweirskyspende@gmail.com
-
-
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
-
-Grüße
-Herr Mike Weirsky
