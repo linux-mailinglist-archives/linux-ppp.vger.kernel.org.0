@@ -2,86 +2,146 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18ADE3D774E
-	for <lists+linux-ppp@lfdr.de>; Tue, 27 Jul 2021 15:47:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DC953D7EBD
+	for <lists+linux-ppp@lfdr.de>; Tue, 27 Jul 2021 22:00:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237154AbhG0NrZ (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 27 Jul 2021 09:47:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46564 "EHLO mail.kernel.org"
+        id S231873AbhG0UAP (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 27 Jul 2021 16:00:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40750 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237147AbhG0Nqs (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Tue, 27 Jul 2021 09:46:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 71BA461ABD;
-        Tue, 27 Jul 2021 13:46:38 +0000 (UTC)
+        id S231204AbhG0UAO (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Tue, 27 Jul 2021 16:00:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id ED0CF60FA0;
+        Tue, 27 Jul 2021 20:00:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1627393599;
-        bh=9HEmQTMcD+tGVqx872uJelDKhvWrPIrr/YltYHMDktc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FFlfVIqHVDaxeDE4pmV6k0c9/5GuaHZDoQKExEoQEQx7FspdegsjzvxITDpGqdQx/
-         eqhQIX9QLNlgXF5gO3WGOS4eKKZ4AoQbm29NA2Igk+aVWDFB864yVDCAe/cxmSixCS
-         qxM2KL1uabypaItuNW938eBaP+ywZwKSZY5APFJrt3qgOrJ6GoVM7iajXC1hjtoCd5
-         kpyGe3itGmLxFwOEkrOH/0VFCJK8WhI30sJvMT9y0OneXn9xBfcJprB6fIA5cvLv2Y
-         y8X3MUQlLjonpqWIdHlwDtWKwnCEBEuUlLIMplW6k48N6mFnY3IimI8mrDAOeeQc6/
-         KHuJIL/pYT0dA==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     netdev@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org
-Subject: [PATCH net-next v3 23/31] ppp: use ndo_siocdevprivate
-Date:   Tue, 27 Jul 2021 15:45:09 +0200
-Message-Id: <20210727134517.1384504-24-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210727134517.1384504-1-arnd@kernel.org>
-References: <20210727134517.1384504-1-arnd@kernel.org>
+        s=k20201202; t=1627416014;
+        bh=7gbluUXqRRDrRRn0YT85HoIea0afHl4fXkBq3wS8myc=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=ZuKh0QZIr0bo4IkkVxJ+KGIS7CN6C3qN0vMjFXehfb5lPWADe0PwPwsnk1qMM5vvO
+         HlWCTVM4ZzSaJEPtmoNUa1vsliz463WcrdCQN1lkHHswUKgaNNtq29styVqu3BjN7r
+         JYjOpWXSrkVvfQxj9Ek6rU+aJOXdBkncGx3bb9Y1mzLSX2u2tkkakG1hfNRYcUUq4e
+         inTy+HHa8/MPQbmrfH3/IPLKgDL9lIMIjHc7+pUM2DHjS9wtjN7iT01LHakbA2lpny
+         sQF0HUZcKsDMvVwqgSaSNCqv1JR5iOvrYNY91Aq7W+oxmNXRaUF211VLnU6VOI+NyL
+         UUZx8tXVJZbzw==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id E1C38609CC;
+        Tue, 27 Jul 2021 20:00:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3 00/31] ndo_ioctl rework
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <162741601391.17427.11630081272562695042.git-patchwork-notify@kernel.org>
+Date:   Tue, 27 Jul 2021 20:00:13 +0000
+References: <20210727134517.1384504-1-arnd@kernel.org>
+In-Reply-To: <20210727134517.1384504-1-arnd@kernel.org>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kuba@kernel.org, davem@davemloft.net, arnd@arndb.de,
+        j.vosburgh@gmail.com, vfalico@gmail.com, andy@greyhouse.net,
+        rajur@chelsio.com, t.sailer@alumni.ethz.ch, jreuter@yaina.de,
+        jpr@f6fbb.org, jes@trained-monkey.org, khc@pm.waw.pl,
+        kevin.curtis@farsite.co.uk, qiang.zhao@nxp.com, ms@dev.tdt.de,
+        kvalo@codeaurora.org, j@w1.fi, jwi@linux.ibm.com,
+        kgraul@linux.ibm.com, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
+        roopa@nvidia.com, nikolay@nvidia.com, steffen.klassert@secunet.com,
+        herbert@gondor.apana.org.au, courmisch@gmail.com, andrew@lunn.ch,
+        hch@lst.de, linux-parisc@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-hippi@sunsite.dk,
+        linux-ppp@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-x25@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-s390@vger.kernel.org, bridge@lists.linux-foundation.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hello:
 
-ppp has a custom statistics interface using SIOCDEVPRIVATE
-ioctl commands that works correctly in compat mode.
+This series was applied to netdev/net-next.git (refs/heads/master):
 
-Convert it to use ndo_siocdevprivate as a cleanup.
+On Tue, 27 Jul 2021 15:44:46 +0200 you wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> This series is a follow-up to the series for removing
+> compat_alloc_user_space() and copy_in_user() that has now
+> been merged.
+> 
+> I wanted to be sure I address all the ways that 'struct ifreq' is used
+> in device drivers through .ndo_do_ioctl, originally to prove that
+> my approach of changing the struct definition was correct, but then
+> I discarded that approach and went on anyway.
+> 
+> [...]
 
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: linux-ppp@vger.kernel.org
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/net/ppp/ppp_generic.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Here is the summary with links:
+  - [net-next,v3,01/31] net: split out SIOCDEVPRIVATE handling from dev_ioctl
+    https://git.kernel.org/netdev/net-next/c/b9067f5dc4a0
+  - [net-next,v3,02/31] staging: rtlwifi: use siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/89939e890605
+  - [net-next,v3,03/31] staging: wlan-ng: use siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/3343c49a959d
+  - [net-next,v3,04/31] hostap: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/3f3fa5340745
+  - [net-next,v3,05/31] bridge: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/561d8352818f
+  - [net-next,v3,06/31] phonet: use siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/4747c1a8bc50
+  - [net-next,v3,07/31] tulip: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/029a4fef6b22
+  - [net-next,v3,08/31] bonding: use siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/232ec98ec35d
+  - [net-next,v3,09/31] appletalk: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/dbecb011eb78
+  - [net-next,v3,10/31] hamachi: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/99b78a37a371
+  - [net-next,v3,11/31] tehuti: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/32d05468c462
+  - [net-next,v3,12/31] eql: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/d92f7b59d32b
+  - [net-next,v3,13/31] fddi: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/043393d8b478
+  - [net-next,v3,14/31] net: usb: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/ef1b5b0c30bc
+  - [net-next,v3,15/31] slip/plip: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/76b5878cffab
+  - [net-next,v3,16/31] qeth: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/18787eeebd71
+  - [net-next,v3,17/31] cxgb3: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/ebb4a911e09a
+  - [net-next,v3,18/31] hamradio: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/25ec92fbdd23
+  - [net-next,v3,19/31] airo: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/ae6af0120dda
+  - [net-next,v3,20/31] ip_tunnel: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/3e7a1c7c561e
+  - [net-next,v3,21/31] hippi: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/81a68110a22a
+  - [net-next,v3,22/31] sb1000: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/cc0aa831a0d9
+  - [net-next,v3,23/31] ppp: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/34f7cac07c4e
+  - [net-next,v3,24/31] wan: use ndo_siocdevprivate
+    https://git.kernel.org/netdev/net-next/c/73d74f61a559
+  - [net-next,v3,25/31] wan: cosa: remove dead cosa_net_ioctl() function
+    https://git.kernel.org/netdev/net-next/c/8fb75b79cd98
+  - [net-next,v3,26/31] dev_ioctl: pass SIOCDEVPRIVATE data separately
+    https://git.kernel.org/netdev/net-next/c/a554bf96b49d
+  - [net-next,v3,27/31] dev_ioctl: split out ndo_eth_ioctl
+    https://git.kernel.org/netdev/net-next/c/a76053707dbf
+  - [net-next,v3,28/31] net: split out ndo_siowandev ioctl
+    https://git.kernel.org/netdev/net-next/c/ad7eab2ab014
+  - [net-next,v3,29/31] net: socket: return changed ifreq from SIOCDEVPRIVATE
+    https://git.kernel.org/netdev/net-next/c/88fc023f7de2
+  - [net-next,v3,30/31] net: bridge: move bridge ioctls out of .ndo_do_ioctl
+    https://git.kernel.org/netdev/net-next/c/ad2f99aedf8f
+  - [net-next,v3,31/31] net: bonding: move ioctl handling to private ndo operation
+    https://git.kernel.org/netdev/net-next/c/3d9d00bd1885
 
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index 930e49ef15f6..216a9f4e9750 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -1452,11 +1452,11 @@ ppp_start_xmit(struct sk_buff *skb, struct net_device *dev)
- }
- 
- static int
--ppp_net_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
-+ppp_net_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
-+		       void __user *addr, int cmd)
- {
- 	struct ppp *ppp = netdev_priv(dev);
- 	int err = -EFAULT;
--	void __user *addr = (void __user *) ifr->ifr_ifru.ifru_data;
- 	struct ppp_stats stats;
- 	struct ppp_comp_stats cstats;
- 	char *vers;
-@@ -1585,7 +1585,7 @@ static const struct net_device_ops ppp_netdev_ops = {
- 	.ndo_init	 = ppp_dev_init,
- 	.ndo_uninit      = ppp_dev_uninit,
- 	.ndo_start_xmit  = ppp_start_xmit,
--	.ndo_do_ioctl    = ppp_net_ioctl,
-+	.ndo_siocdevprivate = ppp_net_siocdevprivate,
- 	.ndo_get_stats64 = ppp_get_stats64,
- 	.ndo_fill_forward_path = ppp_fill_forward_path,
- };
--- 
-2.29.2
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
