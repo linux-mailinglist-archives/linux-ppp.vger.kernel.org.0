@@ -2,65 +2,88 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DC373E349A
-	for <lists+linux-ppp@lfdr.de>; Sat,  7 Aug 2021 12:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C1A13E3585
+	for <lists+linux-ppp@lfdr.de>; Sat,  7 Aug 2021 15:28:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231687AbhHGKJU (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sat, 7 Aug 2021 06:09:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35966 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231786AbhHGKJI (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sat, 7 Aug 2021 06:09:08 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF0ACC06179B
-        for <linux-ppp@vger.kernel.org>; Sat,  7 Aug 2021 03:08:32 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id l24so8467035qtj.4
-        for <linux-ppp@vger.kernel.org>; Sat, 07 Aug 2021 03:08:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=aiYv+ghkj1wcr5KlnL1ML71lfnXzfmxAeT1E5sMi1Qw=;
-        b=S3l4T9e2tP5pVS7ZuYdu+1Y0qbKkJYnejhs8S6oYuW6LYwueyDMIGlxr2QviX908pZ
-         9SPZJLnYHgJvYg3PLTI5fWJK5TkMxVO2qBa2FrvvgMmkTyowY9FDC29BPjsdhbPhxQLa
-         tYnwYex5seRxFiLy8EoSSBUznJBTlHeb/Bz5niZL/Il13kvDN2O2xOxWpnGH2uLwHscT
-         DoTFOxHdTymP4E3acGtQxboa5XPRRUPIM6mlAfcr7/ekHDJNJv4uG6dy2JtyqWn88ow0
-         hsiNGB55/AYboSktIHGsl5ebXsVnqzSR6R9ebR+QIoCvocI54gGy0g8VDA3p78wJouiN
-         BLYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=aiYv+ghkj1wcr5KlnL1ML71lfnXzfmxAeT1E5sMi1Qw=;
-        b=OPzDPgsamOT4VqtTNTQZ0XQ8gbweAUrEVczWTXf05BGOVXiYN2d456dyo+oscP3Ftu
-         n37b0V97+T8Brahx23qA2Fje8xDyFeQk2nZfZtKDbkyPhpsvUARy+Bj/VteIrmU/Hf9h
-         oyY+WcWX/BlKlGY1I9KD8KTM9rfhuIiNx9MuIJqN9AgTv0x2II2uagF1qcUnVJNB1JSy
-         dqCUE5pby495nKve1j1CUffa6NRzdvKamc9JeRws5S6YobY/yCxy+6OIZiX6AZSnCdap
-         LvwKPoHqiZ5QuGuPSGvqoVmXBbF9G5f6MM3fpvnp1HGijqx+UAz0ghRei+r/5DioHij/
-         aVgQ==
-X-Gm-Message-State: AOAM530wBZkMGoCdIP+4ZKjZj4p7UU4ZMQKGvm2CwsFP9ktvi9Mv7si9
-        boTTPWju5bwc5nn006FsEfhbOqOMUy5bYQi8+Kk=
-X-Google-Smtp-Source: ABdhPJxgyuRRXsSMd0R6a3b0A3hI9pouiu6GtIO5W43J3txGTJtR81T+4t2OwT3S4z6DuFUIj52qGnoLd2PfTJY5Mrs=
-X-Received: by 2002:ac8:6611:: with SMTP id c17mr12282490qtp.392.1628330911954;
- Sat, 07 Aug 2021 03:08:31 -0700 (PDT)
+        id S232289AbhHGN3J (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sat, 7 Aug 2021 09:29:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58206 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232286AbhHGN3I (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Sat, 7 Aug 2021 09:29:08 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1476D610FB;
+        Sat,  7 Aug 2021 13:28:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628342931;
+        bh=UC7Y+bKIfxbXggliQGmWxQhW3dM7xZsPS/HEcNc9Esc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=mf/j8G4vtHQCytTURcwIew+p60imE1a1QcqnFdQLPod5OPz5c+zRH5wwYOuwdPD1v
+         hsIJS2xKSvucpvY0Kjdl3H3cks7keBtsOyezoi6WC+gIJakWHpj+64fhbeXbxhvVRO
+         u1mE3Gf8mg6omGhctlP2rWjjvPbh7RBbe8ikSRgkgQ0bm1Ox2NYVrzQQearPZuqo5a
+         7UstWAKFNkcdirMIeC39IFCxEsVidr3sy2+VrX5h/DyLRx7TZ2za36Uxvt6FTapI/q
+         gF/CSFg8E2iUhLKCcpdJJ2jz2741IMpWvGN0Czu1Lk1M14t7CrgeBiA6ZHHw3VH0MP
+         g+Dd3+61r1Qlw==
+Received: by pali.im (Postfix)
+        id B4FE3A52; Sat,  7 Aug 2021 15:28:48 +0200 (CEST)
+From:   =?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>
+To:     Paul Mackerras <paulus@samba.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Guillaume Nault <g.nault@alphalink.fr>
+Cc:     linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] ppp: Fix generating ifname when empty IFLA_IFNAME is specified
+Date:   Sat,  7 Aug 2021 15:27:03 +0200
+Message-Id: <20210807132703.26303-1-pali@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Received: by 2002:a05:622a:112:0:0:0:0 with HTTP; Sat, 7 Aug 2021 03:08:31
- -0700 (PDT)
-Reply-To: ssaar0101@gmail.com
-From:   Medinat Sherrif <do348911@gmail.com>
-Date:   Sat, 7 Aug 2021 10:08:31 +0000
-Message-ID: <CA+WgU6p7R+UtP_5FzWNKmG6hkPWxb7Kfk5rN4WNbAMA9+mot=Q@mail.gmail.com>
-Subject: Good morning,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Greetings from here.
+IFLA_IFNAME is nul-term string which means that IFLA_IFNAME buffer can be
+larger than length of string which contains.
 
-My name is Medinat. M  Sherrif, I have something very confidential to
-discuss with you in my next mail. Reply to me with your private email
-address for confidential discussion.
+Function __rtnl_newlink() generates new own ifname if either IFLA_IFNAME
+was not specified at all or userspace passed empty nul-term string.
 
-Best Regards.
-Medinat. M  Sherrif,
+It is expected that if userspace does not specify ifname for new ppp netdev
+then kernel generates one in format "ppp<id>" where id matches to the ppp
+unit id which can be later obtained by PPPIOCGUNIT ioctl.
+
+And it works in this way if IFLA_IFNAME is not specified at all. But it
+does not work when IFLA_IFNAME is specified with empty string.
+
+So fix this logic also for empty IFLA_IFNAME in ppp_nl_newlink() function
+and correctly generates ifname based on ppp unit identifier if userspace
+did not provided preferred ifname.
+
+Without this patch when IFLA_IFNAME was specified with empty string then
+kernel created a new ppp interface in format "ppp<id>" but id did not
+match ppp unit id returned by PPPIOCGUNIT ioctl. In this case id was some
+number generated by __rtnl_newlink() function.
+
+Signed-off-by: Pali Rohár <pali@kernel.org>
+Fixes: bb8082f69138 ("ppp: build ifname using unit identifier for rtnl based devices")
+---
+ drivers/net/ppp/ppp_generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index d445ecb1d0c7..1c6ba5a5e081 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -1306,7 +1306,7 @@ static int ppp_nl_newlink(struct net *src_net, struct net_device *dev,
+ 	 * the PPP unit identifer as suffix (i.e. ppp<unit_id>). This allows
+ 	 * userspace to infer the device name using to the PPPIOCGUNIT ioctl.
+ 	 */
+-	if (!tb[IFLA_IFNAME])
++	if (!tb[IFLA_IFNAME] || !nla_len(tb[IFLA_IFNAME]) || !*(char *)nla_data(tb[IFLA_IFNAME]))
+ 		conf.ifname_is_set = false;
+ 
+ 	err = ppp_dev_configure(src_net, dev, &conf);
+-- 
+2.20.1
+
