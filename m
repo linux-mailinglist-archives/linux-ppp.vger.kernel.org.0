@@ -2,39 +2,40 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8090E3E3A24
-	for <lists+linux-ppp@lfdr.de>; Sun,  8 Aug 2021 14:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A6973E3A22
+	for <lists+linux-ppp@lfdr.de>; Sun,  8 Aug 2021 14:10:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230337AbhHHMKZ (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        id S229977AbhHHMKZ (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
         Sun, 8 Aug 2021 08:10:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50058 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:50052 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229882AbhHHMKZ (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        id S229504AbhHHMKZ (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
         Sun, 8 Aug 2021 08:10:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4C32D61028;
+Received: by mail.kernel.org (Postfix) with ESMTPS id 4343460EE4;
         Sun,  8 Aug 2021 12:10:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1628424606;
-        bh=8Ov7tGjWgrkJ/M5RzUNzrHPe3yGh1dkqMlDdPX1Wk9E=;
+        bh=5VcRUR0j4xWYYFvu0wIfCCjWT/gfLI8XiSyTbkBzUWg=;
         h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=UyVfvLDbjHwYlcfVBTY6k9EpbI7flWop1Pm4/rLLyKYYoiaBBugUEGvH0PR7WDWMz
-         ddRPXBwcT6WHBhcEhoGuHn5NBhxBbFYF7Wxuv5YzGrgsqJfETsyaEw3bJfbThCv4nA
-         Q9eo9V1VBS6x/YpiD9KiRGcQifL/7lqBS+pazSguhpxdGR7G03lGAY5EETqE2S1ngz
-         G4ZLK2Lrw9VDs8WgaZ8h0KIRB/4CtyJdGATC6kcUtK991bYN6/Fihc63rTx3z963RJ
-         AafoOBwIUpstsL7tFYCQAR+y/NyaVSHiuOoh/T81sAQcoz/2JL62fj+HdLXsbTBhoO
-         t+3nZazfpYydA==
+        b=hDhNBiLnF/YkwDx7q6qzmgqxV5BBSTfHziERG+KbW9PTfchBkevDTCFhYYdeBtEfm
+         g5GuJ0hbwRDM/aIr3m6XkpTwQ9FkyfQnNJf5i00fNbG2f+KAD6++EOelOBegH7rLam
+         mqoXzfXdj9/EEV8xsFs7UQW/jjS/C2rJAG3yqIcbVyTb0uEn3zc/ODMbxsIdas4mxG
+         6ruoy4h4x2TxoxNxa7kQnqpY9PmmPyWJAyQwCFT5HstLtOjzuoLV3V7fHBxxUfZOii
+         VOtCAzX4D4QpPm/a7k8KGkBe7wCc7vaZ3xMz6c7IPxAVKrv8ucjOaL+/izkPPvIdsR
+         BeAJvrbMWHXEQ==
 Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 3AD5060985;
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 31429609B3;
         Sun,  8 Aug 2021 12:10:06 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] ppp: Fix generating ppp unit id when ifname is not specified
+Subject: Re: [PATCH] ppp: Fix generating ifname when empty IFLA_IFNAME is
+ specified
 From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <162842460623.22263.8898241891049192609.git-patchwork-notify@kernel.org>
+Message-Id: <162842460619.22263.12540809953818710205.git-patchwork-notify@kernel.org>
 Date:   Sun, 08 Aug 2021 12:10:06 +0000
-References: <20210807160050.17687-1-pali@kernel.org>
-In-Reply-To: <20210807160050.17687-1-pali@kernel.org>
+References: <20210807132703.26303-1-pali@kernel.org>
+In-Reply-To: <20210807132703.26303-1-pali@kernel.org>
 To:     =?utf-8?b?UGFsaSBSb2jDoXIgPHBhbGlAa2VybmVsLm9yZz4=?=@ci.codeaurora.org
 Cc:     paulus@samba.org, davem@davemloft.net, kuba@kernel.org,
         g.nault@alphalink.fr, linux-ppp@vger.kernel.org,
@@ -47,20 +48,22 @@ Hello:
 
 This patch was applied to netdev/net.git (refs/heads/master):
 
-On Sat,  7 Aug 2021 18:00:50 +0200 you wrote:
-> When registering new ppp interface via PPPIOCNEWUNIT ioctl then kernel has
-> to choose interface name as this ioctl API does not support specifying it.
+On Sat,  7 Aug 2021 15:27:03 +0200 you wrote:
+> IFLA_IFNAME is nul-term string which means that IFLA_IFNAME buffer can be
+> larger than length of string which contains.
 > 
-> Kernel in this case register new interface with name "ppp<id>" where <id>
-> is the ppp unit id, which can be obtained via PPPIOCGUNIT ioctl. This
-> applies also in the case when registering new ppp interface via rtnl
-> without supplying IFLA_IFNAME.
+> Function __rtnl_newlink() generates new own ifname if either IFLA_IFNAME
+> was not specified at all or userspace passed empty nul-term string.
+> 
+> It is expected that if userspace does not specify ifname for new ppp netdev
+> then kernel generates one in format "ppp<id>" where id matches to the ppp
+> unit id which can be later obtained by PPPIOCGUNIT ioctl.
 > 
 > [...]
 
 Here is the summary with links:
-  - ppp: Fix generating ppp unit id when ifname is not specified
-    https://git.kernel.org/netdev/net/c/3125f26c5148
+  - ppp: Fix generating ifname when empty IFLA_IFNAME is specified
+    https://git.kernel.org/netdev/net/c/2459dcb96bcb
 
 You are awesome, thank you!
 --
