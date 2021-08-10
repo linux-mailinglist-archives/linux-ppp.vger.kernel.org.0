@@ -2,99 +2,69 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E472D3E7E13
-	for <lists+linux-ppp@lfdr.de>; Tue, 10 Aug 2021 19:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD5D03E8215
+	for <lists+linux-ppp@lfdr.de>; Tue, 10 Aug 2021 20:06:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232140AbhHJRQ4 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 10 Aug 2021 13:16:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40642 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232046AbhHJRQz (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Tue, 10 Aug 2021 13:16:55 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4ABD360EBD;
-        Tue, 10 Aug 2021 17:16:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628615792;
-        bh=JSZL0e4NclyDFSNzNmGpeWxp9VO4KgNeNMmFx3jjGG8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lsWcNocO2695V/zQ5Q1GCglj67pSLVKLTwpLXBfjTbRp9EdMmoMOTfCR2YXazuQ4o
-         VPgtJvmKYpv6QwpprDHJ779acSLSRLe57UOWu4AGV0b+1M1EUhX83p91nR1xhKP9T9
-         7R4lXvbY34G75bvLALefPTws1SUTkKjwTR2GL7RLAOA+AKWWo6fXYShD5/XqToBIBk
-         QbAvCp3GNekDfnIxnnRAQlVQG0huqSFdWyaiasQ4Vx5efVhsmJOR4yTjhVYvgJpkDB
-         z8/visefC3Y3AtKmYSHOtuMB6RxVIaPy6hLV/ObubZQKH/zxkjCwJysgUhVjPvCX4w
-         MUWSgKn3ODg5A==
-Received: by pali.im (Postfix)
-        id 9C19082D; Tue, 10 Aug 2021 19:16:26 +0200 (CEST)
-Date:   Tue, 10 Aug 2021 19:16:26 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Chris Fowler <cfowler@outpostsentinel.com>
-Cc:     Guillaume Nault <gnault@redhat.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "linux-ppp@vger.kernel.org" <linux-ppp@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ppp: Add rtnl attribute IFLA_PPP_UNIT_ID for specifying
- ppp unit id
-Message-ID: <20210810171626.z6bgvizx4eaafrbb@pali>
-References: <20210807163749.18316-1-pali@kernel.org>
- <20210809122546.758e41de@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <20210809193109.mw6ritfdu27uhie7@pali>
- <20210810153941.GB14279@pc-32.home>
- <BN0P223MB0327A247724B7AE211D2E84EA7F79@BN0P223MB0327.NAMP223.PROD.OUTLOOK.COM>
+        id S234265AbhHJSFn (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 10 Aug 2021 14:05:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57010 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238166AbhHJSDt (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Tue, 10 Aug 2021 14:03:49 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D699CC09B132
+        for <linux-ppp@vger.kernel.org>; Tue, 10 Aug 2021 10:36:54 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id z20so5991442lfd.2
+        for <linux-ppp@vger.kernel.org>; Tue, 10 Aug 2021 10:36:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
+        b=rZyDO+pQmFAMTqMMwbflMM4ql7GCGPeivQF49luaUKDh68BdWveTpXnyTbx8OavZh5
+         bGP7zLKVlUZwhT2f48vcZmIt1snZCfta1+RSsuWy7jL1bN3yiCeI7kSgY9GO+Mr9hMq3
+         QkduLfUrIvN/HhmkJo3bkzdVVz9B3L1xqaqjjeWbgQaiVHo19p8Fs6QUjc1RLTijFsZ1
+         J9z0vnpLd+WWbyIkFWEiiEi8HRNeEnyGx9q1dMSNuv5GsXDJ6u1Pt8dggrrGxNlZZA6H
+         nx910xE9Y9oc9IQRBXvrtvv831ie/oFdSTFPcOo+Z7/z7WR4icLIqTKALRAXVA68hURN
+         avgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=y3BZ+wT7TMDVjM2/WQcyPOhYkG/NWjvDbJIsMqFI2RA=;
+        b=BtaPJ8vQc1Ut8z8X+g3xvQF026L1oKU6WQrvU/lr4jDP+ITB6J8SKJmrzj75aRAnOH
+         PiERRxKCbgp4rmpA1e67ZNLhzjPX7UB0cWnk1oYpk1kDffdErcmOmDe+1Vtfv4orFSht
+         65dlTOLz+ozwlnJv8/7DRQznv44v77ezdiB66SPbeEW5eM89Giw3P4uCVGgF68TYn5Ji
+         xcWyAjLUt4gHWlrIAwDTJrBstqYUYFhBiXg7fFadIAi2tVklgkhbWxUhOUibnoUlcML1
+         Sbfeu5S1IxR1YMOTPQpS0341gKa11rTea/LQ62BwCtNnzdXJG/MrmXjukWS8h966TPJa
+         +oaw==
+X-Gm-Message-State: AOAM531NvFAvF+0MlKiicTR9b/MCFAvvsnlA+SUQXS7lDiy4nUYRZZQz
+        szr2rQnKohKTOfjyYb1BFOV/n3uysSi2hu09fwI=
+X-Google-Smtp-Source: ABdhPJzIebxwo90Zyr4sj9ScmYCof4VCk1w95dCMQpZ4/cQfOuUDCqwTC1pz0BbxoizG48Nn6kSbzrBfyOpB9YVAvEQ=
+X-Received: by 2002:a05:6512:11c3:: with SMTP id h3mr22104381lfr.413.1628617013026;
+ Tue, 10 Aug 2021 10:36:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <BN0P223MB0327A247724B7AE211D2E84EA7F79@BN0P223MB0327.NAMP223.PROD.OUTLOOK.COM>
-User-Agent: NeoMutt/20180716
+Received: by 2002:ac2:4eca:0:0:0:0:0 with HTTP; Tue, 10 Aug 2021 10:36:52
+ -0700 (PDT)
+Reply-To: majidmuzaffar8@gmail.com
+From:   Majid Muzaffar <ngl.binabdul.rashiid333.me@gmail.com>
+Date:   Tue, 10 Aug 2021 20:36:52 +0300
+Message-ID: <CAG1gDZWXEFoLwsRk8a_qSWzn3-vwvvxE2XX3d--LKh2r2t4e1w@mail.gmail.com>
+Subject: Proposal
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Tuesday 10 August 2021 16:38:32 Chris Fowler wrote:
-> Isn't the UNIT ID the interface number?  As in 'unit 100' will give me ppp100?
+Salam alaikum,
 
-If you do not specify pppd 'ifname' argument then pppd argument 'unit 100'
-will cause that interface name would be ppp100.
+I am the investment officer of UAE based investment company who are
+ready to fund projects outside UAE, in the form of debt finance. We
+grant loan to both Corporate and private entities at a low interest
+rate of 3% ROI per annum. The terms are very flexible and interesting.
+Kindly revert back if you have projects that needs funding for further
+discussion and negotiation.
 
-But you are free to rename interface to any string which you like, even
-to "ppp99".
+Thanks
 
-But this ppp unit id is not interface number. Interface number is
-another number which has nothing with ppp unit id and is assigned to
-every network interface (even loopback). You can see them as the first
-number in 'ip -o l' output. Or you can retrieve it via if_nametoindex()
-function in C.
-
-
-... So if people are really using pppd's 'unit' argument then I think it
-really make sense to support it also in new rtnl interface.
-
-> I have it running on over 1000 interfaces.  I use PPP in a P-t-P VPN scenario between a central server and remote network devices.  Iuse the unit id to identify a primary key in a database for that connection.  This is calculated as 1000+N = UNIT ID.
-> 
-> I use 1000 because I've also used PPP on the same system with modem boards for demand dial PPP connections.  The up and down scripts executed by PPP are written in C and allow a system where if the VPN link is down, the remote can dial and obtain the same IP addressing via modem.  We don't use modems that often now due to reliability issues.  It has been harder obtaining clean lines in the US.
-> 
-> The C program also applies routes that are defined in the database.  That search is based on the IP assigned, not the unit id.
-> 
-> Chris
-> 
-> ________________________________
-> From: Guillaume Nault <gnault@redhat.com>
-> Sent: Tuesday, August 10, 2021 11:39 AM
-> To: Pali Rohár <pali@kernel.org>
-> Cc: Jakub Kicinski <kuba@kernel.org>; Paul Mackerras <paulus@samba.org>; David S. Miller <davem@davemloft.net>; linux-ppp@vger.kernel.org <linux-ppp@vger.kernel.org>; netdev@vger.kernel.org <netdev@vger.kernel.org>; linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>
-> Subject: Re: [PATCH] ppp: Add rtnl attribute IFLA_PPP_UNIT_ID for specifying ppp unit id
-> 
-> On Mon, Aug 09, 2021 at 09:31:09PM +0200, Pali Rohár wrote:
-> > Better to wait. I would like hear some comments / review on this patch
-> > if this is the correct approach as it adds a new API/ABI for userspace.
-> 
-> Personally I don't understand the use case for setting the ppp unit at
-> creation time. I didn't implement it on purpose when creating the
-> netlink interface, as I didn't have any use case.
-> 
-> On the other hand, adding the ppp unit in the netlink dump is probably
-> useful.
-> 
+investment officer
