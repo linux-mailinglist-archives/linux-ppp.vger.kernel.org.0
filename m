@@ -2,141 +2,143 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FA243E96F0
-	for <lists+linux-ppp@lfdr.de>; Wed, 11 Aug 2021 19:38:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18A573E9718
+	for <lists+linux-ppp@lfdr.de>; Wed, 11 Aug 2021 19:54:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230400AbhHKRiq (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 11 Aug 2021 13:38:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41713 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231372AbhHKRil (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 11 Aug 2021 13:38:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1628703496;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6tCiBXyEPPVHcytD6Q7sBcV/4LPCan3AiWP5HZnI2c4=;
-        b=MVRUZ5Fup1DHzzijc1EDhS7DuNSiYp4YQRKyiKSr6BO/MS1ddKAwAfZ8tBc93eN2y6AX2S
-        6ycVwsf7vvW7TicdVjJIOcBV1oSUTDBoZYb74aCmOc3hORqXG7xI2lcKSVZk/XQNnELa9W
-        ptM7Wb9SMj/UXzP1ciOKP7A4A9aOtS4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-u3Wjce8-P0id8l6DZvm3gA-1; Wed, 11 Aug 2021 13:38:15 -0400
-X-MC-Unique: u3Wjce8-P0id8l6DZvm3gA-1
-Received: by mail-wm1-f72.google.com with SMTP id l19-20020a05600c4f13b029025b036c91c6so1111217wmq.2
-        for <linux-ppp@vger.kernel.org>; Wed, 11 Aug 2021 10:38:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=6tCiBXyEPPVHcytD6Q7sBcV/4LPCan3AiWP5HZnI2c4=;
-        b=TJ0kFfEKu6VTK0jp+qqC0LwKo4OoyidpxvvkS+J4ptAJZQ5BXCQFkiy9nVmM8EGlrM
-         lQ4aXQN5WCR8AVt+FJK5hy723l1cYsJNuAWI76iqIf4n4QlTnDWmhfHoLBDNW5b4+3g8
-         gk1FrFUnuauICQsTi8TYox8kekFoHmASMF1UpyEQQh3ATyBqhh+L3qQC/35j+pz+CG2k
-         BhAHbqboOS0PObppzVPOo8CGebqsfqVWY+CDa9apy+JyBcVobOd2vXAF8TRmDBKePngY
-         E1Xnx0K/itUzViGGwTEzBCYiIwWDN+Cx5wUI49IjQvYQQm3Q/KBkZs2JcV/jhx1zJb9W
-         cIhA==
-X-Gm-Message-State: AOAM532ExFQ+XiIsynqagKmlzIBlULbapw3g5YNYWigqmCAcwKUsIs5X
-        EU65+SpgljckK519fuzTLyybGUp1ORQyIM/le3YYT4jROckbIrzX8uC8lSYfOg7V7wPXGX2ZoZk
-        mnA2Xwxy0ilmlQfOwDGkw
-X-Received: by 2002:a5d:4e4f:: with SMTP id r15mr4511383wrt.346.1628703493607;
-        Wed, 11 Aug 2021 10:38:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzBKcCmyDX18C7DbXsG1LgPCGgWfobdmtNU6zwx/hvy49vfqyb0tHvKV1pHDmAur3B0NTSeKQ==
-X-Received: by 2002:a5d:4e4f:: with SMTP id r15mr4511375wrt.346.1628703493439;
-        Wed, 11 Aug 2021 10:38:13 -0700 (PDT)
-Received: from pc-32.home (2a01cb058918ce00dd1a5a4f9908f2d5.ipv6.abo.wanadoo.fr. [2a01:cb05:8918:ce00:dd1a:5a4f:9908:f2d5])
-        by smtp.gmail.com with ESMTPSA id b10sm8505245wrn.9.2021.08.11.10.38.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Aug 2021 10:38:13 -0700 (PDT)
-Date:   Wed, 11 Aug 2021 19:38:11 +0200
-From:   Guillaume Nault <gnault@redhat.com>
-To:     James Carlson <carlsonj@workingcode.com>
-Cc:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-        Chris Fowler <cfowler@outpostsentinel.com>,
-        Jakub Kicinski <kuba@kernel.org>,
+        id S229737AbhHKRzR (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 11 Aug 2021 13:55:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43778 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229535AbhHKRzQ (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
+        Wed, 11 Aug 2021 13:55:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 737686104F;
+        Wed, 11 Aug 2021 17:54:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1628704492;
+        bh=adqAfFr5cwHzD3SzTDPHfxQw9t4Aa0NDSBYToUt4zMo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PE05bnber9ANzF/IxHh2YHTEVansP5JavcYg1U0iQUpZFabCLfuYrV78H2SkVT8NQ
+         aZWScv+Yp+CpUO/08GvJ8C0NAyjTfoi1PS5McN5hr+76Pc3q7opNO+0e2D3zLy5Ul5
+         MreUVCfpo1zSSi90r3kxgsBQYd2+Moe7o6ei+cX0uHnjwSjZ8y7g8zV9IM/JV0N5U1
+         kkVXSy1cJ3ziC3K6mDTn7/i1r5u3B7PARMwA7GRIe0W7GX41Afx/jVMgpTGLSUoqzO
+         ofTeia0rvfLY7RxUkP8/sbAp75XBCc9TtAyTeivFCNq0O6FElHmqwvNk7xrsoSKGE/
+         zkybhiIzceaEQ==
+Received: by pali.im (Postfix)
+        id EE1EA7AE; Wed, 11 Aug 2021 19:54:49 +0200 (CEST)
+Date:   Wed, 11 Aug 2021 19:54:49 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Guillaume Nault <gnault@redhat.com>
+Cc:     Jakub Kicinski <kuba@kernel.org>,
         Paul Mackerras <paulus@samba.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "linux-ppp@vger.kernel.org" <linux-ppp@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        "David S. Miller" <davem@davemloft.net>, linux-ppp@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] ppp: Add rtnl attribute IFLA_PPP_UNIT_ID for specifying
  ppp unit id
-Message-ID: <20210811173811.GE15488@pc-32.home>
+Message-ID: <20210811175449.5hrwoevw7xv2jxxn@pali>
 References: <20210807163749.18316-1-pali@kernel.org>
  <20210809122546.758e41de@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
  <20210809193109.mw6ritfdu27uhie7@pali>
  <20210810153941.GB14279@pc-32.home>
- <BN0P223MB0327A247724B7AE211D2E84EA7F79@BN0P223MB0327.NAMP223.PROD.OUTLOOK.COM>
- <20210810171626.z6bgvizx4eaafrbb@pali>
- <2f10b64e-ba50-d8a5-c40a-9b9bd4264155@workingcode.com>
+ <20210810160450.eluiktsp7oentxo3@pali>
+ <20210811171918.GD15488@pc-32.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2f10b64e-ba50-d8a5-c40a-9b9bd4264155@workingcode.com>
+In-Reply-To: <20210811171918.GD15488@pc-32.home>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Tue, Aug 10, 2021 at 02:11:11PM -0400, James Carlson wrote:
-> On 8/10/21 1:16 PM, Pali Roh�r wrote:
-> > On Tuesday 10 August 2021 16:38:32 Chris Fowler wrote:
-> > > Isn't the UNIT ID the interface number?  As in 'unit 100' will give me ppp100?
+On Wednesday 11 August 2021 19:19:18 Guillaume Nault wrote:
+> On Tue, Aug 10, 2021 at 06:04:50PM +0200, Pali Rohár wrote:
+> > On Tuesday 10 August 2021 17:39:41 Guillaume Nault wrote:
+> > > On Mon, Aug 09, 2021 at 09:31:09PM +0200, Pali Rohár wrote:
+> > > > Better to wait. I would like hear some comments / review on this patch
+> > > > if this is the correct approach as it adds a new API/ABI for userspace.
+> > > 
+> > > Personally I don't understand the use case for setting the ppp unit at
+> > > creation time.
 > > 
-> > If you do not specify pppd 'ifname' argument then pppd argument 'unit 100'
-> > will cause that interface name would be ppp100.
+> > I know about two use cases:
 > > 
-> > But you are free to rename interface to any string which you like, even
-> > to "ppp99".
+> > * ppp unit id is used for generating network interface name. So if you
+> >   want interface name ppp10 then you request for unit id 10. It is
+> >   somehow common that when ppp interface has prefix "ppp" in its name
+> >   then it is followed by unit id. Seems that existing ppp applications
+> >   which use "ppp<num>" naming expects this. But of course you do not
+> >   have to use this convention and rename interfaces as you want.
+> 
+> Really, with the netlink API, the interface name has to be set with
+> IFLA_IFNAME. There's no point in adding a new attribute just to have a
+> side effect on the device name.
+
+Yes, if you set IFLA_IFNAME then interface has name which you set. But
+if IFLA_IFNAME is not set then there is already API/ABI behavior how
+this interface name is generated. And all existing ppp software depends
+on it.
+
+> > * Some of ppp ioctls use unit id. So you may want to use some specific
+> >   number for some network interface. So e.g. unit id 1 will be always
+> >   for /dev/ttyUSB1.
+> 
+> But what's the point of forcing unit id 1 for a particular interface?
+> One can easily get the assigned unit id with ioctl(PPPIOCGUNIT).
+
+Same point as ability to assign any other id to objects. It is
+identifier and you may want to use specific identifier for specific
+objects.
+
+Old ioctl API provides a way how to set this custom unit id. Why should
+somebody use new rtnl API if it provides only half of features? Existing
+software already use this feature to allow users / administrators to
+specify ids as they want.
+
+> > > I didn't implement it on purpose when creating the
+> > > netlink interface, as I didn't have any use case.
+> > > 
+> > > On the other hand, adding the ppp unit in the netlink dump is probably
+> > > useful.
 > > 
-> > But this ppp unit id is not interface number. Interface number is
-> > another number which has nothing with ppp unit id and is assigned to
-> > every network interface (even loopback). You can see them as the first
-> > number in 'ip -o l' output. Or you can retrieve it via if_nametoindex()
-> > function in C.
+> > Yes, this could be really useful as currently if you ask netlink to
+> > create a new ppp interface you have to use ioctl to retrieve this unit
+> > id. But ppp currently does not provide netlink dump operation.
+> > 
+> > Also it could be useful for this "bug":
+> > https://lore.kernel.org/netdev/20210807132703.26303-1-pali@kernel.org/t/#u
 > 
-> Correct; completely unrelated to the notion of "interface index."
-> 
-> > ... So if people are really using pppd's 'unit' argument then I think it
-> > really make sense to support it also in new rtnl interface.
-> 
-> The pppd source base is old.  It dates to the mid-80's.  So it predates not
-> just rename-able interfaces in Linux but Linux itself.
-> 
-> I recall supported platforms in the past (BSD-derived) that didn't support
-> allowing the user to specify the unit number.  In general, on those
-> platforms, the option was accepted and just ignored, and there were either
-> release notes or man page updates (on that platform) that indicated that
-> "unit N" wouldn't work there.
-> 
-> Are there users on Linux who make use of the "unit" option and who would
-> mourn its loss?  Nobody really knows.  It's an ancient feature that was
-> originally intended to deal with systems that couldn't rename interfaces
-> (where one had to make sure that the actual interface selected matched up
-> with pre-configured filtering rules or static routes or the like), and to
-> make life nice for administrators (e.g., making sure that serial port 1 maps
-> to ppp1, port 2 is ppp2, and so on).
-> 
-> I would think and hope most users reach for the more-flexible "ifname"
-> option first, but I certainly can't guarantee it.  It could be buried in a
-> script somewhere or (god forbid) some kind of GUI or "usability" tool.
-> 
-> If I were back at Sun, I'd probably call it suitable only for a "Major"
-> release, as it removes a publicly documented feature.  But I don't know what
-> the considerations are here.  Maybe it's just a "don't really care."
+> This patch itself makes sense, but how is that related to unit id?
 
-I'm pretty sure someone, somewhere, would hate us if we broke the
-"unit" option. The old PPP ioctl API has been there for so long,
-there certainly remains tons of old tools, scripts and config files
-that "just work" without anybody left to debug or upgrade them.
+Now I see, it does not help in this unit id scenario...
 
-We can't just say, "starting from kernel x.y.z the unit option is a
-noop, use ifname instead" as affected people surely won't get the
-message (and there are other tools beyond pppd that may use this
-kernel API).
+> > And with unit id there also another issue:
+> > https://lore.kernel.org/netdev/20210807160050.17687-1-pali@kernel.org/t/#u
+> 
+> This patch shows why linking unit id and interface name are a bad idea.
 
-But for the netlink API, we don't have to repeat the same mistake.
+Yea... It is not a good idea, but it is how ppp is implemented in
+kernel since beginning. And it affects both ioctl and rtnl APIs. So we
+cannot do anything with it due to backward compatibility :-(
 
+> Instead of adding more complexity with unit id, I'd prefer to have a
+> new netlink attribute that says "don't generate the interface name
+> based on the unit id". That's how the original implementation worked by
+> the way and I'm really sad I accepted to change it...
+
+Main issue there is that kernel currently does not provide any way how
+to retrieve interface which was created by rtnl call. So matching
+interface name by string "ppp" followed by unit id is currently the only
+option.
+
+I must admit that ppp rtnl API was designed incorrectly. If it was able
+to solve this issue since beginning then this unit id <--> interface
+mapping did not have to been implemented in rtnl code path.
+
+But it is too late now, if rtnl API has to be backward compatible then
+its behavior needs to be as it is currently.
+
+> > But due to how it is used we probably have to deal with it how ppp unit
+> > id are defined and assigned...
+> > 
+> 
