@@ -2,157 +2,142 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AB983EAAAC
-	for <lists+linux-ppp@lfdr.de>; Thu, 12 Aug 2021 21:13:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8708C3EDA93
+	for <lists+linux-ppp@lfdr.de>; Mon, 16 Aug 2021 18:11:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231392AbhHLTN3 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Thu, 12 Aug 2021 15:13:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48025 "EHLO
+        id S229617AbhHPQL4 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 16 Aug 2021 12:11:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31936 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230110AbhHLTN2 (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Thu, 12 Aug 2021 15:13:28 -0400
+        by vger.kernel.org with ESMTP id S229556AbhHPQLz (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 16 Aug 2021 12:11:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1628795582;
+        s=mimecast20190719; t=1629130280;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=7cS3BPbsqKnOYb42Mhut/iF8oyajtsumJDuTzp4/dis=;
-        b=HONUjXFC54tcgUPSLWaJhZNpY3TzyZKxCBTbaijOL48qUwOCSGGbObKHMWzROl3d24GSZE
-        7fkNveSJ2DPhGeTccJwJcpadJoWYPmkGRg8Ow9xQOiFsx9EsuXTdjVHs3lur+c1dhYvWrs
-        gxpuS7TfUlBbBNahUTVUw6iZGAfh9MM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-I7xcak_0M6-LA6G_6-WjFg-1; Thu, 12 Aug 2021 15:13:01 -0400
-X-MC-Unique: I7xcak_0M6-LA6G_6-WjFg-1
-Received: by mail-wr1-f70.google.com with SMTP id m2-20020a0560000082b0290154f6e2e51fso2148269wrx.12
-        for <linux-ppp@vger.kernel.org>; Thu, 12 Aug 2021 12:13:01 -0700 (PDT)
+        bh=iyO2WLAP+aQnJ1jyGofk+6UZ5GOhdTgCKqORoFevXSg=;
+        b=HkwlXCVAs/+d26E9HohhiYxcyrfj4mysosjKJ5gbe8clAo9AxghYipFuit8hR+670n/qxj
+        pG+9k2fKQBlf5Cd707uMJXetYBipeJnKXVm9letfh5YERZMRFM55pOnpaxQwNE4dRvB26D
+        +B/17oGPjBllWRhnvvp9zsyEsrhX7zw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-105-Tnbf2YKRNPK4BVjBvsemmQ-1; Mon, 16 Aug 2021 12:11:19 -0400
+X-MC-Unique: Tnbf2YKRNPK4BVjBvsemmQ-1
+Received: by mail-ed1-f69.google.com with SMTP id eg56-20020a05640228b8b02903be79801f9aso9030304edb.21
+        for <linux-ppp@vger.kernel.org>; Mon, 16 Aug 2021 09:11:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=7cS3BPbsqKnOYb42Mhut/iF8oyajtsumJDuTzp4/dis=;
-        b=NMSuBIxbvF6uTD9aCX/odhik+m0z75AHN7w1ogBmqpXKZy1wbWb8HzszxFcvC7n+tx
-         EG7x2ew7FzuyrX3pDEEOtkG1iXvR/I8nprF1d0xd5CX/63Vx+bghiqtxjdreaand/aoW
-         0SR23zitJWUWt+OaViDBoc3KwPaOA/M4n/pui1OXdchBtyXq8ML34gR9t1o8UZBqQszo
-         l2QmzMBxNcx+WjP13QKJARmAidnhc9ErBf/VQA0jO7hvPhjE7KMC2rfToDtJtRKGF1T0
-         v0F8bcW+g512E1O0kXi3Mj89Ow2JPIGbkWDDkafnZX+RWQeMSmPRAu7qbM57cu6ONvGz
-         8+hQ==
-X-Gm-Message-State: AOAM533AXcQi7pplyR/ZmFY8W110sDpsj/GTlQVNxoMALJ5YqZV0iuno
-        3sRxFNUxj/bCHSqEsxXDYy4OUVBiIVZaklu17X44e3s8f1uJ6bZF0ISSdypkvs+0/xnecCJ0em4
-        W8Os1rA0qt1MiSpL7mkx8
-X-Received: by 2002:a05:600c:3590:: with SMTP id p16mr50578wmq.33.1628795580333;
-        Thu, 12 Aug 2021 12:13:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw32p2/am0ZJ06W9UE/TEcfIPIgdiBvMFsnUFpCT9QrohG/fN16OhxFpBe+HXUWxiCgfqywTQ==
-X-Received: by 2002:a05:600c:3590:: with SMTP id p16mr50556wmq.33.1628795580060;
-        Thu, 12 Aug 2021 12:13:00 -0700 (PDT)
-Received: from pc-23.home (2a01cb058d01b600c841afd12834a14e.ipv6.abo.wanadoo.fr. [2a01:cb05:8d01:b600:c841:afd1:2834:a14e])
-        by smtp.gmail.com with ESMTPSA id k17sm11902206wmj.0.2021.08.12.12.12.59
+        bh=iyO2WLAP+aQnJ1jyGofk+6UZ5GOhdTgCKqORoFevXSg=;
+        b=nvAJF8sq2c+C4ehNbMQME+5QKZLmhCn5UmUdEsf3QApIBI0n7tHmV2+FZMSaZ2N6ar
+         g7ubZTbNsoyRVbNhu31/VAty8XQHuk+6hYN88Nx3I5oMQ6OmHCzL6DjveI+fgKUaD2Ns
+         fPql1Z0OP1nlrdWyWdwPZlgz//RsAMvgNdKlLW0VLRWCanqZi6aDPkdCV29oQpWO0YOr
+         87zMbFV8Hj5Q8aNyU96/uPqvzZOCOEB/v4lG1g5yLag9UBjpQGnUswF0Llq71OTmwUG7
+         rcbu9K+XG5aeH3x2tPuDPQAF19WtKkcMknDKd+GdzZPuVO/hQ2IXhVJIJalEAanbjGQe
+         TELg==
+X-Gm-Message-State: AOAM531FPOBrOxmCghEeVSH161kAdpNGiQ1uyQ568aunpvmribr3XG+F
+        c5zSYnMdKPvbeO9/vPDfOxAnWA3oo41/CnEGqOs02PK53ZVOVIsWC5Q+kCUPt7JMO8rxUUcpJUO
+        aQJsoRzQllEQuhBb/h4xz
+X-Received: by 2002:a17:906:c342:: with SMTP id ci2mr17153543ejb.122.1629130277864;
+        Mon, 16 Aug 2021 09:11:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyxqpo77xg0kISTsqOyk/DTvpZ/I0UWK3WDlWTtA6AhJMw6abCgkq43hhVCX1d3SvC1mibOTg==
+X-Received: by 2002:a17:906:c342:: with SMTP id ci2mr17153520ejb.122.1629130277663;
+        Mon, 16 Aug 2021 09:11:17 -0700 (PDT)
+Received: from pc-32.home (2a01cb058918ce00dd1a5a4f9908f2d5.ipv6.abo.wanadoo.fr. [2a01:cb05:8918:ce00:dd1a:5a4f:9908:f2d5])
+        by smtp.gmail.com with ESMTPSA id r7sm5144990edi.43.2021.08.16.09.11.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Aug 2021 12:12:59 -0700 (PDT)
-Date:   Thu, 12 Aug 2021 21:12:57 +0200
+        Mon, 16 Aug 2021 09:11:16 -0700 (PDT)
+Date:   Mon, 16 Aug 2021 18:11:14 +0200
 From:   Guillaume Nault <gnault@redhat.com>
 To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
+Cc:     James Carlson <carlsonj@workingcode.com>,
+        Chris Fowler <cfowler@outpostsentinel.com>,
+        Jakub Kicinski <kuba@kernel.org>,
         Paul Mackerras <paulus@samba.org>,
-        "David S. Miller" <davem@davemloft.net>, linux-ppp@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+        "David S. Miller" <davem@davemloft.net>,
+        "linux-ppp@vger.kernel.org" <linux-ppp@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] ppp: Add rtnl attribute IFLA_PPP_UNIT_ID for specifying
  ppp unit id
-Message-ID: <20210812191257.GB10725@pc-23.home>
-References: <20210807163749.18316-1-pali@kernel.org>
- <20210809122546.758e41de@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <20210809193109.mw6ritfdu27uhie7@pali>
- <20210810153941.GB14279@pc-32.home>
- <20210810160450.eluiktsp7oentxo3@pali>
- <20210811171918.GD15488@pc-32.home>
- <20210811175449.5hrwoevw7xv2jxxn@pali>
- <20210812091941.GA3525@pc-23.home>
- <20210812140918.lfll55przd4ajtc7@pali>
+Message-ID: <20210816161114.GA3611@pc-32.home>
+References: <20210810153941.GB14279@pc-32.home>
+ <BN0P223MB0327A247724B7AE211D2E84EA7F79@BN0P223MB0327.NAMP223.PROD.OUTLOOK.COM>
+ <20210810171626.z6bgvizx4eaafrbb@pali>
+ <2f10b64e-ba50-d8a5-c40a-9b9bd4264155@workingcode.com>
+ <20210811173811.GE15488@pc-32.home>
+ <20210811180401.owgmie36ydx62iep@pali>
+ <20210812092847.GB3525@pc-23.home>
+ <20210812134845.npj3m3vzkrmhx6uy@pali>
+ <20210812182645.GA10725@pc-23.home>
+ <20210812190440.fknfthdk3mazm6px@pali>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210812140918.lfll55przd4ajtc7@pali>
+In-Reply-To: <20210812190440.fknfthdk3mazm6px@pali>
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Thu, Aug 12, 2021 at 04:09:18PM +0200, Pali Rohár wrote:
-> The problem is that ppp from rtnl is of the same class as ppp from
-> ioctl. And if you want to use ppp, you still have to use lot of ioctl
-> calls as rtnl does not implement them. And these ioctl calls use ppp
-> unit id, not interface id / interface name.
+On Thu, Aug 12, 2021 at 09:04:40PM +0200, Pali Rohár wrote:
+> The point here is that there is application (pppd) which allows
+> specifying custom unit id as an option argument. Also it allows to call
+> external applications (at some events) with sharing file descriptors.
+> And it is one of the options how to touch part of ppp connection via
+> external scripts / applications. You start pppd for /dev/ttyUSB<N> with
+> unit id <N> and then in external script you use <N> for ioctls. And I do
+> not know if there is a way how to retrieve unit id in those external
+> scripts. There was already discussion about marking all file descriptors
+> in pppd as close-on-exec and it was somehow rejected as it will broke
+> custom scripts / applications which pppd invokes on events. So looks
+> like that people are using these "features" of pppd.
 
-Indeed, the netlink api only replaces ioctl(PPPIOCNEWUNIT). It's
-technically feasible to implement other ppp unit ioctls with netlink,
-but I didn't do that because:
-  * some of them make no sense,
-  * netlink wouldn't bring any advantage over ioctl() for these cases
-    (and ppp is ioctl-centric anyway, so users will have to write
-    ioctl() calls no matter what).
+Potential external pppd scripts, that depend on the unit id, may be a
+valid use case for letting the netlink api define this identifier (if
+pppd ever gets netlink support).
 
-If there was a bright future for ppp in sight, I'd certainly work on a
-new modern ioctl-less api. But in the current situation, that'd be just
-feature duplication and code churn.
-
-> So in the end you can use RTM_NEWLINK and then control ppp via ioctls.
-> And for controlling you have to known that ppp unit id.
+> Option "unit" in pppd specifies ppp unit id. And if new API (rtnl) would
+> not provide equivalent for allowing to specify it then migrating pppd
+> from ioctl to rtnl is not possible without breaking compatibility.
 > 
-> If you are using ppp over serial devices, you can "simplify" it by
-> forcing mapping that serial number device matches ppp unit id. And then
-> you do not have to use dynamic ids (and need for call PPPIOCGUNIT).
+> As you already described, we can simulate setting default interface name
+> in pppd application. But above usage or any other which expose pppd API
+> to other application is not possible to simulate.
 
-How is dropping a single PPPIOCGUNIT call going to simplify the code
-while you have to write netlink message handlers?
+If the pppd project is interested in adding support for the netlink
+api, then I'm fine with adding this feature. I just want to make sure
+that it'll have a real world use case.
 
-> With dynamic unit id allocation (which is currently the only option when
-> creating ppp via rtnl) for single ppp connection you need to know:
-> * id of serial tty device
-> * id of channel bound to tty device
-> * id of network interface
-> * id of ppp unit bound to network interface
-
-I see you're not working with L2TPv2 :). A few more things you'd need
-to add to the list:
- * a UDP socket,
- * a tunnel id,
- * a session id,
- * a tunnel file descriptor,
- * a session file descriptor,
- * a new ioctl() to figure out which channel id is assigned to your
-   L2TP session,
- * a bunch of setsockopt() to configure the whole thing,
- * ...
-(and I'm not counting the ioctl() calls necessary to set up the channel,
-which also apply to your use case).
-
-Really, I'm sorry, but the possibility to drop a single PPPIOCGUNIT
-call isn't going to simplify the ppp landscape.
-
-> > As I already proposed, we can add an attribute to make the interface
-> > name independant from the unit id.
+> So I think we need to first decide or solve issue if rtnl ppp API should
+> provide same functionality as ioctl ppp API. If answer is yes, then some
+> kind of specifying custom ppp unit id is required. If answer is no (e.g.
+> because we do not want ppp unit id in rtnl API as it looks legacy and
+> has issues) then rtnl ppp API cannot be used by ppp as it cannot provide
+> all existing / supported features without breaking legacy compatibility.
 > 
-> I agree, that above proposal with a new attribute which makes interface
-> name independent from the ppp unit id is a good idea. Probably it should
-> have been default rtnl behavior (but now it is too late for changing
-> default behavior).
+> I see pros & cons for both answers. Not supporting legacy code paths in
+> new code/API is the way how to clean up code and prevent repeating old
+> historic issues. But if new code/API is not fully suitable for pppd --
+> which is de-facto standard Linux userspace implementation -- does it
+> make sense to have it? Or does it mean to also implement new userspace
+> part of implementation (e.g. pppd2) to avoid these legacy / historic
+> issues? Or... is not whole ppp protocol just legacy part of our history
+> which should not be used in new modern setups? And for "legacy usage" is
+> current implementation enough and it does not make sense to invest time
+> into this area? I cannot answer to these questions, but I think it is
+> something quite important as it can show what should be direction and
+> future of ppp subsystem.
 
-Well, it was the default, until a collegue complained and I accepted to
-align the default device name with the original ioctl() behaviour. But
-the beauty of netlink is that we can revise this behaviour without
-breaking compatibility.
+PPP isn't legacy, but very few people are interested in working on and
+maintaining the code.
 
-> But prior adding this attribute, we first need a way how to retrieve
-> interface name of newly created interface. Which we agreed that
-> NLM_F_ECHO for RTM_NEWLINK/NLM_F_CREATE is needed.
+Do you have plans for adding netlink support to pppd? If so, is the
+project ready to accept such code?
 
-Yes, that'd be ideal. That might require quite some work though (I
-haven't looked in detail). At last resort, if adding NLM_F_ECHO
-support to rtnl proves too hard, it might be possible to add a call to
-get the device name associated to a ppp unit file descriptor.
-
-At least know I understand why we had this conversation about
-NLM_F_ECHO :).
+BTW, sorry for the delay.
 
