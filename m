@@ -2,92 +2,91 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E59593EF01D
-	for <lists+linux-ppp@lfdr.de>; Tue, 17 Aug 2021 18:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65DBC3FE21B
+	for <lists+linux-ppp@lfdr.de>; Wed,  1 Sep 2021 20:12:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbhHQQWe (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 17 Aug 2021 12:22:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41620 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229721AbhHQQWb (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Tue, 17 Aug 2021 12:22:31 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DA8226024A;
-        Tue, 17 Aug 2021 16:21:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1629217318;
-        bh=uvTnRPMf3m+BMa0dC84OgWxUTeCf5SBKHaey7ORbF60=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=RHXDYfrc0vYScIDGjw7tI64vXtnESwYGy/fivZuqu7yCMOZ5w/ivrzCbE9RZxdMND
-         qvd8wiAGhAD6wrPpX7REEr7UFqwcx/cKxQJUV8Yj/1uD8uJeHkl347XKuR/iZJhlJu
-         oLJspdr9vf7Apeie+M8FAfKUtmI3jizDzwqbc8T+guDd4sKFrY7K0WqTnADkqzfmw4
-         tGQc1B1o9xuDhAXP5I8DmqsNMIEYyScbX6mrtLbYWks2iG+ehSBiy6Jng0t0SX0/03
-         QNdGIDl6XYBnbO9g+Jz6jvWfZIsLqeYY49fs1NCdU4geOFU2KMKMdS/WsuCtVK+Rgj
-         E+jmXLmFuPvQw==
-Received: by pali.im (Postfix)
-        id 747EA842; Tue, 17 Aug 2021 18:21:55 +0200 (CEST)
-Date:   Tue, 17 Aug 2021 18:21:55 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Guillaume Nault <gnault@redhat.com>
-Cc:     James Carlson <carlsonj@workingcode.com>,
-        Chris Fowler <cfowler@outpostsentinel.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "linux-ppp@vger.kernel.org" <linux-ppp@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ppp: Add rtnl attribute IFLA_PPP_UNIT_ID for specifying
- ppp unit id
-Message-ID: <20210817162155.idyfy53qbxcsf2ga@pali>
-References: <2f10b64e-ba50-d8a5-c40a-9b9bd4264155@workingcode.com>
- <20210811173811.GE15488@pc-32.home>
- <20210811180401.owgmie36ydx62iep@pali>
- <20210812092847.GB3525@pc-23.home>
- <20210812134845.npj3m3vzkrmhx6uy@pali>
- <20210812182645.GA10725@pc-23.home>
- <20210812190440.fknfthdk3mazm6px@pali>
- <20210816161114.GA3611@pc-32.home>
- <20210816162355.7ssd53lrpclfvuiz@pali>
- <20210817160525.GA20616@pc-32.home>
+        id S1346799AbhIASMh (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 1 Sep 2021 14:12:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53712 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346794AbhIASMT (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 1 Sep 2021 14:12:19 -0400
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 154C3C0612A5
+        for <linux-ppp@vger.kernel.org>; Wed,  1 Sep 2021 11:11:21 -0700 (PDT)
+Received: by mail-qv1-xf2b.google.com with SMTP id ew6so316798qvb.5
+        for <linux-ppp@vger.kernel.org>; Wed, 01 Sep 2021 11:11:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
+        b=LD3mpzy1s09M3e/Eheelu/QMtbN6lrYJQ+S1BsYhmG4zP9OQuKOeD1zHV2lZaK7Hdt
+         vXoBMumPRACuZhnwd8TYAFIvdImPe0Zn4DA41GnzHGsnpDZPE0wUFWVFNzgpxF6bh6D8
+         CVxTiiIN7w8BVpPirFLytZKK2cFqqV6q9qR8cw4XmdYYgGZs+MdnDeP+neEr/SbnLI2h
+         mwT6gqJ8+HvNCQei5Zu6b3U+/YcUOepEDfVn6t0IkNG5YzxTV8mH8IqZ4zEsqBchdgxI
+         E/zGH3KCiuS7UdfEMBVKPbpzhhPyh4quLRALvE4iCHtswqSZDgWUuzksodIw8OWwGR1Z
+         0RlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
+        b=XrnQfGa53q9M38d8i5nDnqCvSt/HRG5CW2U93pMqTK8G7LvIFaogOJxfxGPXR79iEb
+         x4VojaM0ZFTDy9nlxDVUMX+PHUVL5XI7CbGNsHb0uPEC4ZcwptucMCz/wL0oS+kqw/hI
+         nW80Ix/A7qSneu4KWjNcKrCMQmcDjnCnuYUN9LizPGo7KE/V1oGflBMmXhjw7Xtn8zm7
+         Y0Y4y/GPFd50jWOvNCsomhGAyo1YFr0zxsWZY+iQfK7XD4tPmMhYD1YqhdoViRUORtDA
+         ms/dGm1T9EpOoBoLjYPmIh+RFN0qK4algS7gX77WLXO72Cp3GGueufcSFmKX2FHBOKKH
+         f6uA==
+X-Gm-Message-State: AOAM533LnIjM0Bxz3ugMmigD+cB8a7LWBTq2j0RtkXZNXaqd3O6Qo90V
+        5tUBvQNQvCs87C3usyvLovg8nk7tzoEUoYTAlU/woYGevgZAzw==
+X-Google-Smtp-Source: ABdhPJwbbBYGjUEQSS3Bb7EfYk34O3AVuG22pVIF78fkATQG8c+PQmeHgcc35+YrriS74Wl5STB8JbzOasp+8kCVBlk=
+X-Received: by 2002:a67:8c5:: with SMTP id 188mr1017695vsi.4.1630519870726;
+ Wed, 01 Sep 2021 11:11:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210817160525.GA20616@pc-32.home>
-User-Agent: NeoMutt/20180716
+Received: by 2002:ab0:740d:0:0:0:0:0 with HTTP; Wed, 1 Sep 2021 11:11:10 -0700 (PDT)
+From:   CorisBank International <corisbankintlbf@gmail.com>
+Date:   Wed, 1 Sep 2021 11:11:10 -0700
+Message-ID: <CA+25hwzjLgVdtDXYWeuqFBTvAbpc4oxK0dW54s7tjGNyU_m0ow@mail.gmail.com>
+Subject: CORISBANK INTERNATIONAL OFFICIAL NOTIFICATION
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Tuesday 17 August 2021 18:05:25 Guillaume Nault wrote:
-> On Mon, Aug 16, 2021 at 06:23:55PM +0200, Pali Rohár wrote:
-> > On Monday 16 August 2021 18:11:14 Guillaume Nault wrote:
-> > > Do you have plans for adding netlink support to pppd? If so, is the
-> > > project ready to accept such code?
-> > 
-> > Yes, I have already some WIP code and I'm planning to send a pull
-> > request to pppd on github for it. I guess that it could be accepted,
-> 
-> I guess you can easily use the netlink api for cases where the "unit"
-> option isn't specified and fall back to the ioctl api when it is. If
-> all goes well, then we can extend the netlink api to accept a unit id.
-> 
-> But what about the lack of netlink feedback about the created
-> interface? Are you restricted to use netlink only when the "ifname"
-> option is provided?
+Att: Client
 
-Exactly, this is how I wrote my WIP code...
 
-> > specially if there still would be backward compatibility via ioctl for
-> > kernels which do not support rtnl API.
-> 
-> Indeed, I'd expect keeping compatiblitity with old kernels that only
-> have the ioctl api to be a must (but I have no experience contributing
-> to the pppd project).
-> 
-> > One of the argument which can be
-> > used why rtnl API is better, is fixing issue: atomic creating of
-> > interface with specific name.
-> 
-> Yes, that looks useful.
-> 
+CORISBANK INTERNATIONAL URGENT NOTIFICATION
+
+Notification / Notification/ Notification
+
+Note, We are writing to inform you officially that Finally the Central
+Bank Financial Authority have approved to transfer your $8.2Million
+which was signed by late Mrs Rose Banneth the COVID.19 victim to
+transfer to you, Late Mrs Rose Banneth the France Lady contacted us to
+transfer her fund in our bank to you for Orphanage work before she
+died by the COVID.19
+and as it is now, you will receive your fund through our corresponding
+bank in Dubai [Emirate Investment Bank ] for security reason. Please
+you should reconfirm your details to receive the $8.2Million.
+
+Name, Country, Address, occupations, Age, Telephone number, account
+Details so that we can immediately forward to the World Bank to
+transfer the fund.
+You are advised to comply on timely manner to permit this esteem bank
+transfer your fund as scheduled.
+
+We look forward to serving you better
+Your Financial Comfort Is A Priority
+Thank you for choosing Corisbank International.
+
+Sincerely,
+
+----
+
+Mr Diakarya Ouattara
+Managing Director
+Bank Coris
+Burkina Faso
++226 556 163 37
+financial_bf_info@accountant.com
