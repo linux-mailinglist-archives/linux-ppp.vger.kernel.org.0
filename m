@@ -2,71 +2,93 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D185D4151DF
-	for <lists+linux-ppp@lfdr.de>; Wed, 22 Sep 2021 22:55:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF25541C7C8
+	for <lists+linux-ppp@lfdr.de>; Wed, 29 Sep 2021 17:02:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237898AbhIVU4n (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 22 Sep 2021 16:56:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33994 "EHLO
+        id S1344992AbhI2PEh (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 29 Sep 2021 11:04:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237858AbhIVU4h (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 22 Sep 2021 16:56:37 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDD7CC0613C1
-        for <linux-ppp@vger.kernel.org>; Wed, 22 Sep 2021 13:55:06 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id i4so17172463lfv.4
-        for <linux-ppp@vger.kernel.org>; Wed, 22 Sep 2021 13:55:06 -0700 (PDT)
+        with ESMTP id S1344990AbhI2PEh (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 29 Sep 2021 11:04:37 -0400
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573F3C061760
+        for <linux-ppp@vger.kernel.org>; Wed, 29 Sep 2021 08:02:56 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id l6so1715037plh.9
+        for <linux-ppp@vger.kernel.org>; Wed, 29 Sep 2021 08:02:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
-        b=fr8lNb1tzuroNDnbJJtYWeXOCGZbssrkZvaRy8HVdYCeSSxS96vSwd3R2+r1vg3M6/
-         ex66FoD7Oi9BZ+eroN2ctcLno3UxJhL89X1t6yEsFayGc2q4Pz0zZQBaUGqcHr3s/S1+
-         lgIwwHuJ4O8SDnA5oR3zC/CFwa9fWO84703n6I2aQyNKP1VzeqgyNRTdZaVTG81gy6Vx
-         t6u58+esbUQxWBZY5IFD1w784RDrV2U7d72/V+RQAoF8LyHU+KHsqwJTuZK+RI9xoYHQ
-         hU/k+XKo5P60J+yjbN5r0LQMnBzU5qvJitpMdoh7dt6f9DChJ/lZbweVN/xESakomSrI
-         Tc/A==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=dsdxzT5iGWx+lIyIOgmQsDnKiuxVvfsgCi38fv6uSAE=;
+        b=YvCyOdT0nFOWQEZc3bXo46W2q2Gkyvd7d2VuY2HOad6sW0pqggdHeowsqLdSduMw5z
+         rSRuZzLiXtWt2cJsUfyqnB9keKJss3s2hae75JSZb/+B7gsl6oIsnUyjkNFV31lSeRTG
+         jwmBmYp2I6Y+I3xH75M3bB5FOae6b3Vn25Sa+Jumuw43XKxCFSDB8ivLymV7PBNgoWIp
+         Rf+PQZ1wfQbMEYWdpk/SMmcJv+8NoO0kpI77ICXuVsKm+5DNGOk7ecQLmEv+yw7cRVQ9
+         zsB8ktR9/e0mAjRBiXdSjr3gKRo+XU1GPvWO/XdnGoY3sg0HOJZjSMk68V3eaW6BYg73
+         fmeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=ijKrByR1/KtEp2Ut8Wj0vMi00kBZm/A/r1gPwOEYZIg=;
-        b=AElxjkaxZwC+HrpTLP/381SVpc3Kismg5L/J4pCvQR9Ip3dceLvpDp2nrCLIfXcYXs
-         Gr0NT9TuTvEJxMHcSv/SgKX8AMcXNmZh3nE5vYqEGM53Ws8c+M1hEJ8kyuUvL82jzbLN
-         5OHQfSJLMoXiQjFd/U6uCx/hQlZ+B+fFAIBgwHMa4bKLW+oRkBamug3urRB+i0b8F5jx
-         PgTjO09ZUec0hoTxCWCQJcatYuc93C85IjhPnqxyyzvz3AJEPd7CCIbKJuvzXIkmUKHQ
-         n77Bg+9SGRU02SPZRmvvvImWzkTmP4bfjquSSQs0KTVY4LEaOmvvN3Rr7hnAuO184PQZ
-         DejA==
-X-Gm-Message-State: AOAM531OqI8FLhpnKqIXfEQzga+dPQusBUqazUkIf9UuNAQSdSEeGwwQ
-        I1MXlWmdRHjg37UrlwnrKFCOHvLBFlUXqNNvKQWb2KSOriU=
-X-Google-Smtp-Source: ABdhPJwYYn7ZwazUxB30/XTxKCOf4dlZaC6TfP1ljKsU4ZNb40cpLRsdAvw7sAb51nYQkeG7S6W5vU7Cgq+lC3FYxgE=
-X-Received: by 2002:a05:651c:1546:: with SMTP id y6mr1383813ljp.53.1632344095088;
- Wed, 22 Sep 2021 13:54:55 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=dsdxzT5iGWx+lIyIOgmQsDnKiuxVvfsgCi38fv6uSAE=;
+        b=UQkw6VcPH/hGa5ffkAuGCEuqByFZRFp4249yTqii+AW/Ni43m4UwJ19K9mzzsMCvBr
+         YE7Xi83H8G24vpgcazASkav22UA9yj0nozL0FUMKAQPutu+9OmC85zsT8oqYTOaNndlw
+         rvoxTw7aFDhzI3pCQ6s9gWJU23tXxWxwWl1T1Z8/HWiGyM/WQpiPRtjOmJBsLPuolekX
+         ubtCR1nM7B4BYHxxEFm1PNHaODrtEh3K11Lp3Ur4sY0RCK+SnUy0rK5NDWWBWwZUbpvD
+         xlg7ALr07pJDaNVq8CFZ8GbBUWe66G/KSDK1QVJofs+sw0BvAgEJcH7TtKkwrdAwLiV3
+         e9Qg==
+X-Gm-Message-State: AOAM530AaYHRFVgWf90WccIWuZjUpjFSfN88RIqsYC/foASzdjwv+ePb
+        OwbaO2tCdaXmEuLZYABtOGlemkGtno3D0ORVS5k=
+X-Google-Smtp-Source: ABdhPJzjIAO2SATSdA34rZ7/S+8M0Exs5BIGQ5/Z9eiB4DbQMuDFxNnSCUnMq5ekx7s13Bo/9xMPDVy1K8EH3zkd+ks=
+X-Received: by 2002:a17:90a:4594:: with SMTP id v20mr433272pjg.156.1632927775249;
+ Wed, 29 Sep 2021 08:02:55 -0700 (PDT)
 MIME-Version: 1.0
-Sender: ratcliffijames58@gmail.com
-Received: by 2002:a05:6504:5067:0:0:0:0 with HTTP; Wed, 22 Sep 2021 13:54:54
+Received: by 2002:a05:6a10:3203:0:0:0:0 with HTTP; Wed, 29 Sep 2021 08:02:54
  -0700 (PDT)
-From:   Aisha Al-Qaddafi <aisha.gdaffi24@gmail.com>
-Date:   Wed, 22 Sep 2021 21:54:54 +0100
-X-Google-Sender-Auth: B3PIuwFz7UcaHNCffYC8akvbLEk
-Message-ID: <CAKVTYWSPSMf085dB7FkhkLr9XtoZHkjbvunoMard5qsSPn4ZOg@mail.gmail.com>
-Subject: My Dear Friend
+Reply-To: gaboritlaurent423@yahoo.com
+From:   Laurent Gaborit <regionalacsazoneafriqdirecteur@gmail.com>
+Date:   Wed, 29 Sep 2021 17:02:54 +0200
+Message-ID: <CANZzqXxUMBZkxY9a4SBVVD-j3H6mqhWKWvnXQmx+dUK=MdjjEg@mail.gmail.com>
+Subject: =?UTF-8?Q?Offre_de_cr=C3=A9dit?=
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Assalamu alaikum,
-I came across your e-mail contact prior to a private search while in
-need of your assistance. I am Aisha Al-Qaddafi, the only biological,
-Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
-single Mother and a Widow with three Children. I have investment funds
-worth Twenty Seven Million Five Hundred Thousand United State Dollar
-($27.500.000.00 ) and i need a trusted  investment Manager/Partner
-because of my current refugee status, however, I am interested in you
-for investment project assistance in your country. If you are willing
-to handle this project on my behalf kindly reply urgently to enable me
-to provide you more information about the investment
-funds.
-Best Regards
+Salut,
+Vous avez besoin de pr=C3=AAts de tr=C3=A9sorerie entre particuliers pour v=
+ous
+aider =C3=A0 faire face =C3=A0 des difficult=C3=A9s financi=C3=A8res et sor=
+tir enfin de
+l'impasse bancaire provoqu=C3=A9e par le rejet de votre dossier de demande
+de pr=C3=AAt ?
+Je suis de nationalit=C3=A9 fran=C3=A7aise et je peux vous accorder un pr=
+=C3=AAt de 5
+000 euros =C3=A0 2 000 000 euros avec un taux d'int=C3=A9r=C3=AAt de 2% et =
+des
+conditions qui vous faciliteront la vie. Voici les domaines dans
+lesquels je peux vous aider
+Aider:
+* Financi=C3=A8rement
+* Pr=C3=AAts immobiliers
+* Pr=C3=AAt investissement
+* Pr=C3=AAt de voiture
+* Dette de consolidation
+* Ligne de credit
+* Deuxi=C3=A8me hypoth=C3=A8que
+* Rachat de cr=C3=A9dits
+* Pr=C3=AAts personnels
+Vous =C3=AAtes pi=C3=A9g=C3=A9, banni et non pr=C3=A9f=C3=A9r=C3=A9 des ban=
+ques, ou mieux encore,
+vous avez un projet et avez besoin de financement, de mauvais rapports
+de cr=C3=A9dit, d'argent pour payer des factures, d'argent pour investir
+dans des affaires.
+Donc, si vous avez besoin d'avances de fonds, n'h=C3=A9sitez pas =C3=A0 me
+contacter par e-mail : laurentgaborit747@yahoo.com pour plus
+d'informations sur mes bonnes conditions.
+NB : Ce n'est pas une personne s=C3=A9rieuse =C3=A0 s'abstenir
+Meilleurs v=C5=93ux ...
+Laurent GABORIT.
