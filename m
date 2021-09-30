@@ -2,150 +2,76 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16F9941DF57
-	for <lists+linux-ppp@lfdr.de>; Thu, 30 Sep 2021 18:41:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C47FC41E464
+	for <lists+linux-ppp@lfdr.de>; Fri,  1 Oct 2021 00:58:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352189AbhI3Qni (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Thu, 30 Sep 2021 12:43:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39598 "EHLO
+        id S1349768AbhI3XAJ (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 30 Sep 2021 19:00:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352235AbhI3Qnh (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Thu, 30 Sep 2021 12:43:37 -0400
-Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFB16C06176F
-        for <linux-ppp@vger.kernel.org>; Thu, 30 Sep 2021 09:41:54 -0700 (PDT)
-Received: by mail-vs1-xe44.google.com with SMTP id x1so8090825vsp.12
-        for <linux-ppp@vger.kernel.org>; Thu, 30 Sep 2021 09:41:54 -0700 (PDT)
+        with ESMTP id S1349481AbhI3XAE (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 30 Sep 2021 19:00:04 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4BCFC06177B
+        for <linux-ppp@vger.kernel.org>; Thu, 30 Sep 2021 15:58:20 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id i25so31459068lfg.6
+        for <linux-ppp@vger.kernel.org>; Thu, 30 Sep 2021 15:58:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
-        b=pOaGKNYWfb4v0nwXyM4HQq5RhcHrgKkGxtXo9Ik9BWPtid2/WmjZyIl8LN1E6Sy1Yf
-         pdaezqCdtmbXNhV2+jv14JS+cyaV20spfm1Fv4CY7xN469gxbewLOgQJSg5+wzdJ7OTd
-         oGXlJUu2ADfKtdc2WvEWFBMIT6STlKwELS+QDAfJBm6Bf8TVRSON1fAlNczO1tSHH01Q
-         GhTm4uQSsW0kgUhMRFDXDpEy8bE6luXh1c2Z256gr1SWIS5gM95NLiiyVLRL356TMpBS
-         rhPTgcVllOzU9WYGJ0gotOkBzNbX3/Qb+LZOTv6W285uvxFIy/Xpl7bOeXWzBn+A2Tlr
-         Vofw==
+        bh=AnIUtRQtDgk3YDJAatwz+LXUKRWPbctJNdAprjwvZ5o=;
+        b=R1PvQpCeIannjSb6Yh+ydpk75/C6o8mEtPAzmgaEHIE8+GwbHjyaz9wpB+8x12xrLC
+         5QzliCelgl2NI0J6eAvviXY6NAb0fddKOwm8F0zluWIgQVcCljaROD5vrmiDeSlDLGsK
+         xJB49pSfVQy8S3Pu4kCVcQeq6ZMoa/xhFaIxFdweO35gr4XDAjaXA+zoW+1iWxDz8mxI
+         TYIETMUD6inxlylZ2+5HXNoU+Ej3Yy1phQDEHgefTc6SLcco5OC3x4iNwsBqiDMPoP+P
+         pOk7Fq1FEKBsQAGNBYAce970oQL9Ja1ScWCdUauoISN5YYshWUwov1jp5zGqcxSOFPv4
+         8viw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
-        b=hCjkDux9PuNiDyFk2XFdiAHoJpoCACAJSKPUiHED0QRlEL4h3zHG3xh1O58pGA00jC
-         H7m/K8RXGIAFI6lZYz0umpcPBUwlXHuhNVycuj1FYxvHcjaGtQGnX0L6TnPOOZBJnGCX
-         rMY+e7FUgl/H11EwVlJzEruyY4CxGGoVSc87b4d+mnf2V/v8drODZOx5kITh98cruls4
-         80PlQiWMDW7hpfB+7dsCAepRpqd8Ezb9+ZOoR0ghln4Xrg1bua0RmIYbsTzNhktWPXYe
-         +6kdrJ1x987r2qed13QKvUJarmEIyhTQMd9ngkAnP2tMP/fdVFoy1Whq8h5m7F+bN3nH
-         mQZQ==
-X-Gm-Message-State: AOAM530hUO5su5xyL0KMK3RJ1GAi78cNXlciJTacQuzdd3zMn+aXbEkZ
-        FpChh+9Zqs9y7AmAa3+jm46/c241bM4qLRPS1ig=
-X-Google-Smtp-Source: ABdhPJyXJBR94aCQkDR2nyB9qUV3pduaZl7pZqBCOwpPstHXzcZti+KikFV2xiLcEDgbELfK9GtfAOGhGFV38IzhWX4=
-X-Received: by 2002:a67:d589:: with SMTP id m9mr267626vsj.30.1633020113945;
- Thu, 30 Sep 2021 09:41:53 -0700 (PDT)
+        bh=AnIUtRQtDgk3YDJAatwz+LXUKRWPbctJNdAprjwvZ5o=;
+        b=GRWR+hhgVONasjtmqkToI/N3vblasqULkv6/P5lx7lnzEMqXFu8lWqbZQ48yjIwPNJ
+         fxM7UTA6jikHWQ2hGlh+s7qc0xAkUcX0DBuVE/rhW23Jnrl7pyJBri/jFQL5C28kCNg3
+         HYzsjeTdDXpWE3B7MvW0mkL+hG+exOTZ0DN0LlAHng1kW8BNpwNJ1vGuYrDjOrHNLVBv
+         q6g6lBB5StikhVaLoam/4mvWUdpLRHIO2XCcJNFP2iMsBhLtpgUcqO+eEVbN6loVIbLQ
+         AZ9OGJaCGoWV0TN7j3ZBHFFwRlhtj+3/Vd8gbJUBSDSvZ7UP9A6p6nM1JlzwiM0Ftv8T
+         xTLQ==
+X-Gm-Message-State: AOAM5308WsLJdHYE4EXeCCBlzkdW3b9lTk0v3njcSFTvHSWNGoqUEJ3A
+        hSkWU99Rb8HWrFGnhCXMNDaPVFCSSWlJNZwbXbc=
+X-Google-Smtp-Source: ABdhPJyp0GckkyoQimIbcF3/K7wY5JuxQheNi1bdL6NpxgoMO9RxiMuiJeEbVByK85pFkO1bkngH1qS9zgmfyJF8Wlc=
+X-Received: by 2002:ac2:4d91:: with SMTP id g17mr1289553lfe.597.1633042698767;
+ Thu, 30 Sep 2021 15:58:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a59:ab2e:0:b0:22d:7f44:603a with HTTP; Thu, 30 Sep 2021
- 09:41:53 -0700 (PDT)
-Reply-To: irenezakari24@gmail.com
-From:   Irene zakari <irenezakari88@gmail.com>
-Date:   Thu, 30 Sep 2021 09:41:53 -0700
-Message-ID: <CAFT8PFHpXMWJg2tokhnCJ-6xrLEBPe7kzvKSH=Q-ze3yy8WSPw@mail.gmail.com>
-Subject: PLEASE I NEED YOUR HELP
+Received: by 2002:a05:6512:5d8:0:0:0:0 with HTTP; Thu, 30 Sep 2021 15:58:17
+ -0700 (PDT)
+Reply-To: southwestloanco59@gmail.com
+From:   SOUTHWESTLOANCO <saniabdullahinng2020@gmail.com>
+Date:   Thu, 30 Sep 2021 15:58:17 -0700
+Message-ID: <CA+3X9TxOgUnr17iBEDQumHTT-4sD=94e7Kczm3G2MdEDopz6kQ@mail.gmail.com>
+Subject: Dear owner,
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Hello   ..
+-- 
+Good day,
+          Do you need a loan ? We offer any kind of loan to repay in
+6months with just 2% interest
 
-How do you do over there? I hope you are doing well?
+Kindly Reply with below information
 
-My name is Irene. (24 years), i am single, from Gambia, the only child
-of late Eng. Bernard Bakary Zakaria. the Director of Bajam Enterprise
-(Building Construction Company in The Gambia) also the CEO of Bernard
-Import and Export (GAMBIA).
+NAME...............
+ADDRESS..........
+OCCUPATION....
+AGE...................
+PHONE..............
+AMOUNT NEEDED......
 
-As a matter of fact my mother died when i was barely 4 years old
-according to my late father and because of the type of love he had for
-my mother made him to remain UN-married till he left the ghost..
+Regards
 
-So after the death of my father as a result of assassinate, his brother (My
-Uncle) who is the purchasing and marketing sale manager of my late
-fathers company named (Mr. James Tokunbo Oriade Zakaria) wanted to
-convert all the properties and resources of my late father into his
-which i quarreled with him and it made him to lay his anger on me to
-the extent of hiring an assassins to kill me but to God be the glory i
-succeeded by making a way to Burkina faso for my dear life.
-Honestly i do live a fearful life even here in Burkina faso because of
-those Assassins coming after me .
+Contact  Mr Gary Edward +13182955380
 
-I would want to live and study in your country for my better future.
-because my father same blood brother wanted to force me into undecided
-marriage, just for me to leave my father home and went and live with
-another man I never know as he want to occupied all my father home
-and maybe to sold it as my father no longer alive, I'm the only child
-daughter my father born, '' but he don't know that i am not
-interesting in any of my father properties or early marriage for now,
-because i still have future to think about and to focus on my studies
-first as i was doing my first year in the University before the death
-of my father.
-
-Actually what I want to discuss with you is about my personal issue
-concern funds my late father deposited in a bank outside my country,
-worth $4.5 million united state dollars. i need your assistance to
-receive and invest this funds in your country.
-
-Please help me, I am sincere to you and I want to be member of your
-family as well if you wouldn't mind to accept me and lead me to better
-future in your country.
-
-All the documents the bank issue to my father during time of deposit
-is with me now.
-I already notify the bank on phone about the death of my father and
-they are surprise for the news and accept that my father is their good
-customer.
-I will be happy if this money can be invested in any business of your
-choice and it will be under your control till i finished my education,
-also I'm assuring you good relationship and I am ready to discuss the
-amount of money to give you from this money for your help.
-
-Therefore, I shall give you the bank contact and other necessary
-information in my next email if you will only promise me that you will
-not/never betray and disclosed this matter to anybody, because, this
-money is the only hope i have for survival on earth since I have lost
-my parents.
-
-Moreover I have the FUND PLACEMENT CERTIFICATE and the DEATH
-CERTIFICATE here with me, but before I give you further information, i
-will like to know your full data
-
-1. Full Name: ........................
-2. Address: ..................
-3. Nationality: ........... Sex................
-4. Age:........... Date of Birth:................
-5. Occupation:...................
-.....
-6. Phone: ........... Fax:.........................
-7. State of Origin: .......Country:..............
-8. Occupation:...................
-................
-9. Marital status........... E-mail address's: ............
-10. Scan copy of your ID card or Driving License/Photo:............
-DECLARATION:
-
-so that i will be fully sure that i am not trusting the wrong person.
-and it will also give me the mind to send you the bank contact for you
-to communicate with them for more verification about this money. and
-to know you more better.
-
-Meanwhile, you can reach me through my pastor,his name is Pastor Paul
-any time you call, tell him that you want to speak with me because
-right now i am living in the church here in Burkina faso and i don't
-want to stay here any longer,
-send for me to speak with you his phone number is this(+226 75213646)
-
-I will stop here and i will be waiting for your reply and feel free
-ask any thing you want to know about me.
-Please help me, I would be highly appreciated
-Have nice day.
-From Irene
+Remittance Department southwestloanco59@gmail.com
