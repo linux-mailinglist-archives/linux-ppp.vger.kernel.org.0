@@ -2,93 +2,150 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF25541C7C8
-	for <lists+linux-ppp@lfdr.de>; Wed, 29 Sep 2021 17:02:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16F9941DF57
+	for <lists+linux-ppp@lfdr.de>; Thu, 30 Sep 2021 18:41:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344992AbhI2PEh (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 29 Sep 2021 11:04:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51432 "EHLO
+        id S1352189AbhI3Qni (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 30 Sep 2021 12:43:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344990AbhI2PEh (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 29 Sep 2021 11:04:37 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 573F3C061760
-        for <linux-ppp@vger.kernel.org>; Wed, 29 Sep 2021 08:02:56 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id l6so1715037plh.9
-        for <linux-ppp@vger.kernel.org>; Wed, 29 Sep 2021 08:02:56 -0700 (PDT)
+        with ESMTP id S1352235AbhI3Qnh (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 30 Sep 2021 12:43:37 -0400
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFB16C06176F
+        for <linux-ppp@vger.kernel.org>; Thu, 30 Sep 2021 09:41:54 -0700 (PDT)
+Received: by mail-vs1-xe44.google.com with SMTP id x1so8090825vsp.12
+        for <linux-ppp@vger.kernel.org>; Thu, 30 Sep 2021 09:41:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=dsdxzT5iGWx+lIyIOgmQsDnKiuxVvfsgCi38fv6uSAE=;
-        b=YvCyOdT0nFOWQEZc3bXo46W2q2Gkyvd7d2VuY2HOad6sW0pqggdHeowsqLdSduMw5z
-         rSRuZzLiXtWt2cJsUfyqnB9keKJss3s2hae75JSZb/+B7gsl6oIsnUyjkNFV31lSeRTG
-         jwmBmYp2I6Y+I3xH75M3bB5FOae6b3Vn25Sa+Jumuw43XKxCFSDB8ivLymV7PBNgoWIp
-         Rf+PQZ1wfQbMEYWdpk/SMmcJv+8NoO0kpI77ICXuVsKm+5DNGOk7ecQLmEv+yw7cRVQ9
-         zsB8ktR9/e0mAjRBiXdSjr3gKRo+XU1GPvWO/XdnGoY3sg0HOJZjSMk68V3eaW6BYg73
-         fmeA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
+        b=pOaGKNYWfb4v0nwXyM4HQq5RhcHrgKkGxtXo9Ik9BWPtid2/WmjZyIl8LN1E6Sy1Yf
+         pdaezqCdtmbXNhV2+jv14JS+cyaV20spfm1Fv4CY7xN469gxbewLOgQJSg5+wzdJ7OTd
+         oGXlJUu2ADfKtdc2WvEWFBMIT6STlKwELS+QDAfJBm6Bf8TVRSON1fAlNczO1tSHH01Q
+         GhTm4uQSsW0kgUhMRFDXDpEy8bE6luXh1c2Z256gr1SWIS5gM95NLiiyVLRL356TMpBS
+         rhPTgcVllOzU9WYGJ0gotOkBzNbX3/Qb+LZOTv6W285uvxFIy/Xpl7bOeXWzBn+A2Tlr
+         Vofw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=dsdxzT5iGWx+lIyIOgmQsDnKiuxVvfsgCi38fv6uSAE=;
-        b=UQkw6VcPH/hGa5ffkAuGCEuqByFZRFp4249yTqii+AW/Ni43m4UwJ19K9mzzsMCvBr
-         YE7Xi83H8G24vpgcazASkav22UA9yj0nozL0FUMKAQPutu+9OmC85zsT8oqYTOaNndlw
-         rvoxTw7aFDhzI3pCQ6s9gWJU23tXxWxwWl1T1Z8/HWiGyM/WQpiPRtjOmJBsLPuolekX
-         ubtCR1nM7B4BYHxxEFm1PNHaODrtEh3K11Lp3Ur4sY0RCK+SnUy0rK5NDWWBWwZUbpvD
-         xlg7ALr07pJDaNVq8CFZ8GbBUWe66G/KSDK1QVJofs+sw0BvAgEJcH7TtKkwrdAwLiV3
-         e9Qg==
-X-Gm-Message-State: AOAM530AaYHRFVgWf90WccIWuZjUpjFSfN88RIqsYC/foASzdjwv+ePb
-        OwbaO2tCdaXmEuLZYABtOGlemkGtno3D0ORVS5k=
-X-Google-Smtp-Source: ABdhPJzjIAO2SATSdA34rZ7/S+8M0Exs5BIGQ5/Z9eiB4DbQMuDFxNnSCUnMq5ekx7s13Bo/9xMPDVy1K8EH3zkd+ks=
-X-Received: by 2002:a17:90a:4594:: with SMTP id v20mr433272pjg.156.1632927775249;
- Wed, 29 Sep 2021 08:02:55 -0700 (PDT)
+         :subject:to;
+        bh=/T9drlD1s9vO6lHEMs4LJzmDo2MKXEHBXvFYaWoQWpk=;
+        b=hCjkDux9PuNiDyFk2XFdiAHoJpoCACAJSKPUiHED0QRlEL4h3zHG3xh1O58pGA00jC
+         H7m/K8RXGIAFI6lZYz0umpcPBUwlXHuhNVycuj1FYxvHcjaGtQGnX0L6TnPOOZBJnGCX
+         rMY+e7FUgl/H11EwVlJzEruyY4CxGGoVSc87b4d+mnf2V/v8drODZOx5kITh98cruls4
+         80PlQiWMDW7hpfB+7dsCAepRpqd8Ezb9+ZOoR0ghln4Xrg1bua0RmIYbsTzNhktWPXYe
+         +6kdrJ1x987r2qed13QKvUJarmEIyhTQMd9ngkAnP2tMP/fdVFoy1Whq8h5m7F+bN3nH
+         mQZQ==
+X-Gm-Message-State: AOAM530hUO5su5xyL0KMK3RJ1GAi78cNXlciJTacQuzdd3zMn+aXbEkZ
+        FpChh+9Zqs9y7AmAa3+jm46/c241bM4qLRPS1ig=
+X-Google-Smtp-Source: ABdhPJyXJBR94aCQkDR2nyB9qUV3pduaZl7pZqBCOwpPstHXzcZti+KikFV2xiLcEDgbELfK9GtfAOGhGFV38IzhWX4=
+X-Received: by 2002:a67:d589:: with SMTP id m9mr267626vsj.30.1633020113945;
+ Thu, 30 Sep 2021 09:41:53 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:3203:0:0:0:0 with HTTP; Wed, 29 Sep 2021 08:02:54
- -0700 (PDT)
-Reply-To: gaboritlaurent423@yahoo.com
-From:   Laurent Gaborit <regionalacsazoneafriqdirecteur@gmail.com>
-Date:   Wed, 29 Sep 2021 17:02:54 +0200
-Message-ID: <CANZzqXxUMBZkxY9a4SBVVD-j3H6mqhWKWvnXQmx+dUK=MdjjEg@mail.gmail.com>
-Subject: =?UTF-8?Q?Offre_de_cr=C3=A9dit?=
+Received: by 2002:a59:ab2e:0:b0:22d:7f44:603a with HTTP; Thu, 30 Sep 2021
+ 09:41:53 -0700 (PDT)
+Reply-To: irenezakari24@gmail.com
+From:   Irene zakari <irenezakari88@gmail.com>
+Date:   Thu, 30 Sep 2021 09:41:53 -0700
+Message-ID: <CAFT8PFHpXMWJg2tokhnCJ-6xrLEBPe7kzvKSH=Q-ze3yy8WSPw@mail.gmail.com>
+Subject: PLEASE I NEED YOUR HELP
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Salut,
-Vous avez besoin de pr=C3=AAts de tr=C3=A9sorerie entre particuliers pour v=
-ous
-aider =C3=A0 faire face =C3=A0 des difficult=C3=A9s financi=C3=A8res et sor=
-tir enfin de
-l'impasse bancaire provoqu=C3=A9e par le rejet de votre dossier de demande
-de pr=C3=AAt ?
-Je suis de nationalit=C3=A9 fran=C3=A7aise et je peux vous accorder un pr=
-=C3=AAt de 5
-000 euros =C3=A0 2 000 000 euros avec un taux d'int=C3=A9r=C3=AAt de 2% et =
-des
-conditions qui vous faciliteront la vie. Voici les domaines dans
-lesquels je peux vous aider
-Aider:
-* Financi=C3=A8rement
-* Pr=C3=AAts immobiliers
-* Pr=C3=AAt investissement
-* Pr=C3=AAt de voiture
-* Dette de consolidation
-* Ligne de credit
-* Deuxi=C3=A8me hypoth=C3=A8que
-* Rachat de cr=C3=A9dits
-* Pr=C3=AAts personnels
-Vous =C3=AAtes pi=C3=A9g=C3=A9, banni et non pr=C3=A9f=C3=A9r=C3=A9 des ban=
-ques, ou mieux encore,
-vous avez un projet et avez besoin de financement, de mauvais rapports
-de cr=C3=A9dit, d'argent pour payer des factures, d'argent pour investir
-dans des affaires.
-Donc, si vous avez besoin d'avances de fonds, n'h=C3=A9sitez pas =C3=A0 me
-contacter par e-mail : laurentgaborit747@yahoo.com pour plus
-d'informations sur mes bonnes conditions.
-NB : Ce n'est pas une personne s=C3=A9rieuse =C3=A0 s'abstenir
-Meilleurs v=C5=93ux ...
-Laurent GABORIT.
+Hello   ..
+
+How do you do over there? I hope you are doing well?
+
+My name is Irene. (24 years), i am single, from Gambia, the only child
+of late Eng. Bernard Bakary Zakaria. the Director of Bajam Enterprise
+(Building Construction Company in The Gambia) also the CEO of Bernard
+Import and Export (GAMBIA).
+
+As a matter of fact my mother died when i was barely 4 years old
+according to my late father and because of the type of love he had for
+my mother made him to remain UN-married till he left the ghost..
+
+So after the death of my father as a result of assassinate, his brother (My
+Uncle) who is the purchasing and marketing sale manager of my late
+fathers company named (Mr. James Tokunbo Oriade Zakaria) wanted to
+convert all the properties and resources of my late father into his
+which i quarreled with him and it made him to lay his anger on me to
+the extent of hiring an assassins to kill me but to God be the glory i
+succeeded by making a way to Burkina faso for my dear life.
+Honestly i do live a fearful life even here in Burkina faso because of
+those Assassins coming after me .
+
+I would want to live and study in your country for my better future.
+because my father same blood brother wanted to force me into undecided
+marriage, just for me to leave my father home and went and live with
+another man I never know as he want to occupied all my father home
+and maybe to sold it as my father no longer alive, I'm the only child
+daughter my father born, '' but he don't know that i am not
+interesting in any of my father properties or early marriage for now,
+because i still have future to think about and to focus on my studies
+first as i was doing my first year in the University before the death
+of my father.
+
+Actually what I want to discuss with you is about my personal issue
+concern funds my late father deposited in a bank outside my country,
+worth $4.5 million united state dollars. i need your assistance to
+receive and invest this funds in your country.
+
+Please help me, I am sincere to you and I want to be member of your
+family as well if you wouldn't mind to accept me and lead me to better
+future in your country.
+
+All the documents the bank issue to my father during time of deposit
+is with me now.
+I already notify the bank on phone about the death of my father and
+they are surprise for the news and accept that my father is their good
+customer.
+I will be happy if this money can be invested in any business of your
+choice and it will be under your control till i finished my education,
+also I'm assuring you good relationship and I am ready to discuss the
+amount of money to give you from this money for your help.
+
+Therefore, I shall give you the bank contact and other necessary
+information in my next email if you will only promise me that you will
+not/never betray and disclosed this matter to anybody, because, this
+money is the only hope i have for survival on earth since I have lost
+my parents.
+
+Moreover I have the FUND PLACEMENT CERTIFICATE and the DEATH
+CERTIFICATE here with me, but before I give you further information, i
+will like to know your full data
+
+1. Full Name: ........................
+2. Address: ..................
+3. Nationality: ........... Sex................
+4. Age:........... Date of Birth:................
+5. Occupation:...................
+.....
+6. Phone: ........... Fax:.........................
+7. State of Origin: .......Country:..............
+8. Occupation:...................
+................
+9. Marital status........... E-mail address's: ............
+10. Scan copy of your ID card or Driving License/Photo:............
+DECLARATION:
+
+so that i will be fully sure that i am not trusting the wrong person.
+and it will also give me the mind to send you the bank contact for you
+to communicate with them for more verification about this money. and
+to know you more better.
+
+Meanwhile, you can reach me through my pastor,his name is Pastor Paul
+any time you call, tell him that you want to speak with me because
+right now i am living in the church here in Burkina faso and i don't
+want to stay here any longer,
+send for me to speak with you his phone number is this(+226 75213646)
+
+I will stop here and i will be waiting for your reply and feel free
+ask any thing you want to know about me.
+Please help me, I would be highly appreciated
+Have nice day.
+From Irene
