@@ -2,80 +2,97 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A481428B6C
-	for <lists+linux-ppp@lfdr.de>; Mon, 11 Oct 2021 12:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4886433294
+	for <lists+linux-ppp@lfdr.de>; Tue, 19 Oct 2021 11:39:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236126AbhJKK6W (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 11 Oct 2021 06:58:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51588 "EHLO
+        id S235144AbhJSJlZ (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 19 Oct 2021 05:41:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236147AbhJKK6T (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 11 Oct 2021 06:58:19 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EAC4C061774
-        for <linux-ppp@vger.kernel.org>; Mon, 11 Oct 2021 03:56:12 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id t9so70820110lfd.1
-        for <linux-ppp@vger.kernel.org>; Mon, 11 Oct 2021 03:56:12 -0700 (PDT)
+        with ESMTP id S235116AbhJSJlQ (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Tue, 19 Oct 2021 05:41:16 -0400
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18C50C06176A
+        for <linux-ppp@vger.kernel.org>; Tue, 19 Oct 2021 02:39:02 -0700 (PDT)
+Received: by mail-qk1-x735.google.com with SMTP id a13so8154293qkg.11
+        for <linux-ppp@vger.kernel.org>; Tue, 19 Oct 2021 02:39:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=km/+rwE10MGCG3K0BNjxD+A2l394aMlSCDFqBEiDyrs45mObKwVEkOccUp5BPFftJU
-         5cB06txNzUPVxcrxQnkqMq9zaxAqQeR9eoa3+7DqnAg3rX7wMze/dloERdrhczopiGET
-         PvxtLks7kWCMKTs5Q8Mmq12LwUKUT5cPH1x1mszpEwl0kuXWAYNTl0kX4+cL3oWAj8+a
-         6an2wLimFEmscCT9jtQf7FGYav0q/UTa6GRCeFihab7mYp8KZTVzyAi9ONxHllw1wfay
-         OSS3CoE7RnQ2PFKTnc/5Yya8gHnSshWvMzermo1msudbBS7MTk09iY8fA6ci8A/KmFSk
-         +E4A==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
+        b=TOvN/3L74NxJ8jkZLAwc1HWcAigE5PqgL50bgmFqgfF5N3Ni/F/hFF6HKKLKTN31yN
+         HevaAXYbPfypt8hhKvSPyehT5ALdXqczNk+5xUwtC+i5sgHXh2uIQwAecZjfCaWU8ix6
+         IP3iNNDeKzM9Rarn67S7Y6Q5meavaw7Mpk+sez5Jm9gTXVkS2K7rH0HxN0wGBD1vTEZW
+         SlZ7Ohjm5TDffwxVe9psHKkZrw9F8ewS3UJdvRp48BugnVC9N6o6tGt7kOuD9dBL9WOI
+         l1dbXlU20FuuDCR1G9eGV6dpPzPq/obtSd+vSUmjw4dvgQ3M4KndmuUgzevCd5/KLP2j
+         AvJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=DOxN63QWnl4dBNWQl+LufsBrewR+8VuPJnGph7ijSeE=;
-        b=V2EqQue7K0lVdKJe0sxssahRru1sLbvMH51lomjFmCeg+hLjTUhhjeBrBQ6ohqqZsQ
-         BtImW/lyPf3gp/u1v7oASQ9vpRSwnUlZRVyJOa0md6StcRVZ11q46qyhyG8upcwtQtgk
-         X5BWvUMWHxrI7CxZdXHUMpLqzjl+nFGbraSGe3NsmELD0xKfAA9dy6wMze/4Pqr4q1Ve
-         od0OMge2KFrZWRr4XIdDNNvSCt1/gXRnq4BSQmJpCwAeT8b4FS0XEgLgp/zFHwv2KI1s
-         HC2Xz+sJJCkQD5VPbPHa2p0DwT1Pz7EWQ7F0cK69SIxSOgpbqbalUnTKNnDXbBy9mtxw
-         Cr0Q==
-X-Gm-Message-State: AOAM531xw13IYvQRI3UUAykPF/I29ijqnmXvNPZaHztqYzyqQ6qCSkOm
-        fO6xXBwTFAbJxbn090NJdCzKb/mVsG2YiqbvN/t6qwOxVQfsiQ==
-X-Google-Smtp-Source: ABdhPJxWYMUVxuj7Tly9azrkWxEMXzTPZAklmoVIH4V2ykknMMiBN9imOFz2zTqxux/zk/7pzvFSRlX+C6mfjc7ADy4=
-X-Received: by 2002:adf:8b9a:: with SMTP id o26mr24377548wra.109.1633949760323;
- Mon, 11 Oct 2021 03:56:00 -0700 (PDT)
+         :subject:to:content-transfer-encoding;
+        bh=h7Ka/8DlpkXEXF23rPgOfJJ3SyquA2FhD5HYDsybiG4=;
+        b=QyJH3fAco+9BmEiVI9Q9up8H5DGvEDYkEebPG/ibds7voqcfYyl3PRn6j8TkT4PoZk
+         keZnydPXFtNuaNOedWaxLEbXLms/p64uaR8UWRpnz3PJXSwN72hweoy/GzN97LOoNpZ2
+         0KEylYh477uWkTbkf4OLP5WARZFRagcoeCXrddpEeoGLcog5Wxx0LUOEBXyy2hmM6yS3
+         AaySxGLS2xV9SC68nHh6iNjb0gbVoNsJmGzCEcytYNzf4cUHWt8MMFPrXmsIUzhazan1
+         gx8ag29kCMXiMolNRDvdEhh4YRE/QgIHcIn4DifnboLNLVW3WCd0FbM4xgyrg9NVglJE
+         MFoA==
+X-Gm-Message-State: AOAM531SZIorG6qnbtiOC8W5eaGJKyZ/9m6/ae2JKcmuBxNT2grcq1+W
+        Ku4/u1wuG0RzjWpc47kdQG6mg9rAO5No0pRS5a0ESJ6o2pg=
+X-Google-Smtp-Source: ABdhPJzMH7/Viv+gmOFi/wRxRbcc549EbhNxq1WBmFuuCl5Y1sIaNw3hPc5P9A8SHm6QnP1HNGNAvecvirmJS/oiL6w=
+X-Received: by 2002:a02:6f5d:: with SMTP id b29mr3319085jae.113.1634636331013;
+ Tue, 19 Oct 2021 02:38:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:adf:dd8c:0:0:0:0:0 with HTTP; Mon, 11 Oct 2021 03:55:59
+Received: by 2002:a92:c7c6:0:0:0:0:0 with HTTP; Tue, 19 Oct 2021 02:38:50
  -0700 (PDT)
-Reply-To: ramcharan9910@outlook.com
-From:   "Cr.David Ramcharan" <convy0101@gmail.com>
-Date:   Mon, 11 Oct 2021 03:55:59 -0700
-Message-ID: <CADDRs95718H=K3tUjphEHH_C96xYhoJw7jeCMpt_FfZZjhEXrA@mail.gmail.com>
-Subject: Thank You
+Reply-To: megaritalouisdrayfu199@yahoo.com
+From:   "Mrs. Margarita Louis-Dreyfus." <anniewei112@gmail.com>
+Date:   Mon, 18 Oct 2021 21:38:50 -1200
+Message-ID: <CAGT4pMkzKn8mfeY05OAG04CCAxodKEVDUk46D=O7cfK8+n1=tA@mail.gmail.com>
+Subject: Charitable funds to help the less privilege!
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Please I am writing to notify you again on my intention to list your
-name as a beneficiary to the total sum of GBP6.350 million (Six
-million, Three hundred and fifty thousand British Pounds Sterlings) in
-the intent of the deceased (name now withheld since this is my second
-letter to you).
+--=20
+Hello,
 
-I contacted you because you bear the surname identity and therefore
-can present you as the beneficiary to inherit the account proceeds of
-the deceased since there is no written "WILL" or trace to the deceased
-family relatives. My aim is to present you to my Bank Authorities as
-the Next of Kin to our deceased client. I will guide you all through
-the Claim procedure by providing all relevant Information and guiding
-you in your decisions and response to the Bank Management. All the
-papers will be processed after your acceptance.
+I am sorry to encroach into your privacy in this manner, my name
+Margarita Louis-Dreyfus , I find it pleasurable to offer you my
+partnership in business, i only pray at this time that your email
+address is still valid. I want to solicit your attention to receive
+money on my behalf for humanitarian project to help the less
+priviledge.
 
-In your acceptance of this deal, I request that you kindly forward to
-me your letter of acceptance; your current telephone and fax numbers
-,age, occupational status and a forwarding address to enable me submit
-to the Bank Management the details as the Next of Kin to their
-deceased customer. Reply strictly through: ramcharancrdavid@gmail.com
+The purpose of my contacting you is because my status would not permit
+me to do this alone. Given my current state of health, I have decided
+to donate Ninety -Eight Million United State Dollars to establish a
+foundation with your help to reach out to the less privilege, orphans,
+sick and homeless people in your country who will receive their
+blessings as i promised my God before i leave this earth.
 
-Yours faithfully,
-Cr.David Ramcharan
+I got your contact through my personal search, you were revealed as
+being quite astute in private entrepreneurship, and i have no doubt
+that you can handle this huge financial transaction. Please contact my
+executor for more information:
+
+Mr. Ford Spencer(Attorney at Law).
+For: Mrs. Margarita Louis-Dreyfus
+LEGAL DEPARTMENT LAWSON & ASSOCIATES
+(JUSTICE, FAIRPLAY & EQUITY)
+Email: fordspencer828@yahoo.com, fordspencereqs828@gmail.com
+Office: +1-970-414-1400
++1-702-714-3422
+Mobile: +1 916 269 2733
+Fax: +1-970-414-1433
+=C2=AE Property of Steven C Spence PA.
+
+Your earliest response to this letter will be appreciated.
+
+Kind Regards,
+
+Mrs. Margarita Louis-Dreyfus.
