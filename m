@@ -2,54 +2,54 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF4564376E5
-	for <lists+linux-ppp@lfdr.de>; Fri, 22 Oct 2021 14:22:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E4CA43DF5F
+	for <lists+linux-ppp@lfdr.de>; Thu, 28 Oct 2021 12:52:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232374AbhJVMY1 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 22 Oct 2021 08:24:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53678 "EHLO
+        id S230270AbhJ1Kyv (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 28 Oct 2021 06:54:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232390AbhJVMYV (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 22 Oct 2021 08:24:21 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC83EC061226
-        for <linux-ppp@vger.kernel.org>; Fri, 22 Oct 2021 05:22:01 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id r4so6137617edi.5
-        for <linux-ppp@vger.kernel.org>; Fri, 22 Oct 2021 05:22:01 -0700 (PDT)
+        with ESMTP id S230213AbhJ1Kyt (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 28 Oct 2021 06:54:49 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E122C061229
+        for <linux-ppp@vger.kernel.org>; Thu, 28 Oct 2021 03:52:22 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id w1so4077726edd.0
+        for <linux-ppp@vger.kernel.org>; Thu, 28 Oct 2021 03:52:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=EabbjzyBCsHP1Pqryzjhoy0dM3xlyxLmmpO8ACgMTo8=;
-        b=opUIgqVWyZcHOIldu+LgQVfQLu2JLSm4eq0yRYoR8X3EkJ0jJdtgK1LJrEC4fAYG/u
-         x5QndCavFk6KrgrLKL2M04eWhmo9Ht5gsCUOTzm6BFmYlOhPKCnfQmAWRcGWJ3Kgd+Po
-         dxnzE1GzD0Fe/zdoRYGanqsnNZ7HZwcDd5jvb2P53Z7ySB2eUUW5eKcCwJjvHcLwQW3D
-         hmZMQ0WQ67mADARNZlQPTMDFACAa1pT2f55C5E+z5xU/0SGGI05AA1ys/nk/8Z7QRecx
-         rbFLK51ODld/urTp+hjZ3tCNNEiv03NL8R5n8H4ZVv1sIR3Pcfr4FSd/aUugOrtvCJBK
-         4QUQ==
+        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
+        b=MqgQiMnth4O6zLvpsYbAhVLW1BorpgoCleWwfkY0/i+i6OSDuXRZO1jIKzpTTrmehO
+         XtsLWdXiTcL+XCe4naFtf2tTUJnbwwmDpuUkpvRhLd+LEnuxY7nNr11hmTRUVX1WOHsO
+         bN0u1arCg4gm9LHdXRMZFcXOD22U5gDGuBOuhPo6qvWbt6nA2j/p/5IZ88XFHrEsiSW3
+         12hentYJMlWeUfa2lUQkLm+5/fvMSizrI7wGoF2taOa3dgGUV5HKZWb0yAAH7nAXVevJ
+         tDC/xbHNLzSn310XeD3Gkoobjl6MPBQzT5DSLzerNBdTKOdmyp3xvfvOyo80qVUTZIED
+         gaRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=EabbjzyBCsHP1Pqryzjhoy0dM3xlyxLmmpO8ACgMTo8=;
-        b=v6CMe8LKXgXkwMDrwslRwbnrkWPFNgkrYWecKm35nB62ZvVx3nJ5Hz/ilnAe0vghhH
-         zBqgafA7C3xIttUxkynBrtx8LeuSFq0Jpd3G8XglbYQyG+xFtnPcU1QFBtojhtfs6jKY
-         GftOeTciIB2uVwTe0LA5e50nKcqJTjhv9cAVHEiS8SEs2Xt4nnYpwqC1bbiuwzbLvW3d
-         2zV6vNzAPDntG0AMTPQ0SqUXrTRx+5wxTfMdyBGnJv5L1MIQqI3axSZ17T7+MQJvo0fV
-         sN0oDRytt6s9BTdW39q07PU6ePSBCDWz2dm4SBI1coEBKMWJx/3TuqMxem1aEUBbAUoa
-         +utQ==
-X-Gm-Message-State: AOAM532OWooYiQyQreVI5o3KcjrtJByEPuqhGyeUC8zDXq/qpjQdLC1g
-        A/IVjbwm5IH+hj6LcK0VINvfn3QM7FKRg1AjIlZRN9vChbEbFk2T
-X-Google-Smtp-Source: ABdhPJy2Z+mCK6UsBedDHfuHLqHjOelryE6bx9xZ/OavTEghlxY+bPID2uQBe/oD5nVNF4jHf9BZTkpf3h9vpVXzB08=
-X-Received: by 2002:a17:907:1b0a:: with SMTP id mp10mr15488909ejc.29.1634905309828;
- Fri, 22 Oct 2021 05:21:49 -0700 (PDT)
+        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
+        b=ZP4E0mH/khkIM4syopQ+hQAR9LxI/ESBO3TrY+bHvO+QgUoXKOHmo312rmEoe9kbEg
+         0kgQOd+QB2uVs2ueU9gf/7/9yhvJSKr6cAeS1hF0PJPK2KE2CJmbMWC5vxXC51AyKLRT
+         4suXX2xkln8tNzbScFeGN4cdXyV77NhHv2BEeX12kg5DCAiBW5UKBFxU/kxcFiLZ9SdM
+         VejFoXf9q5y+nD4kMaR8dqk7gUgIHNFhVTZqdePrB4XhVTq/WN65HJmThWyLQWoGBN3W
+         IGzajIg2NmU8+Yt0W+rlTw9ljB1VAHAAvh8UHaDvUvbP0Qcc1wATokCJ0Jcsn9oQu74S
+         BxwA==
+X-Gm-Message-State: AOAM532o7WoMTtlSBFDMe1o4nDsyU8kzbG5daoeI9kSFXlo6glk4a7UQ
+        3n0AX2BZwTzQ68YJ01r50sMZcDvCYWjW+uC11lUH/lv4mrd16Woa
+X-Google-Smtp-Source: ABdhPJw39EF9dJlXS9lAFrZ3adXxB8DVzXcygVzA3uRLiZxWlggxaB9ElCxkEB0P82xisoA6G442GD5iqMe2hCgLIt8=
+X-Received: by 2002:a2e:9a83:: with SMTP id p3mr3750290lji.145.1635418330269;
+ Thu, 28 Oct 2021 03:52:10 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a17:907:7fa7:0:0:0:0 with HTTP; Fri, 22 Oct 2021 05:21:48
+Received: by 2002:ab3:6f89:0:0:0:0:0 with HTTP; Thu, 28 Oct 2021 03:52:09
  -0700 (PDT)
-Reply-To: bahadur.rayanby@gmail.com
-From:   Ryan Bahadur <dr.philposman7@gmail.com>
-Date:   Fri, 22 Oct 2021 05:21:48 -0700
-Message-ID: <CAMOT=VQ19xGMh1Soq8rNHNKaBCqZh03d0u+Nrf_Ou9bAtd-seQ@mail.gmail.com>
-Subject: CAN I TRUST YOU
+Reply-To: aabdulwalialhashmi@gmail.com
+From:   Abdulwali Alhashmi <husamalsayed.hs@gmail.com>
+Date:   Thu, 28 Oct 2021 03:52:09 -0700
+Message-ID: <CAF6yYCeS=rm8=_71-kMjVo4oaVK57w9X52R_yv1HDrBe7vh-sA@mail.gmail.com>
+Subject: PLEASE GET BACK TO ME IF I CAN I TRUST YOU
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
@@ -62,7 +62,7 @@ Greetings,
 Firstly, I apologize for encroaching into your privacy in this manner
 as it may seem unethical though it is a matter of great importance.
 
-I am Mr.Ryan Bahadur, I work with Cayman National Bank (Cayman Islands).
+I am Abdulwali Alhashmi, I work with Cayman National Bank (Cayman Islands).
 
 I am contacting you because my status would not permit me to do this
 alone as it is concerning our customer and an investment placed under
@@ -82,9 +82,9 @@ confidential and respect the integrity of the information you come by
 as a result of this mail.
 
 Please kindly get back to me for more details if I can TRUST YOU.{
-bahadur.rayanby@gmail.com}
+aabdulwalialhashmi@gmail.com }
 
 Regards
-Mr.Ryan Bahadur
+Abdulwali Alhashmi
 Treasury and Deposit Management,
-Cayman National Bank Cayman Islands.
+Cayman National Bank Cayman Islands
