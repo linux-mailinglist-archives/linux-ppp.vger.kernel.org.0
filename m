@@ -2,60 +2,77 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6B13460B7B
-	for <lists+linux-ppp@lfdr.de>; Mon, 29 Nov 2021 01:15:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01BF7464CB6
+	for <lists+linux-ppp@lfdr.de>; Wed,  1 Dec 2021 12:34:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1359808AbhK2ASf (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sun, 28 Nov 2021 19:18:35 -0500
-Received: from mail.vallenar.cl ([200.54.241.89]:39018 "EHLO mail.vallenar.cl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233716AbhK2AQd (ORCPT <rfc822;linux-ppp@vger.kernel.org>);
-        Sun, 28 Nov 2021 19:16:33 -0500
-X-Greylist: delayed 20294 seconds by postgrey-1.27 at vger.kernel.org; Sun, 28 Nov 2021 19:16:30 EST
-Received: from localhost (localhost [127.0.0.1])
-        by mail.vallenar.cl (Postfix) with ESMTP id B6B9E1CC54D2;
-        Sun, 28 Nov 2021 12:29:34 -0300 (-03)
-Received: from mail.vallenar.cl ([127.0.0.1])
-        by localhost (mail.vallenar.cl [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id KoyW2nH7GhDD; Sun, 28 Nov 2021 12:29:34 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.vallenar.cl (Postfix) with ESMTP id 3122B1D06842;
-        Sun, 28 Nov 2021 11:45:20 -0300 (-03)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.vallenar.cl 3122B1D06842
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vallenar.cl;
-        s=EC098874-C7DE-11E7-B3B1-1A9A6030413E; t=1638110720;
-        bh=IQxUcKgLaEia+DMrVj9OEHbWOH8TffrzQMeZgAxYubI=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=ZNBNFUZbmFa2MHgDVnqeLUNmN1jhvIoIkMHZTp8rDDfwo5mpNBsBVbO8RAJCiC7El
-         +VRB+SyXtRcilNrHQXQaPXnqwriKkMY96p2U9JdvT25Pvs30y1yC0idQP7feAgHN5C
-         510coTQH0yXzg/N7bnGVoeOODT5Bq+9YByGo+oB7uh3zNaT8MZoWKyls6hJSsulfKm
-         cY+YKvYAYXu9tmAGuln574ixcTAY/PY44NpBwFzV7BnN1KA3q0ALEHKkThQ+on5UML
-         Xti6+OBaIapzFEFuHoclzm2AFuLehO8hi0kLvqToLxvFHB2HkAyWBX6wCFV/7hgDMI
-         hu2+d/o+eTobg==
-X-Virus-Scanned: amavisd-new at vallenar.cl
-Received: from mail.vallenar.cl ([127.0.0.1])
-        by localhost (mail.vallenar.cl [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Wnon1U2B1Kbm; Sun, 28 Nov 2021 11:45:19 -0300 (-03)
-Received: from [192.168.8.101] (unknown [105.0.3.102])
-        by mail.vallenar.cl (Postfix) with ESMTPSA id 756591D08C9F;
-        Sun, 28 Nov 2021 11:21:39 -0300 (-03)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1348960AbhLALhZ (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 1 Dec 2021 06:37:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33446 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348936AbhLALhY (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 1 Dec 2021 06:37:24 -0500
+Received: from mail-ua1-x92c.google.com (mail-ua1-x92c.google.com [IPv6:2607:f8b0:4864:20::92c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A7A6C06175B
+        for <linux-ppp@vger.kernel.org>; Wed,  1 Dec 2021 03:34:00 -0800 (PST)
+Received: by mail-ua1-x92c.google.com with SMTP id i6so48112809uae.6
+        for <linux-ppp@vger.kernel.org>; Wed, 01 Dec 2021 03:34:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=nKE9e+4jEQRb21OhoYPSbxPLfJ2IuSmNXU0U6wmcP4ykCacrWpdbtE0jjuz/hSLLGi
+         3CHjeG+lFmWzoULwCsmlhVFgDEk5dLFaYb51pw7bXGjZ9H8t0j91dP9aL17MRQYkMPZK
+         Snvty/Yp8/ZrWZr2EuFXHqBxUdbU8X39ik45viERJ1Dn7qW8BPCFp2vlafV2okU0kn5j
+         QPTIDY8QJSy8zAVbK10d6+AY0lky+mrQRAAg0uS1DacQStzD/dQtt/uBz/RlGIdZCai/
+         BHep24kmiLdl1nvBvHYMFonu8NoJvJlErv7lbZlg2+2c277BpkzmDA4WwPZoxzlIf0Mh
+         Af5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=BZplQ/vrwFkhIHmhn2EjtrSZ0X6kQzROwDxmKGqxa/P2ocZpEyvUx0Vqi1O45FKOve
+         hbm6DBf5krlhd2pq/eNc4UD1tekeXbR1PVh5pp3F9d+tdYtpNSPJp9Akva2Vlqg2+RY3
+         LX5uHNgQPcjtGPaBpN1PnQSTEPC7hF/TxQvQVgiXgXVP6hzrpujDxvujKbjQ12Fjk29+
+         ZGJx1kd9MLR5SHbuz4lqXrdxiazG3nyYhzoZUwxrAzvByJBJOc8nhUMvAJ1UZ8i4PzhW
+         pQLy6TtvgDI+qQTg3gf0hrhFwshAJcK1awSGC1jklgeIfRYxt/UK7XxTMMI3gaTkcJJ0
+         /h8Q==
+X-Gm-Message-State: AOAM530wf49UOjwZ/3HNCfrkLEaSNfdMflxTxTmT4Vwqk7+tsaT0ZokA
+        kzrBOcZ69/aWutF6vu128n9DSHg1U+dlpr4sflA=
+X-Google-Smtp-Source: ABdhPJwK+H50pzFgfv5CJPfAwBzUdMqIKHh+Ckkuju2lG2knVlJrzqINPiiwPjc/Uz6xuSJez7Fkn5YZPcfa5CPpvro=
+X-Received: by 2002:a67:ef4d:: with SMTP id k13mr6266305vsr.4.1638358439020;
+ Wed, 01 Dec 2021 03:33:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: 2.000.000,00. Euro
-To:     Recipients <yperez@vallenar.cl>
-From:   "manuel franco" <yperez@vallenar.cl>
-Date:   Sun, 28 Nov 2021 16:29:09 +0200
-Reply-To: manuelfrancospende00@gmail.com
-Message-Id: <20211128142139.756591D08C9F@mail.vallenar.cl>
+Sender: unitednationawardwinner@gmail.com
+Received: by 2002:ab0:6c55:0:0:0:0:0 with HTTP; Wed, 1 Dec 2021 03:33:58 -0800 (PST)
+From:   "Mrs. Orgil Baatar" <mrs.orgilbaatar21@gmail.com>
+Date:   Wed, 1 Dec 2021 03:33:58 -0800
+X-Google-Sender-Auth: uTQ_nfkzXaWGWaTWp1BSFqK3Ucs
+Message-ID: <CAJ4dHaSrD-X=xpfKNZV-hXSiMV6mNYrgy5vWCNkKm6iu5RQStg@mail.gmail.com>
+Subject: Your long awaited part payment of $2.5.000.00Usd
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Sie haben eine Spende von 2.000.000,00. Euro
+Attention: Beneficiary, Your long awaited part payment of
+$2.5.000.00Usd (TWO MILLION FIVE Hundred Thousand United State
+Dollars) is ready for immediate release to you, and it was
+electronically credited into an ATM Visa Card for easy delivery.
 
-Mein Name ist Manuel Franco aus den Vereinigten Staaten.
-Ich habe die Amerika-Lotterie im Wert von 768 Millionen US-Dollar gewonnen =
-und spende einen Teil davon an nur 5 gl=FCckliche Menschen und ein paar Wai=
-senh=E4user als Wohlwollen f=FCr die Menschheit.
+Your new Payment Reference No.- 6363836,
+Pin Code No: 1787
+Your Certificate of Merit Payment No: 05872,
+
+Your Names: |
+Address: |
+
+Person to Contact:MR KELLY HALL the Director of the International
+Audit unit ATM Payment Center,
+
+Email: uba-bf@e-ubabf.com
+TELEPHONE: +226 64865611 You can whatsApp the bank
+
+Regards.
+Mrs ORGIL BAATAR
