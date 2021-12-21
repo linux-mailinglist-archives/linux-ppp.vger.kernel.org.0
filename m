@@ -2,85 +2,80 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE7954770B1
-	for <lists+linux-ppp@lfdr.de>; Thu, 16 Dec 2021 12:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7B3E47BB14
+	for <lists+linux-ppp@lfdr.de>; Tue, 21 Dec 2021 08:31:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233620AbhLPLmr (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Thu, 16 Dec 2021 06:42:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60290 "EHLO
+        id S235191AbhLUHbz (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 21 Dec 2021 02:31:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233628AbhLPLmm (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Thu, 16 Dec 2021 06:42:42 -0500
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02414C0613A1
-        for <linux-ppp@vger.kernel.org>; Thu, 16 Dec 2021 03:42:40 -0800 (PST)
-Received: by mail-qv1-xf33.google.com with SMTP id kl7so6252338qvb.3
-        for <linux-ppp@vger.kernel.org>; Thu, 16 Dec 2021 03:42:39 -0800 (PST)
+        with ESMTP id S235204AbhLUHbz (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Tue, 21 Dec 2021 02:31:55 -0500
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D23F7C061401
+        for <linux-ppp@vger.kernel.org>; Mon, 20 Dec 2021 23:31:54 -0800 (PST)
+Received: by mail-io1-xd34.google.com with SMTP id x6so16370512iol.13
+        for <linux-ppp@vger.kernel.org>; Mon, 20 Dec 2021 23:31:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=K+n9/Q643hF06qaRTfNZAWda8LVlgLOG5CgJcxFPWIFoMhWM1EYpXAS64XJojMwQQx
-         EqR+WcL8ZKNdKxI1rlI6J1X97CAv/GhyzN+frFPEhWEVujbKy2tsQcjkeqXCKP3RT5yd
-         lKeuN0Xs1P/9DhC82fVpgIS54J8emMt0iaVxeunUZuwWzCiKeFFLaXjlQtjXsDp+7Fh/
-         B+VWl/xgmUtxz+BtFM5UhxSltD/0zH4S4seawy0715by/jAvKD9YON3PqOtBI62SbWBD
-         jWpeya/GzA0ycvExWcOcBmWl/DCk9yUsFN2bNj9QfFGM6FIFkaKrPoGkEqRJBjgcerBq
-         tR0g==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=lfcbJbX5oTLP8SxjC643FL/N5klp3yLw7FLZvzxTOfM=;
+        b=PYYcED9tTsUBGZhLA9L1msyWdfuz+ClrVyAt7aiRI/xl1JSA1m+7LS2FqxKfMDcRQt
+         3yhVFcMo5vLBRiUaShc8uJQ4zbs1m/ex989tuJvvA1ooaVwGtQUNdXVg/0pmBb9gvUqH
+         bJW6F1gycSWfNHT3jqSzLJ6NO6z4gPo6JAwW6N0U5F8SPz2kJ0JniHNMEzmlYJxM12tn
+         ItbJYEIQZIIBwlI5Xj7eWozP5zHZ/s0ha7gGqM/vq7//AlMDMeF0WOInX5/ykc3YcPqM
+         UQamSJhLFaHpgSQlUN1uQrvQoFHgKbi6EhlafG1mitwkaUIkYtLxxJ+pg8GfnQop83lC
+         4RLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=u+crotS81QWqXVZqPJecFi9CzeE5fXwu5e8S3YLJ9BNte8fn+8SIsoYFekc5B9ow/u
-         EK/jLgMprpL2+Fzo6iR5lMM95nCMHmCToCBND/j9EwolfAf3ONNGA7bQwLhkFpwk1lSK
-         Gp1kP87q/4GqobVg7DeIKLNHbCVLYyHpL7IUZNn1TiCYvR3LOupGnf2ej0Hrd6VHw0yd
-         /H1tPy4lNXmcPsFyXfFZ41gTiEzwyS8JcuHRmPCzxIi6sHPwIgudKFfnllwf1CM/GXUG
-         KpzeVD+mkh/rYBK1YQI5M+m96QAiCn9VjAdazqjhA+uF7gzAVzyvEEjVG2fv+zz01LVx
-         CGxQ==
-X-Gm-Message-State: AOAM533YJFHhxH8D7rnb542H6TPYR4RmjigreSGzwFSTcnDfa01Mnq3T
-        iGpxmcy4HcFQ6bhnHB4B+Pe01vxD+lodKnROwd0=
-X-Google-Smtp-Source: ABdhPJw1cRuUMMVas+y+QgdrxBW0LuhuWfZ+tfQTS0xFMTT3zW1pjnPXSYKcurxzVoeaOVJevX3+oCe2P65vw9z9/aU=
-X-Received: by 2002:a0c:e5d1:: with SMTP id u17mr15209801qvm.120.1639654958961;
- Thu, 16 Dec 2021 03:42:38 -0800 (PST)
+         :subject:to:content-transfer-encoding;
+        bh=lfcbJbX5oTLP8SxjC643FL/N5klp3yLw7FLZvzxTOfM=;
+        b=fJZjy6lZa0J7ZPW8xiDB9Y+1h0vx7/iIMQc332QX8RbQi+fW852RRWv21mxyvS43Cg
+         HLKw7HZiYyNALdXx67mb5bDcYxphhgxKzsWVxuGrltWGtftJAXpCgAMyXqQawMpxRFF/
+         pD4K+rWMGIawVMWiEeW/ycHv922DQ7u2IxQkNQJYNBUDcCrUdkmTxW5DNSo8imnurOgP
+         yOE3120klX3MCVCC6w7/dlJ+0lS5+cjm/fbV6UbL8sIHbRn2/eDSFB4iWmHAsZZKm19W
+         etDWczlRpWTl3JSollEd74Sj1KSeF9Z4+gDbOwIZ7E354RDBM8OPtc3cP556aeiNXIpB
+         OvWA==
+X-Gm-Message-State: AOAM533Mbg5F/gSy6+dVVbfdGXSeiPE7uvfL2e0fuUUPoR1xdz7T/0Nu
+        qkqq8tt95MsuhKl+hiGJPstlX5lHj1mMyRZ4JmA=
+X-Google-Smtp-Source: ABdhPJyEP1mxvBRMDuroTXDqndg6rzhE79CqUqtkf1AMB0dPxcMuxXUiniL437WqmQsWlggOdXwC13omtZz3oVyS9sY=
+X-Received: by 2002:a05:6638:3043:: with SMTP id u3mr1150930jak.234.1640071914240;
+ Mon, 20 Dec 2021 23:31:54 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:622a:199c:0:0:0:0 with HTTP; Thu, 16 Dec 2021 03:42:38
+Received: by 2002:a4f:f1c2:0:0:0:0:0 with HTTP; Mon, 20 Dec 2021 23:31:53
  -0800 (PST)
-Reply-To: selviasantiago1@gmail.com
-From:   Selvia Santiago <mariamatinez119@gmail.com>
-Date:   Thu, 16 Dec 2021 11:42:38 +0000
-Message-ID: <CAONDhKPEx+GKyJvnzbcBxs-brt1E0c+b0jdG7u7Uf+rYJ1N+fA@mail.gmail.com>
-Subject: Urgent
+Reply-To: christinemuller959@gmail.com
+From:   Christine <judith443.uriah@gmail.com>
+Date:   Tue, 21 Dec 2021 08:31:53 +0100
+Message-ID: <CAGOAMFpN_adOVfxCYNdYrnh6WH2LxyFqUsvw3gGDS5LpvBt-1g@mail.gmail.com>
+Subject: MESSAGGIO DELL'OSPEDALE / HOSPITAL MESSAGE
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
--- 
-Urgent
+--=20
+I miei umili saluti
 
-I am Mrs. Selvia Santiago from Abidjan, Cote D'Ivoire, I am a widow
-suffering from long time illness (Cancer), there is funds I inherited
-from my late loving husband Mr. Santiago Carlos, the sum of (US$2.7
-Million Dollars) which he deposited in bank before his death, I need a
-honest and Faithful person that can use these funds for humanity work.
+Mio buon amico, come stai, ho un fondo di beneficenza che doner=C3=B2 con
+il tuo aiuto. Prova a contattarmi per maggiori informazioni. Ti dir=C3=B2
+di pi=C3=B9 su di me e sui miei piani con questi soldi quando avr=C3=B2 tue
+notizie.
 
-I took this decision because I don't have any child that will inherit
-this money and I don't want a situation where this money will be used
-in an ungodly way. That is why I am taking this decision, and my
-doctor has confirmed to me that I have less than two weeks to live,
-having known my condition I decided to donate this fund to a charity
-or individual that will utilize this money to assist the poor and the
-needy in accordance to my instructions.
+Aspetto una tua risposta per darti maggiori dettagli.
 
-I want you to use 70% of this funds for orphanages, school, church,
-widows, propagating the word and other humanity works,The remaining
-30% should be yours for your efforts as the new beneficiary.
 
-Please if you would be able to use these funds for humanity work
-kindly reply me. As soon as I have received your response, I will give
-you further directives on how you are to go about the claims of the
-said funds.
+----------------------------
 
-Remain blessed.
-Mrs Selvia Santiago.
+my humble regards,
+
+Dear friend how are you, I have a charitable donation fund that I want
+to donate by helping you. Please try to get back to me for more
+information. I will tell you more about myself and my plans with this
+money when I hear from you.
+
+Awaiting your reply to give me more details.
