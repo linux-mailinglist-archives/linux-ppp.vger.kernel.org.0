@@ -2,160 +2,90 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F2704851FF
-	for <lists+linux-ppp@lfdr.de>; Wed,  5 Jan 2022 12:48:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 317F948535E
+	for <lists+linux-ppp@lfdr.de>; Wed,  5 Jan 2022 14:19:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239777AbiAELsr (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 5 Jan 2022 06:48:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236481AbiAELsq (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 5 Jan 2022 06:48:46 -0500
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DBEDC061761;
-        Wed,  5 Jan 2022 03:48:46 -0800 (PST)
-Received: by mail-pj1-x1029.google.com with SMTP id n30-20020a17090a5aa100b001b2b6509685so6103547pji.3;
-        Wed, 05 Jan 2022 03:48:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HiQjnU8Hrsk+QJPvgwtUIOLZeuz8Cq0lnUr949yvq/c=;
-        b=qT/iBa9FzrOJnedSIDr+3rWnxwcEvPW7Qb3QnFLNCEgjF4uCOCoeaxfpMG2gjFLMHe
-         wz4zCHbkR2NKHUMgs+VTMU4yg5G4/6nEeg3TFDgRkTIO1g7DkqDSUAuOVpmz9nFijZWx
-         GMzHaQ4tUxC6NiO4L9YCcz48TeYoJKseMdwTgY1tLT+OjKzXJTHq71cV54QD+Qvt/z4q
-         vZiO9I0mWFEeFB3IYJvzRviOWkeOEtKbjSVUS2tWQvpLrqSkfDQXHGdVwUdPPgpDz/b6
-         FSPP9jA4Lg/7QxxEqSAC3CRRQvyxArzcG0+56jK0vf8WsPv9lLQjBynSBCJrYCELALtq
-         MMGQ==
+        id S237074AbiAENTg (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 5 Jan 2022 08:19:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43786 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240107AbiAENTe (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 5 Jan 2022 08:19:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1641388773;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7mMRb17QN6XzgQlrzxtDXtE5EDZ+dGN19op16rmPahE=;
+        b=RMaSahzGIMuObIbLltF1Xl0myVumFN+FlTexaZRtozjGnaiX/uCbijc6dziMswE8DFTIFC
+        m3bw/Tzs1ISsO705oAePQo2LA69wRmmmbvUajg9mZgs832omhtoV9WjFx1eUR2hr31cCnH
+        76kQGK9mYzWtXHysDiTMNvQ8JRu300I=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-194-gAh1xYBSNladZZT9v4fHNw-1; Wed, 05 Jan 2022 08:19:32 -0500
+X-MC-Unique: gAh1xYBSNladZZT9v4fHNw-1
+Received: by mail-wr1-f70.google.com with SMTP id k4-20020adfc704000000b001a32d86a772so9101541wrg.5
+        for <linux-ppp@vger.kernel.org>; Wed, 05 Jan 2022 05:19:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HiQjnU8Hrsk+QJPvgwtUIOLZeuz8Cq0lnUr949yvq/c=;
-        b=frVW1+YPzfDJ0le6HmCG0MddkuH6qzFcymGwZKnBuT9d/uv5DV/VnLB/z32k1Y/w2R
-         RGjb9xJVW+DylancF3/8UsaLClmTn5kj8Pd/wpciIIsuXbU49gO/s9O3kksmq0wgZ/ZF
-         zAPNZjRqZPqhQ2yqA5By9BhKIx3pcT3KqlrI9S1YA3v0OrDxDmOzoNwV3wfx3SsOzU/3
-         R+xEtwT3/j0mixfTXX7yIlNKD0fifeiVgGYj2il/XswQB9Q7IRqbQfnlLdpziW8W4agO
-         0PxZnxucKvMLA/CNP83+wuwbYUyyd9gYxDHey0QMLKunLdFGBTiKYAUXAcvb97I6/Cd4
-         1FBw==
-X-Gm-Message-State: AOAM531XdDz3/l+5jCTBpE4MAizXtDSrSyn9iXh6P4MbJ7a1EdwpT/pU
-        EIaglBJc4V0kzeputYv/SAg=
-X-Google-Smtp-Source: ABdhPJx0gYWFxYbderN+4MEKKuNA1qNGlwigWEAaCU7JzPzhqtSqlmAuMKFD4pbEuE6rCDr12Xp3ww==
-X-Received: by 2002:a17:90a:656:: with SMTP id q22mr3667043pje.74.1641383326047;
-        Wed, 05 Jan 2022 03:48:46 -0800 (PST)
-Received: from edumazet1.svl.corp.google.com ([2620:15c:2c4:201:af04:a4cf:7c72:9c40])
-        by smtp.gmail.com with ESMTPSA id o7sm44567181pfu.108.2022.01.05.03.48.45
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7mMRb17QN6XzgQlrzxtDXtE5EDZ+dGN19op16rmPahE=;
+        b=12tMpV+pbwfhYstMY/ZXSnjLkXl06kG9O0uhdR9/40vXLT/5SR9zO8JVdPBVoceR6q
+         W3PXq+xJ8d8tYlBWBFEkP98ZNiz3jMr3EZs7Xu52/YvOGCrPeg0MhWq+S2/LJPdJAGTT
+         AdRRkbmS22kozdm3XX8tRpuxFUIOK1nrIoWyGBW5J1vNYNMicpqByG8k6pCyheJ78B1/
+         Mk2fMDODIa+Vl5aYrsifvX8MZBYX4tPVhbSkKlr968VIEyG6M3PPmSvn/qiJf4lCqoMx
+         Lhsve7BrINUMlC/gQdNMg7Ba5ToDwH/cLIv5AUsHrqmQESbzd6twAD1PR6Fj8rN1efB/
+         g4bQ==
+X-Gm-Message-State: AOAM531zJ96rz6rq8ziwzYgckDoetWBEipu5VP607+zJS4lnmUCoR2Gk
+        bhlyrKg0xWsmYnkjBFTHWHe8DbOY+Z/+SxWve4peUcc/8sopUW6poZ1Qf+Ljpi6SCcuxeytTgzU
+        UAmERfFSIkqW8NS1+d6zc
+X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr46890005wrs.527.1641388771552;
+        Wed, 05 Jan 2022 05:19:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxQScj6hdnqqFA+e8E8PLZfTEJbd+OlNtelJwRlLiyuB+9CZ+3oM6u8DVU0ok36Nic/ew5TmQ==
+X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr46889990wrs.527.1641388771377;
+        Wed, 05 Jan 2022 05:19:31 -0800 (PST)
+Received: from pc-1.home (2a01cb058d24940001d1c23ad2b4ba61.ipv6.abo.wanadoo.fr. [2a01:cb05:8d24:9400:1d1:c23a:d2b4:ba61])
+        by smtp.gmail.com with ESMTPSA id h204sm2670787wmh.33.2022.01.05.05.19.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jan 2022 03:48:45 -0800 (PST)
-From:   Eric Dumazet <eric.dumazet@gmail.com>
-To:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev <netdev@vger.kernel.org>,
+        Wed, 05 Jan 2022 05:19:30 -0800 (PST)
+Date:   Wed, 5 Jan 2022 14:19:29 +0100
+From:   Guillaume Nault <gnault@redhat.com>
+To:     Eric Dumazet <eric.dumazet@gmail.com>
+Cc:     "David S . Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        netdev <netdev@vger.kernel.org>,
         Eric Dumazet <edumazet@google.com>,
-        Eric Dumazet <eric.dumazet@gmail.com>,
         Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org,
         syzbot <syzkaller@googlegroups.com>
-Subject: [PATCH net] ppp: ensure minimum packet size in ppp_write()
-Date:   Wed,  5 Jan 2022 03:48:42 -0800
-Message-Id: <20220105114842.2380951-1-eric.dumazet@gmail.com>
-X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
+Subject: Re: [PATCH net] ppp: ensure minimum packet size in ppp_write()
+Message-ID: <20220105131929.GA17823@pc-1.home>
+References: <20220105114842.2380951-1-eric.dumazet@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220105114842.2380951-1-eric.dumazet@gmail.com>
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-From: Eric Dumazet <edumazet@google.com>
+On Wed, Jan 05, 2022 at 03:48:42AM -0800, Eric Dumazet wrote:
+> From: Eric Dumazet <edumazet@google.com>
+> 
+> It seems pretty clear ppp layer assumed user space
+> would always be kind to provide enough data
+> in their write() to a ppp device.
+> 
+> This patch makes sure user provides at least
+> 2 bytes.
+> 
+> It adds PPP_PROTO_LEN macro that could replace
+> in net-next many occurrences of hard-coded 2 value.
 
-It seems pretty clear ppp layer assumed user space
-would always be kind to provide enough data
-in their write() to a ppp device.
+The PPP header can be compressed to only 1 byte, but since 2 bytes is
+assumed in several parts of the code, rejecting such packets in
+ppp_xmit() is probably the best we can do.
 
-This patch makes sure user provides at least
-2 bytes.
-
-It adds PPP_PROTO_LEN macro that could replace
-in net-next many occurrences of hard-coded 2 value.
-
-I replaced only one occurrence to ease backports
-to stable kernels.
-
-The bug manifests in the following report:
-
-BUG: KMSAN: uninit-value in ppp_send_frame+0x28d/0x27c0 drivers/net/ppp/ppp_generic.c:1740
- ppp_send_frame+0x28d/0x27c0 drivers/net/ppp/ppp_generic.c:1740
- __ppp_xmit_process+0x23e/0x4b0 drivers/net/ppp/ppp_generic.c:1640
- ppp_xmit_process+0x1fe/0x480 drivers/net/ppp/ppp_generic.c:1661
- ppp_write+0x5cb/0x5e0 drivers/net/ppp/ppp_generic.c:513
- do_iter_write+0xb0c/0x1500 fs/read_write.c:853
- vfs_writev fs/read_write.c:924 [inline]
- do_writev+0x645/0xe00 fs/read_write.c:967
- __do_sys_writev fs/read_write.c:1040 [inline]
- __se_sys_writev fs/read_write.c:1037 [inline]
- __x64_sys_writev+0xe5/0x120 fs/read_write.c:1037
- do_syscall_x64 arch/x86/entry/common.c:51 [inline]
- do_syscall_64+0x54/0xd0 arch/x86/entry/common.c:82
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-Uninit was created at:
- slab_post_alloc_hook mm/slab.h:524 [inline]
- slab_alloc_node mm/slub.c:3251 [inline]
- __kmalloc_node_track_caller+0xe0c/0x1510 mm/slub.c:4974
- kmalloc_reserve net/core/skbuff.c:354 [inline]
- __alloc_skb+0x545/0xf90 net/core/skbuff.c:426
- alloc_skb include/linux/skbuff.h:1126 [inline]
- ppp_write+0x11d/0x5e0 drivers/net/ppp/ppp_generic.c:501
- do_iter_write+0xb0c/0x1500 fs/read_write.c:853
- vfs_writev fs/read_write.c:924 [inline]
- do_writev+0x645/0xe00 fs/read_write.c:967
- __do_sys_writev fs/read_write.c:1040 [inline]
- __se_sys_writev fs/read_write.c:1037 [inline]
- __x64_sys_writev+0xe5/0x120 fs/read_write.c:1037
- do_syscall_x64 arch/x86/entry/common.c:51 [inline]
- do_syscall_64+0x54/0xd0 arch/x86/entry/common.c:82
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Eric Dumazet <edumazet@google.com>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: linux-ppp@vger.kernel.org
-Reported-by: syzbot <syzkaller@googlegroups.com>
----
- drivers/net/ppp/ppp_generic.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index 1180a0e2445fbfb3204fea785f1c1cf48bc77141..3ab24988198feaa147397f9ce231815ed1dfa293 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -69,6 +69,8 @@
- #define MPHDRLEN	6	/* multilink protocol header length */
- #define MPHDRLEN_SSN	4	/* ditto with short sequence numbers */
- 
-+#define PPP_PROTO_LEN	2
-+
- /*
-  * An instance of /dev/ppp can be associated with either a ppp
-  * interface unit or a ppp channel.  In both cases, file->private_data
-@@ -497,6 +499,9 @@ static ssize_t ppp_write(struct file *file, const char __user *buf,
- 
- 	if (!pf)
- 		return -ENXIO;
-+	/* All PPP packets should start with the 2-byte protocol */
-+	if (count < PPP_PROTO_LEN)
-+		return -EINVAL;
- 	ret = -ENOMEM;
- 	skb = alloc_skb(count + pf->hdrlen, GFP_KERNEL);
- 	if (!skb)
-@@ -1764,7 +1769,7 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
- 	}
- 
- 	++ppp->stats64.tx_packets;
--	ppp->stats64.tx_bytes += skb->len - 2;
-+	ppp->stats64.tx_bytes += skb->len - PPP_PROTO_LEN;
- 
- 	switch (proto) {
- 	case PPP_IP:
--- 
-2.34.1.448.ga2b2bfdf31-goog
+Acked-by: Guillaume Nault <gnault@redhat.com>
 
