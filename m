@@ -2,29 +2,29 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0502C498D8E
-	for <lists+linux-ppp@lfdr.de>; Mon, 24 Jan 2022 20:34:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A01A498C81
+	for <lists+linux-ppp@lfdr.de>; Mon, 24 Jan 2022 20:23:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353155AbiAXTdR (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 24 Jan 2022 14:33:17 -0500
-Received: from ams.source.kernel.org ([145.40.68.75]:54226 "EHLO
-        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352872AbiAXTbN (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 24 Jan 2022 14:31:13 -0500
+        id S1349972AbiAXTW6 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 24 Jan 2022 14:22:58 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:43854 "EHLO
+        dfw.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1346786AbiAXTQ3 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 24 Jan 2022 14:16:29 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C205DB810AF;
-        Mon, 24 Jan 2022 19:31:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D93D3C340E5;
-        Mon, 24 Jan 2022 19:31:09 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 43A6E61320;
+        Mon, 24 Jan 2022 19:16:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19921C340E7;
+        Mon, 24 Jan 2022 19:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1643052670;
-        bh=Sk9A/4JkAGKM92L/GmL40lQafKcgq0e2rnxGxsxYeoQ=;
+        s=korg; t=1643051788;
+        bh=EmSmdj2VP4v+XjAGMC1f/EnmITY0uUNRs0WMJ0+ywm4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=agDew632/Z7VCT2478pPbK5rDfcvW4nMuHOs6dKPO+0rLlOGX7gyiB/gWJej8SSo1
-         VMQTdiyA7QITZvL/CX48pTCsqW528zzDlNxZ/gWNBhfE2E4OakVU//JrVMOkWCInDS
-         MSYEAquqaEybzUc0Ms8QFuIi3D8wNaCGr1Ml98ng=
+        b=MUdkSmN7OUnMb11iGzNLTWmSg/UZWETPVtorcEmIRrBgXzp2r2TRfQBi4SbQtHbp2
+         9W5Y4B4MYtHDKxOt/7CKyUns7/X5P69Y2ZH8w6KGrWEC70RwvfKntYLQKV4sE0fV0C
+         td3E+ZCJpViD+DsWMEXMFa9RyGhAj6+3mZxQS8T0=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -34,12 +34,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Guillaume Nault <gnault@redhat.com>,
         "David S. Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.4 103/320] ppp: ensure minimum packet size in ppp_write()
-Date:   Mon, 24 Jan 2022 19:41:27 +0100
-Message-Id: <20220124183957.223371972@linuxfoundation.org>
+Subject: [PATCH 4.19 088/239] ppp: ensure minimum packet size in ppp_write()
+Date:   Mon, 24 Jan 2022 19:42:06 +0100
+Message-Id: <20220124183945.918547329@linuxfoundation.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220124183953.750177707@linuxfoundation.org>
-References: <20220124183953.750177707@linuxfoundation.org>
+In-Reply-To: <20220124183943.102762895@linuxfoundation.org>
+References: <20220124183943.102762895@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -113,10 +113,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index c6c41a7836c93..a085213dc2eaa 100644
+index dc9de8731c564..3f335b57d5cde 100644
 --- a/drivers/net/ppp/ppp_generic.c
 +++ b/drivers/net/ppp/ppp_generic.c
-@@ -69,6 +69,8 @@
+@@ -73,6 +73,8 @@
  #define MPHDRLEN	6	/* multilink protocol header length */
  #define MPHDRLEN_SSN	4	/* ditto with short sequence numbers */
  
@@ -125,7 +125,7 @@ index c6c41a7836c93..a085213dc2eaa 100644
  /*
   * An instance of /dev/ppp can be associated with either a ppp
   * interface unit or a ppp channel.  In both cases, file->private_data
-@@ -498,6 +500,9 @@ static ssize_t ppp_write(struct file *file, const char __user *buf,
+@@ -502,6 +504,9 @@ static ssize_t ppp_write(struct file *file, const char __user *buf,
  
  	if (!pf)
  		return -ENXIO;
@@ -135,7 +135,7 @@ index c6c41a7836c93..a085213dc2eaa 100644
  	ret = -ENOMEM;
  	skb = alloc_skb(count + pf->hdrlen, GFP_KERNEL);
  	if (!skb)
-@@ -1544,7 +1549,7 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
+@@ -1550,7 +1555,7 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
  	}
  
  	++ppp->stats64.tx_packets;
