@@ -1,91 +1,73 @@
 Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83BFF4A51A9
-	for <lists+linux-ppp@lfdr.de>; Mon, 31 Jan 2022 22:39:50 +0100 (CET)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 7D5184AACAC
+	for <lists+linux-ppp@lfdr.de>; Sat,  5 Feb 2022 22:16:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381296AbiAaVjp (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 31 Jan 2022 16:39:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51618 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381180AbiAaVi1 (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 31 Jan 2022 16:38:27 -0500
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DA5DC06173D
-        for <linux-ppp@vger.kernel.org>; Mon, 31 Jan 2022 13:38:20 -0800 (PST)
-Received: by mail-oi1-x244.google.com with SMTP id m10so4373892oie.2
-        for <linux-ppp@vger.kernel.org>; Mon, 31 Jan 2022 13:38:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=RcCyF58LaRxi/j1nHAT0ApLeXmQ9s66f3iMVqhPacvY=;
-        b=dEuqzCa7Zlz6s4mRGbRbRWXXanD59qsT+xmKk7tBbCVL8shmNgt9pnuL3r3GZQALql
-         Y63DqHUGCnZO0yzAtzp7ZNS2CuC8pMKUMaMtNqE3s9gB45FDt9/C7CdeYDqwmv7HZJbj
-         h6fZit5aG7dGp8FvXKTscfcGshyIKAGZl/Y4NFvWe+GDkg5MDDBzPsbgzyvzZ7B1mfX4
-         ltlQ0tRJrdsWlCdvxMPpvS+PhwNDM1Zp7MYHnfnHzWMTP4bbhrhxbQSB0Xw9LPR0gSp/
-         L2Vas/DZH4ZiZyplfhihUfOHaOD2GjtH1tg3ZI6lVgxDcwRnl8d4U3qCI5tj+07J/ZXk
-         SzvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=RcCyF58LaRxi/j1nHAT0ApLeXmQ9s66f3iMVqhPacvY=;
-        b=6azlv5u7Mt7/fkT6CI5ZNn9j7eORNtGz50+rHnU1vceD49EXtlvMUF10+f7loVd1dw
-         KGkn5G8W8242PhzsFdk4nFVJoHZnrIDk6u+JVVDUhmOS83PXe6X7z6hZtvH8QjVEJzNX
-         FZJYnSsqri5Hw91KAan46CBPY2neE1CE89DKeuEmGdSMw3WshHuBjE1argoOtkx5a+gI
-         sx+Z5qd+bBtkyJvp59WNEp1I02Jqybdz9SlxJIABtZrwX5cvhPat734vdMycBHe1a01P
-         xxZf5by4ARnOwOJqAvU5KybrAm35kPzXVQJk8Fj9sFb4q7LTviNtGcQkGdQJpSnrwD53
-         hMVg==
-X-Gm-Message-State: AOAM5301uen8UdKYuYPfQsJxl1yhNXb0UuVl+NuW4nqfUpKg/9//QVaW
-        +EkhpmXi+lB0c1v686zwUmlGs0WTO4RBmTqzjSokIoNaOpIBoQ==
-X-Google-Smtp-Source: ABdhPJzjG4nHBnpm1YeRsvfpKVsM6nmNJIeFJaztEJrNHMe+iyJctx1iGavTAT23A2IhS4j6LtYbunRiUquAn1xj08o=
-X-Received: by 2002:a54:4490:: with SMTP id v16mr14818764oiv.157.1643665089421;
- Mon, 31 Jan 2022 13:38:09 -0800 (PST)
+        id S1381465AbiBEVQj (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sat, 5 Feb 2022 16:16:39 -0500
+Received: from [194.99.46.237] ([194.99.46.237]:38529 "EHLO
+        slot0.bluewaterleisure.com" rhost-flags-FAIL-FAIL-OK-OK)
+        by vger.kernel.org with ESMTP id S230287AbiBEVQi (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sat, 5 Feb 2022 16:16:38 -0500
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=bluewaterleisure.com;
+ h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=ker.mon@bluewaterleisure.com;
+ bh=i58X8Dxi52cpWuEMbM1R5AXzZ44=;
+ b=WNS6zem3tes814Ige0PI7IX/hDEHDt6DQJnvWIWs5Q2mwM6uM+xPGiuroGXGIoI8C5yKxt+ZriR+
+   NxTIxlaO34RQRi5Ya+V3/pX40oQjTLNlBJboHE9e+g66uqUlLWHdc+RcqyirFGHdb2/E9rW3Pu0m
+   nsB5IeqpAxL7rvL2aUQFg4IXE62cuoN8qj/5ZkzI9GnZcgh7e+3uHrW/hW1sDEbRai2KGUXxpBe8
+   v1bgzP+St/Ljvm8Bt+1Q2PPhGKEakIDApYOHzyWDHsMOAyutuUukvFLTzEMge4CX9bFK0u6+Egvf
+   kCzd2mb1E9/jC7Dr7dh+xduQ5DoCeJB6Pgprlg==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=bluewaterleisure.com;
+ b=jusSboF/uZp01gQr+SgwEVOgrVa1aGNKDw2Hmpow/t7gqraC3a4EL7CpGZQNj7pq3UZI2eIC+Q8f
+   vSTSoXJs0hQfWYay45APiWoJiNMKKqdBBRr9j4Y4IfPZR6y043NfgOQJnzC2GS7u2MdjZyKPGxs/
+   8m1hTjadyaQz0VXsFM7wyAHMxwC3FXBa4gs7i4qwtUyxAHN+FRgzzuIjzoGrjLBGr1+23pPbGK6b
+   otORXtKxI1VgMA7JMWmR/8LXopc0HhGQs44vsmDAFks3a73MA2aBtxs3COz/DgAe9KGzJ/zJ6WqX
+   5ct/sxvk8ajPq/efh0EX0c13ClTyzhomhRridQ==;
+Reply-To: tomander231@gmail.com
+From:   "Barrister Mustafa" <ker.mon@bluewaterleisure.com>
+To:     linux-ppp@vger.kernel.org
+Subject: Aufmerksamkeit:
+Date:   5 Feb 2022 22:04:27 +0100
+Message-ID: <20220205220427.888410758C7CEA71@bluewaterleisure.com>
 MIME-Version: 1.0
-Received: by 2002:a4a:c30d:0:0:0:0:0 with HTTP; Mon, 31 Jan 2022 13:38:09
- -0800 (PST)
-Reply-To: westerunion909@gmail.com
-From:   "Antonia Lloyd." <anthonylloydatmxxx04@gmail.com>
-Date:   Mon, 31 Jan 2022 13:38:09 -0800
-Message-ID: <CAExPwBBpihjV-rv_-+hYqb1WD3wpSWx81B_Q3ES15U3TXSPsyw@mail.gmail.com>
-Subject: Dear Email ID Owner.(USD$4000 IMF COMPENSATION FUND TO PICK UP TODAY).
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Dear Email ID Owner.
+Lieb linux-ppp,
 
-The IMF is compensating all the email address that was funds as one of
-the ward win Victims and your email address and your name is among the
-listed one of approved to pay the sum of $3.6 million U.S Dollars. We
-have concluded to effect your own payment through Western Union Money
-Transfer for easy pick-up of those funds in good condition,$4000 twice
-daily,till the $3.6 million is completely transferred to you.We now
-need your information where we will be sending the funds,such
-as;Receiver name(Your full Name)address and phone number.Contact
-Western Union agent with this Email: ( westerunion995@gmail.com  ) for
-your payment fund.
+Ich bin Barrister Mustafa Ayvaz, hoffe, diese E-Mail findet Sie=20
+gut. Ich bin Anwalt des verstorbenen Herrn Robert, der aufgrund=20
+des Coronavirus sein Leben verlor, kontaktierte er w=C3=A4hrend seiner=20
+Gesch=C3=A4ftsreise in China. Ich kontaktiere Sie, um mit mir=20
+zusammenzuarbeiten, um die =C3=9Cberweisung eines Fonds von vier=20
+Millionen vierhundertzwanzigtausend Dollar zu sichern, verlie=C3=9F=20
+er.
 
-Ms.Maria Zatto
-E-mail:westerunion995@gmail.com
-Telephone: +229 682 97 169
+Ich habe nach dem n=C3=A4chsten Angeh=C3=B6rigen meines verstorbenen Kunden=
+=20
+gesucht, ohne Erfolg, da ich seinen aktuellen Wohnsitz und seine=20
+Kontaktdaten nicht habe. Als ich suchte, stie=C3=9F ich auf Ihr Profil=20
+mit dem gleichen Nachnamen und am selben Ort mit den N=C3=A4chsten=20
+Angeh=C3=B6rigen. Ich beschloss, dich zu kontaktieren und dich als=20
+Bonafide Next Of Kin zu benutzen.
 
-Contact Ms.Maria,immediately you get this mail through western union
-email address above to enable her speed-up.your payment and release
-the $4000 dollars MTCN today for you to pick up the payment OK.
+Ich bitte Sie um Ihre Zustimmung, Sie als Next Of Kin meines=20
+verstorbenen Kunden zu pr=C3=A4sentieren, da Sie beide den gleichen=20
+Nachnamen tragen. Die Gelder werden dann an Sie als Beg=C3=BCnstigten=20
+in Ihrem Land =C3=BCberwiesen und im Verh=C3=A4ltnis 60:40 geteilt, das=20
+sind 60% f=C3=BCr mich und 40% f=C3=BCr Sie. F=C3=BCr weitere Details=20
+kontaktieren Sie mich bitte sofort f=C3=BCr weitere Informationen =C3=BCber=
+=20
+diese meine E-Mail. 
 
-You are expected to provide us with the details as prescribed below to
-enable safe and easy release of your funds today.
+Danach sende ich Ihnen die Details, wie die Transaktion beginnen=20
+wird
 
-(1)Your Full name:
-(2)Your Phone number:
-(3)Your Country:
-(4)Your Age:
-
-Thank you,
-Dr.Antonia Lloyd.
-Contact Dir.Western Union Money Transfer,
-Cotonou-Benin Republic.
+Gr=C3=BC=C3=9Fe
+Mustafa Ayvaz
