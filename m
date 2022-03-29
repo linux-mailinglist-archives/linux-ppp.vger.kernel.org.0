@@ -2,58 +2,84 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 408A94E96C5
-	for <lists+linux-ppp@lfdr.de>; Mon, 28 Mar 2022 14:35:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ABAD4EB601
+	for <lists+linux-ppp@lfdr.de>; Wed, 30 Mar 2022 00:30:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234694AbiC1MhN convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-ppp@lfdr.de>); Mon, 28 Mar 2022 08:37:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48430 "EHLO
+        id S237383AbiC2Wbr (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 29 Mar 2022 18:31:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242545AbiC1MhN (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 28 Mar 2022 08:37:13 -0400
-X-Greylist: delayed 3382 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 28 Mar 2022 05:35:32 PDT
-Received: from mail.skytrust.co (unknown [103.208.216.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 93DEC4ECFF
-        for <linux-ppp@vger.kernel.org>; Mon, 28 Mar 2022 05:35:32 -0700 (PDT)
-Received: from trust.co ([103.167.92.100]) by skytrust.co with MailEnable ESMTP; Mon, 28 Mar 2022 22:25:28 +1100
-Reply-To: "Private Mail" <dannuar4@gmail.com>
-From:   "Private Mail" <xerox@trust.co>
-To:     linux-ppp@vger.kernel.org
-Subject: Portfolio Management!!
-Date:   28 Mar 2022 12:25:32 +0100
-Message-ID: <20220328122532.68C38C2A22637D63@trust.co>
+        with ESMTP id S232767AbiC2Wbp (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Tue, 29 Mar 2022 18:31:45 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72B067563D;
+        Tue, 29 Mar 2022 15:30:01 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id p12-20020a05600c430c00b0038cbdf52227so2366168wme.2;
+        Tue, 29 Mar 2022 15:30:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:mime-version:content-transfer-encoding
+         :content-description:subject:to:from:date:reply-to;
+        bh=+v//v9bV1cKxYYqp6E5HrJfuFydY/JXcjMGnmfr7lM0=;
+        b=aqDO9b0s4rFbWyQhu08KqzA7mRlaQ2TzL/mNoslu4XdaO+OCcW1SzdwNHbDoZAOyd9
+         d3/j4RQaPaIoH1FSD5p5ZPrWgy+IE1GjAiEJXbpZrX2TVrMuDzyYpEtobJ12h0d/B92H
+         R5qDpYZPPgfSk0opZ94kW7+pbkAwIeb3V5QkIy2VUnPvDAcJ3p0OP3f/yophHVIqXbVc
+         RhumBoMpCglpyOay9MECQOjm2ssOJ3ineGg1d73vbJedCJmHNTxtR+xlIY0gAVIMSGSJ
+         7tbY01M/zEbOd10NBYz/Q6KKxYrM8sJ6b/kF9PtwmtV+SpQioqCmLxr+N7SIq5cIjE9f
+         12Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:mime-version
+         :content-transfer-encoding:content-description:subject:to:from:date
+         :reply-to;
+        bh=+v//v9bV1cKxYYqp6E5HrJfuFydY/JXcjMGnmfr7lM0=;
+        b=o8UXjzetuFbr1yz5awmLsAcRr0xnP7SX/mB1dWJDmJxE4Su9CCYIcgiWD+/LZSwopC
+         RGMbv/oYRzSwz9WNEwu81TsUioVCut4Mg/1vZztG7F0nDnpLT1A5FvtwcNKsisuu54IJ
+         smJnu95GYH1hfr5BrPh9cbQ7uRTssh92/xM9629NXVoFwbEMXs4JBSySIxkcPXAkYlPx
+         b35/QTXCDkfW2ubWaZWY3aIKfwPh9niI2p59KOAL0XMJjrV9c4UuM4WweQ/EfPFFOKtW
+         dRQ/+GQ6yPHPGzW7kjQ+YGkBbNd9BNWeAch7m0AJRu82B0zGCDPaNuj58Qgm1K2uU0gA
+         993A==
+X-Gm-Message-State: AOAM530uCoTgq8YUHhMzavSw+ygjImMF7SVIjWI40UTDia+ivRUdCtEW
+        uz/48+FNeC54XDxmHdWUxKo=
+X-Google-Smtp-Source: ABdhPJzhAaCqjq90Bt/EUr9RedRfOwbmv2czyUkqcXa0y5McDQHqN+v1E4rj4O+0Uo1flGxwp6g55g==
+X-Received: by 2002:a05:600c:2146:b0:38c:ab68:1919 with SMTP id v6-20020a05600c214600b0038cab681919mr1640106wml.52.1648593000119;
+        Tue, 29 Mar 2022 15:30:00 -0700 (PDT)
+Received: from [172.20.10.4] ([102.91.4.187])
+        by smtp.gmail.com with ESMTPSA id p16-20020a5d48d0000000b00205cf199abcsm2851970wrs.46.2022.03.29.15.29.54
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Tue, 29 Mar 2022 15:29:57 -0700 (PDT)
+Message-ID: <62438865.1c69fb81.a7286.bcda@mx.google.com>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,REPTO_419_FRAUD_GM,
-        SPF_HELO_NONE,SPF_NEUTRAL,T_SCC_BODY_TEXT_LINE autolearn=no
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Gefeliciteerd, er is geld aan je gedoneerd
+To:     Recipients <adeboyejofolashade55@gmail.com>
+From:   adeboyejofolashade55@gmail.com
+Date:   Tue, 29 Mar 2022 23:29:49 +0100
+Reply-To: mike.weirsky.foundation003@gmail.com
+X-Spam-Status: No, score=2.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,T_US_DOLLARS_3 autolearn=no
         autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  2.6 REPTO_419_FRAUD_GM Reply-To is known advance fee fraud
-        *      collector mailbox
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [dannuar4[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.8 SPF_NEUTRAL SPF: sender does not match SPF record (neutral)
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: ******
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Hello,
+Beste begunstigde,
 
-You have effective skills in portfolio management.
+ Je hebt een liefdadigheidsdonatie van ($ 10.000.000,00) van Mr. Mike Weirs=
+ky, een winnaar van een powerball-jackpotloterij van $ 273 miljoen.  Ik don=
+eer aan 5 willekeurige personen als je deze e-mail ontvangt, dan is je e-ma=
+il geselecteerd na een spin-ball. Ik heb vrijwillig besloten om het bedrag =
+van $ 10 miljoen USD aan jou te doneren als een van de geselecteerde 5, om =
+mijn winst te verifi=EBren
+ =
 
-We have a private business proposition for you, contact me for 
-more details.
-
-Thank you,
-Datuk. Sip220/3-28-22/A18
+  Vriendelijk antwoord op: mike.weirsky.foundation003@gmail.com
+ Voor uw claim.
