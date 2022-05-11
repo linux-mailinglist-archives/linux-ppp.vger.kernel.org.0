@@ -2,104 +2,113 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C3A2522B46
-	for <lists+linux-ppp@lfdr.de>; Wed, 11 May 2022 06:40:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD1E7522E45
+	for <lists+linux-ppp@lfdr.de>; Wed, 11 May 2022 10:24:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235951AbiEKEkT (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 11 May 2022 00:40:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
+        id S243605AbiEKIYL (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 11 May 2022 04:24:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235636AbiEKEjj (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 11 May 2022 00:39:39 -0400
-Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A27321514C5
-        for <linux-ppp@vger.kernel.org>; Tue, 10 May 2022 21:39:24 -0700 (PDT)
-Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-ed9a75c453so1451151fac.11
-        for <linux-ppp@vger.kernel.org>; Tue, 10 May 2022 21:39:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
-        b=nrkBIDyCffFbQz5WNhQU88q5l+bx8m1CoLNL/nRcxBFZRgp3B2RwRJzpJi69hjmFPQ
-         Eotn36CVTQor8sTwq84btYhQQ+OsypTpYdHIfGkC/Ekjg8a9U0HkQq0T/gbcQg5/if4Y
-         i1yzcJYhTRMm8ny1NIiOYUNRazrfloxlCC/1XVxW2+TG0ItQpx2/G3cXjgMuOALgO1Rc
-         auxKHXwS3ghK6vFFIfR8essc70JXfRi2oIpi3YT/VLqISCMTaVWCOI/Xf0rWfpfTmlnw
-         XgqCFC8jOuHD5AjsEtox3h0b9tzcHlVM0fA1RrJyDFubK9aS707t1BYf/K43qSc4slo4
-         wrQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
-        b=bxkkPGHWVicCZE1V+j2G9pXx4VNOnE8rMxMwh5MNGXNFnIr90LwfL7AHzHzSs3Eot6
-         pXCCpo2L7XKMv5bYODiF+uJamtYdrUSwiKXVgpXSUaiQ1PPYFYKTeoGW502xPMkJoJ/X
-         I4CrHMAuBw/qCw6tI1S795TfVABA9qfAYqRBbnxSW+sOyEAUS2dbQMu2bVxNfMug7QsV
-         VonmumG1S/miTfkVzKOZwrh/674XbhcxuYnfbDJECEHxiqYbB8X0TThItb//eEJuSZNq
-         NMZNnaa3LMJlXUnQtpOCv96swEheEQQv2M6poIEUfkwt6Az8HLnBgXgugqD3ofSrNhKp
-         LIBg==
-X-Gm-Message-State: AOAM53208SWp5DwdX8CMw4xcGKvg8uCiMlArD+WXL7+4nlsJDnWCJKx9
-        7VpIsqigmOeQWIXx3K5LFXlPXbQSwntN0LNPfDDBwrM/msQi8A==
-X-Google-Smtp-Source: ABdhPJwbKHmbnZDflMHBZCcp2YbZAAZvFdPcM4owWeuPIkoxodmwIZJ+Xpgi08ylB1RFXLrw63SQRxJzumbwJKMTxhs=
-X-Received: by 2002:a17:90b:1007:b0:1dc:9862:68af with SMTP id
- gm7-20020a17090b100700b001dc986268afmr3261389pjb.205.1652243951499; Tue, 10
- May 2022 21:39:11 -0700 (PDT)
+        with ESMTP id S243621AbiEKIYL (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 11 May 2022 04:24:11 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF3966687;
+        Wed, 11 May 2022 01:24:09 -0700 (PDT)
+Received: from mail-yb1-f181.google.com ([209.85.219.181]) by
+ mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MQvL7-1nStfM0uhD-00O1RW; Wed, 11 May 2022 10:24:07 +0200
+Received: by mail-yb1-f181.google.com with SMTP id m190so2574877ybf.4;
+        Wed, 11 May 2022 01:24:06 -0700 (PDT)
+X-Gm-Message-State: AOAM530F/rs7V40kHDEiGuNXLmrG/p7lbti7GItpjdQdtPDsDX0Tf/tE
+        ZwKWpgjgof6PPdqA5c39yuZvq0kzhQ+zjD1n7gQ=
+X-Google-Smtp-Source: ABdhPJyFouUq4CPyqHhoX+wyzUMdk5CW1I4lCwx2Vb0ywqtufH4ws3JEs5ZA78mXb7f9SpKUbRnNZIcDW9YXE5YZ5Uk=
+X-Received: by 2002:a25:31c2:0:b0:641:660f:230f with SMTP id
+ x185-20020a2531c2000000b00641660f230fmr21930869ybx.472.1652257445777; Wed, 11
+ May 2022 01:24:05 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:319:0:0:0:0 with HTTP; Tue, 10 May 2022 21:39:10
- -0700 (PDT)
-From:   Private Mail <privatemail1961@gmail.com>
-Date:   Tue, 10 May 2022 21:39:10 -0700
-Message-ID: <CANjAOAiiVcSrSv31FjThCVmeppS54UVvGVj3SRSvMfxOB+T8DA@mail.gmail.com>
-Subject: Have you had this? It is for your Benefit
-To:     undisclosed-recipients:;
+References: <20220509150130.1047016-1-kuba@kernel.org> <CAK8P3a0FVM8g0LG3_mHJ1xX3Bs9cxae8ez7b9qvGOD+aJdc8Dw@mail.gmail.com>
+ <20220509103216.180be080@kernel.org> <9cac4fbd-9557-b0b8-54fa-93f0290a6fb8@schmorgal.com>
+ <CAK8P3a1AA181LqQSxnToSVx0e5wmneUsOKfmnxVMsUNh465C_Q@mail.gmail.com> <d7076f95-b25b-3694-1ec2-9b9ff93633b7@schmorgal.com>
+In-Reply-To: <d7076f95-b25b-3694-1ec2-9b9ff93633b7@schmorgal.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 11 May 2022 10:23:49 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3Tj=aJM_-x17uw1yJ-5+DgKX6APgEaO0sa=aRBKya1XQ@mail.gmail.com>
+Message-ID: <CAK8P3a3Tj=aJM_-x17uw1yJ-5+DgKX6APgEaO0sa=aRBKya1XQ@mail.gmail.com>
+Subject: Re: [PATCH net-next] net: appletalk: remove Apple/Farallon LocalTalk
+ PC support
+To:     Doug Brown <doug@schmorgal.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Jakub Kicinski <kuba@kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Networking <netdev@vger.kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
-        BAYES_50,DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
-        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
-        LOTS_OF_MONEY,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+X-Provags-ID: V03:K1:Z952orSfTHyBgIXeXcsCvkvztAO+z1GduLlvnq7aygZujRIllvc
+ hUFlMYrOZdxt9lwEPuMJecBzlTNrib9a3u9Ow3h5lW+H3yLWs+syKF4GE3HYAHdQkuJ4/O7
+ ba/OhYTIY2ccNzxU6ViK01x9kwwidCH1neRoMV1on/zCXK8wCGzETtiSh2Fp5jlKuyCekUi
+ VcZfXBRPV6LPDQPr7SZgA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OTZcUvRBuKc=:WmoD9sIBRr16VnoGQSyzME
+ 8RvP6ktOq78ojRnfrRfF6RDAQeDYLhgit3zM13qWaUC+DuH7foox/ulDjTsfK9ozt+TkF4ghp
+ 3xLvDY/rWbsaDypIwLrhrWbHXD9fmPsqez1J4wKGplKZmd4O6N/alVmZB4zOLEHJa2jH9gpB+
+ pxwJ0rEVbxPg/TIMT3T5hfgqcJFpulas+LejUOa6mAiENzYBeDNtBm0HDNYajyJ4VFR3CBb6y
+ 5QwFiy7Kqx6rBDVok0uHEb2G8CXj+QA56IO9VPC6TdYB58AnfUQny7oOdpkCVoIV9UmKHbnrV
+ Inig72kmNfE/kokOBnJYg7IWT4HC4ZH2bZS0mkJR1/bCSkO0WWz6OiT4EORGKYh1dK9D2jGk3
+ XWyjqn508Oep5btcvIxh9UZK1gCp2a9RYrrobNznvRNgdXG+A0qwiVeBT2k4bRGxz8gHWTY2T
+ l4D82Z1xDhF8iDeGwsKpcq/Le7kI70E6sU0YkoZ4xrVWPsrW+8sMGX/SA+aRhyw+nAhgYR/qg
+ Iiq0lGIFLI2YD4rHfkiFei/HzH6/JJBCqukCJV+5+9+aow/azZs7AQD2mpjM7Gc4yFHNE5d3g
+ th3znq+GymAL+kVwcXtWmbTyeNGC96lW1EPkBgb7tqQPtOMze4492ZDKhELkNDgHCYgjyhn7h
+ h/9DeaavpwCriJM04Vqy+nQi7oJgLXaf4JnZJx9jWj9hizCgYOpF5tner/TOC7E7FwNI=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Our Ref: BG/WA0151/2022
+On Wed, May 11, 2022 at 2:20 AM Doug Brown <doug@schmorgal.com> wrote:
+>
+> On 5/9/2022 11:48 PM, Arnd Bergmann wrote:
+> > If I understand this correct, this means we could remove all of
+> > drivers/net/appletalk/ except for the CONFIG_ATALK Kconfig entry,
+> > and also remove net/appletalk/dev.c and a few bits of net/appletalk
+> > that reference localtalk device structures and their ioctls, right?
+> Yes, I believe so. At that point, would Kconfig get moved to
+> net/appletalk instead? (Just wondering out of my own curiosity!)
+> > What about appletalk over PPP (phase1 probing in aarp.c) and
+> > ARPHRD_LOCALTLK support in drivers/net/tun.c? Are these still
+> > useful without localtalk device support?
+>
+> I don't feel qualified enough to answer those ones definitively, but it
+> looks to me like the ARPHRD_LOCALTLK support in net/tun.c could be
+> stripped out, because tun_get_addr_len only gets called on a struct
+> net_device's type, and stripping out LocalTalk would make that condition
+> impossible (I think?)
 
-Dear Beneficiary
+Right, I came to the same conclusion here.
 
-Subject: An Estate of US$15.8 Million
+> The AppleTalk over PPP stuff probably allows Linux to be an AppleTalk
+> Remote Access server. I'm not aware of anyone using that capability, (or
+> if it even still works) but I would consider it distinct from LocalTalk.
 
-Blount and Griffin Genealogical Investigators specializes in probate
-research to locate missing heirs and beneficiaries to estates in the
-United Kingdom and Europe.
+I dug around in the early git history for this one, but I'm also not
+sure if this is meant to still work. I see that PPPTALK support was added
+to net/appletalk by Alan Cox in linux-1.3.78 (1996), based on the localtalk
+support, and it continues to exist there along ethertalk and localtalk.
 
-We can also help you find wills, obtain copies of certificates, help
-you to administer an estate, as well as calculating how an estate,
-intestacy or trust should be distributed.
+I also looked at the git history for the pppd user space, and I find no
+indication of appletalk ever being supported there, this all looks
+IPv4/IPv6 specific. There was support for PPP_IPX until it was
+dropped this year (the kernel side got removed in 2018), but never
+for PPP_AT.
+Adding Paul Mackerras to Cc, he might know more about it.
 
-You may be entitled to a large pay out for an inheritance in Europe
-worth US$15.8 million. We have discovered an estate belonging to the
-late Depositor has remained unclaimed since he died in 2011 and we
-have strong reasons to believe you are the closest living relative to
-the deceased we can find.
+> I would definitely be happy to test any patches to make sure that
+> EtherTalk still works with netatalk afterward!
 
-You may unknowingly be the heir of this person who died without
-leaving a will (intestate). We will conduct a probate research to
-prove your entitlement, and can submit a claim on your behalf all at
-no risk to yourselves.
-
-Our service fee of 10% will be paid to us after you have received the estate.
-
-The estate transfer process should take just a matter of days as we
-have the mechanism and expertise to get this done very quickly. This
-message may come to you as a shock, however we hope to work with you
-to transfer the estate to you as quickly as possible.
-
-Feel free to email our senior case worker Mr. Malcolm Casey on email:
-malcolmcasey68@yahoo.com for further discussions.
-
-With warm regards,
-
-Mr. Blount W. Gort, CEO.
-Blount and Griffin Associates Inc
+       Arnd
