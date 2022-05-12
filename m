@@ -2,113 +2,73 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD1E7522E45
-	for <lists+linux-ppp@lfdr.de>; Wed, 11 May 2022 10:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E3EF524BDB
+	for <lists+linux-ppp@lfdr.de>; Thu, 12 May 2022 13:41:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243605AbiEKIYL (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 11 May 2022 04:24:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59176 "EHLO
+        id S239947AbiELLlj (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 12 May 2022 07:41:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243621AbiEKIYL (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 11 May 2022 04:24:11 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF3966687;
-        Wed, 11 May 2022 01:24:09 -0700 (PDT)
-Received: from mail-yb1-f181.google.com ([209.85.219.181]) by
- mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MQvL7-1nStfM0uhD-00O1RW; Wed, 11 May 2022 10:24:07 +0200
-Received: by mail-yb1-f181.google.com with SMTP id m190so2574877ybf.4;
-        Wed, 11 May 2022 01:24:06 -0700 (PDT)
-X-Gm-Message-State: AOAM530F/rs7V40kHDEiGuNXLmrG/p7lbti7GItpjdQdtPDsDX0Tf/tE
-        ZwKWpgjgof6PPdqA5c39yuZvq0kzhQ+zjD1n7gQ=
-X-Google-Smtp-Source: ABdhPJyFouUq4CPyqHhoX+wyzUMdk5CW1I4lCwx2Vb0ywqtufH4ws3JEs5ZA78mXb7f9SpKUbRnNZIcDW9YXE5YZ5Uk=
-X-Received: by 2002:a25:31c2:0:b0:641:660f:230f with SMTP id
- x185-20020a2531c2000000b00641660f230fmr21930869ybx.472.1652257445777; Wed, 11
- May 2022 01:24:05 -0700 (PDT)
+        with ESMTP id S1353368AbiELLk6 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 12 May 2022 07:40:58 -0400
+X-Greylist: delayed 23283 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 May 2022 04:40:53 PDT
+Received: from mail.pekanbaru.go.id (mail.pekanbaru.go.id [103.131.245.194])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDAACBA7
+        for <linux-ppp@vger.kernel.org>; Thu, 12 May 2022 04:40:49 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.pekanbaru.go.id (Postfix) with ESMTP id 4DB6598ADEB;
+        Thu, 12 May 2022 10:45:51 +0700 (WIB)
+Received: from mail.pekanbaru.go.id ([127.0.0.1])
+        by localhost (mail.pekanbaru.go.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id HI0EQ6AWy0UU; Thu, 12 May 2022 10:45:50 +0700 (WIB)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.pekanbaru.go.id (Postfix) with ESMTP id 3997698AE12;
+        Thu, 12 May 2022 10:45:50 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.pekanbaru.go.id 3997698AE12
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pekanbaru.go.id;
+        s=EA5C5C9E-4206-11EC-835B-1ADACEA726A0; t=1652327150;
+        bh=WgQd2bW8hb2KeIDNbeIeW1Bb4lp6m29iibMhAQT/egc=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=NxjTOh0KvonBLUtUxBQdOHAkGfwYJZYeznxVmPzIatjIbH9Wl9HjTceBIj78VH9BS
+         hEm6b8el7q9k/aRJFgNp5czzZEwHXGPRgyrfyBvLY0NIV0PNHU+C56S8tkIZ/4dsMC
+         qXLrEm+fgM0AKLX/dAuKWrweMcJwb9jnoUk17bZwFr6sv0KUnHypEnZTNk7OO10EhF
+         yFQojXfGdRV4PiTnKSaqovGAvLyMFivKG/BFUWpfyX5ge/mR6T+9L/RQt1JzAcWKOt
+         PFAoTJ/Qe9u2RA4L0sHLbGEE6H4qUhsIaYsf7suvCjfjv9LCVDleC0Ze76J+DWxUnG
+         KZToDkZBLMJBA==
+X-Virus-Scanned: amavisd-new at mail.pekanbaru.go.id
+Received: from mail.pekanbaru.go.id ([127.0.0.1])
+        by localhost (mail.pekanbaru.go.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id nzX6bfgz3rL8; Thu, 12 May 2022 10:45:50 +0700 (WIB)
+Received: from [192.168.15.101] (unknown [41.79.219.176])
+        by mail.pekanbaru.go.id (Postfix) with ESMTPSA id 8ADDC98ADEB;
+        Thu, 12 May 2022 10:45:38 +0700 (WIB)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-References: <20220509150130.1047016-1-kuba@kernel.org> <CAK8P3a0FVM8g0LG3_mHJ1xX3Bs9cxae8ez7b9qvGOD+aJdc8Dw@mail.gmail.com>
- <20220509103216.180be080@kernel.org> <9cac4fbd-9557-b0b8-54fa-93f0290a6fb8@schmorgal.com>
- <CAK8P3a1AA181LqQSxnToSVx0e5wmneUsOKfmnxVMsUNh465C_Q@mail.gmail.com> <d7076f95-b25b-3694-1ec2-9b9ff93633b7@schmorgal.com>
-In-Reply-To: <d7076f95-b25b-3694-1ec2-9b9ff93633b7@schmorgal.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 11 May 2022 10:23:49 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3Tj=aJM_-x17uw1yJ-5+DgKX6APgEaO0sa=aRBKya1XQ@mail.gmail.com>
-Message-ID: <CAK8P3a3Tj=aJM_-x17uw1yJ-5+DgKX6APgEaO0sa=aRBKya1XQ@mail.gmail.com>
-Subject: Re: [PATCH net-next] net: appletalk: remove Apple/Farallon LocalTalk
- PC support
-To:     Doug Brown <doug@schmorgal.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Jakub Kicinski <kuba@kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Networking <netdev@vger.kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:Z952orSfTHyBgIXeXcsCvkvztAO+z1GduLlvnq7aygZujRIllvc
- hUFlMYrOZdxt9lwEPuMJecBzlTNrib9a3u9Ow3h5lW+H3yLWs+syKF4GE3HYAHdQkuJ4/O7
- ba/OhYTIY2ccNzxU6ViK01x9kwwidCH1neRoMV1on/zCXK8wCGzETtiSh2Fp5jlKuyCekUi
- VcZfXBRPV6LPDQPr7SZgA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OTZcUvRBuKc=:WmoD9sIBRr16VnoGQSyzME
- 8RvP6ktOq78ojRnfrRfF6RDAQeDYLhgit3zM13qWaUC+DuH7foox/ulDjTsfK9ozt+TkF4ghp
- 3xLvDY/rWbsaDypIwLrhrWbHXD9fmPsqez1J4wKGplKZmd4O6N/alVmZB4zOLEHJa2jH9gpB+
- pxwJ0rEVbxPg/TIMT3T5hfgqcJFpulas+LejUOa6mAiENzYBeDNtBm0HDNYajyJ4VFR3CBb6y
- 5QwFiy7Kqx6rBDVok0uHEb2G8CXj+QA56IO9VPC6TdYB58AnfUQny7oOdpkCVoIV9UmKHbnrV
- Inig72kmNfE/kokOBnJYg7IWT4HC4ZH2bZS0mkJR1/bCSkO0WWz6OiT4EORGKYh1dK9D2jGk3
- XWyjqn508Oep5btcvIxh9UZK1gCp2a9RYrrobNznvRNgdXG+A0qwiVeBT2k4bRGxz8gHWTY2T
- l4D82Z1xDhF8iDeGwsKpcq/Le7kI70E6sU0YkoZ4xrVWPsrW+8sMGX/SA+aRhyw+nAhgYR/qg
- Iiq0lGIFLI2YD4rHfkiFei/HzH6/JJBCqukCJV+5+9+aow/azZs7AQD2mpjM7Gc4yFHNE5d3g
- th3znq+GymAL+kVwcXtWmbTyeNGC96lW1EPkBgb7tqQPtOMze4492ZDKhELkNDgHCYgjyhn7h
- h/9DeaavpwCriJM04Vqy+nQi7oJgLXaf4JnZJx9jWj9hizCgYOpF5tner/TOC7E7FwNI=
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Awaiting your response 
+To:     Recipients <waterproject@pekanbaru.go.id>
+From:   waterproject@pekanbaru.go.id
+Date:   Thu, 12 May 2022 04:45:30 +0100
+Reply-To: test@hostnextdoor.com
+Message-Id: <20220512034539.8ADDC98ADEB@mail.pekanbaru.go.id>
+X-Spam-Status: No, score=2.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_BL_SPAMCOP_NET,
+        RCVD_IN_SBL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Wed, May 11, 2022 at 2:20 AM Doug Brown <doug@schmorgal.com> wrote:
->
-> On 5/9/2022 11:48 PM, Arnd Bergmann wrote:
-> > If I understand this correct, this means we could remove all of
-> > drivers/net/appletalk/ except for the CONFIG_ATALK Kconfig entry,
-> > and also remove net/appletalk/dev.c and a few bits of net/appletalk
-> > that reference localtalk device structures and their ioctls, right?
-> Yes, I believe so. At that point, would Kconfig get moved to
-> net/appletalk instead? (Just wondering out of my own curiosity!)
-> > What about appletalk over PPP (phase1 probing in aarp.c) and
-> > ARPHRD_LOCALTLK support in drivers/net/tun.c? Are these still
-> > useful without localtalk device support?
->
-> I don't feel qualified enough to answer those ones definitively, but it
-> looks to me like the ARPHRD_LOCALTLK support in net/tun.c could be
-> stripped out, because tun_get_addr_len only gets called on a struct
-> net_device's type, and stripping out LocalTalk would make that condition
-> impossible (I think?)
+Hi =
 
-Right, I came to the same conclusion here.
 
-> The AppleTalk over PPP stuff probably allows Linux to be an AppleTalk
-> Remote Access server. I'm not aware of anyone using that capability, (or
-> if it even still works) but I would consider it distinct from LocalTalk.
+Did you get my previous email? I have attempted over 3 times to open up com=
+munication with you. Please acknowledge if you receive this email. =
 
-I dug around in the early git history for this one, but I'm also not
-sure if this is meant to still work. I see that PPPTALK support was added
-to net/appletalk by Alan Cox in linux-1.3.78 (1996), based on the localtalk
-support, and it continues to exist there along ethertalk and localtalk.
 
-I also looked at the git history for the pppd user space, and I find no
-indication of appletalk ever being supported there, this all looks
-IPv4/IPv6 specific. There was support for PPP_IPX until it was
-dropped this year (the kernel side got removed in 2018), but never
-for PPP_AT.
-Adding Paul Mackerras to Cc, he might know more about it.
-
-> I would definitely be happy to test any patches to make sure that
-> EtherTalk still works with netatalk afterward!
-
-       Arnd
+Regards
+Morten Friis
