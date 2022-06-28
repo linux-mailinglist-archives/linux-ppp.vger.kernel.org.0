@@ -2,73 +2,67 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9B5C554E60
-	for <lists+linux-ppp@lfdr.de>; Wed, 22 Jun 2022 17:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A7B655E4E0
+	for <lists+linux-ppp@lfdr.de>; Tue, 28 Jun 2022 15:39:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354653AbiFVPEG (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 22 Jun 2022 11:04:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36816 "EHLO
+        id S1346604AbiF1NfI (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 28 Jun 2022 09:35:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358903AbiFVPEB (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 22 Jun 2022 11:04:01 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5B543EAB4
-        for <linux-ppp@vger.kernel.org>; Wed, 22 Jun 2022 08:03:53 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id t21so10093538pfq.1
-        for <linux-ppp@vger.kernel.org>; Wed, 22 Jun 2022 08:03:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=vhZEVnaGNBjosB86GDUW8b2wHjB/+QU31bPXl36TqFE=;
-        b=Jt/qXO7TwQJF3EWuk5p4azKGOCxq/Rzk3KoLqC6Pwff+0tHhs8als9639cidnzFde4
-         ry7ero38QELHA22RBkZWtE0xNRPiiPEWIvKtPd0fZpNhUDrKHRyETW5WgRrbPPmi6/vT
-         vJpxoQNLrGfsMgIfV+PXszjD1nMaBRUe0Gxx0eYZw7YGtSc5pfRkGeshne5cjr5BaKxu
-         3INPcNuWqxw7/0puGY6UuhzUSAv6SoxD7Bz3CVHuDQWru55+lIHO02gOv78FJXnTYNjB
-         rbtWgbiyhkE21LXWR11Bk6fRJOPFFcU92J8XbdNavb7vvb9W0t8MjYRzeI2ufnWOCsiS
-         AGLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=vhZEVnaGNBjosB86GDUW8b2wHjB/+QU31bPXl36TqFE=;
-        b=a6XHqXdhh9p1rqk2Wx9lzCOKexA9Rev35E2SDYnk11o+OYK5H2gUlKC5V2Ke2PNIcd
-         GijjOj18Z8BzB2sahdSjfsPk6YW8BpcJdL1VidwjS8b63B42F5PBN3Sn6gBYvSBeNIxE
-         mps9tAsx0es+LL1SaglX0uTJ9Qy4gDgHAlGWq89dZ5s9F4rddeQ4IkHkQaej46aoQNWR
-         0NSw938U/5A5C808K1DVLCCfkr+EDunXxH8N1WyTROdJ+SP/rkiwq8VN7SB0kPFKxaZl
-         QC8zhCqtu9nk+fcP8wq9E6TmWZuw6nXHn1lfyoYcW36osryfg/7etPb9JsmbJDw3XY3o
-         X8qQ==
-X-Gm-Message-State: AJIora+L4c6FrPsTXJMjF7oGKJpMXP1OPvsuWNoOVHygK46vyp+EuG6G
-        jKJpDk3/CraRsZT/J3KQ4y+q4/NM09GgaGJcG5o=
-X-Google-Smtp-Source: AGRyM1uVFGSnpr+dTCH2B3yi91+xpZWxlNuq532hGAWMLDkFZu1Qrq3wwA6KogrJ63y1ppaQwcWp21NviyeWeo5Xswg=
-X-Received: by 2002:a63:af1c:0:b0:40c:f9fb:deca with SMTP id
- w28-20020a63af1c000000b0040cf9fbdecamr3305128pge.479.1655910232628; Wed, 22
- Jun 2022 08:03:52 -0700 (PDT)
+        with ESMTP id S1345541AbiF1NfF (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Tue, 28 Jun 2022 09:35:05 -0400
+X-Greylist: delayed 3567 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 28 Jun 2022 06:35:01 PDT
+Received: from www2055.sakura.ne.jp (www2055.sakura.ne.jp [59.106.171.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FBD27661;
+        Tue, 28 Jun 2022 06:35:00 -0700 (PDT)
+Received: from fsav315.sakura.ne.jp (fsav315.sakura.ne.jp [153.120.85.146])
+        by www2055.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 25S97Gau026635;
+        Tue, 28 Jun 2022 18:07:16 +0900 (JST)
+        (envelope-from 1955@kkden.co.jp)
+Received: from www2055.sakura.ne.jp (59.106.171.65)
+ by fsav315.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav315.sakura.ne.jp);
+ Tue, 28 Jun 2022 18:07:16 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav315.sakura.ne.jp)
+Received: from www2055.sakura.ne.jp (localhost [127.0.0.1])
+        by www2055.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 25S97Dsm026581;
+        Tue, 28 Jun 2022 18:07:16 +0900 (JST)
+        (envelope-from 1955@kkden.co.jp)
+Received: (from kkden@localhost)
+        by www2055.sakura.ne.jp (8.15.2/8.15.2/Submit) id 25S97DN6026577;
+        Tue, 28 Jun 2022 18:07:13 +0900 (JST)
+        (envelope-from 1955@kkden.co.jp)
+Message-Id: <202206280907.25S97DN6026577@www2055.sakura.ne.jp>
+X-Authentication-Warning: www2055.sakura.ne.jp: kkden set sender to 1955@kkden.co.jp using -f
+Subject: THIS IS VERY CONFIDENTIAL
+From:   Steve Dibenedetto <1955@kkden.co.jp>
+To:     stevedibenedetto17@gmail.com
 MIME-Version: 1.0
-Received: by 2002:a17:903:2308:b0:16a:1b3f:f74b with HTTP; Wed, 22 Jun 2022
- 08:03:51 -0700 (PDT)
-Reply-To: sales0212@asonmedsystemsinc.com
-From:   Prasad Ronni <lerwickfinance7@gmail.com>
-Date:   Wed, 22 Jun 2022 16:03:51 +0100
-Message-ID: <CAFkto5szY9scoLwccBhUx92cgUVnT2cx2c=WmxiOTkm7N_y9gg@mail.gmail.com>
-Subject: Service Needed.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Date:   Tue, 28 Jun 2022 18:07:13 +0900
+Content-Type: text/plain; charset="ISO-2022-JP"
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_50,SPF_HELO_NONE,
+        SPF_NONE,SUBJ_ALL_CAPS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
--- 
-Hi,
 
-Are you currently open to work as our executive company representative
-on contractual basis working remotely? If yes, we will be happy to
-share more details. Looking forward to your response.
+Hello,
 
-Regards,
+My name is Steve Dibenedetto.
+I apologize to have contacted you this way without a direct relationship. There is an opportunity to collaborate with me in the sourcing of some materials needed by our company for production of the different medicines we are researching.
+
+I'm aware that this might be totally outside your professional specialization, but it will be a great source for generating extra revenue. I  discovered a manufacturer who can supply us at a lower rate than our company's previous purchases.
+I will give you more specific details when/if I receive feedback from you showing interest.
+
+Warm Regards  
+Steve Dibenedetto
+Production & Control Manager,
+Green Field Laboratories
+Gothic House, Barker Gate,
+Nottingham, NG1 1JU,
+United Kingdom.
