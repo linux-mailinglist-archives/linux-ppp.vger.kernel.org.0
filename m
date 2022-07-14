@@ -2,138 +2,97 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B69B95721CF
-	for <lists+linux-ppp@lfdr.de>; Tue, 12 Jul 2022 19:34:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9587457473E
+	for <lists+linux-ppp@lfdr.de>; Thu, 14 Jul 2022 10:38:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230044AbiGLReM (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 12 Jul 2022 13:34:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41906 "EHLO
+        id S237515AbiGNIiG (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 14 Jul 2022 04:38:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229976AbiGLReL (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Tue, 12 Jul 2022 13:34:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 72FDEC3AFB
-        for <linux-ppp@vger.kernel.org>; Tue, 12 Jul 2022 10:34:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657647249;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YnYHNlXG4sAUmEFeyzh6YNeY0EHRa/NJXlU0ExFTwhw=;
-        b=LeN0LOk5xO5EDmwLsi6D9VbtzoDO3q9V2wmGRURYa6gOh9RJzebyyU/Q6a6q86lchgVnCP
-        9z5EJ3RGUMBMw2Y8Nh3CTLlccE9crpTAFJs43TBQB1mSVzrgKli4V1djYJQ2N7a9Qtv+mL
-        vf4bmcVuG+xGl0RzioxHv9jNAx8St7U=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-192-2QPQt0w_OPCmZOWhmDac5g-1; Tue, 12 Jul 2022 13:34:08 -0400
-X-MC-Unique: 2QPQt0w_OPCmZOWhmDac5g-1
-Received: by mail-wr1-f71.google.com with SMTP id o1-20020adfba01000000b0021b90bd28d2so1601491wrg.14
-        for <linux-ppp@vger.kernel.org>; Tue, 12 Jul 2022 10:34:08 -0700 (PDT)
+        with ESMTP id S236768AbiGNIhQ (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 14 Jul 2022 04:37:16 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63CBC402C6
+        for <linux-ppp@vger.kernel.org>; Thu, 14 Jul 2022 01:37:13 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id o7so1623670lfq.9
+        for <linux-ppp@vger.kernel.org>; Thu, 14 Jul 2022 01:37:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
+        b=eOKhIHPUU5qPTZbjyQcWfvRUY0zDAP8hnIUzGBjF2Jn5DfdNsbEWN2bt7ALPYmKFVp
+         Dxr1gDHkbIBW6Zt+nHPJYVynuk8AW0yQZ/Zbg6Hs/Db/0s9SnaRXX8dPxs4FUxGCTJqt
+         PUYZva9zdBfTCaw+ACjLsUUgRvbYiV1yKAF3EhOBh+YW55bYBsAw2vjNobpxCrdB648X
+         A9Vj0WSfJubet8viXTg/I9X1Zmn6KwP7YNCJiSogQMOb5VTL9XQBYGsxHSC28kklqMwQ
+         Xqm1mx/as6lOSd/UexvuUJPMkR0uIfSfLSUsGSd7SP6mXh7BeziDYVk18AfHAMhcFado
+         ZNLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=YnYHNlXG4sAUmEFeyzh6YNeY0EHRa/NJXlU0ExFTwhw=;
-        b=VVka8Qk+OxuR8OuzMefFFmU/ATXGGRWRp+9YYQvsA4uhkoDVwUDqhw0UtVLmNLWtjK
-         0wLJOMmxO22udS+BnOKJMNPKBG9WC47VOuXcZauWvzvBUa1ov8lNLExeygVIj9d7qBt6
-         XLA5y8ZS9R42aU5RAL8EwPBJ2387GOWpviXUQnz7PDN3GqbaYGunWK6FATEKly0iVweR
-         3AkS38zv7nTZx7EZnt8FokyCKFBQ4AmXtZKY/PoUSfzXd4OIwKmTcIH5w0Wbn6bq9sGg
-         STjd+hQB4hv9npEGw1M9T0Gp8USI4AKpc5p3cK12Zc6gyLs/18g+9tmDtgWxS+rghwEg
-         eRxA==
-X-Gm-Message-State: AJIora+pxhyu1sAHSFjps47D9HHD8V8x9T5ble4lZFwowM5OrgHpItRM
-        kuZnvuZboNnjmDTQxmJ1QI1ExyorG3pboQuw6eERmjfOKvjadseHwkFRnB4jIGKJdWu3aJvkSWT
-        EJd+QwZo9o8LmAZp4fqG5
-X-Received: by 2002:a5d:64e2:0:b0:21d:38e8:2497 with SMTP id g2-20020a5d64e2000000b0021d38e82497mr21630556wri.142.1657647246900;
-        Tue, 12 Jul 2022 10:34:06 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s+PP4fF7oA8OdWVvLKhyeV68On2eq47evFDSzPrbco4GFV9G3YPeiUG9k5/I7KupkTLDI7PA==
-X-Received: by 2002:a5d:64e2:0:b0:21d:38e8:2497 with SMTP id g2-20020a5d64e2000000b0021d38e82497mr21630530wri.142.1657647246710;
-        Tue, 12 Jul 2022 10:34:06 -0700 (PDT)
-Received: from localhost.localdomain ([185.233.130.50])
-        by smtp.gmail.com with ESMTPSA id j16-20020adfff90000000b0021d76a1b0e3sm8759337wrr.6.2022.07.12.10.34.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 10:34:05 -0700 (PDT)
-Date:   Tue, 12 Jul 2022 19:34:03 +0200
-From:   Guillaume Nault <gnault@redhat.com>
-To:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Cc:     James Carlson <carlsonj@workingcode.com>,
-        Chris Fowler <cfowler@outpostsentinel.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "linux-ppp@vger.kernel.org" <linux-ppp@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ppp: Add rtnl attribute IFLA_PPP_UNIT_ID for specifying
- ppp unit id
-Message-ID: <20220712173403.GC3794@localhost.localdomain>
-References: <20210811180401.owgmie36ydx62iep@pali>
- <20210812092847.GB3525@pc-23.home>
- <20210812134845.npj3m3vzkrmhx6uy@pali>
- <20210812182645.GA10725@pc-23.home>
- <20210812190440.fknfthdk3mazm6px@pali>
- <20210816161114.GA3611@pc-32.home>
- <20210816162355.7ssd53lrpclfvuiz@pali>
- <20210817160525.GA20616@pc-32.home>
- <20210817162155.idyfy53qbxcsf2ga@pali>
- <20220709120906.ymkhn5diywadgrka@pali>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=H3bGT1ZyGPu3PRQJlJHyQI9TvTjBPuNSyHjFOzNfiP0=;
+        b=bolPj7XP2on+Ljwaorilwtlh2oAryRPTYyhInN1IH8Ree8l3XYpNbR6lUXfmNqhXSb
+         T5VFvSFfoy8a7ebOuOgbKPgfxiY3WOywapwuq+Vrlo94qPe0SEH8u7o0UJnMbyq0K+tA
+         Gtx8wdQXK5Rcs8U/HcEJOot3CXZ0cehkTlbgyjDDRa/MVwW5NcCjB8a8m4FoAeJ0pQIU
+         RjFfVCskuVNRXfEvp5rrIS2bOG3nbKk8IFVdlJg0z0n7BlbWS0nsJ0j8SAiZ05h2WYFY
+         bbetfm0Ki2jOhrA5bBIttjE2cHPLRoxT7UT4Ha1vsDRJ+fEW9p5cnOBJjA8CU2nvDlwW
+         XpJQ==
+X-Gm-Message-State: AJIora9Fba5NAUbMm/cgrSWP5EyQRGp5US61AHQJQU4Rb2LRU7JNa4S9
+        7PLNRcKkDn/2Fv9f1nNrrPGCmpi+c10EAymt5ck=
+X-Google-Smtp-Source: AGRyM1suH6kpL0bxxrdPqBdRw7fjg6QmbYsIJ5KtUWeYknhIH8CIkHpjEQ1bnLxbFcENJg0E8wYhVlYhJeESVTPizkI=
+X-Received: by 2002:a05:6512:12c8:b0:489:efbf:18d1 with SMTP id
+ p8-20020a05651212c800b00489efbf18d1mr4734610lfg.192.1657787832538; Thu, 14
+ Jul 2022 01:37:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220709120906.ymkhn5diywadgrka@pali>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+Received: by 2002:a2e:9041:0:0:0:0:0 with HTTP; Thu, 14 Jul 2022 01:37:11
+ -0700 (PDT)
+Reply-To: abdwabbomaddahm@gmail.com
+From:   Abdwabbo Maddah <abdwabbomaddah746@gmail.com>
+Date:   Thu, 14 Jul 2022 09:37:11 +0100
+Message-ID: <CAFC-3icPrpmNqEMcqzAOFvzCPc-r5yv89mNAZ9SsCQvcOZ=+9g@mail.gmail.com>
+Subject: Get back to me... URGENT
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:135 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4791]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [abdwabbomaddah746[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [abdwabbomaddah746[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Sat, Jul 09, 2022 at 02:09:06PM +0200, Pali Rohár wrote:
-> On Tuesday 17 August 2021 18:21:55 Pali Rohár wrote:
-> > On Tuesday 17 August 2021 18:05:25 Guillaume Nault wrote:
-> > > On Mon, Aug 16, 2021 at 06:23:55PM +0200, Pali Rohár wrote:
-> > > > On Monday 16 August 2021 18:11:14 Guillaume Nault wrote:
-> > > > > Do you have plans for adding netlink support to pppd? If so, is the
-> > > > > project ready to accept such code?
-> > > > 
-> > > > Yes, I have already some WIP code and I'm planning to send a pull
-> > > > request to pppd on github for it. I guess that it could be accepted,
-> > > 
-> > > I guess you can easily use the netlink api for cases where the "unit"
-> > > option isn't specified and fall back to the ioctl api when it is. If
-> > > all goes well, then we can extend the netlink api to accept a unit id.
-> > > 
-> > > But what about the lack of netlink feedback about the created
-> > > interface? Are you restricted to use netlink only when the "ifname"
-> > > option is provided?
-> > 
-> > Exactly, this is how I wrote my WIP code...
-> 
-> Sorry for a long delay (I forgot about it). Now I created pull request
-> for pppd https://github.com/ppp-project/ppp/pull/354 which adds support
-> for creating ppp interface via rtnetlink. rtnetlink is used only when
-> ppp unit id was not provided and interface name was provided.
-
-Interesting work. Thanks for working on it!
-
-> > > > specially if there still would be backward compatibility via ioctl for
-> > > > kernels which do not support rtnl API.
-> > > 
-> > > Indeed, I'd expect keeping compatiblitity with old kernels that only
-> > > have the ioctl api to be a must (but I have no experience contributing
-> > > to the pppd project).
-> > > 
-> > > > One of the argument which can be
-> > > > used why rtnl API is better, is fixing issue: atomic creating of
-> > > > interface with specific name.
-> > > 
-> > > Yes, that looks useful.
-> > > 
-> 
-
+-- 
+Dear,
+I had sent you a mail but i don't think you received it that's why am
+writing you again.It is important you get back to me as soon as you
+can.
+Abd-Wabbo Maddah
