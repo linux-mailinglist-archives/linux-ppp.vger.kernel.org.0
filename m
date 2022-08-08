@@ -2,59 +2,47 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C35D58C3FB
-	for <lists+linux-ppp@lfdr.de>; Mon,  8 Aug 2022 09:31:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE5C558D1D7
+	for <lists+linux-ppp@lfdr.de>; Tue,  9 Aug 2022 03:57:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234798AbiHHHbn (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 8 Aug 2022 03:31:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38266 "EHLO
+        id S229986AbiHIB5d (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 8 Aug 2022 21:57:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231756AbiHHHbm (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 8 Aug 2022 03:31:42 -0400
-X-Greylist: delayed 455 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 08 Aug 2022 00:31:41 PDT
-Received: from vps758206.localdomain (51.ip-51-75-30.eu [51.75.30.51])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 154C0391
-        for <linux-ppp@vger.kernel.org>; Mon,  8 Aug 2022 00:31:40 -0700 (PDT)
-Received: by vps758206.localdomain (Postfix, from userid 10005)
-        id 712391852F6; Mon,  8 Aug 2022 09:24:02 +0200 (CEST)
+        with ESMTP id S229739AbiHIB5c (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 8 Aug 2022 21:57:32 -0400
+X-Greylist: delayed 5704 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 08 Aug 2022 18:57:30 PDT
+Received: from h2841734.stratoserver.net (sun-island-camper.de [81.169.245.76])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76BF71D0CF
+        for <linux-ppp@vger.kernel.org>; Mon,  8 Aug 2022 18:57:30 -0700 (PDT)
+Received: by h2841734.stratoserver.net (Postfix, from userid 10001)
+        id D463D2726; Mon,  8 Aug 2022 23:58:52 +0200 (CEST)
 To:     linux-ppp@vger.kernel.org
-Subject: Urna Contact "EIN SCHNELLER UND EFFEKTIVER WEG, UM REICH ZU WERDEN"
-Date:   Mon, 8 Aug 2022 07:24:02 +0000
-From:   Urna <contact@urnawp.com>
-Reply-To: no-reply@thembay.com
-Message-ID: <84575473891aad7186f19f04cfc8c3bf@www.provenceliterie.com>
-X-Mailer: PHPMailer 5.2.27 (https://github.com/PHPMailer/PHPMailer)
+Subject: =?us-ascii?Q?Kryptowahrung_macht_Sie_zum_Milliardar_McBIZ_(G?=  =?us-ascii?Q?radyabido)?=
+Date:   Mon, 8 Aug 2022 21:58:52 +0000
+From:   WordPress <support@mc-biz.de>
+Message-ID: <RAkhNLW3oDJgwsCvti75xkUNRywQC4p4RBd3Ihi3KLE@mc-biz.de>
+X-Mailer: PHPMailer 6.6.0 (https://github.com/PHPMailer/PHPMailer)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Spam-Status: Yes, score=6.4 required=5.0 tests=BAYES_50,
-        HEADER_FROM_DIFFERENT_DOMAINS,KHOP_HELO_FCRDNS,RCVD_IN_SBL_CSS,
-        RDNS_DYNAMIC,SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=2.8 required=5.0 tests=BAYES_50,DATE_IN_PAST_03_06,
+        KHOP_HELO_FCRDNS,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
         autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [51.75.30.51 listed in zen.spamhaus.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.2 HEADER_FROM_DIFFERENT_DOMAINS From and EnvelopeFrom 2nd level
-        *      mail domains are different
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.7 SPF_SOFTFAIL SPF: sender does not match SPF record (softfail)
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  1.0 RDNS_DYNAMIC Delivered to internal network by host with
-        *      dynamic-looking rDNS
-        *  0.4 KHOP_HELO_FCRDNS Relay HELO differs from its IP's reverse DNS
-X-Spam-Level: ******
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-From: GradySuits <linux-ppp@vger.kernel.org>
-Urna Contact Form
+Wir haben Deine Anfrage erhalten:
 
-Message Body:
-DIE WELTFINANZKRISE KANN SIE ZUM MILLIONAR MACHEN! https://telegra.ph/Deutschland-hat-eine-neue-Einnahmequelle-von-396935-Euro-pro-Woche-08-07-2
+EINE FINANZKRISE KANN SIE SEHR REICH MACHEN! https://telegra.ph/Deutschland-hat-eine-neue-Einnahmequelle-von-410959-Euro-pro-Woche-08-07
 
---
-This e-mail was sent from a contact form on Urna (https://urnawp.com)
+wir werden uns innerhalb der nächsten 1-2 Werktage bei Dir melden. 
+
+Liebe Grüße, 
+
+Dein Team von McBIZ
 
