@@ -2,62 +2,72 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09198591D3E
-	for <lists+linux-ppp@lfdr.de>; Sun, 14 Aug 2022 02:18:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A804E591F41
+	for <lists+linux-ppp@lfdr.de>; Sun, 14 Aug 2022 11:23:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229584AbiHNAS4 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sat, 13 Aug 2022 20:18:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58812 "EHLO
+        id S229820AbiHNJXq (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sun, 14 Aug 2022 05:23:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbiHNASz (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sat, 13 Aug 2022 20:18:55 -0400
-X-Greylist: delayed 451 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 13 Aug 2022 17:18:55 PDT
-Received: from a2nlsmtp01-04.prod.iad2.secureserver.net (a2nlsmtp01-04.prod.iad2.secureserver.net [198.71.225.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0455F2B198
-        for <linux-ppp@vger.kernel.org>; Sat, 13 Aug 2022 17:18:54 -0700 (PDT)
-Received: from localhost ([107.180.108.44])
-        by : HOSTING RELAY : with ESMTP
-        id N1CvoM00Y44O5N1CvoGxv7; Sat, 13 Aug 2022 17:10:21 -0700
-X-CMAE-Analysis: v=2.4 cv=eNzWMFl1 c=1 sm=1 tr=0 ts=62f83d6e
- a=F7MhwyYOWpzEINzF8p7CQg==:117 a=F7MhwyYOWpzEINzF8p7CQg==:17
- a=IkcTkHD0fZMA:10 a=96GJKQGblXAA:10 a=puQWGBksFvoA:10 a=VwQbUJbxAAAA:8
- a=q1ofUB1UAAAA:8 a=SJ6oPd7JuWyPdxjXGu8A:9 a=QEXdDO2ut3YA:10 a=u8X3LzO250wA:10
- a=AjGcO6oz07-iQ99wixmX:22 a=OlRZHtw8lRvH8tEO4Sdy:22
-X-SECURESERVER-ACCT: mwp42728684
-To:     info@soccercityteam.com, linux-ppp@vger.kernel.org
-Subject: =?us-ascii?Q?Contact_Form_"BlockFi:_$72,000_per_day_on_crypt?=  =?us-ascii?Q?ocurrency"?=
-Date:   Sun, 14 Aug 2022 00:10:21 +0000
-From:   Soccer City Team Sales <info@soccercityteam.com>
-Reply-To: linux-ppp@vger.kernel.org
-Message-ID: <qo0EEbK0K8Yp03zHlAlS2k7M2pSyifydZAmfGqSzgck@soccercityteam.com>
-X-Mailer: PHPMailer 6.6.0 (https://github.com/PHPMailer/PHPMailer)
+        with ESMTP id S229484AbiHNJXp (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sun, 14 Aug 2022 05:23:45 -0400
+Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.54.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3C82627E;
+        Sun, 14 Aug 2022 02:23:37 -0700 (PDT)
+X-QQ-mid: bizesmtp65t1660468986tsgpy7mu
+Received: from localhost.localdomain ( [182.148.12.144])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Sun, 14 Aug 2022 17:23:05 +0800 (CST)
+X-QQ-SSF: 01000000000000B0D000B00A0000000
+X-QQ-FEAT: 9fp+MOMfZT2r1rJiY0K4FZJbHcfWJR7q94C4QXh3GJBYonAzGT7CHd6nyVBpe
+        ZDB1GcTdg+2lFprv12UvHjr0fOyncaXksRsmbyhk7ciHxv6+uRGJAL3nLKtuwcVW4ziJkDL
+        kvnhJEXKD+A7d6F5jL+CqulAiC71ZtKc3rECBbKAHctQhwJp71i1wO+XOAeE8xX+pSJ05L6
+        KvdLT4zncnNeY4Fyn2oHXhu06rl40cKyplmySB/ybrxppqLHDI+4FUQ6WMD+/0LTVEcwhAp
+        GA+zozuvQswcfVPec7KuxTqXJXs4FUl6mqeLg5ZSHXLpiIdnmFuFPxC0u5Bb9Xogl7KTmOF
+        /j3Q7hn9300JJAYwzFsoR+aHSpNJS2X7iP4uriH
+X-QQ-GoodBg: 0
+From:   Jilin Yuan <yuanjilin@cdjrlc.com>
+To:     paulus@samba.org, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com
+Cc:     linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jilin Yuan <yuanjilin@cdjrlc.com>
+Subject: [PATCH] net/ppp: fix repeated words in comments
+Date:   Sun, 14 Aug 2022 17:22:55 +0800
+Message-Id: <20220814092255.53629-1-yuanjilin@cdjrlc.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-CMAE-Envelope: MS4xfHRLQoythINR1QkHsnIGgP/RU+Mt/86NPD+jfNlCJe0R4+nk901eze0EPONUXJbVsii3Aza2LQjGOSl7sDuAogpiablVaNGyxoU16LrawL3cNVyOlWDN
- av+kSrBpXUjsju1qz3OHOWFPnaivXntcFNmUoANqnxaOBpJjFuTkTmwf2mRqy5m5xnwa6J868LKPZQVLWTuk4D7w5+ZRA6p8UqeCk9ReLa52PWVwrqieehxv
-X-Spam-Status: No, score=4.0 required=5.0 tests=BAYES_50,LOTS_OF_MONEY,
-        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_FAIL,
-        SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE,URIBL_ABUSE_SURBL,URIBL_PH_SURBL
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ***
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Thank you for reaching out. We will get back to you as soon as possible.
+ Delete the redundant word 'the'.
 
---
+Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
+---
+ drivers/net/ppp/ppp_generic.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-From: EdwardBed <linux-ppp@vger.kernel.org>
-Subject: BlockFi: $72,000 per day on cryptocurrency
-
-Phone:
-84238254666
-Message Body:
-$250 for 5 minutes on investments http://yankees-news.burn-permits.com/DW-4076
-
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index 4a365f15533e..942c7e7372d9 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -2969,7 +2969,7 @@ ppp_unregister_channel(struct ppp_channel *chan)
+ 
+ 	/*
+ 	 * This ensures that we have returned from any calls into the
+-	 * the channel's start_xmit or ioctl routine before we proceed.
++	 * channel's start_xmit or ioctl routine before we proceed.
+ 	 */
+ 	down_write(&pch->chan_sem);
+ 	spin_lock_bh(&pch->downl);
 -- 
-This e-mail was sent from a contact form on Soccer City Team
+2.36.1
 
