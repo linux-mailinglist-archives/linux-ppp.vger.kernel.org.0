@@ -2,45 +2,51 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A804E591F41
-	for <lists+linux-ppp@lfdr.de>; Sun, 14 Aug 2022 11:23:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 119A5596776
+	for <lists+linux-ppp@lfdr.de>; Wed, 17 Aug 2022 04:36:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229820AbiHNJXq (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sun, 14 Aug 2022 05:23:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60982 "EHLO
+        id S238149AbiHQCgm (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Tue, 16 Aug 2022 22:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbiHNJXp (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sun, 14 Aug 2022 05:23:45 -0400
-Received: from bg5.exmail.qq.com (bg4.exmail.qq.com [43.154.54.12])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3C82627E;
-        Sun, 14 Aug 2022 02:23:37 -0700 (PDT)
-X-QQ-mid: bizesmtp65t1660468986tsgpy7mu
-Received: from localhost.localdomain ( [182.148.12.144])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Sun, 14 Aug 2022 17:23:05 +0800 (CST)
-X-QQ-SSF: 01000000000000B0D000B00A0000000
-X-QQ-FEAT: 9fp+MOMfZT2r1rJiY0K4FZJbHcfWJR7q94C4QXh3GJBYonAzGT7CHd6nyVBpe
-        ZDB1GcTdg+2lFprv12UvHjr0fOyncaXksRsmbyhk7ciHxv6+uRGJAL3nLKtuwcVW4ziJkDL
-        kvnhJEXKD+A7d6F5jL+CqulAiC71ZtKc3rECBbKAHctQhwJp71i1wO+XOAeE8xX+pSJ05L6
-        KvdLT4zncnNeY4Fyn2oHXhu06rl40cKyplmySB/ybrxppqLHDI+4FUQ6WMD+/0LTVEcwhAp
-        GA+zozuvQswcfVPec7KuxTqXJXs4FUl6mqeLg5ZSHXLpiIdnmFuFPxC0u5Bb9Xogl7KTmOF
-        /j3Q7hn9300JJAYwzFsoR+aHSpNJS2X7iP4uriH
-X-QQ-GoodBg: 0
-From:   Jilin Yuan <yuanjilin@cdjrlc.com>
-To:     paulus@samba.org, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com
-Cc:     linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jilin Yuan <yuanjilin@cdjrlc.com>
-Subject: [PATCH] net/ppp: fix repeated words in comments
-Date:   Sun, 14 Aug 2022 17:22:55 +0800
-Message-Id: <20220814092255.53629-1-yuanjilin@cdjrlc.com>
-X-Mailer: git-send-email 2.36.1
+        with ESMTP id S238055AbiHQCgl (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Tue, 16 Aug 2022 22:36:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1041073937;
+        Tue, 16 Aug 2022 19:36:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8D24161484;
+        Wed, 17 Aug 2022 02:36:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82F09C433C1;
+        Wed, 17 Aug 2022 02:36:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660703799;
+        bh=rC6nEgbK0M0wRDxyTi7pIfC7J1t7mM91s18n4Tr2kdU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=oJdARAMALbRbkSIWY6pARxQ6ZvJBXB6UP2pyxEziKTuxEKAHKy/M7cNHo4PjSWF6c
+         71MXHFWxQl4c3kpY+gnAOk1YIigU3BBOzDZVPNN/32k6YsW1gGSSPYzWAkE/4fWTVw
+         ChV8wt2tyq0ReBFObynm0aoGCTt1Z+C/LxDun/Dta1f/gLkbUdN9O3hRDC5EKpuozi
+         E+T5hiGO9VGDA6Lw6JiBYdr/mdszZ+lzDbmehLmMX+fjdx+m6Z+uw3OST/koXhfg0h
+         R3VfhvQTnhN5kRbTBP2E4J/y7rJedKoIe1iMNpNamJtCteK4ufZUlgbyxY36FycNbB
+         6vcECDvwx4hpA==
+Date:   Tue, 16 Aug 2022 19:36:38 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Jilin Yuan <yuanjilin@cdjrlc.com>
+Cc:     paulus@samba.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, linux-ppp@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net/ppp: fix repeated words in comments
+Message-ID: <20220816193638.31791cb1@kernel.org>
+In-Reply-To: <20220814092255.53629-1-yuanjilin@cdjrlc.com>
+References: <20220814092255.53629-1-yuanjilin@cdjrlc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr4
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,T_SCC_BODY_TEXT_LINE autolearn=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -48,26 +54,11 @@ Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
- Delete the redundant word 'the'.
+On Sun, 14 Aug 2022 17:22:55 +0800 Jilin Yuan wrote:
+>  	 * This ensures that we have returned from any calls into the
+> -	 * the channel's start_xmit or ioctl routine before we proceed.
+> +	 * channel's start_xmit or ioctl routine before we proceed.
 
-Signed-off-by: Jilin Yuan <yuanjilin@cdjrlc.com>
----
- drivers/net/ppp/ppp_generic.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index 4a365f15533e..942c7e7372d9 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -2969,7 +2969,7 @@ ppp_unregister_channel(struct ppp_channel *chan)
- 
- 	/*
- 	 * This ensures that we have returned from any calls into the
--	 * the channel's start_xmit or ioctl routine before we proceed.
-+	 * channel's start_xmit or ioctl routine before we proceed.
- 	 */
- 	down_write(&pch->chan_sem);
- 	spin_lock_bh(&pch->downl);
--- 
-2.36.1
-
+It's better to remove the 'the' at the end of the line.
+Generally accepted typography rules are that the articles 
+(a, an, the) should not be followed by a line break.
