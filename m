@@ -2,63 +2,69 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 119A5596776
-	for <lists+linux-ppp@lfdr.de>; Wed, 17 Aug 2022 04:36:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 469215A0417
+	for <lists+linux-ppp@lfdr.de>; Thu, 25 Aug 2022 00:36:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238149AbiHQCgm (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 16 Aug 2022 22:36:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48246 "EHLO
+        id S229451AbiHXWgH (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 24 Aug 2022 18:36:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238055AbiHQCgl (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Tue, 16 Aug 2022 22:36:41 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1041073937;
-        Tue, 16 Aug 2022 19:36:40 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8D24161484;
-        Wed, 17 Aug 2022 02:36:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82F09C433C1;
-        Wed, 17 Aug 2022 02:36:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660703799;
-        bh=rC6nEgbK0M0wRDxyTi7pIfC7J1t7mM91s18n4Tr2kdU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=oJdARAMALbRbkSIWY6pARxQ6ZvJBXB6UP2pyxEziKTuxEKAHKy/M7cNHo4PjSWF6c
-         71MXHFWxQl4c3kpY+gnAOk1YIigU3BBOzDZVPNN/32k6YsW1gGSSPYzWAkE/4fWTVw
-         ChV8wt2tyq0ReBFObynm0aoGCTt1Z+C/LxDun/Dta1f/gLkbUdN9O3hRDC5EKpuozi
-         E+T5hiGO9VGDA6Lw6JiBYdr/mdszZ+lzDbmehLmMX+fjdx+m6Z+uw3OST/koXhfg0h
-         R3VfhvQTnhN5kRbTBP2E4J/y7rJedKoIe1iMNpNamJtCteK4ufZUlgbyxY36FycNbB
-         6vcECDvwx4hpA==
-Date:   Tue, 16 Aug 2022 19:36:38 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Jilin Yuan <yuanjilin@cdjrlc.com>
-Cc:     paulus@samba.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, linux-ppp@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net/ppp: fix repeated words in comments
-Message-ID: <20220816193638.31791cb1@kernel.org>
-In-Reply-To: <20220814092255.53629-1-yuanjilin@cdjrlc.com>
-References: <20220814092255.53629-1-yuanjilin@cdjrlc.com>
+        with ESMTP id S229607AbiHXWgG (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 24 Aug 2022 18:36:06 -0400
+X-Greylist: delayed 414 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 24 Aug 2022 15:36:03 PDT
+Received: from mail.getxlead.com (server.getxlead.com [51.79.210.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C5642A721
+        for <linux-ppp@vger.kernel.org>; Wed, 24 Aug 2022 15:36:02 -0700 (PDT)
+Received: from getxlead.com (unknown [103.153.77.92])
+        (Authenticated sender: test@getxlead.com)
+        by mail.getxlead.com (Postfix) with ESMTPSA id 76E77267D7A
+        for <linux-ppp@vger.kernel.org>; Thu, 25 Aug 2022 06:26:15 +0800 (+08)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.getxlead.com 76E77267D7A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=getxlead.com;
+        s=default; t=1661379975;
+        bh=pauQq8M6rXX0XmLwmJ7rzKn5seQEGG/rW+e+CMcCoII=;
+        h=Reply-To:From:To:Subject:Date:From;
+        b=R1E4ezrW+QK+7Bef2w4Y6C9LxN19He8qQBICP636DTFLqr3bJwsvwJR9MCBf3d+zu
+         FsFYzJYBebQReF9ByYdiS8+KuzPHOFkPfHmuAIWWhT9Aeq8IksUG2uUxo2b8wM4iGp
+         aDg9PD98S3Kp8u+1uFD7jaY6T0nfHR7yQk57OSXU=
+Reply-To: smtpfox-rb3k6@gurudikshaam.org
+From:   test@getxlead.com
+To:     linux-ppp@vger.kernel.org
+Subject: 3: qa-Letter | Em
+Date:   24 Aug 2022 15:27:34 -0700
+Message-ID: <20220824152733.7E46349BA3A6E418@getxlead.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=2.8 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
+        BAYES_95,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        LOTS_OF_MONEY,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Sun, 14 Aug 2022 17:22:55 +0800 Jilin Yuan wrote:
->  	 * This ensures that we have returned from any calls into the
-> -	 * the channel's start_xmit or ioctl routine before we proceed.
-> +	 * channel's start_xmit or ioctl routine before we proceed.
+Greetings.
 
-It's better to remove the 'the' at the end of the line.
-Generally accepted typography rules are that the articles 
-(a, an, the) should not be followed by a line break.
+I am looking to work with you to engage in a profit oriented=20
+ventures in your country and perhaps with your assistance, we=20
+could get good ROI.
+
+I have the directive of Sheikh Mubarak AL-Thani to source for a=20
+partner abroad who can accommodate 200,000,000 USD for=20
+Investment. I guaranty we shall carryout the transaction under a=20
+legitimate arrangement without breaking the law.
+
+More details will follow upon your reply.
+
+Regards,
+
+MA.
+
+--
+This message has been scanned for viruses and dangerous content=20
+by MailScanner, and is believed to be clean.
