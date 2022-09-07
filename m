@@ -2,118 +2,113 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D66115AE52A
-	for <lists+linux-ppp@lfdr.de>; Tue,  6 Sep 2022 12:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38D475B06E4
+	for <lists+linux-ppp@lfdr.de>; Wed,  7 Sep 2022 16:33:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233745AbiIFKT5 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 6 Sep 2022 06:19:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53998 "EHLO
+        id S230344AbiIGOdE (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 7 Sep 2022 10:33:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232059AbiIFKTz (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Tue, 6 Sep 2022 06:19:55 -0400
-Received: from relay-b01.edpnet.be (relay-b01.edpnet.be [212.71.1.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBEC0186F4
-        for <linux-ppp@vger.kernel.org>; Tue,  6 Sep 2022 03:19:51 -0700 (PDT)
-X-ASG-Debug-ID: 1662459588-15c43430ca14c11c0001-vz1ewb
-Received: from srv21.vandijck-laurijssen.be (94.105.120.187.dyn.edpnet.net [94.105.120.187]) by relay-b01.edpnet.be with ESMTP id S4soGJMAMUQXCnR1 for <linux-ppp@vger.kernel.org>; Tue, 06 Sep 2022 12:19:48 +0200 (CEST)
-X-Barracuda-Envelope-From: dev.kurt@vandijck-laurijssen.be
-X-Barracuda-Effective-Source-IP: 94.105.120.187.dyn.edpnet.net[94.105.120.187]
-X-Barracuda-Apparent-Source-IP: 94.105.120.187
-Received: from x1.vandijck-laurijssen.be (x1.vandijck-laurijssen.be [IPv6:fd01::1a1d:eaff:fe02:d339])
-        by srv21.vandijck-laurijssen.be (Postfix) with ESMTPSA id 2057B2D4F
-        for <linux-ppp@vger.kernel.org>; Tue,  6 Sep 2022 12:19:48 +0200 (CEST)
-Date:   Tue, 6 Sep 2022 12:19:46 +0200
-From:   Kurt Van Dijck <dev.kurt@vandijck-laurijssen.be>
-To:     linux-ppp@vger.kernel.org
-Subject: RESEND: [PATCH] pppd: add noresolvconf option
-Message-ID: <YxcewpV/B4ZyDxmL@x1.vandijck-laurijssen.be>
-X-ASG-Orig-Subj: RESEND: [PATCH] pppd: add noresolvconf option
-Mail-Followup-To: linux-ppp@vger.kernel.org
+        with ESMTP id S229635AbiIGOcS (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 7 Sep 2022 10:32:18 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5021EB14F9
+        for <linux-ppp@vger.kernel.org>; Wed,  7 Sep 2022 07:32:11 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id b35so1995799edf.0
+        for <linux-ppp@vger.kernel.org>; Wed, 07 Sep 2022 07:32:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date;
+        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
+        b=F9yMmaIgSJ7x+iStBVtJEVNXfuHmNuRwH0oeGQZVEKjdO6DhdtNMd/isOm61Mbr/sg
+         xfKr3XSywaIr4UtWLvFYPLTvFzJ7h/Hm2dTXLAIBAXs8GSUGrRcaGfrF44kItgvLNssI
+         mdCrrU6xo0k06TKggYMVy8FOcAbkBgo1wC5PjqDsVEhsblNCO7wJZs+Uz3UyfKMq66jc
+         LBZlB+02LZPjcLDn2rXew+EJosOoyYb0qI+DEdM9Q7gGpQpAuWFiAiGu2xaPJNPE8Z0z
+         1dPz+Ukvd+R1N2c6VsiSc8mvEG74skD4zo8WmW09cr/Ve033R6BY3xgueFtUzfnE1WmC
+         UQAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=UTPjlhWN0j/3cl0uibj9IdU3K9tIHCNTd74bAPWV+BQ=;
+        b=s3/oFUE6e12BSSU5ID0vyv6PbHzltIdFuo+ukkohbpR8zfXFdNREcYqdL9LwpwMV7s
+         ZBqmQvP7pD0kKYwxNA2R2VgAag6aHRj+PKgSImVJ3jbhdNkg67fWoTcE8PmUfHN4X3Od
+         Gmf4QFcCGHqYPE1k3FcQS62AveqmUJvb09vKNlHf6sAapSM7zJi2rIhVtsGqLWj4cylV
+         5BEXJ6CUYaQb7jPQMlGyQUktuEChRZkeySx/WqwW+qkk/skcAsGBLgW9g40Jwxaj40RJ
+         2FR8/EwdUapQeQFUJk8F7egt1r+CT6ZA6Lt85lOVWeeaEWGMKtSxYcHYtHAn9WHoTU0D
+         Herw==
+X-Gm-Message-State: ACgBeo30uTtg6S8BH/ZtcaMW52/VhrcGcu3FMe3tUTmluaKUyKjzwONo
+        7AOQ3ww/5BHVTByndHtivBhUC+m0E+mbnXnAOQ4=
+X-Google-Smtp-Source: AA6agR4uPOOUp+ayJg7njU0xYMAyBPmGFYJGRdL33Bi7R249qZwUmqVQ08qkjiR05GuTGJWJL9HGuiFQ37xnsFlHbf4=
+X-Received: by 2002:aa7:db8b:0:b0:44e:5ce1:f29a with SMTP id
+ u11-20020aa7db8b000000b0044e5ce1f29amr3424831edt.109.1662561128989; Wed, 07
+ Sep 2022 07:32:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Mailer: git-send-email 2.35.1
-X-Barracuda-Connect: 94.105.120.187.dyn.edpnet.net[94.105.120.187]
-X-Barracuda-Start-Time: 1662459588
-X-Barracuda-URL: https://212.71.1.221:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at edpnet.be
-X-Barracuda-Scan-Msg-Size: 2567
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Spam-Score: 0.00
-X-Barracuda-Spam-Status: No, SCORE=0.00 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=7.0 tests=
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.100594
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+Received: by 2002:a54:3fc4:0:0:0:0:0 with HTTP; Wed, 7 Sep 2022 07:32:07 -0700 (PDT)
+Reply-To: lumar.casey@outlook.com
+From:   LUMAR CASEY <miriankushrat@gmail.com>
+Date:   Wed, 7 Sep 2022 16:32:07 +0200
+Message-ID: <CAO4StN3iFKypeHLByNWR98VPw-8s6UHDJYgBRpLm-4kdPR=60w@mail.gmail.com>
+Subject: ATTENTION/PROPOSAL
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=6.8 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
+        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM,UNDISC_MONEY,UPPERCASE_75_100 autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2a00:1450:4864:20:0:0:0:543 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [miriankushrat[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  0.0 UPPERCASE_75_100 message body is 75-100% uppercase
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  0.2 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+        *  0.0 ADVANCE_FEE_4_NEW_MONEY Advance Fee fraud and lots of money
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On embedded systems, it is easier to avoid the resolv.conf conflicts
-than to fix them.
-'noresolvconf' option on top of 'usepeerdns' lets pppd request DNS information
-and forward the info to the scripts, but will not write resolv.conf.
-The ip-up/ip-down scripts can then deal with the info and no conflict ever
-existed.
+ATTENTION
 
-Signed-off-by: Kurt Van Dijck <dev.kurt@vandijck-laurijssen.be>
----
- pppd/ipcp.c | 6 +++++-
- pppd/pppd.8 | 5 ++++-
- 2 files changed, 9 insertions(+), 2 deletions(-)
+BUSINESS PARTNER,
 
-diff --git a/pppd/ipcp.c b/pppd/ipcp.c
-index 0dc251e..ade2064 100644
---- a/pppd/ipcp.c
-+++ b/pppd/ipcp.c
-@@ -93,6 +93,7 @@ struct notifier *ip_down_notifier = NULL;
- static int default_route_set[NUM_PPP];	/* Have set up a default route */
- static int proxy_arp_set[NUM_PPP];	/* Have created proxy arp entry */
- static bool usepeerdns;			/* Ask peer for DNS addrs */
-+static bool resolvconf = 1;		/* deploy peer DNS addrs */
- static bool usepeerwins;		/* Ask peer for WINS addrs */
- static int ipcp_is_up;			/* have called np_up() */
- static int ipcp_is_open;		/* haven't called np_finished() */
-@@ -221,6 +222,8 @@ static option_t ipcp_option_list[] = {
- 
-     { "usepeerdns", o_bool, &usepeerdns,
-       "Ask peer for DNS address(es)", 1 },
-+    { "noresolvconf", o_bool, &resolvconf,
-+      "Ask for DNS but Don't deploy resolv.conf", OPT_A2CLR},
- 
-     { "usepeerwins", o_bool, &usepeerwins,
-       "Ask peer for WINS address(es)", 1 },
-@@ -1846,7 +1849,8 @@ ipcp_up(fsm *f)
- 	script_setenv("DNS2", ip_ntoa(go->dnsaddr[1]), 0);
-     if (usepeerdns && (go->dnsaddr[0] || go->dnsaddr[1])) {
- 	script_setenv("USEPEERDNS", "1", 0);
--	create_resolv(go->dnsaddr[0], go->dnsaddr[1]);
-+	if (resolvconf)
-+	    create_resolv(go->dnsaddr[0], go->dnsaddr[1]);
-     }
- 
-     if (go->winsaddr[0])
-diff --git a/pppd/pppd.8 b/pppd/pppd.8
-index 79b5bea..00d2489 100644
---- a/pppd/pppd.8
-+++ b/pppd/pppd.8
-@@ -1190,7 +1190,10 @@ by the peer (if any) are passed to the /etc/ppp/ip\-up script in the
- environment variables DNS1 and DNS2, and the environment variable
- USEPEERDNS will be set to 1.  In addition, pppd will create an
- /etc/ppp/resolv.conf file containing one or two nameserver lines with
--the address(es) supplied by the peer.
-+the address(es) supplied by the peer, unless \fBresolvconf\fB is turned off.
-+.TP
-+.B noresolvconf
-+Do not create /etc/ppp/resolv.conf with the DNS server addresses supplied by the peer.
- .TP
- .B usepeerwins
- Ask the peer for up to 2 WINS server addresses.  The addresses supplied
--- 
-2.35.1
+I AM LUMAR CASEY WORKING WITH AN INSURANCE FINANCIAL INSTITUTE, WITH
+MY POSITION AND PRIVILEGES I WAS ABLE TO SOURCE OUT AN OVER DUE
+PAYMENT OF 12.8 MILLION POUNDS THAT IS NOW SECURED WITH A SHIPPING
+DIPLOMATIC OUTLET.
 
+I AM SEEKING YOUR PARTNERSHIP TO RECEIVE THIS CONSIGNMENT AS AS MY
+PARTNER TO INVEST THIS FUND INTO A PROSPEROUS INVESTMENT VENTURE IN
+YOUR COUNTRY.
+
+I AWAIT YOUR REPLY TO ENABLE US PROCEED WITH THIS BUSINESS PARTNERSHIP TOGETHER.
+
+REGARDS,
+
+LUMAR CASEY
