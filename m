@@ -2,97 +2,73 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 93E7661631C
-	for <lists+linux-ppp@lfdr.de>; Wed,  2 Nov 2022 13:54:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61A6861DA36
+	for <lists+linux-ppp@lfdr.de>; Sat,  5 Nov 2022 13:39:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229518AbiKBMyd (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 2 Nov 2022 08:54:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36348 "EHLO
+        id S229833AbiKEMja (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sat, 5 Nov 2022 08:39:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbiKBMyc (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 2 Nov 2022 08:54:32 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53C6725C6B
-        for <linux-ppp@vger.kernel.org>; Wed,  2 Nov 2022 05:54:32 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id u6so16469666plq.12
-        for <linux-ppp@vger.kernel.org>; Wed, 02 Nov 2022 05:54:32 -0700 (PDT)
+        with ESMTP id S229700AbiKEMjK (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sat, 5 Nov 2022 08:39:10 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B220E17A96
+        for <linux-ppp@vger.kernel.org>; Sat,  5 Nov 2022 05:39:08 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id q71so6560458pgq.8
+        for <linux-ppp@vger.kernel.org>; Sat, 05 Nov 2022 05:39:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Sz/uTvOc0gNmc74MGKA7yKeLqyFqD/joiI1SxwVZLms=;
-        b=DDFEiayQZ0aoc0j8qESuVnOrtsgN5r1JfRISZ4nM+EYkfmTJlRPlm7Y+AZC56B524+
-         8YdNh/HgVQbMo2vcUXYq2vQmTn0YdaOcGDjti9IX4G6cRymbZmoCTjUHLxXVwmRC9qBl
-         OdinLiru+8Pml2k9zan/H8hdSdExvduPYeCO59VTcm7Llk6SKFcDj3EyrL0ZdGJjYuqd
-         K8wtoFtk0+FwXeXBRcKlf90+WUJhcQp27kVvr5Mcctbdr0YLlkhPeiZxYWIV8j9PpGiG
-         aIzs7R+/1P7vOMAMzwYE9/YrGCcQm0URgz/E+itu1V6EItOtoAdAMhiNVzQcC+A0kBmf
-         T4gA==
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=RIHC9n/dKVExSLG73bd8Y0TEFLCe8HTSL+2d7yE6D2NKhaBTGC77yJTmz2n+UQEoLn
+         jxE36/CP2zWRsxdrbl6Qipo/1wujKwbWTegmQtKA5KaKY5c5k0uls/46uPweryK1Q/70
+         p7KuiiXfJ0vih3FChZlrnOZ0SimajpgL+AXRNjZnSx1jbzFH5llJcPftmYgxT0KBp7aY
+         Nvw2mfIN1dkT84jofHnK9dh7XMfTMquPbJMMLMjB0Dp08MAIB2DxhF8xAtCfYFVwsPDo
+         kuNK/heTlVtwv9hHFhKrR/b4yxRwRja7vVsRsbB9inWGKh1FmpKXNdm91a1Uu/cF0CiR
+         QmBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sz/uTvOc0gNmc74MGKA7yKeLqyFqD/joiI1SxwVZLms=;
-        b=JsIcp3j2AdzkhYTTiMLfbpe7Nf24YIWEhjO8r65Clyv+JsLpXpsIfpMXGLCU9MX0Uy
-         GWLMkOivFG8jBZuS+F77uQQ2eAfzWoOcLSD9QZBXX8svbu8RmTFQr55Oi6z8m3ovINrc
-         BBRHOGg2uiaBUyk8atfhSLUIJCNTPBPZNDTTEc46fP5wN+v4XitQs7uWNR9DLkrmBfus
-         8F0juAZ/5ly9O+CKxhglwydpK7vqu5+tC9t8WnJWsC8aiD5+79vhpLK9ZgCUCfX7OcrZ
-         DisnCMKBsvQZFEK7ViA9wr7gSo5UtndLxVMuqY/S/vfIpRgRlkNe6YpmHToDw8YluMPY
-         +ftg==
-X-Gm-Message-State: ACrzQf0b2gM8PUxVu3TCgdoTHWMyPSjbGKqIMxyrdDYKEiMRXRamt1DD
-        kwa0K9g3ieftj+DcK4cn7Nmd+hOA6HRVgJnz1t8=
-X-Google-Smtp-Source: AMsMyM7+miAJDv7qelUCGkkZ05hxtl7x7HJMtyp7DQn7D0q0ldtWWGIZBgAku92SDkk/oh9+nyoDHiXkJPU/t93oasQ=
-X-Received: by 2002:a17:903:2303:b0:186:8ef3:5efb with SMTP id
- d3-20020a170903230300b001868ef35efbmr25230418plh.118.1667393671821; Wed, 02
- Nov 2022 05:54:31 -0700 (PDT)
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=hmo265n9nQ5VIMJafjIWYmaH82VUlkdT10DwEAmawc3ptonNpLHWheK5Poj/2OY2y/
+         Yi6BGdQHeqD7MyFpJlYBnT5QTtOuOEgUeu5uKXfZDRACEP4bSm9BKActGbv0TxT7V+ps
+         qhHUxfFIqHZQ6G4LNFy0Y/d65e82NYoq/n0aPg6FDmTjgyC6MfZU3Wp9xEbENHfnpPV+
+         pZksIKkyLsrzgWrllHxYcizzEuwLp1W8+qT5u27avlzmqT6p0jB5demvUpZnRb5I150q
+         kn/pup/InM3FOFWt2QjaCXjMUtMMpTRVJTI/bHDWaUyzWB9quc98IGyf1NO+RzZHAXVM
+         o5/Q==
+X-Gm-Message-State: ACrzQf2iNIYcNZkazsBQU2J7Mip4l8Bsyh3VJNeKq6wLAF9KaBvawxp+
+        mrlL3nTulB1h+6PQcZ42J+DllA3+OMNeenKazQE=
+X-Google-Smtp-Source: AMsMyM7B0KgO1ePqgiznBJPxBFqW0p1QJVzP9XdnRybtCWEEA1+7r7SGcBMaZXE781qwVCHZ0F/UGDKN4buuMG8EUng=
+X-Received: by 2002:a63:8aca:0:b0:461:25fe:e7c5 with SMTP id
+ y193-20020a638aca000000b0046125fee7c5mr34958534pgd.395.1667651947704; Sat, 05
+ Nov 2022 05:39:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:7022:662c:b0:46:197b:656c with HTTP; Wed, 2 Nov 2022
- 05:54:31 -0700 (PDT)
-Reply-To: rihabmanyang1993@gmail.com
-From:   Rihab Manyang <omardiakhate751@gmail.com>
-Date:   Wed, 2 Nov 2022 12:54:31 +0000
-Message-ID: <CAAs2n944ZSQU8Wa0F+KREYLjrXzMA9_nsDebXxsymwe=X9LQhA@mail.gmail.com>
-Subject: HI DEAR..
+Received: by 2002:a05:7301:2e91:b0:83:922d:c616 with HTTP; Sat, 5 Nov 2022
+ 05:39:06 -0700 (PDT)
+Reply-To: stefanopessia755@hotmail.com
+From:   Stefano Pessina <wamathaibenard@gmail.com>
+Date:   Sat, 5 Nov 2022 15:39:06 +0300
+Message-ID: <CAN7bvZKFRi6jCy913fp9Nu5T=uorMfPGun5ibm5bYqhSVn2ZFA@mail.gmail.com>
+Subject: Geldspende
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:632 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [omardiakhate751[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [rihabmanyang1993[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [omardiakhate751[at]gmail.com]
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  3.0 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
--- 
-My name is Rihab Manyang,i am here to search for a business partner and
-friend who will help me to invest my fund in his country.
+--=20
+Die Summe von 500.000,00 =E2=82=AC wurde Ihnen von STEFANO PESSINA gespende=
+t.
+Bitte kontaktieren Sie uns f=C3=BCr weitere Informationen =C3=BCber
+stefanopessia755@hotmail.com
