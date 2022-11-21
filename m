@@ -2,97 +2,119 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 09418621670
-	for <lists+linux-ppp@lfdr.de>; Tue,  8 Nov 2022 15:27:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CEEB632C20
+	for <lists+linux-ppp@lfdr.de>; Mon, 21 Nov 2022 19:29:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234168AbiKHO13 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 8 Nov 2022 09:27:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58958 "EHLO
+        id S229605AbiKUS3R (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 21 Nov 2022 13:29:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234482AbiKHO0y (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Tue, 8 Nov 2022 09:26:54 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 975A91EC69
-        for <linux-ppp@vger.kernel.org>; Tue,  8 Nov 2022 06:25:45 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id u8-20020a17090a5e4800b002106dcdd4a0so18052243pji.1
-        for <linux-ppp@vger.kernel.org>; Tue, 08 Nov 2022 06:25:45 -0800 (PST)
+        with ESMTP id S229604AbiKUS3Q (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 21 Nov 2022 13:29:16 -0500
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D01FFD06F3
+        for <linux-ppp@vger.kernel.org>; Mon, 21 Nov 2022 10:29:15 -0800 (PST)
+Received: by mail-yb1-xb4a.google.com with SMTP id t5-20020a5b07c5000000b006dfa2102debso11635643ybq.4
+        for <linux-ppp@vger.kernel.org>; Mon, 21 Nov 2022 10:29:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=frTjEIHTlXO6v5jJNflbe46il1dUjxah1hmkPCKJYy1/f6aaVZ96YwVNT21c8Mx+VL
-         R0PVu5F+awlay7dv8uEqG3mfQMZaN+xEIbVs3zUJk90rHuBTfTbUKI9ehW1dX10rlbxd
-         mQXXSvWli42inJrLM2g6PhN5xYN7/tmPsk29sFPQYGlAj5/CDrj8p18q2KOhwzU0yn1Z
-         U66f4vHTq4ebadAs2QjhqyxxvIbo8plXAHwfVczpBCyZj8AfWtsEsZzbPdDqwFqP6y9l
-         dnCncy0D5q5jmwTVNrSaXkMoaoWTcIIADYOaYowOD+gdgXtrIbBhvp2gXI2k+n6CIgmW
-         oJxg==
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=EpRKKSjGU4jU5Fg7oLYgcrsizQF6B4l3aKjhPZhJTYQ=;
+        b=WGyPIRvE7xm89yZZC0yh7Y/evxJvHEVZ6kEII7KWNOY7r3r2gWDfaerXYm1jwJ68jn
+         lA4IESJ9ahupM3UT4DYXtfNk5qudY+GL+nWYTk68EcR675T9JZ1uqNfcOrmw+EOuPb+7
+         r4IobcByfs5zDRlp1t5/AO++HaxGuq3MW1xpPj33EdveELYOrd3DvLFsg1K9PstXV4pf
+         CHqFF+1O3Nw7K91kLY55gNMj2CmLG4KYG382goF5EqXc+SOyI6cKaIog2nEFdBQhX/yd
+         M0mcUwv+DjOBBUjzqFwJ2rwg5rhXMJUkSWp11ozbNKVQkI+cijCOYqQISeeCrVr/1XPV
+         8G4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SzBlYeGeT15Xra75w9IZDBjQ7Da3XKSmRdlnDJDYrko=;
-        b=1p+j7RaWRSJaPc7a8EDOuZuvY/PrSmnvnyeWWRSkZE9QQGbnC/nguOiinGGASpmG51
-         OjnoGfCMjsgX2TIl3xpzJ2bEe/Znn5wZuL8R7DoSo35V7MAO/lrMwJIkTrKDsLuclDA3
-         Hw3Dee8xKIbUMYZOtPQAGBDCdtQIs3MSdKBMyrCqsMa7NEmf5x3/HZAR8EG6sq+5krmC
-         83V5FuIAYYpu/LX0l6JSmXAMXBQQhq5x7RA6x7aAy8GPdxJ1HrPuGpBWHe9xQIAb3k19
-         /g7LtvTFeJrpRuVjA/Har9zbCQC/h20vyPwnKZwBjYnf3N4Gyqy1zD/VOMuJm2jjZwya
-         q+HQ==
-X-Gm-Message-State: ACrzQf1Aez8dzSNjrOHgNqTT/DxekCVzsW7rLcgR6uyZrg04Q/X9EmIG
-        sNixLxdoLUOxBVEbX7Zbf8wSo/UMAd1qlfWAef4=
-X-Google-Smtp-Source: AMsMyM7i+ouk6KB7gDQcijSLT+5BFPLxz5mMKwdHu69kXLREkeFp6kif+v8n3IHurpTlIb3CZV20pcw+4UqMuGNpObo=
-X-Received: by 2002:a17:902:b581:b0:186:fb90:1151 with SMTP id
- a1-20020a170902b58100b00186fb901151mr56255957pls.43.1667917544943; Tue, 08
- Nov 2022 06:25:44 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a05:7300:5388:b0:85:81c6:896c with HTTP; Tue, 8 Nov 2022
- 06:25:44 -0800 (PST)
-Reply-To: mr.abraham022@gmail.com
-From:   "Mr.Abraham" <davidkekeli11@gmail.com>
-Date:   Tue, 8 Nov 2022 14:25:44 +0000
-Message-ID: <CAPBO+FLJ4NDKP9BsZOPRz6jaWhgZgOACSy5HwxhJ-yxSoaUS2A@mail.gmail.com>
-Subject: Greeting
-To:     undisclosed-recipients:;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EpRKKSjGU4jU5Fg7oLYgcrsizQF6B4l3aKjhPZhJTYQ=;
+        b=fGh7wJMTJY7DiZ9ODmivfAoZZurK8jSo/YZx8U8TeLxCdMUk5l4qLHYYvI+d+XjL+3
+         KALqfgWvXajt67GRaJVyliHi9BN9lpYcLhRRd3ZDFP6vIC9S6l9UnKZeABrbO2frzndw
+         yHfqIe2Jgt3rC0YuHwFN99h3sQwCHhBPVcWJLwbLnlgYgCwE8ThC9i/L3exKKL0anlG9
+         Hn7a3eyjeo9kswbVnQbl2CYv1cS++jM7HBXwaTPuBZinVtCV2zN+SS7LVim+x4/j8rcl
+         mddCdUfKeJsmmvD74hHi0/Y155G0vp9PcnRnAl035P4MHyIl4ZyS/57hWsdyYdKBUzbf
+         Bx7w==
+X-Gm-Message-State: ANoB5pnm3OfJiZPkfiZ585c/I4N6omIa7LOnQDPrgP3+18SUlS22q4tc
+        xdxPm+P4jC4nR4R5skUgiZQcZfk=
+X-Google-Smtp-Source: AA0mqf6ndnxDk4mb2nv00gdQZTM/qoTHu4mqJPKEzXtmHvNAnQr6dyOZC4fxSojVnefOxuNCqOXyUEQ=
+X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
+ (user=sdf job=sendgmr) by 2002:a25:cf42:0:b0:6dd:cb46:84f1 with SMTP id
+ f63-20020a25cf42000000b006ddcb4684f1mr2617387ybg.159.1669055354696; Mon, 21
+ Nov 2022 10:29:14 -0800 (PST)
+Date:   Mon, 21 Nov 2022 10:29:13 -0800
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.38.1.584.g0f3c55d4c2-goog
+Message-ID: <20221121182913.2166006-1-sdf@google.com>
+Subject: [PATCH net-next] ppp: associate skb with a device at tx
+From:   Stanislav Fomichev <sdf@google.com>
+To:     netdev@vger.kernel.org
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, Stanislav Fomichev <sdf@google.com>,
+        Paul Mackerras <paulus@samba.org>, linux-ppp@vger.kernel.org,
+        syzbot+41cab52ab62ee99ed24a@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:102a listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.4969]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [mr.abraham022[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [davidkekeli11[at]gmail.com]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [davidkekeli11[at]gmail.com]
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 T_HK_NAME_FM_MR_MRS No description available.
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-My Greeting, Did you receive the letter i sent to you. Please answer me.
-Regard, Mr.Abraham
+Syzkaller triggered flow dissector warning with the following:
+
+r0 = openat$ppp(0xffffffffffffff9c, &(0x7f0000000000), 0xc0802, 0x0)
+ioctl$PPPIOCNEWUNIT(r0, 0xc004743e, &(0x7f00000000c0))
+ioctl$PPPIOCSACTIVE(r0, 0x40107446, &(0x7f0000000240)={0x2, &(0x7f0000000180)=[{0x20, 0x0, 0x0, 0xfffff034}, {0x6}]})
+pwritev(r0, &(0x7f0000000040)=[{&(0x7f0000000140)='\x00!', 0x2}], 0x1, 0x0, 0x0)
+
+[    9.485814] WARNING: CPU: 3 PID: 329 at net/core/flow_dissector.c:1016 __skb_flow_dissect+0x1ee0/0x1fa0
+[    9.485929]  skb_get_poff+0x53/0xa0
+[    9.485937]  bpf_skb_get_pay_offset+0xe/0x20
+[    9.485944]  ? ppp_send_frame+0xc2/0x5b0
+[    9.485949]  ? _raw_spin_unlock_irqrestore+0x40/0x60
+[    9.485958]  ? __ppp_xmit_process+0x7a/0xe0
+[    9.485968]  ? ppp_xmit_process+0x5b/0xb0
+[    9.485974]  ? ppp_write+0x12a/0x190
+[    9.485981]  ? do_iter_write+0x18e/0x2d0
+[    9.485987]  ? __import_iovec+0x30/0x130
+[    9.485997]  ? do_pwritev+0x1b6/0x240
+[    9.486016]  ? trace_hardirqs_on+0x47/0x50
+[    9.486023]  ? __x64_sys_pwritev+0x24/0x30
+[    9.486026]  ? do_syscall_64+0x3d/0x80
+[    9.486031]  ? entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+Flow dissector tries to find skb net namespace either via device
+or via socket. Neigher is set in ppp_send_frame, so let's manually
+use ppp->dev.
+
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: linux-ppp@vger.kernel.org
+Reported-by: syzbot+41cab52ab62ee99ed24a@syzkaller.appspotmail.com
+Signed-off-by: Stanislav Fomichev <sdf@google.com>
+---
+ drivers/net/ppp/ppp_generic.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index 9206c660a72e..d4c821c8cf57 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -1743,6 +1743,8 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
+ 	int len;
+ 	unsigned char *cp;
+ 
++	skb->dev = ppp->dev;
++
+ 	if (proto < 0x8000) {
+ #ifdef CONFIG_PPP_FILTER
+ 		/* check if we should pass this packet */
+-- 
+2.38.1.584.g0f3c55d4c2-goog
+
