@@ -2,35 +2,35 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FF0A650044
-	for <lists+linux-ppp@lfdr.de>; Sun, 18 Dec 2022 17:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B37A8650166
+	for <lists+linux-ppp@lfdr.de>; Sun, 18 Dec 2022 17:29:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231216AbiLRQMv (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sun, 18 Dec 2022 11:12:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45106 "EHLO
+        id S232129AbiLRQ3y (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sun, 18 Dec 2022 11:29:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231585AbiLRQKr (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sun, 18 Dec 2022 11:10:47 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A82ABCE1C;
-        Sun, 18 Dec 2022 08:05:09 -0800 (PST)
+        with ESMTP id S231921AbiLRQ3I (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sun, 18 Dec 2022 11:29:08 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3044BC744;
+        Sun, 18 Dec 2022 08:10:43 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D74EEB80B4D;
-        Sun, 18 Dec 2022 16:05:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30386C433F0;
-        Sun, 18 Dec 2022 16:05:05 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 558AB60DD6;
+        Sun, 18 Dec 2022 16:10:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85CCDC433F2;
+        Sun, 18 Dec 2022 16:10:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671379506;
+        s=k20201202; t=1671379835;
         bh=JQkNrYxNccafkooCq8unRqC3PodZ5psPvaDCz7dH4FA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=i0m+u5hRpWA09wfGL6BoUzTavYiC/7rhqPMgJs93CArBtYxGCDPToWuGu7kqzTfNm
-         yTZbMExQlGzFYghALcbPAXWy5QZbkl446u9hWwEsxhV3qWDbCIDsZsGXQmIsRr155d
-         2eeynw2JS0oIsWTN2uXcJi3JHpRoZ6zpx6tyI4W5AtQE0o9McyNbRVlvcPGa/DD+EO
-         oXYiTDKpTGfcKpOohJtHiZnAtIPs70sCDis/GZg1rsLNTZ3/r/bHvaJRhaU/dRJSj9
-         THEdSXhF7RaduQIW08v4oQBnFe6htJy7aDAY5buplB+M3yQhMVXMX6pHSQcnmItQWI
-         Zci0bkf2m11UQ==
+        b=GCMaXGuKsFmZNhzlQfVt/3LTerPOWBOnDdHe77I2MVJfGiWeQZRPWJn77WI6ue95v
+         ri5wyUr5CFbIid+3SByEH3bp6yd96ax5EP2mRdGtp/b3fn8BgQZ+JCQtRvqyzGJyvC
+         0x1hak8rFsxjR4fn5HsORuh72gy4BXAxt2LwN9lFdxxHHwq8Pf3G9LcaJ9p5104qWX
+         X4T888weAyBjb8HAfCvJ9rT0wf8I6drK1uuNRwztEGbcNHMxrZpPPJ9bg1pGDUXZW/
+         W3FKVa95MzhAEUuS5xSqf03HMr6P4en9kS2uU31awCPs7WD2CXv5iWpFB25Zxb1PsQ
+         nc6ciwRtiyUew==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Stanislav Fomichev <sdf@google.com>,
@@ -40,12 +40,12 @@ Cc:     Stanislav Fomichev <sdf@google.com>,
         Sasha Levin <sashal@kernel.org>, edumazet@google.com,
         kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
         bpf@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 53/85] ppp: associate skb with a device at tx
-Date:   Sun, 18 Dec 2022 11:01:10 -0500
-Message-Id: <20221218160142.925394-53-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.0 46/73] ppp: associate skb with a device at tx
+Date:   Sun, 18 Dec 2022 11:07:14 -0500
+Message-Id: <20221218160741.927862-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221218160142.925394-1-sashal@kernel.org>
-References: <20221218160142.925394-1-sashal@kernel.org>
+In-Reply-To: <20221218160741.927862-1-sashal@kernel.org>
+References: <20221218160741.927862-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
