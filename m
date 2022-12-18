@@ -2,35 +2,35 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B37A8650166
-	for <lists+linux-ppp@lfdr.de>; Sun, 18 Dec 2022 17:29:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ADCD65021B
+	for <lists+linux-ppp@lfdr.de>; Sun, 18 Dec 2022 17:42:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232129AbiLRQ3y (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sun, 18 Dec 2022 11:29:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41946 "EHLO
+        id S232389AbiLRQme (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sun, 18 Dec 2022 11:42:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34468 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231921AbiLRQ3I (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sun, 18 Dec 2022 11:29:08 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3044BC744;
-        Sun, 18 Dec 2022 08:10:43 -0800 (PST)
+        with ESMTP id S232560AbiLRQlV (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sun, 18 Dec 2022 11:41:21 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB889F018;
+        Sun, 18 Dec 2022 08:14:52 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 558AB60DD6;
-        Sun, 18 Dec 2022 16:10:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85CCDC433F2;
-        Sun, 18 Dec 2022 16:10:34 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 77A2960DCC;
+        Sun, 18 Dec 2022 16:14:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90A1BC433D2;
+        Sun, 18 Dec 2022 16:14:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671379835;
-        bh=JQkNrYxNccafkooCq8unRqC3PodZ5psPvaDCz7dH4FA=;
+        s=k20201202; t=1671380091;
+        bh=xFDclNvplgYnbL3uJh3dyEBsxCIi4aefQA4vqwNoo4E=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GCMaXGuKsFmZNhzlQfVt/3LTerPOWBOnDdHe77I2MVJfGiWeQZRPWJn77WI6ue95v
-         ri5wyUr5CFbIid+3SByEH3bp6yd96ax5EP2mRdGtp/b3fn8BgQZ+JCQtRvqyzGJyvC
-         0x1hak8rFsxjR4fn5HsORuh72gy4BXAxt2LwN9lFdxxHHwq8Pf3G9LcaJ9p5104qWX
-         X4T888weAyBjb8HAfCvJ9rT0wf8I6drK1uuNRwztEGbcNHMxrZpPPJ9bg1pGDUXZW/
-         W3FKVa95MzhAEUuS5xSqf03HMr6P4en9kS2uU31awCPs7WD2CXv5iWpFB25Zxb1PsQ
-         nc6ciwRtiyUew==
+        b=KTi9dNvhNJJEMdhaWVXcEOhu8fEj5DnuO/LQ7YsO/z4q7FZL5AUtQTwNagWiL4/IQ
+         l6OY4olN1kClbdd0ckV3L1xWnRQoYkQAJ5Yvjg0biAaUubCToc89Z6Qsz5OFGN06/o
+         lsNMy08Ry/+K+3/TRI9HPhgxwuXx3yGrYVJC2XqUuPUwcHbew1/C9Z2G+rdb8EmoUZ
+         pl3PTMI6iNy0dgPxLnJHsYM7OZIQ0T7fV5NeL4jH+KoMdFUdrFIMhBZfYNK6pfHg28
+         ujYVR091UDrXcb0K79SyFU3LEd5oRPVs2KocGEusniKFfpxzRDH37inNa5FKe56dA5
+         FytxAh2CvM6Qw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Stanislav Fomichev <sdf@google.com>,
@@ -40,12 +40,12 @@ Cc:     Stanislav Fomichev <sdf@google.com>,
         Sasha Levin <sashal@kernel.org>, edumazet@google.com,
         kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
         bpf@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.0 46/73] ppp: associate skb with a device at tx
-Date:   Sun, 18 Dec 2022 11:07:14 -0500
-Message-Id: <20221218160741.927862-46-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 31/46] ppp: associate skb with a device at tx
+Date:   Sun, 18 Dec 2022 11:12:29 -0500
+Message-Id: <20221218161244.930785-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221218160741.927862-1-sashal@kernel.org>
-References: <20221218160741.927862-1-sashal@kernel.org>
+In-Reply-To: <20221218161244.930785-1-sashal@kernel.org>
+References: <20221218161244.930785-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -101,10 +101,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index 9206c660a72e..d4c821c8cf57 100644
+index 829d6ada1704..c1f11d1df4cd 100644
 --- a/drivers/net/ppp/ppp_generic.c
 +++ b/drivers/net/ppp/ppp_generic.c
-@@ -1743,6 +1743,8 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
+@@ -1742,6 +1742,8 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
  	int len;
  	unsigned char *cp;
  
