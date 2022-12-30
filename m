@@ -2,116 +2,80 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB8F6657E91
-	for <lists+linux-ppp@lfdr.de>; Wed, 28 Dec 2022 16:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 110EB659C40
+	for <lists+linux-ppp@lfdr.de>; Fri, 30 Dec 2022 21:39:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234163AbiL1PzG (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 28 Dec 2022 10:55:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42602 "EHLO
+        id S235485AbiL3Ujh (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 30 Dec 2022 15:39:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234155AbiL1PzD (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 28 Dec 2022 10:55:03 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 328FD18B11;
-        Wed, 28 Dec 2022 07:55:02 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BA92761563;
-        Wed, 28 Dec 2022 15:55:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6C13C433D2;
-        Wed, 28 Dec 2022 15:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1672242901;
-        bh=xFDclNvplgYnbL3uJh3dyEBsxCIi4aefQA4vqwNoo4E=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yGfuxXEU3kAuvAW+bLUfiZKWReF2OfVlzbgIiAwR3RT2v9l193k9WfDTPSG8jKX5V
-         yWfg3BClt6BhzNyPZQo8CcMSUNEWTsKP53ffFK80lqbapQ7Lmuv3842t1OejOW8bCX
-         /IbgZ+koEI1LjAuJPUrktsYs9FRlzmyzvRlrfIZc=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     stable@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        patches@lists.linux.dev, Paul Mackerras <paulus@samba.org>,
-        linux-ppp@vger.kernel.org,
-        syzbot+41cab52ab62ee99ed24a@syzkaller.appspotmail.com,
-        Stanislav Fomichev <sdf@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 659/731] ppp: associate skb with a device at tx
-Date:   Wed, 28 Dec 2022 15:42:46 +0100
-Message-Id: <20221228144315.595464158@linuxfoundation.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20221228144256.536395940@linuxfoundation.org>
-References: <20221228144256.536395940@linuxfoundation.org>
-User-Agent: quilt/0.67
+        with ESMTP id S235329AbiL3Uj1 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 30 Dec 2022 15:39:27 -0500
+X-Greylist: delayed 20175 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 30 Dec 2022 12:39:25 PST
+Received: from mail.vacuumatic.cc (vacuumatic.cc [163.123.140.34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A2CECD9;
+        Fri, 30 Dec 2022 12:39:25 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.vacuumatic.cc (Postfix) with ESMTP id 2980C70E1E10;
+        Fri, 30 Dec 2022 05:10:13 -0500 (EST)
+Received: from mail.vacuumatic.cc ([127.0.0.1])
+        by localhost (mail.vacuumatic.cc [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id CwMzyfTDikvJ; Fri, 30 Dec 2022 05:10:11 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.vacuumatic.cc (Postfix) with ESMTP id E3E3570E1E17;
+        Fri, 30 Dec 2022 05:10:05 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.vacuumatic.cc E3E3570E1E17
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vacuumatic.cc;
+        s=BD5E5048-7767-11ED-9AB1-AEF27DAD29AF; t=1672395006;
+        bh=8OSRQtZ/XGMt0m+/MV768q5oZkUB/T254Ol9zod/hVE=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=oB017uJM3+VILepDVCRHqbBAxlNXvfFNju4QVc0p3VUhVHhYs4DgNfLDW9wz1lU46
+         4LWvcI5Awkb/hOzV1UgLqeDN0zRIp52gDKoo2R56wNemOOP++kCUyb+LReDz9kz0zK
+         mNCXcATQ2SymudADNCITJFseZyWRbXACBVwjCTIstpKFy+Q93NDCbFJX0ZZ/Jgrchi
+         f7UbK64NokFfXnjhWY684sMSS2ON3oE68SPMv1lcx7npNSiGe4+ekt9Y7sIS4nzz2/
+         fhtX+gTaQo6W1cQFj+jA4uw6d2lCDziIaWDuWF7XsaedWUmUrC0v7Mbl50/YLrvj47
+         11lF+1Ok3fjeQ==
+X-Virus-Scanned: amavisd-new at vacuumatic.cc
+Received: from mail.vacuumatic.cc ([127.0.0.1])
+        by localhost (mail.vacuumatic.cc [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id dQge5yDQT0pW; Fri, 30 Dec 2022 05:10:05 -0500 (EST)
+Received: from mail.vacuumatic.cc (mail.vacuumatic.cc [163.123.140.34])
+        by mail.vacuumatic.cc (Postfix) with ESMTP id 82A4E70EDE27;
+        Fri, 30 Dec 2022 05:09:57 -0500 (EST)
+Date:   Fri, 30 Dec 2022 05:09:57 -0500 (EST)
+From:   Lukas Reinhardt <support@vacuumatic.cc>
+Reply-To: Lukas Reinhardt <lukreinhard1@vivaldi.net>
+Message-ID: <1565539681.269587.1672394997473.JavaMail.zimbra@vacuumatic.cc>
+In-Reply-To: <1397014707.241670.1672348232055.JavaMail.zimbra@vacuumatic.cc>
+References: <1397014707.241670.1672348232055.JavaMail.zimbra@vacuumatic.cc>
+Subject: 3% IR Loan Offer
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [163.123.140.34]
+X-Mailer: Zimbra 8.8.15_GA_4484 (zclient/8.8.15_GA_4484)
+Thread-Topic: 3% IR Loan Offer
+Thread-Index: u96i7u0zPj8LOsjj2ctwnSi+vmZef3ojmbos
+X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,MISSING_HEADERS,
+        RCVD_IN_MSPIKE_H2,RCVD_IN_VALIDITY_RPBL,REPLYTO_WITHOUT_TO_CC,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-From: Stanislav Fomichev <sdf@google.com>
+Hello,
 
-[ Upstream commit 9f225444467b98579cf28d94f4ad053460dfdb84 ]
+We are a Kuwait Based Investment company offering corporate and personal loans at 3% interest rate for the duration of 10 years. We also give 1% commission to brokers, who introduce project owners for finance or other opportunities.
 
-Syzkaller triggered flow dissector warning with the following:
-
-r0 = openat$ppp(0xffffffffffffff9c, &(0x7f0000000000), 0xc0802, 0x0)
-ioctl$PPPIOCNEWUNIT(r0, 0xc004743e, &(0x7f00000000c0))
-ioctl$PPPIOCSACTIVE(r0, 0x40107446, &(0x7f0000000240)={0x2, &(0x7f0000000180)=[{0x20, 0x0, 0x0, 0xfffff034}, {0x6}]})
-pwritev(r0, &(0x7f0000000040)=[{&(0x7f0000000140)='\x00!', 0x2}], 0x1, 0x0, 0x0)
-
-[    9.485814] WARNING: CPU: 3 PID: 329 at net/core/flow_dissector.c:1016 __skb_flow_dissect+0x1ee0/0x1fa0
-[    9.485929]  skb_get_poff+0x53/0xa0
-[    9.485937]  bpf_skb_get_pay_offset+0xe/0x20
-[    9.485944]  ? ppp_send_frame+0xc2/0x5b0
-[    9.485949]  ? _raw_spin_unlock_irqrestore+0x40/0x60
-[    9.485958]  ? __ppp_xmit_process+0x7a/0xe0
-[    9.485968]  ? ppp_xmit_process+0x5b/0xb0
-[    9.485974]  ? ppp_write+0x12a/0x190
-[    9.485981]  ? do_iter_write+0x18e/0x2d0
-[    9.485987]  ? __import_iovec+0x30/0x130
-[    9.485997]  ? do_pwritev+0x1b6/0x240
-[    9.486016]  ? trace_hardirqs_on+0x47/0x50
-[    9.486023]  ? __x64_sys_pwritev+0x24/0x30
-[    9.486026]  ? do_syscall_64+0x3d/0x80
-[    9.486031]  ? entry_SYSCALL_64_after_hwframe+0x63/0xcd
-
-Flow dissector tries to find skb net namespace either via device
-or via socket. Neigher is set in ppp_send_frame, so let's manually
-use ppp->dev.
-
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: linux-ppp@vger.kernel.org
-Reported-by: syzbot+41cab52ab62ee99ed24a@syzkaller.appspotmail.com
-Signed-off-by: Stanislav Fomichev <sdf@google.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/ppp/ppp_generic.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index 829d6ada1704..c1f11d1df4cd 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -1742,6 +1742,8 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
- 	int len;
- 	unsigned char *cp;
- 
-+	skb->dev = ppp->dev;
-+
- 	if (proto < 0x8000) {
- #ifdef CONFIG_PPP_FILTER
- 		/* check if we should pass this packet */
--- 
-2.35.1
+Please get back to me if you are interested in more details.
 
 
-
+Best Regards,
+Mr.Lukas Reinhardt
+Assistant Secretary
+General Global Financial Investment.
