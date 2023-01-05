@@ -2,70 +2,116 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9741765D371
-	for <lists+linux-ppp@lfdr.de>; Wed,  4 Jan 2023 13:56:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C012C65EC2C
+	for <lists+linux-ppp@lfdr.de>; Thu,  5 Jan 2023 14:07:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239146AbjADMzt (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 4 Jan 2023 07:55:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36066 "EHLO
+        id S234180AbjAENHH (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 5 Jan 2023 08:07:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239171AbjADMz1 (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 4 Jan 2023 07:55:27 -0500
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6A3E373A2
-        for <linux-ppp@vger.kernel.org>; Wed,  4 Jan 2023 04:54:54 -0800 (PST)
-Received: by mail-qk1-x731.google.com with SMTP id k3so16198332qki.13
-        for <linux-ppp@vger.kernel.org>; Wed, 04 Jan 2023 04:54:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g2m/uNsCm/OsAUZxAnJOSdXXDa9Gh4wg88n4VPL2lMU=;
-        b=BQfo1+41q2NZR57Q7BFlMODaOza2AgrRvUpAp3daCd4t1w84OEhFtXAM1g7CkVTr/y
-         mvXWkJvXCDM96Iy3cSf9E37Th3uZX5TzmwlIsHFzK3DAyLuSjJ8d3uR9drr/ahkzPGkt
-         iW+sw+gZOJCd7bumtfoM4UR2xOfXz6tdmGq2f+IJJhoSBazdofAm5Gs9PxuweXnk264c
-         knSGf1CtrqZScdeov1GoaGbl2sApMUXYjJGPCObPVA0UTlHx2t6+wdp4VOKHmsqLWM8X
-         lQt15zqigA6uJCG+q37n0r4mLK1MKtsniT1i9jhRA9qlN9E2Mf0sYN4W9Jd0n+39BoCK
-         yzWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g2m/uNsCm/OsAUZxAnJOSdXXDa9Gh4wg88n4VPL2lMU=;
-        b=B7pyzi4e2ZsJvnr/moUJo+O3X/pB/sEO77aNsmNkOTYCWc0IzatnrH6gHQCbROml+1
-         oJXmGzlCeZ8FN8Ui6LleKsSuUP7knDrD0LHQ39L87Gzoe8qtiRXkHSissBwoLBH2hbtV
-         aUTYdyx6LjVEnOj2aVFY0FLoUe/to1eSUhflEh1DDs1F3WWhi66iX4r4EseR9bgzpZKf
-         NTEGRj1OvXSw7ukBkGi9nOUnaE65fanWMkZPyJ1zj42iM6MZh2cMWMm7g2UyQTbyZ+bH
-         byYc4Z3SKk3qdtf4aJqoUTZwWwoR9FkElAewgUFxJmom0TfChNKOkOnnQ48gTfVxX5JB
-         R7+g==
-X-Gm-Message-State: AFqh2kr19ntgZ3P7Uy1XibZcgbymZK+ZZzMHGsucqhS0s9Q6zzqdIG0R
-        Cq7OkQTW89m7KG6gVSOlxYqjr2y/zCMhI7XCt+fyewML+Ag=
-X-Google-Smtp-Source: AMrXdXuKXTvNK0aSB9vnyjtdhrZfKmRzvU9Jw1W0zhcD7x19AMFVNgTh5oL+8ilZBOfTDf/bL64QVz1mYULxa/ftADs=
-X-Received: by 2002:ac8:568a:0:b0:3a9:688d:fad2 with SMTP id
- h10-20020ac8568a000000b003a9688dfad2mr1976067qta.646.1672836882017; Wed, 04
- Jan 2023 04:54:42 -0800 (PST)
+        with ESMTP id S234411AbjAENGh (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 5 Jan 2023 08:06:37 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EC475AC61;
+        Thu,  5 Jan 2023 05:06:36 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C9111B81AD2;
+        Thu,  5 Jan 2023 13:06:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C7BC433EF;
+        Thu,  5 Jan 2023 13:06:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1672923993;
+        bh=U+cQHrDmIK+r9qwVg+CRg/eCGO+GgpLzZ8wc3TPMRA0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=k+xAFU6ZkOhDiUD2ZAuNrfqE5in3Pf/YQelImqB46sDX1Y+IW4k6qrIG+Zw1SkndD
+         9K5Ne7W3J0mA9uBzfm4jFUVe0yIYnlN8buHIyd2cqdSuRUtlpcvcdD96gHubuYignY
+         0g+r2VT/Nt9Ywyw8POAAQzzrvsjkFGZnimWCpPaA=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     stable@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        patches@lists.linux.dev, Paul Mackerras <paulus@samba.org>,
+        linux-ppp@vger.kernel.org,
+        syzbot+41cab52ab62ee99ed24a@syzkaller.appspotmail.com,
+        Stanislav Fomichev <sdf@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.9 200/251] ppp: associate skb with a device at tx
+Date:   Thu,  5 Jan 2023 13:55:37 +0100
+Message-Id: <20230105125344.006663457@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230105125334.727282894@linuxfoundation.org>
+References: <20230105125334.727282894@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
-Received: by 2002:a05:6200:5d91:b0:4a5:78e9:2012 with HTTP; Wed, 4 Jan 2023
- 04:54:41 -0800 (PST)
-Reply-To: Gregdenzell9@gmail.com
-From:   Greg Denzell <mzsophie@gmail.com>
-Date:   Wed, 4 Jan 2023 12:54:41 +0000
-Message-ID: <CAEoj5=ZpJ15GRz-U33Ocbu5-P3Va+3bNv3476+mmJJ52cwx7tA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Seasons Greetings!
+From: Stanislav Fomichev <sdf@google.com>
 
-This will remind you again that I have not yet received your reply to
-my last message to you.
+[ Upstream commit 9f225444467b98579cf28d94f4ad053460dfdb84 ]
+
+Syzkaller triggered flow dissector warning with the following:
+
+r0 = openat$ppp(0xffffffffffffff9c, &(0x7f0000000000), 0xc0802, 0x0)
+ioctl$PPPIOCNEWUNIT(r0, 0xc004743e, &(0x7f00000000c0))
+ioctl$PPPIOCSACTIVE(r0, 0x40107446, &(0x7f0000000240)={0x2, &(0x7f0000000180)=[{0x20, 0x0, 0x0, 0xfffff034}, {0x6}]})
+pwritev(r0, &(0x7f0000000040)=[{&(0x7f0000000140)='\x00!', 0x2}], 0x1, 0x0, 0x0)
+
+[    9.485814] WARNING: CPU: 3 PID: 329 at net/core/flow_dissector.c:1016 __skb_flow_dissect+0x1ee0/0x1fa0
+[    9.485929]  skb_get_poff+0x53/0xa0
+[    9.485937]  bpf_skb_get_pay_offset+0xe/0x20
+[    9.485944]  ? ppp_send_frame+0xc2/0x5b0
+[    9.485949]  ? _raw_spin_unlock_irqrestore+0x40/0x60
+[    9.485958]  ? __ppp_xmit_process+0x7a/0xe0
+[    9.485968]  ? ppp_xmit_process+0x5b/0xb0
+[    9.485974]  ? ppp_write+0x12a/0x190
+[    9.485981]  ? do_iter_write+0x18e/0x2d0
+[    9.485987]  ? __import_iovec+0x30/0x130
+[    9.485997]  ? do_pwritev+0x1b6/0x240
+[    9.486016]  ? trace_hardirqs_on+0x47/0x50
+[    9.486023]  ? __x64_sys_pwritev+0x24/0x30
+[    9.486026]  ? do_syscall_64+0x3d/0x80
+[    9.486031]  ? entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+Flow dissector tries to find skb net namespace either via device
+or via socket. Neigher is set in ppp_send_frame, so let's manually
+use ppp->dev.
+
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: linux-ppp@vger.kernel.org
+Reported-by: syzbot+41cab52ab62ee99ed24a@syzkaller.appspotmail.com
+Signed-off-by: Stanislav Fomichev <sdf@google.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/ppp/ppp_generic.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index 6287d2ad77c6..f6cf25cba16e 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -1541,6 +1541,8 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
+ 	int len;
+ 	unsigned char *cp;
+ 
++	skb->dev = ppp->dev;
++
+ 	if (proto < 0x8000) {
+ #ifdef CONFIG_PPP_FILTER
+ 		/* check if we should pass this packet */
+-- 
+2.35.1
+
+
+
