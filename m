@@ -2,32 +2,32 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E09B566C879
-	for <lists+linux-ppp@lfdr.de>; Mon, 16 Jan 2023 17:39:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD3D066CB45
+	for <lists+linux-ppp@lfdr.de>; Mon, 16 Jan 2023 18:12:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233643AbjAPQjh (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 16 Jan 2023 11:39:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33044 "EHLO
+        id S234351AbjAPRMW (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 16 Jan 2023 12:12:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233539AbjAPQjP (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 16 Jan 2023 11:39:15 -0500
+        with ESMTP id S234283AbjAPRLn (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 16 Jan 2023 12:11:43 -0500
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B641367C6;
-        Mon, 16 Jan 2023 08:27:50 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7BF032516;
+        Mon, 16 Jan 2023 08:52:07 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3CD7861058;
-        Mon, 16 Jan 2023 16:27:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49821C43396;
-        Mon, 16 Jan 2023 16:27:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 46D9061018;
+        Mon, 16 Jan 2023 16:52:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CE21C433EF;
+        Mon, 16 Jan 2023 16:52:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1673886469;
-        bh=mZ8UvLfDsKgykeZh6NMW3/QLEABOpBenoQEbhEUsugg=;
+        s=korg; t=1673887926;
+        bh=k4yTj0C2jGK8AyiWoJPffHwj2JpKzjvrK1itF90RIZI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0ZqQnWQ72lpPChxoWsDJ1NnjA0GOqnT9e8EU9Aq/m+bc6rrKIA+whzcgpURGWKRH8
-         Y8re9y4lOhotvThaDacJ2Okj39K3EhzWuCwfOZJjN8ukZJndXjlHiGiBn66+Uj7Htk
-         DIq366AWGA1ZG4uh2Ed7i3FQSV7JsO1Rnq87rSlE=
+        b=nQ8w3SOhXb+b5Sl6dpXGHvg2QiXN0+iZjBOvb5O2SlLmgVCtXQcoP8YBta47RDeWV
+         4QI0H4dVdPiB16bxPOwN1etwwEOwGCqucidZ81t2JaW/Wiw9/CmSqiutihP4OLJUkv
+         NYRFHmErgEWnrkbgalWQdEUUwdeO70gvAz77EhiQ=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     stable@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -37,12 +37,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Stanislav Fomichev <sdf@google.com>,
         "David S. Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.4 415/658] ppp: associate skb with a device at tx
-Date:   Mon, 16 Jan 2023 16:48:23 +0100
-Message-Id: <20230116154928.587682624@linuxfoundation.org>
+Subject: [PATCH 4.19 335/521] ppp: associate skb with a device at tx
+Date:   Mon, 16 Jan 2023 16:49:57 +0100
+Message-Id: <20230116154902.167564077@linuxfoundation.org>
 X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230116154909.645460653@linuxfoundation.org>
-References: <20230116154909.645460653@linuxfoundation.org>
+In-Reply-To: <20230116154847.246743274@linuxfoundation.org>
+References: <20230116154847.246743274@linuxfoundation.org>
 User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -98,10 +98,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index a085213dc2ea..078c0f474f96 100644
+index 3f335b57d5cd..220b28711f98 100644
 --- a/drivers/net/ppp/ppp_generic.c
 +++ b/drivers/net/ppp/ppp_generic.c
-@@ -1522,6 +1522,8 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
+@@ -1528,6 +1528,8 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
  	int len;
  	unsigned char *cp;
  
