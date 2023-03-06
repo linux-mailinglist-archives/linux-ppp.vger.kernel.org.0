@@ -2,99 +2,75 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EB296AB901
-	for <lists+linux-ppp@lfdr.de>; Mon,  6 Mar 2023 10:00:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 519C26ABC64
+	for <lists+linux-ppp@lfdr.de>; Mon,  6 Mar 2023 11:27:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbjCFI7s (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 6 Mar 2023 03:59:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35298 "EHLO
+        id S229641AbjCFK05 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 6 Mar 2023 05:26:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229752AbjCFI7p (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 6 Mar 2023 03:59:45 -0500
-X-Greylist: delayed 495 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 06 Mar 2023 00:59:42 PST
-Received: from mail.amblevebiz.com (mail.amblevebiz.com [80.211.239.97])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 955722D5B
-        for <linux-ppp@vger.kernel.org>; Mon,  6 Mar 2023 00:59:42 -0800 (PST)
-Received: by mail.amblevebiz.com (Postfix, from userid 1002)
-        id 8061E82B7C; Mon,  6 Mar 2023 09:51:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=amblevebiz.com;
-        s=mail; t=1678092686;
-        bh=mG5KF9rXIT2hCcIXZaMY449X9Ndwb1czFhgZLlqDg7A=;
-        h=Date:From:To:Subject:From;
-        b=r/j8DE0Mv1UgKi4zjOZsSV3zkosvLzFrlmzywpJxwiaWTXLEftkhaXktai+jugZO4
-         cosOc+zWwXZ/uPhK/wRC+xtDOlRYKfar8PoPjrxuR1c3o/Y8sXkvMYY3Uo9hguI1/J
-         RCFAMa8hfBuAOCGxZWgxEdranDE8S/qy97eP2E/XvWPB+wVg/fqOK3R/LKUVpXSJss
-         alJOwRLUQ/vG+wsYDdGYQpfX0w6tM2Pyzd9jjD5kfBNj7NVFeoD3mo6Z8lEdlUF/7D
-         f1qad3cceidCYdhrnWx4u5a8PeTSVG+dZjP23kpcGn0y27Y7zOLkIMfWJMlr5WYKXb
-         Wng6TkZOJA9cg==
-Received: by mail.amblevebiz.com for <linux-ppp@vger.kernel.org>; Mon,  6 Mar 2023 08:51:10 GMT
-Message-ID: <20230306084500-0.1.i.y37.0.9lcz4g654f@amblevebiz.com>
-Date:   Mon,  6 Mar 2023 08:51:10 GMT
-From:   =?UTF-8?Q? "Luk=C3=A1=C5=A1_Horv=C3=A1th" ?= 
-        <lukas.horvath@amblevebiz.com>
-To:     <linux-ppp@vger.kernel.org>
-Subject: =?UTF-8?Q?Technick=C3=BD_audit_podlah?=
-X-Mailer: mail.amblevebiz.com
+        with ESMTP id S230205AbjCFK0d (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 6 Mar 2023 05:26:33 -0500
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC3FC26867
+        for <linux-ppp@vger.kernel.org>; Mon,  6 Mar 2023 02:26:04 -0800 (PST)
+Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-1755e639b65so10844175fac.3
+        for <linux-ppp@vger.kernel.org>; Mon, 06 Mar 2023 02:26:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678098351;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vh7FN/ulAdnmY8O0LKz7bqpIFk4oOSQ9iCZ8VQ/AkNo=;
+        b=EDbhPO1WKzSJy97Cp1KR4Ue1wIcLFSscoH9L1E67CyPoJvstONJwP7RxKCqsDiuar/
+         4XZc6UhnyOFrEHlIQ3KmGU6oX8xWOyZpiVA4bD6F27cjopM5KQeiwoXnQq1r2hu/0hkW
+         LgiQ9FGonNq8AsMsEKBqZEvtwgOfW2lv3iUKapY2ocqE+LRWfsVifUNA3eNbIcULbvPT
+         nBBU0ns0xWwmvS7ETCAh5Z5lhdCiLVSRis+m63aq8CObwyUrMLAjGQpDeSf4OVAOQav5
+         5TuEH4NOUnTGCqcHGRIE0/tBavRRplzW4HaWY1DRs+pas+nyfL/37adPjYmqfexbl/Di
+         PS3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678098351;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vh7FN/ulAdnmY8O0LKz7bqpIFk4oOSQ9iCZ8VQ/AkNo=;
+        b=4DSijBqrAqxqhdLoE+KEohKN35uVcv0tTrFBSuiVS/P4v0d7T8Y6SXgv4bAMIlv3XU
+         Bu3wg34VEoglcZd3ZXPyNZK8tbjlqSVy32BvI7bp8I8QoQpx+/UPq85YFmxNJoN6QWcR
+         eas13uRhfFthqTcfTIDpwtuDftoDk65iC7XyyW2WUdn6uuf3HtKcbmY2I7pEcVKbtAcM
+         /HQN8zuatmzQAYMu6wDEiDiH/lhV5d6P3Rzhs00c01JE0KBmfegboNyajhmiiz41wj1X
+         9U3+RgIZaeUcXZwTu81fHhOewWjygKhiWmJXCdrWchPhi/UOoLUVjgbzs5XdGli7RG7W
+         MNEg==
+X-Gm-Message-State: AO0yUKV7MF0nFdRtvl6grIVcYnKNMyVJCc4Ej1HuWoKUKpJXg3jApMwK
+        L8o8JoA/mHwj/tUspsMgmodUVRlf0lMZqwMFiu6vMdl/4Fk=
+X-Google-Smtp-Source: AK7set9YqazPiOkBuGm+YrFZOLe51O90+qKBrIr6WBjXtnVrmZ9RIOYyWRLBWcHI+/rsVoNhMQhwnCpcR6G8n2Z6mzE=
+X-Received: by 2002:a05:6102:e44:b0:402:999f:44d3 with SMTP id
+ p4-20020a0561020e4400b00402999f44d3mr6975472vst.1.1678098330725; Mon, 06 Mar
+ 2023 02:25:30 -0800 (PST)
 MIME-Version: 1.0
+Received: by 2002:a59:ce6f:0:b0:3ae:930b:3e70 with HTTP; Mon, 6 Mar 2023
+ 02:25:30 -0800 (PST)
+Reply-To: madis.scarl@terlera.it
+From:   "Ms Eve from U.N" <denisagotou@gmail.com>
+Date:   Mon, 6 Mar 2023 11:25:30 +0100
+Message-ID: <CAD6bNBi6bPCYboaF4-xBgmeUTFn6JMXqU6TNepQig=NRMqhdUg@mail.gmail.com>
+Subject: Re: Claim of Fund:
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=7.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: amblevebiz.com]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [80.211.239.97 listed in zen.spamhaus.org]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: amblevebiz.com]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.8 FROM_FMBLA_NEWDOM28 From domain was registered in last 14-28
-        *      days
-X-Spam-Level: *******
+X-Spam-Status: No, score=4.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_SCAM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Dobr=C3=A9 r=C3=A1no,
+Hello Good Morning,
+This is to bring to your notice that all our efforts to contact you
+through this your email ID failed Please Kindly contact Barrister.
+Steven Mike { mbarrsteven@gmail.com } on his private email for the
+claim of your compensation entitlement
 
-uva=C5=BEujete o bezesp=C3=A1rov=C3=A9 podlaze pro v=C3=BDrobn=C3=AD prov=
-oz?
-
-Jako sv=C4=9Btov=C3=BD l=C3=ADdr ve v=C3=BDrob=C4=9B a pokl=C3=A1dce podl=
-ah =C5=99e=C5=A1=C3=ADme probl=C3=A9my vypl=C3=BDvaj=C3=ADc=C3=AD z vlivu=
- chemick=C3=BDch slou=C4=8Denin, ot=C4=9Bru, n=C3=A1raz=C5=AF, vlhkosti n=
-ebo n=C3=A1hl=C3=BDch zm=C4=9Bn teplot - na=C5=A1e podlahov=C3=A9 syst=C3=
-=A9my jsou p=C5=99izp=C5=AFsobeny nejt=C4=9B=C5=BE=C5=A1=C3=ADm podm=C3=AD=
-nk=C3=A1m prost=C5=99ed=C3=AD.
-
-Garantujeme v=C3=A1m =C5=99e=C5=A1en=C3=AD, kter=C3=A1 jsou =C5=A1etrn=C3=
-=A1 k =C5=BEivotn=C3=ADmu prost=C5=99ed=C3=AD, odoln=C3=A1 a snadno se =C4=
-=8Dist=C3=AD, hygienick=C3=A1, protiskluzov=C3=A1 a bezpe=C4=8Dn=C3=A1 pr=
-o zam=C4=9Bstnance.
-
-Poskytujeme kr=C3=A1tkou dobu instalace a nep=C5=99etr=C5=BEit=C3=BD prov=
-oz i o v=C3=ADkendech a sv=C3=A1tc=C3=ADch, =C4=8D=C3=ADm=C5=BE eliminuje=
-me riziko prostoj=C5=AF.
-
-Mohu V=C3=A1m zdarma nab=C3=ADdnout technick=C3=BD audit podlah s komplex=
-n=C3=ADm rozborem podkladu.
-
-M=C5=AF=C5=BEeme pro v=C3=A1s mluvit o =C5=99e=C5=A1en=C3=ADch?
-
-
-Luk=C3=A1=C5=A1 Horv=C3=A1th
+Note: You have to pay for the delivery fee.
+Yours Sincerely
+Mrs EVE LEWIS
