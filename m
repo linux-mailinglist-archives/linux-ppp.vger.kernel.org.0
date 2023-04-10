@@ -2,67 +2,55 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2433E6DA9B8
-	for <lists+linux-ppp@lfdr.de>; Fri,  7 Apr 2023 10:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 413F66DD2E1
+	for <lists+linux-ppp@lfdr.de>; Tue, 11 Apr 2023 08:35:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231982AbjDGIEp (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 7 Apr 2023 04:04:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47796 "EHLO
+        id S229842AbjDKGfA convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Tue, 11 Apr 2023 02:35:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45498 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239024AbjDGIEn (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 7 Apr 2023 04:04:43 -0400
-Received: from mail.feshiecree.pl (mail.feshiecree.pl [89.40.114.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CBD09ECE
-        for <linux-ppp@vger.kernel.org>; Fri,  7 Apr 2023 01:04:42 -0700 (PDT)
-Received: by mail.feshiecree.pl (Postfix, from userid 1001)
-        id 196088C472; Fri,  7 Apr 2023 08:57:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=feshiecree.pl;
-        s=mail; t=1680854305;
-        bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
-        h=Date:From:To:Subject:From;
-        b=xn8yYhzUd7sdf68P6c57RJw1AdbK2rofv7pKcIFqLdqzgICsG18wRnB4EkFZKHEqx
-         gIwOxSDU3MmxWiZFUuG45IEdUpN4pX+bhV53OdqaHn4JvutaCGiWr0Srn5v+yM+eeZ
-         rYTi40RW9LrJAU+o2oKDI1oe8a2XZklWQsNvdy6d+tx+sMRaRiGKKUMnOblZfe84Li
-         Oap7N8sr2asquMpaCG8b8yeL6SAaxg1SvhjEEmdk2Mmb6IImzsETjWjwhYmqxoerly
-         VsvWo2OMVED1OjFMuJJ6Zhs4YfzwqB7/vfo4MGz0Wa4vQ1po/xEOjAuLG61I3p8pz8
-         agmx6gZqS1rpw==
-Received: by mail.feshiecree.pl for <linux-ppp@vger.kernel.org>; Fri,  7 Apr 2023 07:56:07 GMT
-Message-ID: <20230407074501-0.1.1w.7lfd.0.qu7f7xahtj@feshiecree.pl>
-Date:   Fri,  7 Apr 2023 07:56:07 GMT
-From:   "Krystian Wieczorek" <krystian.wieczorek@feshiecree.pl>
-To:     <linux-ppp@vger.kernel.org>
-Subject: W sprawie samochodu
-X-Mailer: mail.feshiecree.pl
+        with ESMTP id S229624AbjDKGfA (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Tue, 11 Apr 2023 02:35:00 -0400
+Received: from zimbra-dc.paul-scerri.ch (dc.paul-scerri.ch [62.220.130.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C40659D;
+        Mon, 10 Apr 2023 23:34:58 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra-dc.paul-scerri.ch (Postfix) with ESMTP id 01D4C5E2AB0;
+        Mon, 10 Apr 2023 22:04:32 +0200 (CEST)
+Received: from zimbra-dc.paul-scerri.ch ([127.0.0.1])
+        by localhost (zimbra-dc.paul-scerri.ch [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id X24hj2SPXlp2; Mon, 10 Apr 2023 22:04:31 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra-dc.paul-scerri.ch (Postfix) with ESMTP id CA730597736;
+        Mon, 10 Apr 2023 21:47:19 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at zimbra-dc.paul-scerri.ch
+Received: from zimbra-dc.paul-scerri.ch ([127.0.0.1])
+        by localhost (zimbra-dc.paul-scerri.ch [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id vStYXekUpadl; Mon, 10 Apr 2023 21:47:19 +0200 (CEST)
+Received: from [185.169.4.108] (unknown [185.169.4.108])
+        by zimbra-dc.paul-scerri.ch (Postfix) with ESMTPSA id 4D50C5B21DF;
+        Mon, 10 Apr 2023 21:34:31 +0200 (CEST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SORBS_DUL,RCVD_IN_VALIDITY_RPBL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Re
+To:     Recipients <wiki@paul-scerri.ch>
+From:   "Maria-Elisabeth Schaeffler" <wiki@paul-scerri.ch>
+Date:   Mon, 10 Apr 2023 12:34:30 -0700
+Reply-To: mariaelisabeths457@gmail.com
+Message-Id: <20230410193431.4D50C5B21DF@zimbra-dc.paul-scerri.ch>
+X-Spam-Status: No, score=2.8 required=5.0 tests=FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Your email account has been selected for a donation of €1,700,000. Please contact for more information.
 
-chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
-, je=C5=9Bli chodzi o system monitoringu GPS.
-
-Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
-e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
-a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
-
-Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
-dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
-szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
-mne znaczenie.
-
-Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
-b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
-
-
-Pozdrawiam
-Krystian Wieczorek
+Mrs Maria Elisabeth Schaeffler
+CEO SCHAEFFLER.
