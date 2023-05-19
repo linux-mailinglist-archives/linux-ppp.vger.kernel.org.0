@@ -2,104 +2,74 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC8327091B5
-	for <lists+linux-ppp@lfdr.de>; Fri, 19 May 2023 10:30:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50FAA70962D
+	for <lists+linux-ppp@lfdr.de>; Fri, 19 May 2023 13:18:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230006AbjESIaY (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 19 May 2023 04:30:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58468 "EHLO
+        id S231587AbjESLSL (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 19 May 2023 07:18:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbjESIaY (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 19 May 2023 04:30:24 -0400
-X-Greylist: delayed 548 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 19 May 2023 01:30:19 PDT
-Received: from mail.mojafirma24biz.pl (mail.mojafirma24biz.pl [94.177.230.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37B7410C9
-        for <linux-ppp@vger.kernel.org>; Fri, 19 May 2023 01:30:19 -0700 (PDT)
-Received: by mail.mojafirma24biz.pl (Postfix, from userid 1002)
-        id 36CE683D91; Fri, 19 May 2023 10:21:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mojafirma24biz.pl;
-        s=mail; t=1684484469;
-        bh=QbP1U00PseMsQKCCzubvpt4P1svntDdd/QYVIBIcXDg=;
-        h=Date:From:To:Subject:From;
-        b=SFI4eVlxhDCIGxoiA1Q3ik24//pm3HBWg7d+Oazx5r/DpvsrAySmq1EbQoDXzr/3Z
-         hfGgWUDDXeLAbsjYOZajJ47P/htyHv6PsVCFolmOEgf4X9umTy6HNKM8lCdydSRCy/
-         1CWdZMkY74l3x/lbNm0lCVs0ltkskDmfH4T5FKo+1FVZZKk72XKjeia3B5XV3CzY6g
-         GzdidwSXbVERUQ4OB2LW2XYQVSkj3BwsAmVGbKZEakUm/kFKVQk5RdlzPDhl2BRPYV
-         A0yYYmJoDqw6mOUP/4sdtSs60ktEtilWo29c6CBVqYoe0+53b2+3yL48FxIn66hJX1
-         Jjla49tC79pdQ==
-Received: by mail.mojafirma24biz.pl for <linux-ppp@vger.kernel.org>; Fri, 19 May 2023 08:21:00 GMT
-Message-ID: <20230519093257-0.1.d.18np.0.accyn8m55d@mojafirma24biz.pl>
-Date:   Fri, 19 May 2023 08:21:00 GMT
-From:   "Adam Wyrwisz" <adam.wyrwisz@mojafirma24biz.pl>
-To:     <linux-ppp@vger.kernel.org>
-Subject: Fotowoltaika dla biznesu
-X-Mailer: mail.mojafirma24biz.pl
+        with ESMTP id S231846AbjESLSH (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 19 May 2023 07:18:07 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 544511716
+        for <linux-ppp@vger.kernel.org>; Fri, 19 May 2023 04:18:04 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-5112cae8d82so773447a12.2
+        for <linux-ppp@vger.kernel.org>; Fri, 19 May 2023 04:18:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684495083; x=1687087083;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YmxaI1amCfTksu6ynk2557PwK0HJxrBQmYIx/Pz5hBs=;
+        b=Wt/WzQmS095ww6zzUgoSSAlrCDxwL2gSoVBMsVxHRKn23YcliDiJyBLjqweTRoToj1
+         ufUOgV4j5pHE/9SR+dsRPr9gpju7XpaMYkUmYe1T6vrhoZIvsQDtFJjwfPWr0ZA8MwEK
+         A8xkN8RoXHrnV8mxXNMusUB3EToMcUvt2JPOXJbMgVYPwdz45S3ERx+Nyqo+cmGrrOa8
+         vd+RSV3BkQDybrevFx7U7UuvnFt+9sOfqdHCxo6t6nUsXpAQmNebiCtg7JMDFdLkqxgM
+         8PXBgbynXWRxC6QXqoh8bbtvc/aqA5Z2+Ycz9m8q7U5s8LdUBFb9kcl7MTOhQK2ZKsRi
+         q6Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684495083; x=1687087083;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YmxaI1amCfTksu6ynk2557PwK0HJxrBQmYIx/Pz5hBs=;
+        b=iVVv2reHw62ruGQbFOL3+I9IuXGupten9L9PE1+aEZEamNHVaUjK76gU2lZCUQjOAo
+         /n9Srx72TxqrqDSzXs2ZijvDknQkiNsYqZn6/6QFO2pCjYVsr0cQGZ45UKclaKb5lsco
+         KT32nUIMgudILZXB+UWvVJLHOJtvweTWMrs1rpGKsg0x99bVCzEaj1EiuLEgDQK3lXWJ
+         AoQ1VOvAxKknXe0KwHaFnjqKaUSH863tupc67UfFUraBCA06icMzv70WmlsYmSILLTdN
+         Xd2cx/nsIuRp25/Xg+zuQlnhgmCP/pa3n2lrWNhVMuA1+Xhun7fR54CGpdpZnR4G2Itz
+         J52A==
+X-Gm-Message-State: AC+VfDwlNp9cOHznUu6r3afDYZOnrRjlutTqNMPW7h3HD3p8sGnqYl6P
+        SIAqyimF5xs/ush5kvsoMdEvQTRHQPCphiVsrJA=
+X-Google-Smtp-Source: ACHHUZ4u0RD9o3Kl8FtNeecPkKIUUkqQP5EKCQy8Odb3BCVRQ/plvct7PNXp53hldLkfZ7jyXh0W2roGP4wdAWIFYf4=
+X-Received: by 2002:a17:906:af64:b0:966:5730:c3fe with SMTP id
+ os4-20020a170906af6400b009665730c3femr1223003ejb.52.1684495082502; Fri, 19
+ May 2023 04:18:02 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 2002:a17:907:7dab:b0:94f:7d03:8e8b with HTTP; Fri, 19 May 2023
+ 04:18:02 -0700 (PDT)
+Reply-To: ninacoulibaly03@myself.com
+From:   nina coulibaly <ninacoulibaly199@gmail.com>
+Date:   Fri, 19 May 2023 04:18:02 -0700
+Message-ID: <CAM7Z2JAs+q6RsD5Hw352ZDFruUVR5ngjAamir+4ZCakNdZyceg@mail.gmail.com>
+Subject: from nina coulibaly
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_BL_SPAMCOP_NET,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
-        *      blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [URIs: mojafirma24biz.pl]
-        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: mojafirma24biz.pl]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [94.177.230.123 listed in zen.spamhaus.org]
-        *  1.3 RCVD_IN_BL_SPAMCOP_NET RBL: Received via a relay in
-        *      bl.spamcop.net
-        *      [Blocked - see <https://www.spamcop.net/bl.shtml?94.177.230.123>]
-        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0000]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: mojafirma24biz.pl]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-X-Spam-Level: *****
+X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Dear,
 
-w zwi=C4=85zku z nieustannie rosn=C4=85cymi cenami produkt=C3=B3w i us=C5=
-=82ug - wiele firmy stawia na rozwi=C4=85zania, kt=C3=B3re pomog=C4=85 zm=
-niejszy=C4=87 wydatki zwi=C4=85zane z prowadzeniem dzia=C5=82alno=C5=9Bci=
-, a jednym z nich jest wyb=C3=B3r instalacji fotowoltaicznych.=20
+Please grant me permission to share a very crucial discussion with
+you. I am looking forward to hearing from you at your earliest
+convenience.
 
-Wszystkim odbiorcom szukaj=C4=85cym mo=C5=BCliwo=C5=9Bci obni=C5=BCenia k=
-oszt=C3=B3w energii elektrycznej, wychodzimy naprzeciw =C5=9Bwiadcz=C4=85=
-c kompleksow=C4=85 obs=C5=82ug=C4=99 inwestycji w fotowoltaik=C4=99.=20
-
-Jako jedyna na rynku firma zapewniamy 12 lat gwarancji, audyt po monta=C5=
-=BCowy, a tak=C5=BCe kalkulacj=C4=99 oszcz=C4=99dno=C5=9Bci po monta=C5=BC=
-u fotowoltaiki.
-
-Umo=C5=BCliwiamy leasing z odroczon=C4=85 sp=C5=82at=C4=85 i bez wk=C5=82=
-adu w=C5=82asnego, gwarantujemy wsparcie w pozyskaniu odpowiedniego =C5=BA=
-r=C3=B3d=C5=82a finansowania i pomoc w przypadku wnioskowania o dotacj=C4=
-=99.
-
-Czy chcieliby Pa=C5=84stwo zapozna=C4=87 si=C4=99 z mo=C5=BCliwo=C5=9Bcia=
-mi inwestycji w PV dopasowanymi do Pa=C5=84stwa obiektu?
-
-
-Pozdrawiam
-Adam Wyrwisz
+Mrs. Nina Coulibal
