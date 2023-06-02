@@ -2,74 +2,69 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50FAA70962D
-	for <lists+linux-ppp@lfdr.de>; Fri, 19 May 2023 13:18:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD8D9720F2A
+	for <lists+linux-ppp@lfdr.de>; Sat,  3 Jun 2023 12:24:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231587AbjESLSL (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Fri, 19 May 2023 07:18:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54304 "EHLO
+        id S231336AbjFCKYz (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sat, 3 Jun 2023 06:24:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231846AbjESLSH (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Fri, 19 May 2023 07:18:07 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 544511716
-        for <linux-ppp@vger.kernel.org>; Fri, 19 May 2023 04:18:04 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-5112cae8d82so773447a12.2
-        for <linux-ppp@vger.kernel.org>; Fri, 19 May 2023 04:18:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684495083; x=1687087083;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YmxaI1amCfTksu6ynk2557PwK0HJxrBQmYIx/Pz5hBs=;
-        b=Wt/WzQmS095ww6zzUgoSSAlrCDxwL2gSoVBMsVxHRKn23YcliDiJyBLjqweTRoToj1
-         ufUOgV4j5pHE/9SR+dsRPr9gpju7XpaMYkUmYe1T6vrhoZIvsQDtFJjwfPWr0ZA8MwEK
-         A8xkN8RoXHrnV8mxXNMusUB3EToMcUvt2JPOXJbMgVYPwdz45S3ERx+Nyqo+cmGrrOa8
-         vd+RSV3BkQDybrevFx7U7UuvnFt+9sOfqdHCxo6t6nUsXpAQmNebiCtg7JMDFdLkqxgM
-         8PXBgbynXWRxC6QXqoh8bbtvc/aqA5Z2+Ycz9m8q7U5s8LdUBFb9kcl7MTOhQK2ZKsRi
-         q6Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684495083; x=1687087083;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YmxaI1amCfTksu6ynk2557PwK0HJxrBQmYIx/Pz5hBs=;
-        b=iVVv2reHw62ruGQbFOL3+I9IuXGupten9L9PE1+aEZEamNHVaUjK76gU2lZCUQjOAo
-         /n9Srx72TxqrqDSzXs2ZijvDknQkiNsYqZn6/6QFO2pCjYVsr0cQGZ45UKclaKb5lsco
-         KT32nUIMgudILZXB+UWvVJLHOJtvweTWMrs1rpGKsg0x99bVCzEaj1EiuLEgDQK3lXWJ
-         AoQ1VOvAxKknXe0KwHaFnjqKaUSH863tupc67UfFUraBCA06icMzv70WmlsYmSILLTdN
-         Xd2cx/nsIuRp25/Xg+zuQlnhgmCP/pa3n2lrWNhVMuA1+Xhun7fR54CGpdpZnR4G2Itz
-         J52A==
-X-Gm-Message-State: AC+VfDwlNp9cOHznUu6r3afDYZOnrRjlutTqNMPW7h3HD3p8sGnqYl6P
-        SIAqyimF5xs/ush5kvsoMdEvQTRHQPCphiVsrJA=
-X-Google-Smtp-Source: ACHHUZ4u0RD9o3Kl8FtNeecPkKIUUkqQP5EKCQy8Odb3BCVRQ/plvct7PNXp53hldLkfZ7jyXh0W2roGP4wdAWIFYf4=
-X-Received: by 2002:a17:906:af64:b0:966:5730:c3fe with SMTP id
- os4-20020a170906af6400b009665730c3femr1223003ejb.52.1684495082502; Fri, 19
- May 2023 04:18:02 -0700 (PDT)
+        with ESMTP id S229628AbjFCKYw (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sat, 3 Jun 2023 06:24:52 -0400
+X-Greylist: delayed 4199 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 03:24:51 PDT
+Received: from mail.webtopbits.pl (mail.webtopbits.pl [195.231.64.176])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8D42132
+        for <linux-ppp@vger.kernel.org>; Sat,  3 Jun 2023 03:24:51 -0700 (PDT)
+Received: by mail.webtopbits.pl (Postfix, from userid 1001)
+        id 7016FA38B5; Fri,  2 Jun 2023 09:36:06 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webtopbits.pl;
+        s=mail; t=1685694976;
+        bh=Eh8ECMiYd4baGAwPAzhz8mhJACXX7NSRkYjh+plaY18=;
+        h=Date:From:To:Subject:From;
+        b=eYasluwrNJbGhfasuAK8TdhT0cOOt9P9qMFCA8iCWh8HAbYI04Eomq5TSnhXvU8lh
+         OvFof9l1/S1Slx4Bm8jXx3KD8ApRqUj0eALmvkoHqGWp8HdwxWpRakbsuaaoWB2KAE
+         cP1kloR1mzh24Q2INY3gH2wipavzsOIWuYL1pvn+PEZW9HoHUOzYGHHDuql1APeJwH
+         ar0cLcZ3xiMZK+GIEgD82ZMk27JtYCxpoy0P4/+Hkq2q/i6L2ruFAb08bRxvKSCCYS
+         bEXQPWjEjsV+Y86Bp3EFzQwesKTDZoLWwX6V6OIhUeLW2tvmYO6VjoQDst9OkM+9yO
+         a+cGxgNmKv01Q==
+Received: by mail.webtopbits.pl for <linux-ppp@vger.kernel.org>; Fri,  2 Jun 2023 08:35:59 GMT
+Message-ID: <20230602085530-0.1.8w.5k4w.0.40tl8ifnaj@webtopbits.pl>
+Date:   Fri,  2 Jun 2023 08:35:59 GMT
+From:   "Kamil Durjasz" <kamil.durjasz@webtopbits.pl>
+To:     <linux-ppp@vger.kernel.org>
+Subject: =?UTF-8?Q?Wy=C5=BCsza_konwersja_w_e-sklepie_?=
+X-Mailer: mail.webtopbits.pl
 MIME-Version: 1.0
-Received: by 2002:a17:907:7dab:b0:94f:7d03:8e8b with HTTP; Fri, 19 May 2023
- 04:18:02 -0700 (PDT)
-Reply-To: ninacoulibaly03@myself.com
-From:   nina coulibaly <ninacoulibaly199@gmail.com>
-Date:   Fri, 19 May 2023 04:18:02 -0700
-Message-ID: <CAM7Z2JAs+q6RsD5Hw352ZDFruUVR5ngjAamir+4ZCakNdZyceg@mail.gmail.com>
-Subject: from nina coulibaly
-To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Dear,
+Dzie=C5=84 dobry,
 
-Please grant me permission to share a very crucial discussion with
-you. I am looking forward to hearing from you at your earliest
-convenience.
+w jaki spos=C3=B3b docieraj=C4=85 Pa=C5=84stwo do odbiorc=C3=B3w?
 
-Mrs. Nina Coulibal
+Tworzymy pot=C4=99=C5=BCne narz=C4=99dzia sprzeda=C5=BCy, kt=C3=B3re pozw=
+alaj=C4=85 kompleksowo rozwi=C4=85za=C4=87 problemy potencjalnych klient=C3=
+=B3w i skutecznie wp=C5=82yn=C4=85=C4=87 na ich decyzje zakupowe.=20
+
+Skupiamy si=C4=99 na Pa=C5=84stwa potrzebach zwi=C4=85zanych z obs=C5=82u=
+g=C4=85 sklepu, oczekiwaniach i planach sprzeda=C5=BCowych. Szczeg=C3=B3=C5=
+=82owo dopasowujemy grafik=C4=99, funkcjonalno=C5=9Bci, struktur=C4=99 i =
+mikrointerakcje do Pa=C5=84stwa grupy docelowej, co przek=C5=82ada si=C4=99=
+ na oczekiwane rezultaty.
+
+Ch=C4=99tnie przedstawi=C4=99 dotychczasowe realizacje, aby mogli Pa=C5=84=
+stwo przekona=C4=87 si=C4=99 o naszych mo=C5=BCliwo=C5=9Bciach. Mog=C4=99=
+ si=C4=99 skontaktowa=C4=87?
+
+
+Pozdrawiam
+Kamil Durjasz
