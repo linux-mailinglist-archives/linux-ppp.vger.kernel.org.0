@@ -2,69 +2,54 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CD8D9720F2A
-	for <lists+linux-ppp@lfdr.de>; Sat,  3 Jun 2023 12:24:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43028720C9F
+	for <lists+linux-ppp@lfdr.de>; Sat,  3 Jun 2023 02:29:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231336AbjFCKYz (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sat, 3 Jun 2023 06:24:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46600 "EHLO
+        id S236563AbjFCA3i convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-ppp@lfdr.de>); Fri, 2 Jun 2023 20:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbjFCKYw (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sat, 3 Jun 2023 06:24:52 -0400
-X-Greylist: delayed 4199 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 03 Jun 2023 03:24:51 PDT
-Received: from mail.webtopbits.pl (mail.webtopbits.pl [195.231.64.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8D42132
-        for <linux-ppp@vger.kernel.org>; Sat,  3 Jun 2023 03:24:51 -0700 (PDT)
-Received: by mail.webtopbits.pl (Postfix, from userid 1001)
-        id 7016FA38B5; Fri,  2 Jun 2023 09:36:06 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=webtopbits.pl;
-        s=mail; t=1685694976;
-        bh=Eh8ECMiYd4baGAwPAzhz8mhJACXX7NSRkYjh+plaY18=;
-        h=Date:From:To:Subject:From;
-        b=eYasluwrNJbGhfasuAK8TdhT0cOOt9P9qMFCA8iCWh8HAbYI04Eomq5TSnhXvU8lh
-         OvFof9l1/S1Slx4Bm8jXx3KD8ApRqUj0eALmvkoHqGWp8HdwxWpRakbsuaaoWB2KAE
-         cP1kloR1mzh24Q2INY3gH2wipavzsOIWuYL1pvn+PEZW9HoHUOzYGHHDuql1APeJwH
-         ar0cLcZ3xiMZK+GIEgD82ZMk27JtYCxpoy0P4/+Hkq2q/i6L2ruFAb08bRxvKSCCYS
-         bEXQPWjEjsV+Y86Bp3EFzQwesKTDZoLWwX6V6OIhUeLW2tvmYO6VjoQDst9OkM+9yO
-         a+cGxgNmKv01Q==
-Received: by mail.webtopbits.pl for <linux-ppp@vger.kernel.org>; Fri,  2 Jun 2023 08:35:59 GMT
-Message-ID: <20230602085530-0.1.8w.5k4w.0.40tl8ifnaj@webtopbits.pl>
-Date:   Fri,  2 Jun 2023 08:35:59 GMT
-From:   "Kamil Durjasz" <kamil.durjasz@webtopbits.pl>
-To:     <linux-ppp@vger.kernel.org>
-Subject: =?UTF-8?Q?Wy=C5=BCsza_konwersja_w_e-sklepie_?=
-X-Mailer: mail.webtopbits.pl
+        with ESMTP id S229802AbjFCA3i (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 2 Jun 2023 20:29:38 -0400
+X-Greylist: delayed 80 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 02 Jun 2023 17:29:28 PDT
+Received: from mail.caa.co.ug (unknown [41.210.163.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B90AB1BF;
+        Fri,  2 Jun 2023 17:29:28 -0700 (PDT)
+Received: from [10.0.5.67] (68.183.128.42) by EXCH2013.caa.co.ug
+ (192.168.0.10) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sat, 3 Jun
+ 2023 03:30:01 +0300
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Greetings, from the illuminati
+To:     Recipients <akyeyune@caa.co.ug>
+From:   The Illuminati <akyeyune@caa.co.ug>
+Date:   Fri, 2 Jun 2023 17:27:34 -0700
+Reply-To: <zawadiwara@gmail.com>
+Message-ID: <e2174a52b79d4ff28bcdd8b67e96aca0@EXCH2013.caa.co.ug>
+X-Originating-IP: [68.183.128.42]
+X-ClientProxiedBy: EXCH2013.caa.co.ug (192.168.0.10) To EXCH2013.caa.co.ug
+ (192.168.0.10)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2965AF7E5362776B
+X-Spam-Status: No, score=3.7 required=5.0 tests=BAYES_50,
+        FREEMAIL_FORGED_REPLYTO,RDNS_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Dzie=C5=84 dobry,
-
-w jaki spos=C3=B3b docieraj=C4=85 Pa=C5=84stwo do odbiorc=C3=B3w?
-
-Tworzymy pot=C4=99=C5=BCne narz=C4=99dzia sprzeda=C5=BCy, kt=C3=B3re pozw=
-alaj=C4=85 kompleksowo rozwi=C4=85za=C4=87 problemy potencjalnych klient=C3=
-=B3w i skutecznie wp=C5=82yn=C4=85=C4=87 na ich decyzje zakupowe.=20
-
-Skupiamy si=C4=99 na Pa=C5=84stwa potrzebach zwi=C4=85zanych z obs=C5=82u=
-g=C4=85 sklepu, oczekiwaniach i planach sprzeda=C5=BCowych. Szczeg=C3=B3=C5=
-=82owo dopasowujemy grafik=C4=99, funkcjonalno=C5=9Bci, struktur=C4=99 i =
-mikrointerakcje do Pa=C5=84stwa grupy docelowej, co przek=C5=82ada si=C4=99=
- na oczekiwane rezultaty.
-
-Ch=C4=99tnie przedstawi=C4=99 dotychczasowe realizacje, aby mogli Pa=C5=84=
-stwo przekona=C4=87 si=C4=99 o naszych mo=C5=BCliwo=C5=9Bciach. Mog=C4=99=
- si=C4=99 skontaktowa=C4=87?
-
-
-Pozdrawiam
-Kamil Durjasz
+Greetings, from the illuminati world elite empire, Are you a business Man/woman,
+politician, musician, student, footballer,salary earner.
+Do you want to be rich, need protection, gain more knowledge, be powerful and famous.
+if YES!. Then you can achieve your dreams by being a member of the great illuminati empire,
+Once you are a member all your dreams and heart desire can be fully accomplish.
+With this brief summary, If you are interested to become a member of the great illuminati then
+get back to us for more information about joining the illuminati.
+Note: Some email providers incorrectly place messages in their spam / junk folder folder.
+This can divert and exclude our responses to your emails.
+The illuminati.
