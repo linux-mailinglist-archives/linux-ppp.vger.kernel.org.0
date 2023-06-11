@@ -2,173 +2,97 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36DB6727257
-	for <lists+linux-ppp@lfdr.de>; Thu,  8 Jun 2023 00:55:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B105872B857
+	for <lists+linux-ppp@lfdr.de>; Mon, 12 Jun 2023 08:53:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233085AbjFGWzk (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Wed, 7 Jun 2023 18:55:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54570 "EHLO
+        id S234643AbjFLGx3 (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Mon, 12 Jun 2023 02:53:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233152AbjFGWzd (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Wed, 7 Jun 2023 18:55:33 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 674DC26AC
-        for <linux-ppp@vger.kernel.org>; Wed,  7 Jun 2023 15:55:14 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-51491b87565so2576987a12.1
-        for <linux-ppp@vger.kernel.org>; Wed, 07 Jun 2023 15:55:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686178513; x=1688770513;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lwmqmz3SLTAm/5XHn54kA2Qkz1KiGdBlOiEDAaxIk1A=;
-        b=h4j71OFNDV5FfvldtjCh/L+Qg71oYHcBnHuDB5srtk996zsBHlbD8SaqVv65TPPNSR
-         D55ZWk68qXdEmt+kIdXRugiaujZb/weZnFCTHcuZcbiNqcbtWT0X7OlskYnP/y/1JDzr
-         WbOZ68AcZfM/aHW4up57fkOGafclaBar/hLOCFBtTjAlCxKYQtVTvq0W4SECGmO4CUql
-         dig397pPxdZX0OTvC2J8JrOzuSqogeJM29duG5G1BgaFsW6donzZWRU1Jz4x6qDKSWR9
-         w6/41Hy1gwVz7zf6M5uQKiqeQS7jHj9sppdk3jRa//N+UQ6Qg+lxAaHE7mp4Zy+a5Adc
-         Kv2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686178513; x=1688770513;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lwmqmz3SLTAm/5XHn54kA2Qkz1KiGdBlOiEDAaxIk1A=;
-        b=lzICDfTXnOlIKqBCLT7YOqDQoN6PZr/hipt3adOdPckpnC1gACWA9xNBSC9+dzKsZU
-         FCZ+6OJiMDqia9lQm3pRFWz37C2IepTUiFvyQoOkTKDkdc9wi2df2Te7G4cviX51PlQ2
-         yS6T2Chg4gNvgXkcoE5+ul3Jt0cPNfjgzag1Bi9HPH+qzGzvtb67ytqPi0svei6UCfZJ
-         gX4siwum+VTCCRlGmzqA2zJKGdLfWV0kauI+p38BrjNvGYcQtaxp1iZvcR1VG+0U7XOX
-         mW+ETELGWbmkWZnKqqB1RlNQTynCxqq+lvFSIto4YrxZicFl0Cp3U/i9VRjJc4YlYmpu
-         CSxg==
-X-Gm-Message-State: AC+VfDzy9xxudXXt0ttaaqAtAz/k8B/xEdaG0K2YU3uemTnSJBt3e2aa
-        VnUe2qbcpWTnhLTwbWvS1gBiBOOinWeq0RJ2UgEdbg2jj9DX+g==
-X-Google-Smtp-Source: ACHHUZ5q9v5E8VuN7LGrTh1boUYVANIIUnJnBwlK4YNL8XVT+z7GalrAexguq0b795Op+2qoCUEoHnMN8sFXq0M0ebg=
-X-Received: by 2002:a17:907:8a15:b0:96f:d154:54f7 with SMTP id
- sc21-20020a1709078a1500b0096fd15454f7mr7113590ejc.42.1686178492570; Wed, 07
- Jun 2023 15:54:52 -0700 (PDT)
+        with ESMTP id S234600AbjFLGx1 (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Mon, 12 Jun 2023 02:53:27 -0400
+X-Greylist: delayed 9006 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 11 Jun 2023 23:48:22 PDT
+Received: from mail1.ceniai.inf.cu (mail1.ceniai.inf.cu [169.158.128.150])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B615A10C2;
+        Sun, 11 Jun 2023 23:48:22 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail1.ceniai.inf.cu (Postfix) with ESMTP id 57EC14E8137;
+        Mon, 12 Jun 2023 00:09:26 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at mail1.ceniai.inf.cu
+Received: from mail1.ceniai.inf.cu ([127.0.0.1])
+        by localhost (mail1.ceniai.inf.cu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id WSVsOis4rone; Mon, 12 Jun 2023 00:09:26 -0400 (EDT)
+Received: from mail.vega.inf.cu (mail.vega.inf.cu [169.158.143.34])
+        by mail1.ceniai.inf.cu (Postfix) with ESMTP id 9A3994E8D46;
+        Mon, 12 Jun 2023 00:00:28 -0400 (EDT)
+Received: from mx1.ecovida.cu (unknown [169.158.179.26])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        by mail.vega.inf.cu (Postfix) with ESMTPS id D54B5565B0A;
+        Sun, 11 Jun 2023 11:40:11 -0400 (CDT)
+Received: from mx1.ecovida.cu (localhost [127.0.0.1])
+        by mx1.ecovida.cu (Proxmox) with ESMTP id 6A2B9240CE7;
+        Sun, 11 Jun 2023 15:23:52 -0400 (CDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ecovida.cu; h=cc
+        :content-description:content-transfer-encoding:content-type
+        :content-type:date:from:from:message-id:mime-version:reply-to
+        :reply-to:subject:subject:to:to; s=ecovida20; bh=eJCLj5LjLfltOUH
+        QwbhnEIM71NnOqC+k0uTJlyqNYA0=; b=DcRsVnh8PwZgs7y+XuOKXZsVaQBR/H6
+        XoACm7D3Yogbb1byEspwmAO2qEbTBHMBRjokBnHhowQEK0u5DCx6Q+DJuM4aPAGQ
+        m1IUL3Jrxhpnx1mha+204x7zV997W+a7qgttKpEZNEYo1zNd4bwr6JrPxUXBrvVV
+        rNjSKjASF1PcwDaH5VBWrFOfNBj+nT7kFyp1MNWVPoL6pgZtGf5rPwhdx6IMsT4C
+        /ezCQy3gmtNplW3691klQbMXXvf9m8f2STt41mJQnysXmxFaUi6AC3GMnQMOII6B
+        u4191nZxATn9FePP1IhGYMxqmuczU0qatcarBodAiiGfygRm1/JQUFA==
+Received: from correoweb.ecovida.cu (correoweb.ecovida.cu [192.168.100.7])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mx1.ecovida.cu (Proxmox) with ESMTPS id 5C4AE240A32;
+        Sun, 11 Jun 2023 15:23:52 -0400 (CDT)
+Received: from localhost (localhost [127.0.0.1])
+        by correoweb.ecovida.cu (Postfix) with ESMTP id 8253F50575F;
+        Sun, 11 Jun 2023 13:20:22 -0400 (CDT)
+Received: from correoweb.ecovida.cu ([127.0.0.1])
+        by localhost (correoweb.ecovida.cu [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 4y-7DLKV7ivg; Sun, 11 Jun 2023 13:20:22 -0400 (CDT)
+Received: from localhost (localhost [127.0.0.1])
+        by correoweb.ecovida.cu (Postfix) with ESMTP id 091644AD4E2;
+        Sun, 11 Jun 2023 12:35:34 -0400 (CDT)
+X-Virus-Scanned: amavisd-new at ecovida.cu
+Received: from correoweb.ecovida.cu ([127.0.0.1])
+        by localhost (correoweb.ecovida.cu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 4IrgkPfrbOHY; Sun, 11 Jun 2023 12:35:33 -0400 (CDT)
+Received: from [192.168.100.9] (unknown [45.88.97.218])
+        by correoweb.ecovida.cu (Postfix) with ESMTPSA id 5E2674B2B1D;
+        Sun, 11 Jun 2023 10:29:39 -0400 (CDT)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Received: by 2002:a54:2409:0:b0:217:72a9:f646 with HTTP; Wed, 7 Jun 2023
- 15:54:52 -0700 (PDT)
-Reply-To: unitednationcompensationcoordinatortreasury@hotmail.com
-From:   "UNITED NATION DEPUTY SECRETARY-GENERAL (U.N)" 
-        <successikolo@gmail.com>
-Date:   Wed, 7 Jun 2023 15:54:52 -0700
-Message-ID: <CADFNGJ8vkgORi1jPvvhP+FQnPCNqs4cr588+_a-ywDXpqf+qKA@mail.gmail.com>
-Subject: CONTACT DHL OFFICE IMMEDIATELY FOR YOUR ATM MASTER CARD 1.5 MILLION,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.6 required=5.0 tests=ADVANCE_FEE_3_NEW_FRM_MNY,
-        BAYES_50,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FILL_THIS_FORM,FORM_FRAUD_5,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FORM,MONEY_FRAUD_5,MONEY_FREEMAIL_REPTO,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUBJ_ALL_CAPS,
-        T_FILL_THIS_FORM_LOAN,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2a00:1450:4864:20:0:0:0:52c listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [successikolo[at]gmail.com]
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  0.2 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.0 FILL_THIS_FORM Fill in a form with personal information
-        *  0.0 T_FILL_THIS_FORM_LOAN Answer loan question(s)
-        *  0.0 MONEY_FORM Lots of money if you fill out a form
-        *  1.3 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-        *  0.0 ADVANCE_FEE_3_NEW_FRM_MNY Advance Fee fraud form and lots of
-        *      money
-        *  0.2 MONEY_FRAUD_5 Lots of money and many fraud phrases
-        *  0.0 FORM_FRAUD_5 Fill a form and many fraud phrases
-X-Spam-Level: ******
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Content-Description: Mail message body
+Subject: RE:
+To:     Recipients <lazaroluis@ecovida.cu>
+From:   Aldi Albrecht <lazaroluis@ecovida.cu>
+Date:   Sun, 11 Jun 2023 15:33:46 +0100
+Reply-To: aldiheister@gmail.com
+X-Antivirus: Avast (VPS 230611-4, 6/11/2023), Outbound message
+X-Antivirus-Status: Clean
+Message-Id: <20230611142940.5E2674B2B1D@correoweb.ecovida.cu>
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-UNITED NATION DEPUTY SECRETARY-GENERAL.
+Hallo gesch=E4tzter Beg=FCnstigter, Sie wurden f=FCr eine gro=DFe Geldsumme=
+ f=FCr humanit=E4re und Investitionszwecke jeglicher Art ausgew=E4hlt. F=FC=
+r weitere Details antworten Sie bitte.
 
-This is to official inform you that we have been having meetings for
-the past three (3) weeks which ended two days ago with MR. JIM YONG
-KIM the world bank president and other seven continent presidents on
-the congress we treated on solution to scam victim problems.
+Gr=FC=DFe
+ 
+Beate Heister
+Eigent=FCmer
+Aldi Albrecht-TRUST
 
- Note: we have decided to contact you following the reports we
-received from anti-fraud international monitoring group your
-name/email has been submitted to us therefore the united nations have
-agreed to compensate you with the sum of (USD$ 1.5 Million) this
-compensation is also including international business that failed you
-in the past due to government problems etc.
+-- 
+This email has been checked for viruses by Avast antivirus software.
+www.avast.com
 
- We have arranged your payment through our ATM Master Card and
-deposited it in DHL Office to deliver it to you which is the latest
-instruction from the World Bank president MR. JIM YONG KIM, For your
-information=E2=80=99s, the delivery charges already paid by U.N treasury, t=
-he
-only money you will send to DHL office south Korea is
-($500). for security keeping fee, U.N coordinator already paid for
-others charges fees for delivery except the security keeping fee, the
-director of DHL refused to collect the security keeping fee from U.N
-coordinator, the Director of DHL office said that they don=E2=80=99t know
-exactly time you will contact them to reconfirm your details to avoid
-counting demur-rage that is why they refused collecting the ($500) .
-for security keeping fee.
-
- Therefore be advice to contact DHL Office agent south Korea. Rev:John
-Lee Tae-seok
-who is in position to deliver your ATM
-Master Card to your location address, contact DHL Office immediately
-with the bellow email & phone number as listed below.
-
- Contact name: John Lee Tae-seok
-
- Email:( dhlgeneralheadquartersrepublic@gmail.com )
-
- Do not hesitate to Contact Rev: John Lee Tae-seok, as soon as you
-
- read this message. Email:( dhlgeneralheadquartersrepublic@gmail.com )
-
- Make sure you reconfirmed DHL Office your details ASAP as stated
-below to avoid wrong delivery.
-
- Your full name..........
-
- Home address:.........
-
- Your country...........
-
- Your city..............
-
- Telephone......
-
- Occupation:.......
-
- Age:=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6=E2=80=A6..
-
- Let us know as soon as possible you receive your ATM MasterCard
-for proper verification.
-
- Regards,
-
- Mrs Vivian kakadu.
-
- DEPUTY SECRETARY-GENERAL (U.N)
