@@ -2,61 +2,78 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B53E877B301
-	for <lists+linux-ppp@lfdr.de>; Mon, 14 Aug 2023 09:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD5C877EFC2
+	for <lists+linux-ppp@lfdr.de>; Thu, 17 Aug 2023 06:11:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234369AbjHNHvz (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 14 Aug 2023 03:51:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49134 "EHLO
+        id S236144AbjHQELA (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 17 Aug 2023 00:11:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234336AbjHNHvb (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 14 Aug 2023 03:51:31 -0400
-Received: from mail.commercesolutions.pl (unknown [162.19.155.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15A349F
-        for <linux-ppp@vger.kernel.org>; Mon, 14 Aug 2023 00:51:31 -0700 (PDT)
-Received: by mail.commercesolutions.pl (Postfix, from userid 1002)
-        id B9FE822979; Mon, 14 Aug 2023 07:51:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=commercesolutions.pl;
-        s=mail; t=1691999489;
-        bh=PcMncQpBfIZCnTOfZJY5G1G+gaLn4c9QPfFvoXrE4rA=;
-        h=Date:From:To:Subject:From;
-        b=MO86ODvtE1JmL79YizNe+0GeDQYoL80kFDgusYjr+5JqvDWl9ESdoVhkBgi2jV8L4
-         yDEuXWADrR19IIpgyr+O1qqz8tVp9pYj6yG+6dZeICxCBH2KNt68KdffOXZXpMIhKN
-         ble/6G86I+k1K0mDeeV3bv4NN2gVVdLsx8Hf9yQ+IDfBmziR3yIeX/2bB49xSq0X+n
-         EXUy2UlGN9pL7nAHDdQSxqV6RJPQf9MP0PF8HXfmzFSfkfFYF+eNE4Wd9wizCflBuR
-         /oJqrohRdzJA3cgfadmSM2AHtdQOFABesXmgsuTvFRAyFtnbl4lUmq6lTemk/scs1D
-         yphYLxzIMWg0Q==
-Received: by mail.commercesolutions.pl for <linux-ppp@vger.kernel.org>; Mon, 14 Aug 2023 07:51:16 GMT
-Message-ID: <20230814064500-0.1.80.1fkmt.0.4bl3gbvfl1@commercesolutions.pl>
-Date:   Mon, 14 Aug 2023 07:51:16 GMT
-From:   "Kamil Tralewski" <kamil.tralewski@commercesolutions.pl>
-To:     <linux-ppp@vger.kernel.org>
-Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania?=
-X-Mailer: mail.commercesolutions.pl
+        with ESMTP id S1347977AbjHQEKd (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 17 Aug 2023 00:10:33 -0400
+Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B48EF2D5E
+        for <linux-ppp@vger.kernel.org>; Wed, 16 Aug 2023 21:10:31 -0700 (PDT)
+Received: by mail-oi1-x22a.google.com with SMTP id 5614622812f47-3a7d7df4e67so5150855b6e.1
+        for <linux-ppp@vger.kernel.org>; Wed, 16 Aug 2023 21:10:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692245431; x=1692850231;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gb4qAVlMN/V48c3tDnit9Qdh+68rSKImmu7s/ky4OWc=;
+        b=QZVr/KEqicRI/6SEayyUCINnGyTCaHQNpUidP/rTVfZpzY4WuOMnHGcHVPKXN4Avtd
+         v2Heqe2gzJDKdah5q8+CrUXrM0gbgquO1BMb3sXLowyrDdQb9bNyqDLhualr7G4ZOsjc
+         6dUMsjpMSnM3V0bOiyUgHeHbgMhaGR1qwXpEmWCTeVOu5foSWdJkBMiICSSlknsgKzjT
+         i11BLhBsjTOusIbMPFfUUNx099LKBDik3WnhGcmkMQAQmXKOjBWOmvzPmwLBcnW2Z4pK
+         qSIRe1U1PMqbITVS5d7PRt3HFk6Ih8+6SeqgL9N+S7PfD0F8hRDBVXMKeDOVoJMboMd2
+         Seug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692245431; x=1692850231;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gb4qAVlMN/V48c3tDnit9Qdh+68rSKImmu7s/ky4OWc=;
+        b=iwqv3lz+dK48xmfU6JGgSjR5S+4KoFhJJo0R2MCk34tDKZtIdPUZeY19sMEgUt7mxS
+         r6nDS+h4KfSAuuZoxfcXHhGo//+iQ6d27/GaLq5ek1xduGCYKgAXiYTe3MTV3CeAMl9P
+         xF9ymTz93JJKchoFhkA0c5l8Z1KMzdKY3bSnKAWhn+9pRDMoip7CQfQGIzeHWXNFlhby
+         UbbGP7osxokfno8wII9JWTM55mQDbkQkrKaEMqi1BSTOtkmty1BcWNdTHRfdJJLSZmkA
+         6CTMvFpIwBPJVLMPXqFcWF1R/3sJ2yzziD5YPbP9OyikYIzzsPDsNujnw4k1ZB5LYQvj
+         589Q==
+X-Gm-Message-State: AOJu0YzuGNGTr+pBRGXcHJpByuCdDarf6nI6p7b7ob1rozZDs5Be+qTI
+        M7Uxi0PXo6+kYEPW8c8/WgWmqp2SYL9urml2Gs8=
+X-Google-Smtp-Source: AGHT+IE+EUtZMOEKAqBMqqYWqu/RGZn+LQHYrEoeh4RZ4kAZ5+7Cge6AatfGuElbDFAwVCFeG3d4+yjCF93CGJg6ub4=
+X-Received: by 2002:a05:6808:211d:b0:3a7:500a:a481 with SMTP id
+ r29-20020a056808211d00b003a7500aa481mr5048636oiw.3.1692245430889; Wed, 16 Aug
+ 2023 21:10:30 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 2002:a05:6358:d099:b0:133:91d:bed5 with HTTP; Wed, 16 Aug 2023
+ 21:10:30 -0700 (PDT)
+Reply-To: privateemail01112@gmail.com
+From:   KEIN BRIGGS <privateemailjsuee@gmail.com>
+Date:   Wed, 16 Aug 2023 21:10:30 -0700
+Message-ID: <CAGgyiOpF7Zv46NvVHY4rvTo1qBA_8ijKgS9y7fMp4AZEZxHXwQ@mail.gmail.com>
+Subject: Your attention please!!
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=4.4 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS,UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Dzie=C5=84 dobry,
+Your attention please!
 
-zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
-=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
-o dalszych rozm=C3=B3w.=20
+My efforts to reaching you many times always not through.
 
-Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
-=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
-=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
-strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
+Please may you kindly let me know if you are still using this email
+address as my previous messages to you were not responded to.
 
-Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
+I await hearing from you once more if my previous messages were not received.
+Reach me via my email: privateemail01112@gmail.com
 
-Pozdrawiam
-Kamil Tralewski
+My regards,
+Kein Briggs.
