@@ -2,114 +2,67 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00207792A05
-	for <lists+linux-ppp@lfdr.de>; Tue,  5 Sep 2023 18:58:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DD8979FD3E
+	for <lists+linux-ppp@lfdr.de>; Thu, 14 Sep 2023 09:31:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350979AbjIEQdJ (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Tue, 5 Sep 2023 12:33:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50638 "EHLO
+        id S232036AbjINHbE (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 14 Sep 2023 03:31:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353825AbjIEIT2 (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Tue, 5 Sep 2023 04:19:28 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC19CDB
-        for <linux-ppp@vger.kernel.org>; Tue,  5 Sep 2023 01:19:25 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id af79cd13be357-76da0ed3b7aso140700285a.1
-        for <linux-ppp@vger.kernel.org>; Tue, 05 Sep 2023 01:19:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693901964; x=1694506764; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CvUmRYKO5rN5JiKdYLn9/Xxm/soJiVGtQm650JnL3Yc=;
-        b=Rsh1U5LWkGLD60egT4xH0OkFTYAdhZ9PEm8UjiAWZ2Ip5vQRRw1xGx18MGa89HvYT6
-         DHnioG41PeB3MkB8Ft4Wrqqp2kjHic/Vkr/qunTIeMzVwVxM8xASTQz27lIUkjehlemV
-         8hhlmR9WWRNLvf+5DEaOSg8zVsJ6dc1e3o0hPmiekrNR95zn5u2OlTodDzhAW5FoXvst
-         vtI6oie/Go2kADRNvERCwQ/tj5WyItWCvOqaItC7RUWSKHX1Jy68bxHNnuEfs4fh7/gu
-         3DkWJuriwsFIhQtQN+dSHz9r/brcNOoN1uxEnXTsFI93qPjm9f/GoLz132bzGfSth5g7
-         +kXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693901964; x=1694506764;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CvUmRYKO5rN5JiKdYLn9/Xxm/soJiVGtQm650JnL3Yc=;
-        b=TMDp7lYJD3sL2lcjL2NfcpGfd1HTqyxiwctGaO30gaYJaQfNKfPZAJeDBh7xhF6NaM
-         SWJmhg54841JtFNiD+ypW7d8WfuvQjT8gpl6fDVU8ExRMGX0pVL9FAxscW2W7VqMyxvK
-         CqyRh0Bjn8l+3OC3WCxPlTuzFkKu+PMnueeb7ZUo4/NYDAq2M2H+pjF4H7+X6Fpk2Qnk
-         83+2YvM8fRLz72J+IIKQsC3nEcVKyeH6p/KgmYTNoQliqEyZrspl93KKlZo/ptraPwYE
-         X0r3GvHzBiLR1d0d5aWIXRR/FFtd59jwYstNK2cnpK0ezQCpxUh5PhoHiD9bJWAjkdMR
-         7Xmg==
-X-Gm-Message-State: AOJu0Yxw3nRq8wra8DN0tsb5/QAZ+chYe3XvvU8fkEY1f84FpvL2vE8f
-        cok2MBzsEVW3wpsVPlf20fl5Q/O8jOgdqZiUiyeOA58mqIX5qA==
-X-Google-Smtp-Source: AGHT+IERAX8PQb3+O/VRt2IpdT+B8+AIRhc7TR9qfBXEywqtD/tUeMqNmseulSPs3fS452xIhVN8tbhQYqX1LXl34po=
-X-Received: by 2002:a0c:aa1b:0:b0:653:5736:c0b4 with SMTP id
- d27-20020a0caa1b000000b006535736c0b4mr10412089qvb.54.1693901943569; Tue, 05
- Sep 2023 01:19:03 -0700 (PDT)
+        with ESMTP id S230120AbjINHbE (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 14 Sep 2023 03:31:04 -0400
+Received: from mail.venturelinkbiz.com (mail.venturelinkbiz.com [51.195.119.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30811F3
+        for <linux-ppp@vger.kernel.org>; Thu, 14 Sep 2023 00:30:59 -0700 (PDT)
+Received: by mail.venturelinkbiz.com (Postfix, from userid 1002)
+        id 9DC714653E; Thu, 14 Sep 2023 07:30:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkbiz.com;
+        s=mail; t=1694676656;
+        bh=JBV4b8UUo1MSngn/QBoedt1Dv52bT8rWeq4R22MtJMs=;
+        h=Date:From:To:Subject:From;
+        b=P/y0LBHMZYjVncuyiUDZitD0fn+jpjf5fuL9sEz6CfW+vGNmlTswSzu+owhYdzAKP
+         Ke/+w+0dvXtLusUbJSnm2pXy+++drpg7pS5+50q2ZJ7iJPr5yVQsWdeg2+3TED+Gdb
+         YMcWSjFCwAu0qC+PllShX/ug/aON97gEuu91XP641XwJeQmPsPz/A6DnOSXLpmitNC
+         1smGv3lmP0d9wOgEeSU9lCQ2o1ZywZEhA3oiHCc2MrdoStMF9kKyXPVJy27/uGOL4J
+         15QfJ7Yc8qIDQldiTJK5k8pVp6OeCYT4FOcBo27jHO0NLbMfrEW5Q6/P0+tTASqqzt
+         swDxnL6E2GU4A==
+Received: by mail.venturelinkbiz.com for <linux-ppp@vger.kernel.org>; Thu, 14 Sep 2023 07:30:47 GMT
+Message-ID: <20230914064500-0.1.2e.6gt1.0.enu3js3ezo@venturelinkbiz.com>
+Date:   Thu, 14 Sep 2023 07:30:47 GMT
+From:   "Michal Rmoutil" <michal.rmoutil@venturelinkbiz.com>
+To:     <linux-ppp@vger.kernel.org>
+Subject: =?UTF-8?Q?Efektivn=C3=AD_sledov=C3=A1n=C3=AD_a_optimalizace_v=C3=BDroby_pro_va=C5=A1i_spole=C4=8Dnost?=
+X-Mailer: mail.venturelinkbiz.com
 MIME-Version: 1.0
-Received: by 2002:a0c:de0e:0:b0:634:8588:8dcb with HTTP; Tue, 5 Sep 2023
- 01:19:02 -0700 (PDT)
-Reply-To: wuwumoneytransfer5000@hotmail.com
-From:   "(IMF) SCAM VICTIMS" <smmab4668@gmail.com>
-Date:   Tue, 5 Sep 2023 01:19:02 -0700
-Message-ID: <CAPvhgiGb_xchv+cBfjtNXZbs3T38s2BJRqmONSNBDUeOvUkr=Q@mail.gmail.com>
-Subject: Betrugsopfer
-To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ****
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Sehr geehrter E-Mail-Besitzer,
+Dobr=C3=A9 r=C3=A1no,
+
+m=C3=A1te mo=C5=BEnost sledovat stav ka=C5=BEd=C3=A9ho stroje a v=C3=BDro=
+bn=C3=ADho procesu z kancel=C3=A1=C5=99e, konferen=C4=8Dn=C3=AD m=C3=ADst=
+nosti nebo dokonce z domova =C4=8Di na cest=C3=A1ch =E2=80=93 na va=C5=A1=
+em telefonu?
+
+Poskytujeme rychle implementovateln=C3=BD a snadno pou=C5=BEiteln=C3=BD n=
+=C3=A1stroj, kter=C3=BD zachyt=C3=AD i n=C4=9Bkolikasekundov=C3=BD mikrop=
+rostoj a okam=C5=BEit=C4=9B p=C5=99epo=C4=8D=C3=ADt=C3=A1 vyu=C5=BEit=C3=AD=
+ stroje v kontextu dan=C3=A9 v=C3=BDrobn=C3=AD zak=C3=A1zky.
+
+Kdykoli vid=C3=ADte stav objedn=C3=A1vky a jste informov=C3=A1ni o p=C5=99=
+=C3=ADpadn=C3=A9m sn=C3=AD=C5=BEen=C3=AD efektivity. Syst=C3=A9m s=C3=A1m=
+ analyzuje data a p=C5=99ipravuje cenn=C3=A9 reporty, co=C5=BE oper=C3=A1=
+tor=C5=AFm umo=C5=BE=C5=88uje soust=C5=99edit se na v=C3=BDrobn=C3=AD c=C3=
+=ADl.
+
+C=C3=ADl je jednoduch=C3=BD: jeden pohled =E2=80=93 cel=C3=A1 tov=C3=A1rn=
+a. =C4=8Cek=C3=A1m na odpov=C4=9B=C4=8F, jestli vid=C3=ADte mo=C5=BEnost =
+vyu=C5=BEit=C3=AD takov=C3=A9ho n=C3=A1stroje ve va=C5=A1=C3=AD firm=C4=9B=
+=2E
 
 
-
-Der Internationale W=C3=A4hrungsfonds (IWF) entsch=C3=A4digt alle Betrugsop=
-fer
-und Ihre E-Mail-Adresse wurde auf der Liste der Betrugsopfer gefunden.
-
-Dieses Western Union-B=C3=BCro wurde vom IWF beauftragt Ihnen Ihre
-Verg=C3=BCtung per Western Union Money Transfer zu =C3=BCberweisen.
-
-Wir haben uns jedoch entschieden Ihre eigene Zahlung =C3=BCber Geldtransfer
-der Westunion in H=C3=B6he von =E2=82=AC5,000, pro Tag vorzunehmen bis die
-Gesamtsumme von =E2=82=AC1,500.000.00, vollst=C3=A4ndig an Sie =C3=BCberwie=
-sen wurde.
-
-Wir k=C3=B6nnen die Zahlung m=C3=B6glicherweise nicht nur mit Ihrer
-E-Mail-Adresse senden daher ben=C3=B6tigen wir Ihre Informationen dar=C3=BC=
-ber
-wohin wir das Geld an Sie senden wie z. B.:
-
-
-Name des Adressaten ________________
-
-Adresse________________
-
-Land__________________
-
-Telefonnummer________________
-
-Angeh=C3=A4ngte Kopie Ihres Ausweises______________
-
-Das Alter ________________________
-
-
-Wir beginnen mit der =C3=9Cbertragung sobald wir Ihre Informationen
-erhalten haben: Kontakt E-Mail: ( wuwumoneytransfer5000@hotmail.com)
-
-
-Getreu,
-
-
-Herr Anthony Duru,
-
-Direktor von Geldtransfer der Westunion
+Pozdravy
+Michal Rmoutil
