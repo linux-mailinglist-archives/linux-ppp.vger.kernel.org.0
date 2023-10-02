@@ -2,63 +2,58 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B6BF7B4A7D
-	for <lists+linux-ppp@lfdr.de>; Mon,  2 Oct 2023 03:10:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C91C7B4ADA
+	for <lists+linux-ppp@lfdr.de>; Mon,  2 Oct 2023 04:46:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234872AbjJBBKQ (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Sun, 1 Oct 2023 21:10:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33810 "EHLO
+        id S229930AbjJBCqF (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Sun, 1 Oct 2023 22:46:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234905AbjJBBKP (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Sun, 1 Oct 2023 21:10:15 -0400
-Received: from mail-oa1-x29.google.com (mail-oa1-x29.google.com [IPv6:2001:4860:4864:20::29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C48AB
-        for <linux-ppp@vger.kernel.org>; Sun,  1 Oct 2023 18:10:12 -0700 (PDT)
-Received: by mail-oa1-x29.google.com with SMTP id 586e51a60fabf-1e12f41e496so1783736fac.3
-        for <linux-ppp@vger.kernel.org>; Sun, 01 Oct 2023 18:10:12 -0700 (PDT)
+        with ESMTP id S235120AbjJBCqF (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Sun, 1 Oct 2023 22:46:05 -0400
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3036CB8
+        for <linux-ppp@vger.kernel.org>; Sun,  1 Oct 2023 19:46:03 -0700 (PDT)
+Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-1d544a4a2f2so9034928fac.3
+        for <linux-ppp@vger.kernel.org>; Sun, 01 Oct 2023 19:46:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696209011; x=1696813811; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SlQ+hvWmQHcGG9GSzPyb0ObyJ006PvUfI9GxtqFtuQ0=;
-        b=YH3deejlneut2l2bdKT+kS5ZcRX868RloQrpTgwr3LKXlkl+BFG8KKAe9Cp/9PsUNP
-         wMxi3GqTcNlGzVtINVSL3S8Xl4io8101hEZNcDP2vUa4l1m9HFbF92/mENELjyLhxNlZ
-         D2jJcI8zs8lHS1HLXaAXGeaF3Hzi6jTMMnwAYk9c54tPhErHS5RJ/XSyK+XA6dxhE3SS
-         FjK0AeSq19/lhASDepPRdz1a5eQsDtOcjD9MFoTvTQBAs2sujkbhtFxA5Pi6Z9B7HtC3
-         yPjQ7bMZjp/txg58a2vZpCF79yPDlLaqYyQNjUBUvmeFtFdWWizTJignoOG+PzQ8LFz9
-         2iuw==
+        d=gmail.com; s=20230601; t=1696214762; x=1696819562; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=a4rzx+Er2yqeScmlfWnDzHLPmabH2iPVsvWpEk20/zI=;
+        b=cNGR3UPMvIf6ST6h8ymz02ZhEeHZKrdc2CuB6MU8XO+E+Rajx7sFHnSm34/U/eVTmh
+         tyfm//oiOHWXHxLT/27sXjgAcbvhhoICDgHUwFtx7hFDtn8Ba/8610dk3iQm2/YPMe80
+         VBEik2N4/zBbRIx/gwCVqhqlB+lkWvveMzQZGd2EsxemdRQAhLf18qr2FH5mUI3oFUjv
+         LNZEnjxJNtrhcWe2ysD11DeIyV24Uqqek50MjlN/WT4mxZ0d8MazjE7QBI2O1ULQ/vkF
+         E71Li9mrs1BA7ptJte/s3nLJYnZLcg913Fng6dir41UShpdb0RIgi6P96qC6q6nCVl08
+         5Lxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696209011; x=1696813811;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SlQ+hvWmQHcGG9GSzPyb0ObyJ006PvUfI9GxtqFtuQ0=;
-        b=ABIy6IST7SOiMNI8ppYj7JjojPgcFcHR4emKqhPoQAio74XAhk6lYM2hBdE3YCBd8C
-         uBJjzS/PTLPDQ6QakEgdvHDmzTYg++/T0pSpmvAnue3gtzxIg8f22qzbSPI6FfeQF3Wn
-         13OI89hsJqE2KUCaj0AaRChHZTYI+nbMBHxxBETGfKGonQbOXA3lcrtpAdD8L1Qmp45Y
-         H8yk5+WUwHDM+l0kyMfi7pnTXbDKLWrwmkC8nzbZErjqys3HulfMRQfa7s1XaOAHHwO4
-         xxGmmmigz0Z653XuWt/hGcJe/GpEOqgNWmnmA1M/tBM9loKp0xBoqmcY5XumzxCu5rK5
-         0HeQ==
-X-Gm-Message-State: AOJu0YxItZ4elgk5FE2W6OqAdlYriNdVyQpquOy0+75RkpgQoe+W0cPP
-        X8Cb0N3xOzyEFzJVJSEz0Q1ieWZindFGPX3hXK81e5YL
-X-Google-Smtp-Source: AGHT+IFI+HyoLHwCzdmZS3f+G5W+ZJCrdgXUEzde+dZB4NDvt15ZMBgaScKO2/eh3c//Vmn7ZQV0UU/9GJFoux2M9K8=
-X-Received: by 2002:a05:6870:1596:b0:1bb:a227:7008 with SMTP id
- j22-20020a056870159600b001bba2277008mr12738314oab.3.1696209011215; Sun, 01
- Oct 2023 18:10:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1696214762; x=1696819562;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a4rzx+Er2yqeScmlfWnDzHLPmabH2iPVsvWpEk20/zI=;
+        b=nW/tEnM8j52u7lfYUlaNuvEFfVNzRNHBqxLm4eNMl3Uat34TOMwFGXJ+BvIodBppek
+         Ac4sl9ksRSfad1gY4wkDjiahc/rTlaa/IgVj6sBiWq12HzweWp36ZoT+TvedJ9K/mWTO
+         +/4bKo31lkuV5u79Gu/R1bVKC5eyMXposYRSPEVNFewcz4AZXqu53xOcuV5INbzLY9m9
+         8kOdTtemR9NjV+J/nukgxrlmocMin0jOgOmavoqPc2pfAs+NKRGqrVs5CCCnAmAX+j91
+         JZIY9/0jD08GwRgRC+53A1XYXhuOxPidlnsPWGf0xleWL9CkkObNRI0xR9YSqFA0DDB8
+         U0iA==
+X-Gm-Message-State: AOJu0YzWjGrg5QZBIoivuAZca4PnpzgmIDskT3hRs+s7bWFzv6bsO3qE
+        fWMWq3tBpYnJwcM8LbWaNNsBnBem87Liq/svj9tbtGcQIb8=
+X-Google-Smtp-Source: AGHT+IGUSFqQxkerV7yW5uuXYqpU0lKWiNT+FfOpai4bha9XADh8UylsljjuxG5akp0zbs/EgJomaY7G2lo6HAVhOiY=
+X-Received: by 2002:a05:6870:65a7:b0:1bb:bcc3:c96 with SMTP id
+ fp39-20020a05687065a700b001bbbcc30c96mr13994165oab.33.1696214762272; Sun, 01
+ Oct 2023 19:46:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAF8i9mP8BeFEubvv8MpuqP-K1okvoJHRb8m1V=JAE33UZrp2_g@mail.gmail.com>
-In-Reply-To: <CAF8i9mP8BeFEubvv8MpuqP-K1okvoJHRb8m1V=JAE33UZrp2_g@mail.gmail.com>
 From:   William Tambe <tambewilliam@gmail.com>
-Date:   Sun, 1 Oct 2023 20:10:06 -0500
-Message-ID: <CAF8i9mOo2CRy-jt=q_xDtYqQ6UDsBB=K6ZeGRLxdina-aC=a=Q@mail.gmail.com>
-Subject: Re: [PATCH] drivers/net/slip: prevent data alignment fault
+Date:   Sun, 1 Oct 2023 21:45:57 -0500
+Message-ID: <CAF8i9mO42DbVzPhz9cpaL2frpYUyOcSC7qdx6r6bYxkS+QYrKw@mail.gmail.com>
+Subject: [PATCH] drivers/net/slip: prevent data alignment fault
 To:     linux-ppp@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,46 +61,42 @@ Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-Please, disregard patch, as it is incorrect; resending correct patch
-shortly with better explanation of the fix.
+From 594e53fa4913b1cb6232dbcc73d905a94c0cae73 Mon Sep 17 00:00:00 2001
+From: William Tambe <tambewilliam@gmail.com>
+Date: Sun, 1 Oct 2023 21:38:15 -0500
+Subject: [PATCH] drivers/net/slip: prevent data alignment fault
 
-On Sun, Oct 1, 2023 at 5:19=E2=80=AFPM William Tambe <tambewilliam@gmail.co=
-m> wrote:
->
-> From c630b0aea59c1dced626c9da95fd71033763d606 Mon Sep 17 00:00:00 2001
-> From: William Tambe <tambewilliam@gmail.com>
-> Date: Sun, 1 Oct 2023 17:17:03 -0500
-> Subject: [PATCH] drivers/net/slip: prevent data alignment fault
->
-> ---
->  drivers/net/slip/slhc.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/net/slip/slhc.c b/drivers/net/slip/slhc.c
-> index ba93bab948e0..78b07c46fe08 100644
-> --- a/drivers/net/slip/slhc.c
-> +++ b/drivers/net/slip/slhc.c
-> @@ -459,7 +459,8 @@ slhc_compress(struct slcompress *comp, unsigned
-> char *icp, int isize,
->          *cpp =3D ocp;
->          *cp++ =3D changes;
->      }
-> -    *(__sum16 *)cp =3D csum;
-> +    *cp++ =3D (char)(csum&0xff);
-> +    *cp++ =3D (char)((csum>>8)&0xff);
->      cp +=3D 2;
->  /* deltaS is now the size of the change section of the compressed header=
- */
->      memcpy(cp,new_seq,deltaS);    /* Write list of deltas */
-> @@ -534,7 +535,7 @@ slhc_uncompress(struct slcompress *comp, unsigned
-> char *icp, int isize)
->      thp =3D &cs->cs_tcp;
->      ip =3D &cs->cs_ip;
->
-> -    thp->check =3D *(__sum16 *)cp;
-> +    thp->check =3D (((__sum16)*cp)|(((__sum16)*(cp+1))<<8));
->      cp +=3D 2;
->
->      thp->psh =3D (changes & TCP_PUSH_BIT) ? 1 : 0;
-> --
-> 2.34.1
+Prevent data alignment fault on architectures which cannot
+do unaligned memory access.
+---
+ drivers/net/slip/slhc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/slip/slhc.c b/drivers/net/slip/slhc.c
+index ba93bab948e0..08fd570a6d40 100644
+--- a/drivers/net/slip/slhc.c
++++ b/drivers/net/slip/slhc.c
+@@ -459,8 +459,8 @@ slhc_compress(struct slcompress *comp, unsigned
+char *icp, int isize,
+         *cpp = ocp;
+         *cp++ = changes;
+     }
+-    *(__sum16 *)cp = csum;
+-    cp += 2;
++    *cp++ = (char)(csum&0xff);
++    *cp++ = (char)((csum>>8)&0xff);
+ /* deltaS is now the size of the change section of the compressed header */
+     memcpy(cp,new_seq,deltaS);    /* Write list of deltas */
+     memcpy(cp+deltaS,icp+hlen,isize-hlen);
+@@ -534,7 +534,7 @@ slhc_uncompress(struct slcompress *comp, unsigned
+char *icp, int isize)
+     thp = &cs->cs_tcp;
+     ip = &cs->cs_ip;
+
+-    thp->check = *(__sum16 *)cp;
++    thp->check = (((__sum16)*cp)|(((__sum16)*(cp+1))<<8));
+     cp += 2;
+
+     thp->psh = (changes & TCP_PUSH_BIT) ? 1 : 0;
+-- 
+2.34.1
