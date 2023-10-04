@@ -2,58 +2,43 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C816E7B5675
-	for <lists+linux-ppp@lfdr.de>; Mon,  2 Oct 2023 17:38:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B90DF7B78F9
+	for <lists+linux-ppp@lfdr.de>; Wed,  4 Oct 2023 09:48:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238089AbjJBPZK (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 2 Oct 2023 11:25:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43226 "EHLO
+        id S232666AbjJDHss (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Wed, 4 Oct 2023 03:48:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238115AbjJBPZJ (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 2 Oct 2023 11:25:09 -0400
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ADC4E0
-        for <linux-ppp@vger.kernel.org>; Mon,  2 Oct 2023 08:25:03 -0700 (PDT)
-Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-1e10ba12fd3so2569465fac.1
-        for <linux-ppp@vger.kernel.org>; Mon, 02 Oct 2023 08:25:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1696260302; x=1696865102; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PloZHtMWJwTrSlhA6YxlQX6eiJULi3WZRmULehribQs=;
-        b=SjFHCMZqvn1rYUvqwQsTidmgCQXmSMGsNX/oVVd4LCGFVwmVL/lcouj6MZeotWyNuq
-         Jocq/aoLArF4/Y2jodqiZtw3BPze/2nawePTbO/JJbud44PfOV43eokRw12X5ta+dmvL
-         03SSuMcpozNYu6fmrpWgI6h1EpQN1pnt4gXfOMu1XdFp1wjSrNfxpznoYIqbnjr5aELj
-         qvsV89dIXDvexfgckczBlxqdKv1V8c9vT008tzMSUjHh8GBD9gJxQbofTkX3pwxBxTnb
-         ZNz7XsYT2tWFaNQHJgW0da9G/adk1Qf9jUCpXNmbOnY3TsQakgxRCI1HQ3wqhGmJxizf
-         jTug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696260302; x=1696865102;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PloZHtMWJwTrSlhA6YxlQX6eiJULi3WZRmULehribQs=;
-        b=v9WDbYraPoJaiO9vGFyJzDm7BonSufVaW5AcI+fy4Z38bI6fBb1liVu6Wxqc0hv09Y
-         wFjpi0FKHKppBjdRX9l8aNemFl7Zf7agEzTvp4qhbWxouoaBEzK7SsC4mKLEa26jKWw5
-         SitroLwlrF/E2P5hSx9UJVgHf4iolw1L9UphBeHmS4Cq1UIJ5g9yYO4mTQeYZ7ejPJf8
-         0ukF19G8NKpoRLIQwVRjTpjPfEfUUExd2+QLIJv6lTPBdqNQH4B3VlYkar6W59eKbUSv
-         VAVd7Az5+G9HbkuSeHTrPHEarufMrrvdCcYCMZZTEgpphIYg3b8I7HUDJDkUpNO5WNcl
-         xutQ==
-X-Gm-Message-State: AOJu0Ywff1G4emxGmmjJ/VGxm1/4XdRqJkTbpN7ix1dZj7GdQLXj39Yb
-        0bRbUWbs9T/9FF0b7ETCoYY9jdwtRKXa77dLeZ7KhePQ/ds=
-X-Google-Smtp-Source: AGHT+IELq8zdSTuhD4ajVvQsRr/9jxuWoPUNs4DBIJSa757won2rdhH2qgb5/wBQFNJOSNA/Kn37qTFiD9Qd/Z1XU80=
-X-Received: by 2002:a05:6870:f6a1:b0:1d5:a72e:154e with SMTP id
- el33-20020a056870f6a100b001d5a72e154emr13562480oab.36.1696260302088; Mon, 02
- Oct 2023 08:25:02 -0700 (PDT)
+        with ESMTP id S232694AbjJDHsr (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Wed, 4 Oct 2023 03:48:47 -0400
+X-Greylist: delayed 437 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 04 Oct 2023 00:48:41 PDT
+Received: from mail.citycodes.pl (mail.citycodes.pl [158.255.215.195])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32DBDAB
+        for <linux-ppp@vger.kernel.org>; Wed,  4 Oct 2023 00:48:41 -0700 (PDT)
+Received: by mail.citycodes.pl (Postfix, from userid 1001)
+        id 374601F442; Wed,  4 Oct 2023 09:40:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=citycodes.pl; s=mail;
+        t=1696405283; bh=mMhfBvhM53FtUQl1P3lyeSY5aDBQYiR8qQBy6YFQHi0=;
+        h=Date:From:To:Subject:From;
+        b=UCxSjhJgzwoBzUUbHaDJ3ZryfVwo3909PStof318yfQjCEwUpRQwtu8r9mh04LQMD
+         GQFs8XDAr50Ctti0VKdJ3vAiAM9md6rjB5trl6CNYH1hSUoGwmUGe9LbAxUACbRSI4
+         iWKX+GfZrePaQ3sPsg/l3TShx2NXR/TNsA8ojVS1e+RSJot2Fi+Cqj4rGDflFSgP8t
+         Go/1CyShrKr2xT7vVeWH5TN7QqOy2vqbh2sT7pcAqFwHTXxQaHqefw0BKYrpLbojOL
+         jxpV4Fo9MehmzM7qX+uifU10NjtxXWjDKdXGMw2fp/wkyZa+K3U9Mp/pxkYvZxYxVq
+         SvkUB7VG5Rbyg==
+Received: by mail.citycodes.pl for <linux-ppp@vger.kernel.org>; Wed,  4 Oct 2023 07:40:44 GMT
+Message-ID: <20231004084500-0.1.7v.j0hi.0.fb8jg2kkgg@citycodes.pl>
+Date:   Wed,  4 Oct 2023 07:40:44 GMT
+From:   "Kamil Lasek" <kamil.lasek@citycodes.pl>
+To:     <linux-ppp@vger.kernel.org>
+Subject: =?UTF-8?Q?Rozszerzenie_Programu_M=C3=B3j_Pr=C4=85d_5.0?=
+X-Mailer: mail.citycodes.pl
 MIME-Version: 1.0
-From:   William Tambe <tambewilliam@gmail.com>
-Date:   Mon, 2 Oct 2023 10:24:59 -0500
-Message-ID: <CAF8i9mP0q9cKG+GigeQUd_YTZaOG6oTNzho+xrv8Bi3oPtJ2yA@mail.gmail.com>
-Subject: [PATCH v2] drivers/net/slip: prevent data alignment fault
-To:     linux-ppp@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,40 +46,19 @@ Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-From d30bc4e92236e72bb0a9a743f3ad605ea1c1152e Mon Sep 17 00:00:00 2001
-From: William Tambe <tambewilliam@gmail.com>
-Date: Mon, 2 Oct 2023 10:16:54 -0500
-Subject: [PATCH v2] drivers/net/slip: prevent data alignment fault
+Szanowni Pa=C5=84stwo!
 
-Prevent data alignment fault on architectures which cannot
-do unaligned memory access.
----
- drivers/net/slip/slhc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+W ramach nowej edycji programu M=C3=B3j Pr=C4=85d mog=C4=85 otrzyma=C4=87=
+ Pa=C5=84stwo dofinansowanie na zakup i monta=C5=BC fotowoltaiki i/lub ma=
+gazynu energii. Maksymalna kwota dofinansowania wynosi 58 tys. z=C5=82.=20
 
-diff --git a/drivers/net/slip/slhc.c b/drivers/net/slip/slhc.c
-index ba93bab948e0..f198be2c7205 100644
---- a/drivers/net/slip/slhc.c
-+++ b/drivers/net/slip/slhc.c
-@@ -459,7 +459,7 @@ slhc_compress(struct slcompress *comp, unsigned
-char *icp, int isize,
-         *cpp = ocp;
-         *cp++ = changes;
-     }
--    *(__sum16 *)cp = csum;
-+    put_unaligned(csum, (__sum16 *)cp);
-     cp += 2;
- /* deltaS is now the size of the change section of the compressed header */
-     memcpy(cp,new_seq,deltaS);    /* Write list of deltas */
-@@ -534,7 +534,7 @@ slhc_uncompress(struct slcompress *comp, unsigned
-char *icp, int isize)
-     thp = &cs->cs_tcp;
-     ip = &cs->cs_ip;
+Jako firma wyspecjalizowana w tym zakresie zajmiemy si=C4=99 Pa=C5=84stwa=
+ wnioskiem o dofinansowanie oraz instalacj=C4=85 i serwisem dopasowanych =
+do Pa=C5=84stwa budynku paneli s=C5=82onecznych.
 
--    thp->check = *(__sum16 *)cp;
-+    thp->check = get_unaligned((__sum16 *)cp);
-     cp += 2;
+B=C4=99d=C4=99 wdzi=C4=99czny za informacj=C4=99 czy s=C4=85 Pa=C5=84stwo=
+ zainteresowani.
 
-     thp->psh = (changes & TCP_PUSH_BIT) ? 1 : 0;
--- 
-2.34.1
+
+Pozdrawiam,
+Kamil Lasek
