@@ -2,63 +2,81 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FDAF7DBC69
-	for <lists+linux-ppp@lfdr.de>; Mon, 30 Oct 2023 16:10:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E6B5F7DFACE
+	for <lists+linux-ppp@lfdr.de>; Thu,  2 Nov 2023 20:20:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233604AbjJ3PKA (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Mon, 30 Oct 2023 11:10:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40884 "EHLO
+        id S1344610AbjKBTUT (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Thu, 2 Nov 2023 15:20:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233594AbjJ3PJ7 (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Mon, 30 Oct 2023 11:09:59 -0400
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9CF0A9
-        for <linux-ppp@vger.kernel.org>; Mon, 30 Oct 2023 08:09:57 -0700 (PDT)
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-1e19cb7829bso2821867fac.1
-        for <linux-ppp@vger.kernel.org>; Mon, 30 Oct 2023 08:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698678597; x=1699283397; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KGL04S8tGUpdu2lZa0xwmYvsNqPksLNzTkayrI5h1V8=;
-        b=Z/k87tzpv1bgbXgQCYhlnhVXZ9ZTbdwrxPfW4umCCteDZu1tmPBjDnyLqqa9BYjNZM
-         de0KyUKx+PUZF7R9x8ddA6oJ9LgyVmEKDYOrRFJ0TOpL7NZSd39QVpePbeHFc9LGSpIb
-         Vx2Bc2V4xr7VxKarwgKSwMBCaiPA3vSzyAbggBT5tDf7KNRHrO/9MsrK3Oj7C4VNFnSl
-         dydw6BrZPrGDuIf+Q/KHy5ZU3GOZ3Cmp+/Sw3TXfy1duY4T+3i0MuTlqm0OJoBFYkDoK
-         lkoNKCvoOEV0AEM7tcd4GoQjZCHoFgB//WdNHFiaUyT1Nkmte8fkniLOcup2m85rm4kU
-         e40g==
+        with ESMTP id S229686AbjKBTUS (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Thu, 2 Nov 2023 15:20:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F899186
+        for <linux-ppp@vger.kernel.org>; Thu,  2 Nov 2023 12:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1698952769;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=VH/N2+u/BX61pZEFnFU4abdjTRFxE7atZBHYbezDKHQ=;
+        b=Vhva4KTkpA0DZA+QYn4Huiv8TbDsZRogH7ulMW9S5BCIFkDFUAo9eBON/hrSj2HvikXXU2
+        Gs+mooYwendhU0CvCO+jhe9l75f9Dk0p1ABcZFpnJvMfbSchd5dMSCbKa1rOi9aNp1dxlS
+        gWHZhsn1unrtBssJOMtstUjy4RYGZVg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-28-lPblhEK8P2GUNlDquki_ow-1; Thu, 02 Nov 2023 15:19:27 -0400
+X-MC-Unique: lPblhEK8P2GUNlDquki_ow-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4083e371a18so1505805e9.0
+        for <linux-ppp@vger.kernel.org>; Thu, 02 Nov 2023 12:19:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698678597; x=1699283397;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KGL04S8tGUpdu2lZa0xwmYvsNqPksLNzTkayrI5h1V8=;
-        b=CsDccVNwq0IIE40Qbz8yUUtBG6+hQlNca6zwMkzWMTEpoYoqu2r1swlY90wvOsnqrf
-         bmkOTwZjCym00VngmFSdMgv+5KTM3ru7QVJJczqh1IW/NCZtOOI8PFgOUGcx2l1ybaxy
-         I9djhsKPv+XhtjBFlp0+2tpdKg7048pc/+UzC3hOkMJC8w6jma0PPgqNdN6RPkOCc1PD
-         MwVypuPMTjtERf/sZRWkcrX44cLWMK3mQTfWTdpc0oSgHLKTTcjYlfRbVHqasjyx6TIf
-         1pnpiL2toZhqQiowNtneakbtrvfhPUUp2tov2cibDKoSqnuy8Gqh6cyxsILa4iIWI+PI
-         +uiw==
-X-Gm-Message-State: AOJu0Ywp9oHeSJar+C6OoK76A7nD9jd9yioZ2NK59fkEyhU6cEelbtDs
-        abAVADwEXdVVWBPdC0PtG8MRenEYT1TLlfAYdgsmObT0
-X-Google-Smtp-Source: AGHT+IG2MMWoCQ6QExPlroejeIsp3OcfEHHtjhLAOhYL2Q3qqxs5W55NsIw+rmy2DNx8BCB8vjG3oX5tQf9EpaoinNw=
-X-Received: by 2002:a05:6870:b155:b0:1ea:1e74:c377 with SMTP id
- a21-20020a056870b15500b001ea1e74c377mr14285484oal.36.1698678596800; Mon, 30
- Oct 2023 08:09:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698952766; x=1699557566;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VH/N2+u/BX61pZEFnFU4abdjTRFxE7atZBHYbezDKHQ=;
+        b=ZWYCG2DU92HyQAsWwBzYiGjTRPofwajzXB15iVl0aLSBAXDlUnJ9VRW4DaqiRAf/jh
+         p60b+TQ3NWyGwwfy841aj8EwepucUr/62gv5T1Q4CyY0whMHcoQVvmzcERDMg0PH+P6o
+         3VEktyaMrh1wKv02cPkknqzHtz6G+1EqIZhDONIo0NhofdDlu/GTivLWr9r6i+v/ATy6
+         nNrcjIcfvqp6TXUmOr7o5CLV+h+vcP81laJiGyqSOVEdxtR6o1QW7QgHC7ux8xsOJ5tA
+         /hKUHfZuHpZWQfdajF+j4BRh3pKZu7hSfzHvS7rJoqejeVmOtaAx95YBRns6MDVw+lf0
+         khGQ==
+X-Gm-Message-State: AOJu0YzGodQCHspEhzmcu90Z+ALrkNH3YBCqPvTm2e/Yu4scUMzsqEcq
+        sF4U1oCTT5UbUhnOnbGfSj/Bn4uoI6E/B9NyVUmiJ+dsn8auib+jnnrOxgmZ0slkaOec/3VYtWq
+        E9g7ijUn7nO+Ud1QdAEHM
+X-Received: by 2002:a05:600c:510a:b0:405:1ba2:4fcf with SMTP id o10-20020a05600c510a00b004051ba24fcfmr15749002wms.4.1698952766730;
+        Thu, 02 Nov 2023 12:19:26 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG7wSu4OKWotI05EoNGVSlLHC3iEji5MIz+S+leIFdg+jMKK6E/oGxssjELhigZ3tCQW+7N6g==
+X-Received: by 2002:a05:600c:510a:b0:405:1ba2:4fcf with SMTP id o10-20020a05600c510a00b004051ba24fcfmr15748984wms.4.1698952766361;
+        Thu, 02 Nov 2023 12:19:26 -0700 (PDT)
+Received: from pstanner-thinkpadt14sgen1.remote.csb ([2001:9e8:32c5:d600:227b:d2ff:fe26:2a7a])
+        by smtp.gmail.com with ESMTPSA id v3-20020a5d4a43000000b003232380ffd7sm86618wrs.102.2023.11.02.12.19.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Nov 2023 12:19:25 -0700 (PDT)
+From:   Philipp Stanner <pstanner@redhat.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Stanislav Fomichev <sdf@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Al Viro <viro@zeniv.linux.org.uk>
+Cc:     linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Philipp Stanner <pstanner@redhat.com>,
+        Dave Airlie <airlied@redhat.com>
+Subject: [PATCH] drivers/net/ppp: copy userspace array safely
+Date:   Thu,  2 Nov 2023 20:19:15 +0100
+Message-ID: <20231102191914.52957-2-pstanner@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-References: <CAF8i9mP0q9cKG+GigeQUd_YTZaOG6oTNzho+xrv8Bi3oPtJ2yA@mail.gmail.com>
-In-Reply-To: <CAF8i9mP0q9cKG+GigeQUd_YTZaOG6oTNzho+xrv8Bi3oPtJ2yA@mail.gmail.com>
-From:   William Tambe <tambewilliam@gmail.com>
-Date:   Mon, 30 Oct 2023 10:09:57 -0500
-Message-ID: <CAF8i9mOk=F3LY-vUWLMdizBwJXbn2rcRb1Agh_On0O0G3CSCiw@mail.gmail.com>
-Subject: Re: [PATCH v2] drivers/net/slip: prevent data alignment fault
-To:     linux-ppp@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -66,47 +84,32 @@ Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-What additional steps or changes do I need to make for this patch to
-make it to mainline ?
+In ppp_generic.c memdup_user() is utilized to copy a userspace array.
+This is done without an overflow check.
 
-On Mon, Oct 2, 2023 at 10:24=E2=80=AFAM William Tambe <tambewilliam@gmail.c=
-om> wrote:
->
-> From d30bc4e92236e72bb0a9a743f3ad605ea1c1152e Mon Sep 17 00:00:00 2001
-> From: William Tambe <tambewilliam@gmail.com>
-> Date: Mon, 2 Oct 2023 10:16:54 -0500
-> Subject: [PATCH v2] drivers/net/slip: prevent data alignment fault
->
-> Prevent data alignment fault on architectures which cannot
-> do unaligned memory access.
-> ---
->  drivers/net/slip/slhc.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/net/slip/slhc.c b/drivers/net/slip/slhc.c
-> index ba93bab948e0..f198be2c7205 100644
-> --- a/drivers/net/slip/slhc.c
-> +++ b/drivers/net/slip/slhc.c
-> @@ -459,7 +459,7 @@ slhc_compress(struct slcompress *comp, unsigned
-> char *icp, int isize,
->          *cpp =3D ocp;
->          *cp++ =3D changes;
->      }
-> -    *(__sum16 *)cp =3D csum;
-> +    put_unaligned(csum, (__sum16 *)cp);
->      cp +=3D 2;
->  /* deltaS is now the size of the change section of the compressed header=
- */
->      memcpy(cp,new_seq,deltaS);    /* Write list of deltas */
-> @@ -534,7 +534,7 @@ slhc_uncompress(struct slcompress *comp, unsigned
-> char *icp, int isize)
->      thp =3D &cs->cs_tcp;
->      ip =3D &cs->cs_ip;
->
-> -    thp->check =3D *(__sum16 *)cp;
-> +    thp->check =3D get_unaligned((__sum16 *)cp);
->      cp +=3D 2;
->
->      thp->psh =3D (changes & TCP_PUSH_BIT) ? 1 : 0;
-> --
-> 2.34.1
+Use the new wrapper memdup_array_user() to copy the array more safely.
+
+Suggested-by: Dave Airlie <airlied@redhat.com>
+Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+---
+ drivers/net/ppp/ppp_generic.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index a9beacd552cf..0193af2d31c9 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -570,8 +570,8 @@ static struct bpf_prog *get_filter(struct sock_fprog *uprog)
+ 
+ 	/* uprog->len is unsigned short, so no overflow here */
+ 	fprog.len = uprog->len;
+-	fprog.filter = memdup_user(uprog->filter,
+-				   uprog->len * sizeof(struct sock_filter));
++	fprog.filter = memdup_array_user(uprog->filter,
++					 uprog->len, sizeof(struct sock_filter));
+ 	if (IS_ERR(fprog.filter))
+ 		return ERR_CAST(fprog.filter);
+ 
+-- 
+2.41.0
+
