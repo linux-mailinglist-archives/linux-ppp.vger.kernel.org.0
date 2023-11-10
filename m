@@ -2,48 +2,62 @@ Return-Path: <linux-ppp-owner@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50F907E73CE
-	for <lists+linux-ppp@lfdr.de>; Thu,  9 Nov 2023 22:48:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3BE97E809D
+	for <lists+linux-ppp@lfdr.de>; Fri, 10 Nov 2023 19:17:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345395AbjKIVsr (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
-        Thu, 9 Nov 2023 16:48:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58162 "EHLO
+        id S235667AbjKJSRQ (ORCPT <rfc822;lists+linux-ppp@lfdr.de>);
+        Fri, 10 Nov 2023 13:17:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230020AbjKIVsq (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Thu, 9 Nov 2023 16:48:46 -0500
+        with ESMTP id S1344747AbjKJSPD (ORCPT
+        <rfc822;linux-ppp@vger.kernel.org>); Fri, 10 Nov 2023 13:15:03 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80A5E420B;
-        Thu,  9 Nov 2023 13:48:44 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2224C433C7;
-        Thu,  9 Nov 2023 21:48:41 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82D562B7B1;
+        Fri, 10 Nov 2023 03:10:26 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 259BBC433C9;
+        Fri, 10 Nov 2023 11:10:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699566524;
-        bh=7XuYnooz8inGMQvDAxkJmkzE0dIpxNG6Q8qjlRXE2fw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jWZbVbCbQ7Hyw8KbYQtLjHwYIwTOFwWbTK6TD4gXX97sjNOsjjftN7frhIJf47jPc
-         zYEL90kuHV0sZUdvCoulkn05qwLf3MymNSmmy85HkwR0hVZU+8pj3Uph9Oo3sARYQY
-         wo7mR6fOEN3buUcIAX2SH3gQ/YgzbunvJDltA7qniFHwsFrdLv3y42vWbrEIBss9+n
-         bcnk8IQ3ouVFgagwUy5AYy/HVA/ZZ3zEroieV1IcBD63HwPeubk+xo5Jo6EoUG8Rzk
-         ofS9X/ty31KbdqpHNaWRPXWxMtHaMzAe4BNlREL3kQYFIejvs54nR1laf6lEdghy4x
-         YmuwvymsWoXvQ==
-Date:   Thu, 9 Nov 2023 16:48:38 -0500
-From:   Simon Horman <horms@kernel.org>
+        s=k20201202; t=1699614626;
+        bh=VANhbifJBmxX82iSvi3j5Suzpz+UxaoUuMz9KrgLM4U=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=SO+khfQriRtIoMUpWGYD8eeQtg8JB6eVetLxcGWqxLQIJa74GHN2Ll6Os4T1Z/rMH
+         8f9Njr02z9bnw55UQWDKi35POjwdLXLuG5yuahUr078ocdzaGdMtb5kOML/emN2J7Y
+         J5dXmXtcCaCuxn9Tnc8JNwni3OIHG4rHcofzam7Ox8AQBaPCzBXFYPV1qW4cUzro3+
+         Zn0vOLZrb9EZlfb7qQcL0AY4Dx81CZOx2PaT2d1pbypV2KGZnQa7z7o/t99vHFhOPI
+         MKc1bh5/gqbaavxe/08I1dPvZoyY/qVqFqIMLRHB+aIOCYhCdChg0Q8+vjKfttWA/S
+         6hCD+xXpzhRgA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0D993E00084;
+        Fri, 10 Nov 2023 11:10:26 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] tty: Fix uninit-value access in ppp_sync_receive()
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169961462605.23529.6945068344166343230.git-patchwork-notify@kernel.org>
+Date:   Fri, 10 Nov 2023 11:10:26 +0000
+References: <20231108154420.1474853-1-syoshida@redhat.com>
+In-Reply-To: <20231108154420.1474853-1-syoshida@redhat.com>
 To:     Shigeru Yoshida <syoshida@redhat.com>
 Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
         pabeni@redhat.com, linux-ppp@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net] tty: Fix uninit-value access in ppp_sync_receive()
-Message-ID: <20231109214838.GB568506@kernel.org>
-References: <20231108154420.1474853-1-syoshida@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231108154420.1474853-1-syoshida@redhat.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
 
-On Thu, Nov 09, 2023 at 12:44:20AM +0900, Shigeru Yoshida wrote:
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by David S. Miller <davem@davemloft.net>:
+
+On Thu,  9 Nov 2023 00:44:20 +0900 you wrote:
 > KMSAN reported the following uninit-value access issue:
 > 
 > =====================================================
@@ -61,38 +75,15 @@ On Thu, Nov 09, 2023 at 12:44:20AM +0900, Shigeru Yoshida wrote:
 >  do_syscall_64+0x44/0x110 arch/x86/entry/common.c:82
 >  entry_SYSCALL_64_after_hwframe+0x63/0x6b
 > 
-> Uninit was created at:
->  __alloc_pages+0x75d/0xe80 mm/page_alloc.c:4591
->  __alloc_pages_node include/linux/gfp.h:238 [inline]
->  alloc_pages_node include/linux/gfp.h:261 [inline]
->  __page_frag_cache_refill+0x9a/0x2c0 mm/page_alloc.c:4691
->  page_frag_alloc_align+0x91/0x5d0 mm/page_alloc.c:4722
->  page_frag_alloc include/linux/gfp.h:322 [inline]
->  __netdev_alloc_skb+0x215/0x6d0 net/core/skbuff.c:728
->  netdev_alloc_skb include/linux/skbuff.h:3225 [inline]
->  dev_alloc_skb include/linux/skbuff.h:3238 [inline]
->  ppp_sync_input drivers/net/ppp/ppp_synctty.c:669 [inline]
->  ppp_sync_receive+0x237/0xe70 drivers/net/ppp/ppp_synctty.c:334
->  tiocsti+0x328/0x450 drivers/tty/tty_io.c:2295
->  tty_ioctl+0x808/0x1920 drivers/tty/tty_io.c:2694
->  vfs_ioctl fs/ioctl.c:51 [inline]
->  __do_sys_ioctl fs/ioctl.c:871 [inline]
->  __se_sys_ioctl+0x211/0x400 fs/ioctl.c:857
->  __x64_sys_ioctl+0x97/0xe0 fs/ioctl.c:857
->  do_syscall_x64 arch/x86/entry/common.c:51 [inline]
->  do_syscall_64+0x44/0x110 arch/x86/entry/common.c:82
->  entry_SYSCALL_64_after_hwframe+0x63/0x6b
-> 
-> CPU: 0 PID: 12950 Comm: syz-executor.1 Not tainted 6.6.0-14500-g1c41041124bd #10
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-1.fc38 04/01/2014
-> =====================================================
-> 
-> ppp_sync_input() checks the first 2 bytes of the data are PPP_ALLSTATIONS
-> and PPP_UI. However, if the data length is 1 and the first byte is
-> PPP_ALLSTATIONS, an access to an uninitialized value occurs when checking
-> PPP_UI. This patch resolves this issue by checking the data length.
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
+> [...]
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Here is the summary with links:
+  - [net] tty: Fix uninit-value access in ppp_sync_receive()
+    https://git.kernel.org/netdev/net/c/719639853d88
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
