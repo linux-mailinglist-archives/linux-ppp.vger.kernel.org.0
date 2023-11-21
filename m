@@ -1,45 +1,59 @@
-Return-Path: <linux-ppp-owner@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-1-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6179F7EB9A7
-	for <lists+linux-ppp@lfdr.de>; Tue, 14 Nov 2023 23:54:08 +0100 (CET)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229688AbjKNWyK convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-ppp@lfdr.de>); Tue, 14 Nov 2023 17:54:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55166 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232443AbjKNWyJ (ORCPT
-        <rfc822;linux-ppp@vger.kernel.org>); Tue, 14 Nov 2023 17:54:09 -0500
-X-Greylist: delayed 1210 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 14 Nov 2023 14:54:06 PST
-Received: from mail.jan.ne.jp (mail.jan.ne.jp [211.10.90.133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C6A8FDF
-        for <linux-ppp@vger.kernel.org>; Tue, 14 Nov 2023 14:54:06 -0800 (PST)
-Received: from www10.jan.ne.jp (www10.jan.ne.jp [211.10.90.141])
-        by mail.jan.ne.jp (Postfix) with SMTP id B582A19F3BF
-        for <linux-ppp@vger.kernel.org>; Wed, 15 Nov 2023 07:27:28 +0900 (JST)
-Received: (qmail 16631 invoked from network); 15 Nov 2023 05:34:43 +0900
-Received: from unknown (HELO ?51.195.53.194?) (eiji.i@isono-body.co.jp@51.195.53.194)
-  by www10.jan.ne.jp with SMTP; 15 Nov 2023 05:34:43 +0900
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: my subject
-To:     Recipients <eiji.i@isono-body.co.jp>
-From:   "Ms Toni" <eiji.i@isono-body.co.jp>
-Date:   Tue, 14 Nov 2023 12:34:31 -0800
-Reply-To: tran24358@gmail.com
-Message-ID: <20231114203443.15767.qmail@www10.jan.ne.jp>
-X-Spam-Status: No, score=4.5 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A803B7F241F
+	for <lists+linux-ppp@lfdr.de>; Tue, 21 Nov 2023 03:39:54 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 635CD281E50
+	for <lists+linux-ppp@lfdr.de>; Tue, 21 Nov 2023 02:39:53 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B25C111BF
+	for <lists+linux-ppp@lfdr.de>; Tue, 21 Nov 2023 02:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LD8vNAwf"
+X-Original-To: linux-ppp@vger.kernel.org
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B734217CA
+	for <linux-ppp@vger.kernel.org>; Tue, 21 Nov 2023 00:57:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1456BC433C8;
+	Tue, 21 Nov 2023 00:57:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1700528245;
+	bh=WydedWHI5hgSzmjYaAgFcEvQrWisnvd0Tah1sl3VwoE=;
+	h=Date:From:To:Subject:From;
+	b=LD8vNAwfhT29vyVRiSwbCOQgwQivReJdwmBvSgC8BGvkL7WjyYq0RJ+0+LtJNdj+8
+	 2v8+3T/V6FnP2VZmscqp+9oVMA8uKrJ6a6PPuvtKRiXNzcOHVPKZ6GZv/lEuKAE3/p
+	 36D8g6U93o5Y5KGoKLxp2uCEgiVc2bbM4PFwPHGY=
+Date: Mon, 20 Nov 2023 19:57:24 -0500
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: linux-ppp@vger.kernel.org
+Subject: PSA: this list has moved to new vger infra (no action required)
+Message-ID: <20231120-small-marvellous-stingray-251ef0@nitro>
 Precedence: bulk
-List-ID: <linux-ppp.vger.kernel.org>
 X-Mailing-List: linux-ppp@vger.kernel.org
+List-Id: <linux-ppp.vger.kernel.org>
+List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-I'm Toni Harris and I'm looking for a partner to work with in your country. I need assistance investing funds in your country. Email me to discuss this opportunity with you. Contact email: tran24358@gmail.com
+Hello, all:
+
+This list has been migrated to new vger infrastructure. No action is required
+on your part and there should be no change in how you interact with this list.
+
+This message acts as a verification test that the archives are properly
+updating.
+
+If something isn't working or looking right, please reach out to
+helpdesk@kernel.org.
+
+Best regards,
+-K
+
