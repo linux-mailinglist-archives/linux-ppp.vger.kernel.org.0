@@ -1,95 +1,82 @@
-Return-Path: <linux-ppp+bounces-4-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-5-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99FF981EB60
-	for <lists+linux-ppp@lfdr.de>; Wed, 27 Dec 2023 02:59:27 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F318225F7
+	for <lists+linux-ppp@lfdr.de>; Wed,  3 Jan 2024 01:30:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3E032833F1
-	for <lists+linux-ppp@lfdr.de>; Wed, 27 Dec 2023 01:59:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 07593B2276C
+	for <lists+linux-ppp@lfdr.de>; Wed,  3 Jan 2024 00:30:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56F0B1FBF;
-	Wed, 27 Dec 2023 01:59:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65ED97E9;
+	Wed,  3 Jan 2024 00:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QzkYxKnM"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87BF290A;
-	Wed, 27 Dec 2023 01:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 736372425c134f35a7e7d7a0bf2b187f-20231227
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:a9f54529-18db-4295-8c11-d437e02624db,IP:15,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:0
-X-CID-INFO: VERSION:1.1.35,REQID:a9f54529-18db-4295-8c11-d437e02624db,IP:15,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:0
-X-CID-META: VersionHash:5d391d7,CLOUDID:88c59a8d-e2c0-40b0-a8fe-7c7e47299109,B
-	ulkID:231227095903XK28CY75,BulkQuantity:0,Recheck:0,SF:17|19|44|66|24|102,
-	TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-UUID: 736372425c134f35a7e7d7a0bf2b187f-20231227
-Received: from node4.com.cn [(39.156.73.12)] by mailgw
-	(envelope-from <liyouhong@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 140538751; Wed, 27 Dec 2023 09:59:02 +0800
-Received: from node4.com.cn (localhost [127.0.0.1])
-	by node4.com.cn (NSMail) with SMTP id C900216001CD7;
-	Wed, 27 Dec 2023 09:59:01 +0800 (CST)
-X-ns-mid: postfix-658B84E5-69383545
-Received: from localhost.localdomain (unknown [172.20.185.164])
-	by node4.com.cn (NSMail) with ESMTPA id 6BD7116001CD7;
-	Wed, 27 Dec 2023 01:58:59 +0000 (UTC)
-From: YouHong Li <liyouhong@kylinos.cn>
-To: paulus@samba.org
-Cc: linux-ppp@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	davem@davemloft.net,
-	liyouhong <liyouhong@kylinos.cn>,
-	k2ci <kernel-bot@kylinos.cn>,
-	Simon Horman <horms@kernel.org>
-Subject: [PATCH v2] drivers/net/ppp/ppp_async.c: Fix spelling typo in comment
-Date: Wed, 27 Dec 2023 09:58:31 +0800
-Message-Id: <20231227015831.289077-1-liyouhong@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D0B23C8;
+	Wed,  3 Jan 2024 00:30:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AA15AC433C8;
+	Wed,  3 Jan 2024 00:30:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704241830;
+	bh=xPhNSHWSH/D4xh5+9vbVzSaKGAYr3R5ktkITLrWT/Lo=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=QzkYxKnMz3KcFi3gWcJKzGEA+8GT/e+MeQV7dKcdMhXsmyrkBuvz3YFTRZcGBKwkS
+	 5VOjIpOgvtkhmS/pxwfM2GXEqtcBcZnZonQ4qlhv/gDJJby0rw+jpsW9N+sIRof8Gs
+	 SUAP6MEovj22DkZ4gilDERhZmi6FdEnZNksV6crddGcW8i6Co0N1Niybesgh/T8Z9t
+	 r29kv04T0aJEi5kphDinODGh9EkQjxZYJUAaqgn04rJ8+mQuPA8qtjmejxWZhF6QQP
+	 Gw1bQZdjLl8AapzOKBZzckXNFU0XCENUBlcAFLKObqj0wjDxVbwiPNMcrJ/QsgjYaN
+	 wmQbrXAR+7HUg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 98AB5C395F8;
+	Wed,  3 Jan 2024 00:30:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] drivers/net/ppp/ppp_async.c: Fix spelling typo in comment
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <170424183062.18204.1002529777230334776.git-patchwork-notify@kernel.org>
+Date: Wed, 03 Jan 2024 00:30:30 +0000
+References: <20231227015831.289077-1-liyouhong@kylinos.cn>
+In-Reply-To: <20231227015831.289077-1-liyouhong@kylinos.cn>
+To: YouHong Li <liyouhong@kylinos.cn>
+Cc: paulus@samba.org, linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, davem@davemloft.net, kernel-bot@kylinos.cn,
+ horms@kernel.org
 
-From: liyouhong <liyouhong@kylinos.cn>
+Hello:
 
-Fix spelling typo in comment
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Reported-by: k2ci <kernel-bot@kylinos.cn>
-Signed-off-by: liyouhong <liyouhong@kylinos.cn>
-Reviewed-by: Simon Horman <horms@kernel.org>
+On Wed, 27 Dec 2023 09:58:31 +0800 you wrote:
+> From: liyouhong <liyouhong@kylinos.cn>
+> 
+> Fix spelling typo in comment
+> 
+> Reported-by: k2ci <kernel-bot@kylinos.cn>
+> Signed-off-by: liyouhong <liyouhong@kylinos.cn>
+> Reviewed-by: Simon Horman <horms@kernel.org>
 
-diff --git a/drivers/net/ppp/ppp_async.c b/drivers/net/ppp/ppp_async.c
-index b287bb811875..cb55b2d95eff 100644
---- a/drivers/net/ppp/ppp_async.c
-+++ b/drivers/net/ppp/ppp_async.c
-@@ -547,7 +547,7 @@ ppp_async_encode(struct asyncppp *ap)
- 	proto =3D get_unaligned_be16(data);
-=20
- 	/*
--	 * LCP packets with code values between 1 (configure-reqest)
-+	 * LCP packets with code values between 1 (configure-request)
- 	 * and 7 (code-reject) must be sent as though no options
- 	 * had been negotiated.
- 	 */
---=20
-2.34.1
+Here is the summary with links:
+  - [v2] drivers/net/ppp/ppp_async.c: Fix spelling typo in comment
+    https://git.kernel.org/netdev/net-next/c/38894ff3a04b
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
