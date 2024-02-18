@@ -1,144 +1,114 @@
-Return-Path: <linux-ppp+bounces-22-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-23-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949E0859293
-	for <lists+linux-ppp@lfdr.de>; Sat, 17 Feb 2024 21:17:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AFD985999D
+	for <lists+linux-ppp@lfdr.de>; Sun, 18 Feb 2024 22:47:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C75961C22133
-	for <lists+linux-ppp@lfdr.de>; Sat, 17 Feb 2024 20:17:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6D3F71C20C2D
+	for <lists+linux-ppp@lfdr.de>; Sun, 18 Feb 2024 21:47:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA026823DA;
-	Sat, 17 Feb 2024 20:13:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66CBB7428C;
+	Sun, 18 Feb 2024 21:47:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="CoZRJa6w"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QFAYK2mi"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C919823CA;
-	Sat, 17 Feb 2024 20:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE4AEAD7;
+	Sun, 18 Feb 2024 21:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708200815; cv=none; b=KtP8y4UxWE+RSTfXLP76wShFE9NgrUwqpWF5By8834XAXzxZyRteZeSmPTd5bfArm2s5hXYM8jguMJTCw6xnkl2d9ZmmiTayCW/jcoFg3p4W+z3fHBnvAC7xWfH+x643fEsj2g7K9xO9xGpDzd6URPJKLJvL5ri21B+M7S46ujk=
+	t=1708292844; cv=none; b=V7bFo2p20KNMGorIF5N9DeYaK5/xYCcd/XFBRIITreyIJK7DRdmkxf59hPH2nmIcg1kelhqKukLsoraSHxZiO7EHCg0g7U2R5xJGl3sBzAM6G05hHUB8+zBoqnagVIyn/dXHVZi4JREV4MeasWZXUd/QUktSbv1C5PeCjGHUpOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708200815; c=relaxed/simple;
-	bh=w71Wbcz7FmwZv+zc0blwnBWeOoYM4g6wH5JSNctbpo8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rjWxOzkpUECAcdBbhciwFfhb83FjSJbIp6lxEZ8RyG/pawWjinjxvUDT4ef/DNWLVXw09FCw/gMaNwCZyONNvdo2perp1MALbmaW+EiuYKww1s589lizmcadqPV59yUUW8dZClDHnOaMc0iqHN0hbVPnWbTBOOEKvkrkMZs1PuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=CoZRJa6w; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
+	s=arc-20240116; t=1708292844; c=relaxed/simple;
+	bh=He296CGuCmElTiY1KTWvPzuztsoIaHP2KjB4JkUw2Rs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ioi260F44trRg2u7kVIZM3fLOS9rnqNzSa+NSayuurIEjtvoty2BHSHmz2O+o7YIdCrwuMI1RMLL6wDKZUf/27T121F6NkMSgYTDFKJz7q+GPlTS1zA0KPrZtp4UaH0SCdE1F/WeUtVw36DK7A95VpjY3Z0KzCQHUWS1/00BQwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QFAYK2mi; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6e104a8e3f7so2623723b3a.1;
-        Sat, 17 Feb 2024 12:13:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708200814; x=1708805614;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:dkim-signature:from:x-gm-message-state
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-5cdf76cde78so3080258a12.1;
+        Sun, 18 Feb 2024 13:47:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708292842; x=1708897642; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=eLlN75gM6cSLXL0namU4YIlalW5Vi0mlHQZ3MHBhLI4=;
-        b=fPyALyfMFb2vJBpQaOQGTAuxDXSDm3XBnWZIPQpCbUWhVRFv/Ij2tfRneFALI/MrMa
-         LJV30g4l2VcrVrQ8uNOI1pLWZmNR/HYW4gJsTfOgXl4NsV9uTh3kJj4usnCEKgwsigLS
-         wOD+xTELHoe6e6tVZR8TrJzXFZRUQYyCRRyi/Y8QqJzGQfvWNUatJYBsU0xynyl/Vaw0
-         K00SXCkeJnUvArvnGeVAkq+NmbapiMQ7Cv2kvstlWOPBFb/uooCe7vJfXiuxzK/bettt
-         GGGA98aqD6pwlaL/e9Qa3WA8UCmP7Rnu+LIQIrINYsvpNpwb57wAZLMkXK7KkNholjhz
-         vgYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXiHlpQktA9ngw85tOFRtTFFo14fRQiqEUSAqPlzufRxQu1UJ57ydpZhSWs7JFdxNbWQ+RjxL/cfpAeIpGklE3fOWNoQq4EC5TwZI0K/pK9ltIevE9MZ002yH+zshC0ludkTiRvJ2uukQVt3D31Oe+Gd2LHMRaArSwUMdoQnvv1FdPG
-X-Gm-Message-State: AOJu0YwqL3B9quDFeWcXIzV8JEpI0G9nhb8lKDgJ2bTDJ9zlbQ0OOZ3i
-	94i8kI/ExUc+CBYFMpR9F7AiymIjRTibDuMzZ5UhLm8weblivuLH
-X-Google-Smtp-Source: AGHT+IETR8osEA01neyaUCatTxOdrg5wlbF2nxUD8OZZ8J5MVq8bPdspXda+OFm9Wsq/uoC1CkXsTQ==
-X-Received: by 2002:aa7:8703:0:b0:6e3:84cb:3d51 with SMTP id b3-20020aa78703000000b006e384cb3d51mr1500974pfo.33.1708200813620;
-        Sat, 17 Feb 2024 12:13:33 -0800 (PST)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id v9-20020aa78089000000b006e13a88d52esm2024077pff.61.2024.02.17.12.13.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Feb 2024 12:13:33 -0800 (PST)
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-	s=2024; t=1708200812;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eLlN75gM6cSLXL0namU4YIlalW5Vi0mlHQZ3MHBhLI4=;
-	b=CoZRJa6wPSrOMvSIpcKXRjMZvP8gNtwSvdc0gg5MRcDWy68yiY2a+GaHOh4MbVa/8prsRc
-	2ywLRY5zMey7LTXsfG7Dfrg0PuY4+BGFZtil2N7S561byE0ZLUHLI5DwZS7/xxeTtVxG8e
-	OiG6kIi1hMAf2iPrjJ+zUgAXP78Fjtffq+8eVm4JZ6aTsW3bZXoO0FrguQxbX7mcOy7aSf
-	J5BSr7EK++BMpAI7rDwO3fsBkF4WjjAdN6hjdauBvJ8BOv0txhmCCbJlLlG64vBt5r42uG
-	Lmk/7rcUa/XRx1Tfs5WI4Us4LcZLxKdZb8JND0cFtwATOnHzlisxm/cB//LFEw==
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-Date: Sat, 17 Feb 2024 17:13:34 -0300
-Subject: [PATCH 12/12] net: hso: constify the struct device_type usage
+        bh=2h7w3PICpgc66DOd0GBlKCF5dayhoEba8xQNx0hBJWY=;
+        b=QFAYK2mi3NROshGtkgi2zYr4bWZzvWrcRK4kVVlcFJijJvUUK+J/fTx19zkztEcquj
+         IJOgTI00OQglpNwrxsG+epvY5ldH+uzltgbS7EvI6y+SYM2N/iUg5wXsz+iipTW42fjZ
+         u6fSKJbbO60UwHZGhDaz+MWotuhdwXmH8wqsBHbKZTQZp3tca+IV7AMXwy5MvX1TxWZJ
+         xYbuDE34XHz19yqp7TITQUjkyRufy07pzHfnY737HwlOwsYXH47llBNbmUq/u6dYTleG
+         1vQQkLkO0Tp97wVRR9skbY32OTMqv+W6osSFaci3h/XJLXksf1RMHdXfCgCU7FOnXT1p
+         4wrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708292842; x=1708897642;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2h7w3PICpgc66DOd0GBlKCF5dayhoEba8xQNx0hBJWY=;
+        b=hqyjJcOOrxPOkumJWN6XUh42gRtE4zFj2r/LJR1D9dEXeXCbS078xrJzeEPCz6bFE6
+         Rbde9DipI2AySfnOHup7RO9eHkbKFl+TWi2QNLJ6t1P8zwAlLh7ofrv97hIYSBmFl2XJ
+         v33yk+X06/4uJYHr+L6t4pNOJ1L/Ay9IQrv5U39D1BYwVXOaG4ItxvhtfHIGE9DUzbAu
+         cjbR+DOEHVwIzozVUD/wfNQ9rjkv+WZhCvTlgfTjLZs9LVI2jnV0nBavaF4CUd+0em1s
+         INaHX/73O9yX/svj7bKvqGN1mw8a+qtcC4B3KH3MDCsf/dlDOFZ9hY06UUC9+Kx/s8y/
+         KfyA==
+X-Forwarded-Encrypted: i=1; AJvYcCWVv2GBPt/bT1WbVdvaneNvv2bVsl9hwxFk+fIrILjHs5WPm3k9dsOxdmaT6frDZTMNDraVvBFwBihQ6MbugqlOteoOqnJWWQFXDdu3RhCowme7rnC97pR2t98UfFkRmKyvo++Ayc0ZhFXpfTdqomKBfdupff+GhSGKJdiuy2Lhmo87
+X-Gm-Message-State: AOJu0YzZ/iIYISkFGbTQWBktWuVenJ6me58qZH2n5Ea+sHApZ1J7z+US
+	M/FZOc3w+FOGXpWOngovVMxHjqaoAZT5jWO+AaCLRdsk/1jmSQz7
+X-Google-Smtp-Source: AGHT+IHHsrNNaqhzpWEb7ZSZlMvmO/EGN3DdEK1PReUEdPvWQ75O4Nwi52lCklFmN/BpftZW2qDLAw==
+X-Received: by 2002:a17:902:76ca:b0:1d9:b739:a5aa with SMTP id j10-20020a17090276ca00b001d9b739a5aamr9080407plt.42.1708292842210;
+        Sun, 18 Feb 2024 13:47:22 -0800 (PST)
+Received: from ?IPV6:2600:8802:b00:ba1:b1a2:78a5:4a29:e334? ([2600:8802:b00:ba1:b1a2:78a5:4a29:e334])
+        by smtp.gmail.com with ESMTPSA id lb14-20020a170902fa4e00b001d9558689cfsm3107629plb.111.2024.02.18.13.46.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Feb 2024 13:47:20 -0800 (PST)
+Message-ID: <ce36b9ac-6a32-4b97-98e5-dde72ef2b99b@gmail.com>
+Date: Sun, 18 Feb 2024 13:46:37 -0800
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240217-device_cleanup-net-v1-12-1eb31fb689f7@marliere.net>
-References: <20240217-device_cleanup-net-v1-0-1eb31fb689f7@marliere.net>
-In-Reply-To: <20240217-device_cleanup-net-v1-0-1eb31fb689f7@marliere.net>
-To: Oliver Neukum <oneukum@suse.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, 
- Vladimir Oltean <olteanv@gmail.com>, Roopa Prabhu <roopa@nvidia.com>, 
- Nikolay Aleksandrov <razor@blackwall.org>, 
- Loic Poulain <loic.poulain@linaro.org>, 
- Sergey Ryazanov <ryazanov.s.a@gmail.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/12] net: dsa: constify the struct device_type usage
+To: "Ricardo B. Marliere" <ricardo@marliere.net>,
+ Oliver Neukum <oneukum@suse.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
+ Vladimir Oltean <olteanv@gmail.com>, Roopa Prabhu <roopa@nvidia.com>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Sergey Ryazanov <ryazanov.s.a@gmail.com>,
  Johannes Berg <johannes@sipsolutions.net>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, bridge@lists.linux.dev, 
- linux-ppp@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Ricardo B. Marliere" <ricardo@marliere.net>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=848; i=ricardo@marliere.net;
- h=from:subject:message-id; bh=w71Wbcz7FmwZv+zc0blwnBWeOoYM4g6wH5JSNctbpo8=;
- b=owEBbQKS/ZANAwAKAckLinxjhlimAcsmYgBl0RNuu2dyMd0Dn82mZJ0uYEioT0ekZ6c+ZBXf0
- tJ9Asq8mHeJAjMEAAEKAB0WIQQDCo6eQk7jwGVXh+HJC4p8Y4ZYpgUCZdETbgAKCRDJC4p8Y4ZY
- pkD4D/41UqCiVB/yP7feFrZ2WeO+O//tY1R6qezrJnX86aj43FGYbFyljHIpvyNHnnbMW2EX+wj
- dCy+bKz4luNffXMSQHX4ddVDqjpd6/VzlEC8O9/3PaijK5gbyjs6oM1bSSKD5TAA19f6k89+OA3
- mSFgkjwJRGSAH5tbn+zBjX0xRF/gaJn/rZ7+0ZTnW59ELApDiCdDBWxN1yG1RF9TB5E5uBykiok
- YmMvVC04WSuxJspHCWaZt1PZ4U2jFjg+Nw9+00ZmrnzYppqu7BCtmzB7PFeBThDK7lImtGB/8AQ
- OVjGXzCJXO3J/XRODHoAiEU0rhpx6InOgEG2o+o5OSt3TNDySGshVGqzMd8Yn7D4HWn/2KIlhwB
- bX3TFOKsD77AR5aexms8wG/Fs4sNE8JkDPrkVwx91DHFlDTefZAdmL5ck3XSlRWQE5H/DcpHWZw
- IWlocKvOMvNX3o8EZ0A+0YR44Eak9DcCrRhtjsmNEciBvAQAYW/8iB6ZJ7Pa1Yg/YgfkZVvqKE6
- +rPTvMSWmt4bZROlHkSWJdAH0xzHC4UBmz+8jSE0MxukTx8qXfEIaOInczSJ2+InLSYLNi5YfmN
- Yh4g4ZzIA4y7GI0LDHH948xVVCD2SI6se+4PCuTjPee2BCSR87K7JADdBMqmunFEnUCmZMfn+ZK
- BMODrTGSqLQ8R0A==
-X-Developer-Key: i=ricardo@marliere.net; a=openpgp;
- fpr=030A8E9E424EE3C0655787E1C90B8A7C638658A6
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bridge@lists.linux.dev,
+ linux-ppp@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20240217-device_cleanup-net-v1-0-1eb31fb689f7@marliere.net>
+ <20240217-device_cleanup-net-v1-2-1eb31fb689f7@marliere.net>
+Content-Language: en-US
+From: Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <20240217-device_cleanup-net-v1-2-1eb31fb689f7@marliere.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Since commit aed65af1cc2f ("drivers: make device_type const"), the driver
-core can properly handle constant struct device_type. Move the hso_type
-variable to be a constant structure as well, placing it into read-only
-memory which can not be modified at runtime.
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
----
- drivers/net/usb/hso.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
-index f088ea2ba6f3..1aeb36119d3f 100644
---- a/drivers/net/usb/hso.c
-+++ b/drivers/net/usb/hso.c
-@@ -2465,7 +2465,7 @@ static void hso_create_rfkill(struct hso_device *hso_dev,
- 	}
- }
- 
--static struct device_type hso_type = {
-+static const struct device_type hso_type = {
- 	.name	= "wwan",
- };
- 
+On 2/17/2024 12:13 PM, Ricardo B. Marliere wrote:
+> Since commit aed65af1cc2f ("drivers: make device_type const"), the driver
+> core can properly handle constant struct device_type. Move the dsa_type
+> variable to be a constant structure as well, placing it into read-only
+> memory which can not be modified at runtime.
+> 
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 
+Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
 -- 
-2.43.0
-
+Florian
 
