@@ -1,99 +1,90 @@
-Return-Path: <linux-ppp+bounces-27-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-28-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6FDD85A258
-	for <lists+linux-ppp@lfdr.de>; Mon, 19 Feb 2024 12:46:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E2D85A273
+	for <lists+linux-ppp@lfdr.de>; Mon, 19 Feb 2024 12:50:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 24E951C21708
-	for <lists+linux-ppp@lfdr.de>; Mon, 19 Feb 2024 11:46:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 48BABB21408
+	for <lists+linux-ppp@lfdr.de>; Mon, 19 Feb 2024 11:50:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 665F32C86E;
-	Mon, 19 Feb 2024 11:46:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 147DF2D608;
+	Mon, 19 Feb 2024 11:49:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QnDjsIP5"
+	dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b="aF3EPXsT"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D468C2C6BB
-	for <linux-ppp@vger.kernel.org>; Mon, 19 Feb 2024 11:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F31236103;
+	Mon, 19 Feb 2024 11:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708343175; cv=none; b=Zyqmf66SEN93rbGGAucPzqdcgl826DiJn3Tgz5Kan9C16bsqhrp8WKcTcBB9d5RC8hnibjtOXqYtnOQbm93nbwzfax/SX7+zDlJuvcUJgfPgkTimFOKOmO/bk5uEmeiST5BP8BMvnnj0IVb07d9JE2sp52K6TI7G55fvVALgQ7I=
+	t=1708343347; cv=none; b=B4zBD4G8BWpC1NhyLb021a+jj48wp00AZJDLTiSELcUqB+yHSzV8T+SZRNAqp05Sc+Ky58jWAFrPg5yUk/V6T0xJAxuLfF1CZQG6DpNoW5PkKzL2yaFyyUUSD6bbqH8FGJyEA2OTvdC8xZAVNs3xiL8nK1MnfA6jLPA/dHgVXnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708343175; c=relaxed/simple;
-	bh=4ZD/Ak4Shixqt+hRFej2u9n/4j5VFvBfGQlSNWdsOZ8=;
+	s=arc-20240116; t=1708343347; c=relaxed/simple;
+	bh=GVjvAPYbMIuKLzqak2azvCdxXlpubEruAFBoyFzUHMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NVFvBKc+SYdYP4Ob7lli9l+5uP6Kez6IaBvnHdWJKuRlBgDyUnu76ykJHE5yFo0cQ5cIRCXOzqPIigwWw7Q6qhCwEY97lN8Y1SC2mMYAsJeTWOpn1MNqLlygeHFljbOwXlNDMj1eGVNRpAVhGY4TBk+KQl/U8NkG1btfLtX/KTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QnDjsIP5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708343172;
+	 Content-Type:Content-Disposition:In-Reply-To; b=jTqyIksWxFJsKf0N4++LZfYoNEEEV8NIO8S7refxc68GSUruNzg+SIZDlqMhUWE1RWge5SiPhIfhuRX8Qe3vaJhGShkgxggkiVAyK8uOv1xxJEZIvSkNF5n4o4V8X/U88zlTh+Od79P4/MfBnCW4nkdwWX2vUSiopsNSPj5tsOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=marliere.net header.i=@marliere.net header.b=aF3EPXsT; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marliere.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-29996cc6382so632204a91.3;
+        Mon, 19 Feb 2024 03:49:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708343345; x=1708948145;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:dkim-signature:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=CW0WXcyNYkXvrmiNrVym9t+J2nK+JeRu5kNrSxRLDH4=;
+        b=fALHzl5xuiAVsL4K8hEMzVTCsihUnAIuDBESB567R8iH46h4kHgzbeG+iI2uheM+Gc
+         iPh2ePgA1Pz2Z41C6/hAZ/x4fVtkCtWhYXh1d8cU+1I3EWrgBLX1JdizNWOCq7gcitoM
+         SRFs7bS+qydCgKAs2+jh/iXsmo+WGekHM8KI4GEwPfDK8yvrH3PEVarYssW6zCQBwvXG
+         3NYWOlV652Wtwg7FH5a5jAYEP2KAwePWX2M7D73zrWVRK4E3emSBfgF7XphFjQJrAK2d
+         Ehi6WI6j9Kg8wV4JTpj4NJSaC2RBsA98srj5jQN3Fzq2vBKI7hW+Ay2g0pJAJc4JJY0m
+         TSFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXY0iqRDkZw4d6SO//mEIBARKxTRsLaU7AGpd3p3ZX/WG6aMFM1EcF/YQlsmRV3PA67bei37cY7qxovC2NYm+jW3SCHOj2SD+tb6o2qNHcU29ktRyd+4vOttkNENXAglCoBOmTnoBHKCmrr04L3uch3FOV17xrpHFsA/Vro9Hfh4o+CUI9bgTuRY5YPPVsimnlKlIvIRlAmZywM
+X-Gm-Message-State: AOJu0YwJDh+ZuFmJzXRLsr4wuWFrWuBaJDjWQwKnpqlcnPC1AFykmzaE
+	+x6FyKF3FaXBy3sEprRWXM9ng8G2z51NdWkRmVhOnJEONm6nu0Vm
+X-Google-Smtp-Source: AGHT+IF68FoElOobhjt+UxMIgmYvkJ7kfurkN7xNBIeED5I12PhyFHotNODXFufCcCdAiwQOshri3A==
+X-Received: by 2002:a17:90b:1990:b0:299:48de:9c7a with SMTP id mv16-20020a17090b199000b0029948de9c7amr5910376pjb.0.1708343344080;
+        Mon, 19 Feb 2024 03:49:04 -0800 (PST)
+Received: from mail.marliere.net ([24.199.118.162])
+        by smtp.gmail.com with ESMTPSA id gw15-20020a17090b0a4f00b002961a383303sm5006491pjb.14.2024.02.19.03.49.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 03:49:03 -0800 (PST)
+Date: Mon, 19 Feb 2024 08:49:47 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+	s=2024; t=1708343342;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4ZD/Ak4Shixqt+hRFej2u9n/4j5VFvBfGQlSNWdsOZ8=;
-	b=QnDjsIP5/Nx0J4Ft7kaySQAC2ZhAezEqVRib/Qi4bG4q3HNSCOOlfXvvcyzF04LF6cLOMn
-	awxyFoovIgrAO6wBPaHbtGd1AlktIZu3YXvKtnbZuSztUONRPrZZfeIVN90Kiim+7nD/rY
-	8LlMSdMAX/HpHJzsmzbK6kECnfDyg/I=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-42-f-RFMcTuMUaABt_Pi7dH9A-1; Mon, 19 Feb 2024 06:46:11 -0500
-X-MC-Unique: f-RFMcTuMUaABt_Pi7dH9A-1
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-42e054eef08so17635461cf.2
-        for <linux-ppp@vger.kernel.org>; Mon, 19 Feb 2024 03:46:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708343171; x=1708947971;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4ZD/Ak4Shixqt+hRFej2u9n/4j5VFvBfGQlSNWdsOZ8=;
-        b=JJPzykrVSrzLumJelkgQrNJINxrmW4bvbINbZtPOgDptyFOKG/er0dhctSGzBFg/uX
-         onKkbinT587HGdW0AKfLYT4SB/vCQylvqY7dC51dLNLTy0sCD1R8OwDQFAaZJNAawVt7
-         DHQGXVGrfXSMB/bvQ/K1u1ST5TQ8mAtQkPJayJSIx1Mo69d1640Fy/s9KbFoqDKInF8v
-         0lpnhzpNwa9NnK9f9EjXrXTb9DxEqE7+wVOPD0wKJntlh+9D6FzESIvyPEDT2VO73Cg8
-         Ay+c7ZPoOxQmk0CkwMhMhCxPpQ/XeYAqUZmAFiHFY3kWMq5+F/6kmQAaaULbmwfS4TVT
-         qbEg==
-X-Forwarded-Encrypted: i=1; AJvYcCWTiTafm1407140Ur3kF9YT5L9EYvr+7vIgQmSvF9EqlI4lVGj3AtrGo33/zU22Qit56CrCn7/lXY9TqXgtKwJHMraStL7L0gpl
-X-Gm-Message-State: AOJu0YwxUezNji/IcqrJPDyx1mcKgRErhFJ4Ex7WSu1ZXp2iCaid32vS
-	htsh9JoVKaBu7nmSAAdT41U7r+EvyRpxw+0dHowqhkCHWWJ/MEf6+ybA4gibQ3xecaD4zZJlriC
-	lyhfLYXbQsnM6YJu4OBQieRBX1Tc2U+9o12BdGnNBKS9+CqmtE0d45SjOCw==
-X-Received: by 2002:a05:622a:4f:b0:42c:7bfc:8068 with SMTP id y15-20020a05622a004f00b0042c7bfc8068mr18270859qtw.11.1708343171123;
-        Mon, 19 Feb 2024 03:46:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFiNw4DCsKkz2RLLVtfw6QNV6TRlA/lysd4gQNMYeIoLrM5/4vWlvVZ/26MqBKbSbHaFvNgsA==
-X-Received: by 2002:a05:622a:4f:b0:42c:7bfc:8068 with SMTP id y15-20020a05622a004f00b0042c7bfc8068mr18270830qtw.11.1708343170853;
-        Mon, 19 Feb 2024 03:46:10 -0800 (PST)
-Received: from debian (2a01cb058d23d600e55283140c56efd3.ipv6.abo.wanadoo.fr. [2a01:cb05:8d23:d600:e552:8314:c56:efd3])
-        by smtp.gmail.com with ESMTPSA id t13-20020a05622a180d00b0042d0995a040sm2444657qtc.62.2024.02.19.03.46.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Feb 2024 03:46:10 -0800 (PST)
-Date: Mon, 19 Feb 2024 12:46:06 +0100
-From: Guillaume Nault <gnault@redhat.com>
-To: "Ricardo B. Marliere" <ricardo@marliere.net>
-Cc: Oliver Neukum <oneukum@suse.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Roopa Prabhu <roopa@nvidia.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Loic Poulain <loic.poulain@linaro.org>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>, netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bridge@lists.linux.dev, linux-ppp@vger.kernel.org,
+	bh=CW0WXcyNYkXvrmiNrVym9t+J2nK+JeRu5kNrSxRLDH4=;
+	b=aF3EPXsTFrB1x5H2n2pIS3IyVuCY7etIJQKZUeoPOEOz8WhjXdUyktGbvKmLJR3UA1ouEk
+	PSRfYIKrFGmJBKr+kbNx1ECIPVxnT03aYAJ1XZ0XDSVSBlzJwCnPRGc4n2NAFBQGJU1K/x
+	GjmkZIegzD8zf3Y0+awRerHn0ayq/hJd10q6cq2MesXbGgG5EnZfWK/XIprFIcsvZ0nc1B
+	rNb1dqWxo5r72F9tRyqvBRc6xQySlul7mKOQaTKwTPifwGnBE06nZYnMANsEob+HbYix7E
+	3Xuws4H+hBs1e0J2mcIcpU4XuOgahkF1kfIDygPln7C3NtN5eUEHaHXfINbT1Q==
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+To: Guillaume Nault <gnault@redhat.com>
+Cc: Oliver Neukum <oneukum@suse.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, 
+	Roopa Prabhu <roopa@nvidia.com>, Nikolay Aleksandrov <razor@blackwall.org>, 
+	Loic Poulain <loic.poulain@linaro.org>, Sergey Ryazanov <ryazanov.s.a@gmail.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, bridge@lists.linux.dev, linux-ppp@vger.kernel.org, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 08/12] net: l2tp: constify the struct device_type usage
-Message-ID: <ZdM/fjlngUdegmC7@debian>
+Subject: Re: [PATCH 04/12] net: vxlan: constify the struct device_type usage
+Message-ID: <wcvz4nnmhiz5ktrr6mww5sjaxmr6fewjay3hjrlurlkeg3fcor@ntspq2qi2bfz>
 References: <20240217-device_cleanup-net-v1-0-1eb31fb689f7@marliere.net>
- <20240217-device_cleanup-net-v1-8-1eb31fb689f7@marliere.net>
+ <20240217-device_cleanup-net-v1-4-1eb31fb689f7@marliere.net>
+ <ZdM+4uKE83V2j4o8@debian>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
@@ -102,14 +93,27 @@ List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240217-device_cleanup-net-v1-8-1eb31fb689f7@marliere.net>
+In-Reply-To: <ZdM+4uKE83V2j4o8@debian>
 
-On Sat, Feb 17, 2024 at 05:13:30PM -0300, Ricardo B. Marliere wrote:
-> Since commit aed65af1cc2f ("drivers: make device_type const"), the driver
-> core can properly handle constant struct device_type. Move the l2tpeth_type
-> variable to be a constant structure as well, placing it into read-only
-> memory which can not be modified at runtime.
+Hi Guillaume,
 
-Reviewed-by: Guillaume Nault <gnault@redhat.com>
+On 19 Feb 12:43, Guillaume Nault wrote:
+> On Sat, Feb 17, 2024 at 05:13:26PM -0300, Ricardo B. Marliere wrote:
+> > Since commit aed65af1cc2f ("drivers: make device_type const"), the driver
+> > core can properly handle constant struct device_type. Move the vxlan_type
+> > variable to be a constant structure as well, placing it into read-only
+> > memory which can not be modified at runtime.
+> 
+> Reviewed-by: Guillaume Nault <gnault@redhat.com>
+> 
+> Note: To help maintainers (and potentially reviewers) work please
+> write in the subject prefix which tree you're targetting. For this
+> series, it should be "[PATCH net-next xx/yy]".
+
+Makes sense, will keep this in mind next time!
+
+Thanks for reviewing,
+-	Ricardo.
+
 
 
