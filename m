@@ -1,87 +1,111 @@
-Return-Path: <linux-ppp+bounces-35-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-36-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B3B85BA72
-	for <lists+linux-ppp@lfdr.de>; Tue, 20 Feb 2024 12:24:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F9585CC8A
+	for <lists+linux-ppp@lfdr.de>; Wed, 21 Feb 2024 01:07:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 087FC2815BD
-	for <lists+linux-ppp@lfdr.de>; Tue, 20 Feb 2024 11:24:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C94D282CA8
+	for <lists+linux-ppp@lfdr.de>; Wed, 21 Feb 2024 00:07:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7585C6994A;
-	Tue, 20 Feb 2024 11:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5691C386;
+	Wed, 21 Feb 2024 00:07:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBOlosSS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="npbY8xox"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DE567E87;
-	Tue, 20 Feb 2024 11:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972B9193;
+	Wed, 21 Feb 2024 00:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708428178; cv=none; b=NGU4OkbA2ARCUIM896fbxzDypD3haArqPFWUeu2lrarppZeBDAGe/Gl9bfVuqkOd/yTZnqJNWSunxblxz577YBMK2oSAEHyiZVYL37YKvr3bJ2S5iyCL/AgX9VJ4Rf6MVJ3kWOXl3XHmGiHGlwDGZY2hUSQojECK7mcqWjc/8q4=
+	t=1708474065; cv=none; b=Nf5n5Yq1BZ+wLJPwI2gkDJV6STVSZZEHUDwgEcKLy5RGRiKnRJlcOSg0UKmXZHg0yBwAfQkW3kQ0PjxdrhUOLtd8aHMy9B8IW5/mtpyeNa47cUd/dxaDRgXEXdaFfcF4aoIQ7XpoRFEzJluow7n87vBgxi3VxhcG7PDP0pRPGzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708428178; c=relaxed/simple;
-	bh=ED0MxV9yoOK/Gkmdu1PKQmEBmEUPAd0+iNMpb1o5864=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IyW2jWvSQgBBw96q7IEC8vtfUv2tUXoHvykaEsi1EUt9XXt5w+r+4yBZzRM3E6z4NCcrVKHHwsWXXjzqy1PndjmIgBg7LNChAty7se4mjmPoiLbF96pAVV7PSGaDpBIgbaPhix6D7cHd9KG9y68pLzLClTCS8lT9kvSOkql6kAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dBOlosSS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEF5DC433C7;
-	Tue, 20 Feb 2024 11:22:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708428177;
-	bh=ED0MxV9yoOK/Gkmdu1PKQmEBmEUPAd0+iNMpb1o5864=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dBOlosSSYD1yaUR6b+Ytt4zuKa3GFEKjteGD4XMNis+7WLkI23mMF6K1qwD63Uj+Q
-	 Mpz9oD7BItkJkRlDT6dyPsT6P1YyBufDq2XWfHXqHkDGXDBZJSyg+Rg/o4cBxvh5kB
-	 E9vbY5svKNtGmeKSTJWpnblZl9oYZUn5n1a348bH1f/YQFw27fVx3u3QM+Nr43pj8o
-	 TOj/agVBPdtjtM0mBmPXqH6W7u4EAwlD6tfimKPPhxSLgUkYu4eFoe1C8UixZCFxZK
-	 AVWl4EwrfqdcEsdqLI/doeaq2hMGGiLIO1svyEz5TA+EXsgHWNCo/bKtAoWgp8NeNT
-	 01bCIib1byItA==
-Date: Tue, 20 Feb 2024 11:22:51 +0000
-From: Simon Horman <horms@kernel.org>
-To: "Ricardo B. Marliere" <ricardo@marliere.net>
-Cc: Oliver Neukum <oneukum@suse.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Roopa Prabhu <roopa@nvidia.com>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Loic Poulain <loic.poulain@linaro.org>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>, netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	bridge@lists.linux.dev, linux-ppp@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 12/12] net: hso: constify the struct device_type usage
-Message-ID: <20240220112251.GY40273@kernel.org>
-References: <20240217-device_cleanup-net-v1-0-1eb31fb689f7@marliere.net>
- <20240217-device_cleanup-net-v1-12-1eb31fb689f7@marliere.net>
+	s=arc-20240116; t=1708474065; c=relaxed/simple;
+	bh=iXE6+R8ASa+RDcoAvHrDmlfm6SXejlgM5QbL0gV5rQY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M3YOGkXQmIwG4I7699FjzD35BqwheZXdbXf/3GcR2CwJs8RyyAxTtvqEkEMMm3yw6qy2dnbsFroh4a5INn3an4S0jXLqUwrBoNcXnvSBU2c9rCNq+5WWlcspwaJASy6Td4LNHjCslosf/ZsWLsmIcLQFQSbnmCyCLjxg50fvv7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=npbY8xox; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33aeb088324so3242129f8f.2;
+        Tue, 20 Feb 2024 16:07:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708474062; x=1709078862; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lJEzqI5ur+SbBoa1SbqduYIKj5d2G64DD1tgTxLxA/Q=;
+        b=npbY8xoxWtqTDtAABQUSRPS0EhhYEh3mqgztGAVP5USFQQIOI7nU5Gl9sgRV5X82q5
+         +fWhZa09cL/QAFWA6sf4UoDhvldkwcD9G4mjYsuyaVG45vm88xjKaoCQwUXMKvdvuh6p
+         dpj8gtB8kCniok0KtddADcLKtBN4PlRVIG4GtPh1dvHcP1YgCpVVzXexLaCEfmTaYQ5q
+         wpppvF3QUbp0zPz/tGYgDxoU0eLT12f/YtFhE6w2s+tahdZU+9weM3rW6oOYsx2kIT9J
+         L/IprYVbTj7eo1nhrO4DhrgwcvTT6VdNSm4zjVrDwQZtyO1IybQMLMsT4oM8sJhF7f09
+         SaKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708474062; x=1709078862;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lJEzqI5ur+SbBoa1SbqduYIKj5d2G64DD1tgTxLxA/Q=;
+        b=HgHfOFShwaM4VXzzUjS0tdtc+8P+MlCUMmUCG28tm6JH+sD7X+a15uv5vgMM9jVcw0
+         XelwliwWiB+L62gCFX0+HgxZE3MPnoyJBuDxcV/klX/tR8q4aijpPYXVtFdeakxgl39n
+         loGYAK/qVfYqsJxfEFMRjrE//qlNbTzRtwWs+dbmNQ3dy1i5mTdoqsFYBMzSQ+9waaaE
+         LApvrSW5qjepIR9hAiWPML1uuwbHjNRfv5eYNd1umZUw5twSndwkXU2+cTE7dx3TUIGA
+         2pKeaMNAPQKqo4BBNf4hm7rWl7YxICXrgRiEK+qAgKkFGQmhyXr0MTOwEjws6tyA4T4K
+         PrIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUnq92fNEl4x/SPN8NBcKDjqq1X0WCWwyWv2pLPBewH7maMbzif6Pnx846s9BGne2s17+6m+U0iY/8iDQV/ajOHmYtMRjPODER7RW5YWGaDm1BllZz8w5h50srSLApwxFC8KzjeLIhFRPGVquhOH0bl/iI6KZ/T8epqHQdMui226xQ9
+X-Gm-Message-State: AOJu0YzOptBseaHK2d3KxlgWIyyJ4dm0g6jmGF6wXxxWV5F8SJedSSXm
+	OfRn9CEB+JwGlG3uC/ZCgUqKJwEvFalQZtXOPzEZ8i19om7DmJwZ
+X-Google-Smtp-Source: AGHT+IEjN/4x8lMxmDXugNXlFWRbk0nwkpz+fRchEALt1xd2cYaKzfO49MmZPW8WXFfsgYFsCm3SEA==
+X-Received: by 2002:adf:f6c8:0:b0:33d:714b:f3bb with SMTP id y8-20020adff6c8000000b0033d714bf3bbmr1560887wrp.26.1708474061669;
+        Tue, 20 Feb 2024 16:07:41 -0800 (PST)
+Received: from [192.168.0.2] ([69.6.8.124])
+        by smtp.gmail.com with ESMTPSA id bs17-20020a056000071100b0033d47c6073esm9134362wrb.12.2024.02.20.16.07.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Feb 2024 16:07:41 -0800 (PST)
+Message-ID: <07fb65c9-109d-4dfb-ae60-c4a1ce99876f@gmail.com>
+Date: Wed, 21 Feb 2024 02:07:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240217-device_cleanup-net-v1-12-1eb31fb689f7@marliere.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 11/12] net: wwan: core: constify the struct device_type
+ usage
+Content-Language: en-US
+To: "Ricardo B. Marliere" <ricardo@marliere.net>,
+ Oliver Neukum <oneukum@suse.com>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew@lunn.ch>,
+ Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean
+ <olteanv@gmail.com>, Roopa Prabhu <roopa@nvidia.com>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Loic Poulain <loic.poulain@linaro.org>,
+ Johannes Berg <johannes@sipsolutions.net>
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bridge@lists.linux.dev,
+ linux-ppp@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20240217-device_cleanup-net-v1-0-1eb31fb689f7@marliere.net>
+ <20240217-device_cleanup-net-v1-11-1eb31fb689f7@marliere.net>
+From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+In-Reply-To: <20240217-device_cleanup-net-v1-11-1eb31fb689f7@marliere.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Feb 17, 2024 at 05:13:34PM -0300, Ricardo B. Marliere wrote:
+On 17.02.2024 22:13, Ricardo B. Marliere wrote:
 > Since commit aed65af1cc2f ("drivers: make device_type const"), the driver
-> core can properly handle constant struct device_type. Move the hso_type
+> core can properly handle constant struct device_type. Move the wwan_type
 > variable to be a constant structure as well, placing it into read-only
 > memory which can not be modified at runtime.
 > 
 > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 
-Reviewed-by: Simon Horman <horms@kernel.org>
-
+Reviewed-by: Sergey Ryazanov <ryazanov.s.a@gmail.com>
 
