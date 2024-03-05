@@ -1,106 +1,105 @@
-Return-Path: <linux-ppp+bounces-52-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-53-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD1687169B
-	for <lists+linux-ppp@lfdr.de>; Tue,  5 Mar 2024 08:18:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83AE587282E
+	for <lists+linux-ppp@lfdr.de>; Tue,  5 Mar 2024 21:00:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E7A1B2464A
-	for <lists+linux-ppp@lfdr.de>; Tue,  5 Mar 2024 07:18:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4054F2875E4
+	for <lists+linux-ppp@lfdr.de>; Tue,  5 Mar 2024 20:00:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 186087D3F6;
-	Tue,  5 Mar 2024 07:18:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6461A86655;
+	Tue,  5 Mar 2024 20:00:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="phRzA5j0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZzsmYdbS"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7504C637;
-	Tue,  5 Mar 2024 07:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C151B59F;
+	Tue,  5 Mar 2024 20:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709623085; cv=none; b=t07Qrl8MIxfCZBy2e2u34v74of2gG3KitRIRr/q/nN2GYoh97SobYwa4QnStit2zdqUrBdcLdoTLGShbeNjJgtPzRCxpKYw5c2h70jBQCIGvpOwkxg5jg48UGgMdipPvtrVxdjm+g7/QcDRuMVioo9kwZusz+lI66TtE9M1kd5w=
+	t=1709668833; cv=none; b=THyV/G/vsPzB1SBgl1wNmmj3SQ6RQjB92GKEHdwJjilckQva9liYaxXqCwyJefxRqxLYq7Wx9FfWhGbLVMpYXohV5Z8Gr1onprM21pgf6tdN1xDcgFJSTzlMTkzID9InF+BeIU+1Su0QQXq9CNnNsWaBNzxXUau6qRmijz+Coto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709623085; c=relaxed/simple;
-	bh=Ixi/76JR1Pv31+3D5ECr3XuT5VyFkR/xNTnNK8sh2Rk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EWLs3gqwj9uzOpWu4PDisvnFtXazalubuiqRJC2e8HXUo98MCHW1VCU8WGHvCnD+GmMR+Z24Q/R6o63dYg3sQioFsQ1KfbqJ/SaECpSLHICB63g81P73xjEp8RB18uDfYqfWe96IyTs3kMQoX8IN1fXl8V1XmT+ikQYRGwWeQMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=phRzA5j0; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9793B20002;
-	Tue,  5 Mar 2024 07:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1709623080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nh+UsJveD1Ecym5lcFf+LilE3aXKcM7NsG4y2GIHCgw=;
-	b=phRzA5j0/oSjNsnnn0j/EbWetXZsK1SKRUc5jRbru3IRKlGhfw/Ixl5MOzKc38yngt0T9W
-	lx9u3Fxk00/uHGcHc1HP8L4S3XGv2xWOYXD/M1HifH3Em+K+O978NmmjNVVLp8IiLTwpwQ
-	BwgwAWWx+QNYA7gj7simF+3mWgwXDQg2y7QI72fKLz6raikY6hk0NZsEaWEbDJqwFGz5JI
-	HCpaCsP2fQnm2KZM2dfWDAbYzLNvyRo26T+e2x0RccDk7sao8vctkDf+kFa/UDPhdq0iKU
-	oo0dnEW948LYRfd+vZup5EPOvwS9fgva5ZPN6/aOGaVqjV2I1qisqR1N6WZ9ZA==
-Date: Tue, 5 Mar 2024 08:17:57 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Simon Horman <horms@kernel.org>
-Cc: "Ricardo B. Marliere" <ricardo@marliere.net>, Yisen Zhuang
- <yisen.zhuang@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Loic Poulain
- <loic.poulain@linaro.org>, Sergey Ryazanov <ryazanov.s.a@gmail.com>,
- Johannes Berg <johannes@sipsolutions.net>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ppp@vger.kernel.org
-Subject: Re: [PATCH net-next 2/6] net: wan: framer: make framer_class
- constant
-Message-ID: <20240305081757.00474e37@bootlin.com>
-In-Reply-To: <20240304175246.GO403078@kernel.org>
-References: <20240302-class_cleanup-net-next-v1-0-8fa378595b93@marliere.net>
-	<20240302-class_cleanup-net-next-v1-2-8fa378595b93@marliere.net>
-	<20240304175246.GO403078@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1709668833; c=relaxed/simple;
+	bh=b/y7JjjxnUdm+R8hNCO+v51ZljJ6BUuJ54yjwBQfOi4=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=aq+AspTcwhthyN2GUIsq2eVKDUOXfvmhiuEJk9P6twkIEbkBGr42zLEcwUmrWy95EY4n5tCpaN0fNTwLHAueDuQWiwnAdYxk9UO/fDbtOkA/USgQTu7qZkbPInBFg+4QMeL0G8/iaxOHIDmi09TRfteYfqAboa/XqrkbFIK9LkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZzsmYdbS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0C486C43390;
+	Tue,  5 Mar 2024 20:00:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709668833;
+	bh=b/y7JjjxnUdm+R8hNCO+v51ZljJ6BUuJ54yjwBQfOi4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=ZzsmYdbSqu2uTmHya40o7b+L43sOw8Ccsp1c3XGjWTyxQVnWf75pxJcoXrXcrGjCZ
+	 PKdgIBb9fLCdTODyzFm/v3h9/99BAu2vHMjhoBy1JcVtVVhyUWPj0Dy+/LsGo7Q8tm
+	 iYM/+gUCgc19eSZvV3oL1P+VtGgEOgfujvC6ehT6IQaA82F1jyW2BnzzqkwYrrCX9T
+	 4nKdbPfjzuuyCanGKiqxwp300rGkKUUkY5Y1huCoTQDQt1Y+HgQNdhdBBGwP2p/QA4
+	 qpiKejCKpBfuPbK/3XsRy48a0DA7QgUIl+Kcu47tHDW236w86s6/m+ofcB4eIBP8aw
+	 +IW6C54RlewZg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E0195D9A4BB;
+	Tue,  5 Mar 2024 20:00:32 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: herve.codina@bootlin.com
+Subject: Re: [PATCH net-next 0/6] net: constify struct class usage
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <170966883291.18762.11753992579931321853.git-patchwork-notify@kernel.org>
+Date: Tue, 05 Mar 2024 20:00:32 +0000
+References: <20240302-class_cleanup-net-next-v1-0-8fa378595b93@marliere.net>
+In-Reply-To: <20240302-class_cleanup-net-next-v1-0-8fa378595b93@marliere.net>
+To: Ricardo B. Marliere <ricardo@marliere.net>
+Cc: yisen.zhuang@huawei.com, salil.mehta@huawei.com, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ loic.poulain@linaro.org, ryazanov.s.a@gmail.com, johannes@sipsolutions.net,
+ krzysztof.kozlowski@linaro.org, gregkh@linuxfoundation.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-ppp@vger.kernel.org
 
-Hi,
+Hello:
 
-On Mon, 4 Mar 2024 17:52:46 +0000
-Simon Horman <horms@kernel.org> wrote:
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-> + Herve Codina <herve.codina@bootlin.com>
+On Sat, 02 Mar 2024 14:05:56 -0300 you wrote:
+> This is a simple and straight forward cleanup series that aims to make the
+> class structures in net constant. This has been possible since 2023 [1].
 > 
-> On Sat, Mar 02, 2024 at 02:05:58PM -0300, Ricardo B. Marliere wrote:
-> > Since commit 43a7206b0963 ("driver core: class: make class_register() take
-> > a const *"), the driver core allows for struct class to be in read-only
-> > memory, so move the framer_class structure to be declared at build time
-> > placing it into read-only memory, instead of having to be dynamically
-> > allocated at boot time.
-> > 
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+> [1]: https://lore.kernel.org/all/2023040248-customary-release-4aec@gregkh/
 > 
-> Reviewed-by: Simon Horman <horms@kernel.org>
+> Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
 > 
+> [...]
 
-Thanks for the patch.
+Here is the summary with links:
+  - [net-next,1/6] net: hns: make hnae_class constant
+    https://git.kernel.org/netdev/net-next/c/b6e3c115efb5
+  - [net-next,2/6] net: wan: framer: make framer_class constant
+    https://git.kernel.org/netdev/net-next/c/63767a76318c
+  - [net-next,3/6] net: ppp: make ppp_class constant
+    https://git.kernel.org/netdev/net-next/c/2ad2018aa357
+  - [net-next,4/6] net: wwan: hwsim: make wwan_hwsim_class constant
+    https://git.kernel.org/netdev/net-next/c/d9567f212b15
+  - [net-next,5/6] net: wwan: core: make wwan_class constant
+    https://git.kernel.org/netdev/net-next/c/070bef83f03e
+  - [net-next,6/6] nfc: core: make nfc_class constant
+    https://git.kernel.org/netdev/net-next/c/e55600116929
 
-Acked-by: Herve Codina <herve.codina@bootlin.com>
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Best regards,
-Hervé
+
 
