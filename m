@@ -1,238 +1,181 @@
-Return-Path: <linux-ppp+bounces-75-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-76-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C239566C0
-	for <lists+linux-ppp@lfdr.de>; Mon, 19 Aug 2024 11:20:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A53FD95A7FF
+	for <lists+linux-ppp@lfdr.de>; Thu, 22 Aug 2024 01:00:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB6471F2029D
-	for <lists+linux-ppp@lfdr.de>; Mon, 19 Aug 2024 09:20:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C9BCA1C217FA
+	for <lists+linux-ppp@lfdr.de>; Wed, 21 Aug 2024 23:00:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0306D15CD6E;
-	Mon, 19 Aug 2024 09:18:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C946117ADE1;
+	Wed, 21 Aug 2024 23:00:38 +0000 (UTC)
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from BEUP281CU002.outbound.protection.outlook.com (mail-germanynorthazon11020138.outbound.protection.outlook.com [52.101.169.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26C515CD79
-	for <linux-ppp@vger.kernel.org>; Mon, 19 Aug 2024 09:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.169.138
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724059126; cv=fail; b=u8S1QwU9iUM4UfSILXwsQRVImGxi+asT4ZwqKFeiD5sNHbAzmwrJE7B/ygL7XWKD5IBokMcQntHojyJl3jVixc3c0s3jpfEXtWjVMh6IZZjwwNav5NSFz8qxC6pq4PZ4R0FnXO25RodomS1bLkgGScnmGZSXQVyqRW4aU5k4RYQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724059126; c=relaxed/simple;
-	bh=RWWjOYVKJLXiwBoMqBI3EuTBQJL4K7tblNxu9yuYot0=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=TOHaVwZUkuOuzzN03GiMCPP8VSxEjGtPBMRzUCTE5PZIqRROmP3E2Iy/+5jV9ZB70MF+b7/McYeeNlaZg4QF6qXuw/ud/eQLhGoZz4km2FwkBHOqGD+wjeE2/EwknUAZNnsLR0ugM+PCMo3v9spL8DGmkm5hbPAWJUmuIJxRCY8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aconnic.com; spf=pass smtp.mailfrom=aconnic.com; arc=fail smtp.client-ip=52.101.169.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=aconnic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aconnic.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Rdqw0L2jkxftYPQU7OIW/jERKIDJmSeJgC/aMYmzheClZSb/uktDmq5a5llcpTPZm7jM88hxpR8qmQygwwS7jGcPStxrXykKHj0tHAAbcDAR7BO4yjnKHIV31+lrHqo/UvrC+i/rel2RiQfXLs5+58Q/856H6xqEiHrnGWIQKpyZRDZNTSV2sEPVV+tQhwM0XxvtwcX+fTN7WIcnToLO2FnzScLub5csZCnlP9rvUm7kfWoS2w6yZCrM+oLWPQYcoltTIOzDzEmEkQifM+ULKlqTqVYYRKNvEvC04QxGNNS7kwbD45jb8js1Rppb6Hd8N8coK0yVcG8jV+L7Q1XdRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5NqXzWiGN7BB+P4F8C6taRZPBrvOk6kEFy+YwcYQddg=;
- b=LK5q3luC6ahhNGQN0hBgEYj7S3cBcbxNyZWDLW3/8Dj3ATd+bY4oo1bw+rcqrT9MhQymivQOqitg3MJISVBKGe2owsG9+MEZo22+OOvD4P6tLf9Bx7p7XE6pL6MV7ifMqS6HZOUu6/J3RSVTqRw+x1We/UZMaq8P70dDsrqDrBsIduPe4Yp8bys4luT8bFtakom9ZKjN2uIix4l6i0lORIq0unBNfMOEp2MP62dRkx2qxwyz6daYcxgza7I0wphpmM8TS+x0Qk4gjTEpZ9wb/4KJPqaB5H5ykLo9HkpApyMM5uabbz3stb6be0O5HosSeXpSY0ejCcgL/Py/8WNeZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aconnic.com; dmarc=pass action=none header.from=aconnic.com;
- dkim=pass header.d=aconnic.com; arc=none
-Received: from FR4P281MB3530.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:da::11)
- by FR2P281MB2489.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:62::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.21; Mon, 19 Aug
- 2024 09:18:40 +0000
-Received: from FR4P281MB3530.DEUP281.PROD.OUTLOOK.COM
- ([fe80::b828:a3a0:87a7:4c5d]) by FR4P281MB3530.DEUP281.PROD.OUTLOOK.COM
- ([fe80::b828:a3a0:87a7:4c5d%6]) with mapi id 15.20.7875.019; Mon, 19 Aug 2024
- 09:18:40 +0000
-From: "Scheibner, Stefan" <Stefan.Scheibner@aconnic.com>
-To: "linux-ppp@vger.kernel.org" <linux-ppp@vger.kernel.org>
-Subject: Bugreport configure ppp without '--with-openssl'
-Thread-Topic: Bugreport configure ppp without '--with-openssl'
-Thread-Index: AQHa8hi2+2sIW35eFki5Wl4nnDvvxw==
-Date: Mon, 19 Aug 2024 09:18:40 +0000
-Message-ID:
- <FR4P281MB3530A329B44C8D7C8B8B3616988C2@FR4P281MB3530.DEUP281.PROD.OUTLOOK.COM>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aconnic.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: FR4P281MB3530:EE_|FR2P281MB2489:EE_
-x-ms-office365-filtering-correlation-id: e3783065-e014-4ade-a0f3-08dcc02fea33
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?CsIUHSjRVKcU0cALnY3pyHUJ0ZYgoSVC4Lerx4g5zAbUE8X8/4m9idteRd?=
- =?iso-8859-1?Q?P04+q2H727koefBMEnzEfIjo7pqvcuXBAFnTRkcOCb+3Y4Fo4VmiV9KjIe?=
- =?iso-8859-1?Q?TbtlhBBxeVfRy9YZQA7jOGwR7EtM9JuiCgXd4KfQjTYE2hsJr6WRCry8bO?=
- =?iso-8859-1?Q?/qMBrggsHU4wHDR5cUYw4wEWlaaQp1nQoJTBElxmiRuWkwCsQikJ7LJfyq?=
- =?iso-8859-1?Q?eePnoZs5i0apcaEoTbGXXEfDNxntNrnd2RfPAgGVmyRXHZZAcEgIWN9xqd?=
- =?iso-8859-1?Q?uScVyEkNOswtppB+Wlys96RNlXPHAM0MUoXMJxkDKEfET3HHmQJINixCOw?=
- =?iso-8859-1?Q?JL8IkdsfPhZ1XDR/ejqTumsSWGFlnBIwTCL40MiYtS06TJQfUkEaOkqNsX?=
- =?iso-8859-1?Q?mkIkkb/QUX+rYzxjeBeXA9cDr199fEn+T8qLjW4wz7EErnNzaik83eJOB7?=
- =?iso-8859-1?Q?cSVdgpAM6ApvRmNWvwZmGsklx5CJ4yQCccZCEBdEUIB0y1pzWYmtiV+1+Z?=
- =?iso-8859-1?Q?R/47cE11UM69cv2OyRAaVyghbcXxB2NR1/7L6FX3tOLDLimEo8AW4sYins?=
- =?iso-8859-1?Q?xr35CSEt4FXEJ1uY7opjFcaKRsWVxnCE93S4EIPp9MsbKSe5D05P1vo/+o?=
- =?iso-8859-1?Q?mE4EBlmTx/yCdgDvm4752xwYThrp7GN+fAp+HG4c1odr4erfq/cnYc1hug?=
- =?iso-8859-1?Q?M4Mbw7AwxehC04QPYWP37uttKUAvfjX5tQbwiDWj5/hanKioLnWcqRVoMb?=
- =?iso-8859-1?Q?anwu3qOKbaKFIWKGmptHAH5047EX/mNXCXT7XrkMuQg+vXmWXRXiw6ilN5?=
- =?iso-8859-1?Q?XseeuQj/02lksmGwEwn0NqPm1oK8BIu03ltiUPKHq5cDQX9PVef3Np3Jcp?=
- =?iso-8859-1?Q?/yGYuBya+cZBMmedMSDfN63sAlpMMEeq0w6t34RJ6LinwG/rwPT/J/701s?=
- =?iso-8859-1?Q?4mX4pE8NAIHvC0kq4dQYrUndYA6WyUaYC9P6pQ7BJD3wc5ypwH/CBnLzRs?=
- =?iso-8859-1?Q?6Ta4aihCR82APbqeohEv76D66/ROKh+8Ydn98lKP6KbD5MJTdz6S9Vr/FE?=
- =?iso-8859-1?Q?JcbB8n4UkLaIyUK2Zl/ge2ZyqSCjBTTLZHfJKxf6KSj2RjHZYX7yb3+104?=
- =?iso-8859-1?Q?XpmAYYDk/yI0cKJm9Wj7R4ex6MFkw9T0yoSPAW49rUOQ8Z08aV8xdEs0I6?=
- =?iso-8859-1?Q?aIQ6Zh3B/IIJV8rVhi06+DxIeSraT5yu5zV/FVGkU0loXJ2cNV6KmtIME9?=
- =?iso-8859-1?Q?nZtOHL865mUtEv6pby8/fzwndjHmxKiVYb0OmJHzVKchokansl/Exichgo?=
- =?iso-8859-1?Q?0AHwD1uD2yNSVKouXPrdq/N0+T/Zi53xpryNyTVQQr/MX+1XN+sFkiYPMO?=
- =?iso-8859-1?Q?6sMg7nbAWzGBNw1RIdD5nkTmTJSWuIU48OTWbhJuFlj2YKqa1ZMckEpwhB?=
- =?iso-8859-1?Q?gql9ibQ6dPubVzzNFfH8l2kt1Oi0hWgqcP59rw=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FR4P281MB3530.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?jWCD08ejKT7jUsUGWo9rrRWz7Ryk0simdcmmrk54NrCPHATFEnZGSSzjZk?=
- =?iso-8859-1?Q?kwY9ORTc4kOTVmde5Qle+s4CaS2xd/Bk92stkNzsfdgBrKPfwx2dHrrVW+?=
- =?iso-8859-1?Q?FQakYqDTInBEaZ80UpsP0ib2uScZuilF0JsuxeKOZXMhqTajhbaUHMiMvC?=
- =?iso-8859-1?Q?5KTK53XqL23Xnq6SFZZvMDpxsplmfRRm0hGgjEQMY28L515Nazlu0SOIRH?=
- =?iso-8859-1?Q?VmzR6oVIUbrFVpMVqkyiC+xNuTUsp81Wd+5MHVnEVTRuGgcczz1UvjAnse?=
- =?iso-8859-1?Q?jUEnO+FCbvD9SGxxnYVbCEIAAFSNiJUWGdmtDd+FArENtb/caW6Dic1VBf?=
- =?iso-8859-1?Q?aN85BbzZTdxzvaBjhUsqo2chzeXppyhqVxzWDQipjOYP70geGylsMxu4HS?=
- =?iso-8859-1?Q?X9BAc3uUw7anI/gsJXP62Jh4FzynmyCjD1LxiYYYKoiO1glTozEs/EK3kk?=
- =?iso-8859-1?Q?nIvTVYak3luw/25JcgJPu6mLLP4HZXytf6F8E6s6DtGBc2h2YjFY/oS0Hm?=
- =?iso-8859-1?Q?tI9PUULYIT0RP84h1AvZwGAkU3ato4gO33RC5pzW0m8Z4xB0a7cqTIWD69?=
- =?iso-8859-1?Q?ca3oWe8vJFlEyYMYaNGbaDKZOIMgIbdOykPqP1Q8/EhGeN/7vjqtcwW0V7?=
- =?iso-8859-1?Q?RzGTXUvPV/h9tuNFt9OtCqpUyDFq2r9YWTtjECrZDe6uUOzU3eQagNi/dE?=
- =?iso-8859-1?Q?BaPNXgbidGshI8+WjLlBFQQdCPaHt0jolofajCOvaEqiNLpTkjK82jaume?=
- =?iso-8859-1?Q?gg0umY+/Yyay87RL1j+V0dRGJzvjk5wrA3uds5CKIX3Ll6gbvWdh9YD8GA?=
- =?iso-8859-1?Q?TuHgHnHYV/ujL/HEfq3B2u9d7iU1pekBF0ZYPwAo5FPjk7xoy1gh606Ovm?=
- =?iso-8859-1?Q?Oww/dAdAHs07F91qVdTIqLcD9d0g2h2pZ6oPdgksjzbWaWfSxjaXis/TfX?=
- =?iso-8859-1?Q?+FSPt9SdrUlBCdjxyaKWKLsCgtSk61B7ATPRAcCjTT6X3YVl9OGFvR8FRX?=
- =?iso-8859-1?Q?FgSg0Y64msNW8AoznehSTMAQMzRpRRP+qWnfg9r/eiekolm9GDVjYnuv/a?=
- =?iso-8859-1?Q?+UCSajKA3QScbny0+6ym5IEH19MEf6V9fWwK6ep5GXGILknSn1yP018PFa?=
- =?iso-8859-1?Q?RmZJj/8GztnEPkBtQJx/TIVghHxAK/gCXKCO90xh++VPz47E821fiQlyNr?=
- =?iso-8859-1?Q?wCfyo7KDjPZ088UqRY31PQJDriInJ0nChO2sWZ/NB/jOn/8EzB97bBAA2V?=
- =?iso-8859-1?Q?b5/gfhlzSZ2vrUEWiNF80LjcjNC3StmkSry0bOEFYnpVw1bDrdor9nBEBw?=
- =?iso-8859-1?Q?iZ4VDJmENO5+K2/hLJkYKAQhleVs8HujqllR2RZLEO4Vh/5xhmKGHzBSG5?=
- =?iso-8859-1?Q?XuqFtovFfMegsFWR7gO/QsiLifzzzdarGyzZ4pW1TZO2yl4iJ0crQFZXUZ?=
- =?iso-8859-1?Q?PSdktUJ+UrivnalcUGa81ECxT9eHZ+8onb7ss/ZlCaHB+xm1sHnAFHqKny?=
- =?iso-8859-1?Q?TuSzQUklzR2W8c1nkvSr5Qi3wc1OzCtZMqiW7NDLx68eYmYE3/W/5jEqTm?=
- =?iso-8859-1?Q?wKb/+chj202yiigXvPZqggZJg/CP3TBCqZl004P+U5pbOWNPAZWxrJb9Gl?=
- =?iso-8859-1?Q?hSeMy+t0jqxRwSAojtpNQEB+eIPdY4vERjpm4j/He+0OZymq74p8pkLg?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166821531CB
+	for <linux-ppp@vger.kernel.org>; Wed, 21 Aug 2024 23:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.200
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724281238; cv=none; b=Mt8RBYFZikzYLt8t3BjC8FfsJRCpb1VRRHqaAb0Y67GdpuGiHCR2qxMzWp4aghvSZqC8OO3EylwaK/5idIE/ucjHqHXe/VEpo22KpwDbujxDvtyv7/m0wfj0S16O1qRZaepboR8/l9/TFENf7al1lx4wuoDsa42Fznf9fTHHFUE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724281238; c=relaxed/simple;
+	bh=nK7WBNJU17yLVWvP6m9kWvc6ZL5VUUgZBG/DpAUucZQ=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=L2prV4fyyVjt4blO8XucFn/QB0WOQsm1XMJWfHOkwE1WB97+XCuji68ajM+CEFQKFjRFGN9A1N8RJbBk37Mz8v1grYSwIRjUyA37RkMXF46YyihhMNjceCF+A2SCHSUd7MregtlxLihCT6/E1MIXOMhcOhLgC067f9UMEXdg8Qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-39d415635e6so1983275ab.1
+        for <linux-ppp@vger.kernel.org>; Wed, 21 Aug 2024 16:00:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724281236; x=1724886036;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=advimBipANCqCePLOk2BiN6GsDFv17GpuVUDDfjL++k=;
+        b=EXf9oBSbJKS9CO+mSpeLpJq0V4TvGgZEqbGSM/yEnsoXEBepetuNhBg8A91UZcH2oJ
+         JFtpK/jFwLTaCB635d42+KmH4V69n67E7wNz2VoSc3slk2JT155ETcSX3phqVB2+6tlU
+         X456OYlYqgivIcXbr6XFSsu/kpbjEMpeHhzW/1CRjr7pXcKOr5VO34IGbzF5MUhBRTvT
+         xwlHmC1RomXvsdgniiM3+N961Wf20xewVPrT5XvqKvzPkfsnsnXlJy0/D+e6h6rEQ2b2
+         WDqOIAxDRowGx0JZpJoEps/QswTbcJiVBukQ/HJ3PQkH01sobIL3SH/dTSdAE8WIz9k5
+         gbqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXvboq+5ycWlPou/C2DO+Via6NekGv44S82tcwCjZaK2WKykREqTZQCDvFXEFdVlPpM2euUdkRwn64=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywuq1b74SVm85qmMgr3CHBTuwB56GYloUCo8YuY2cb5ZKGUgxMd
+	xv/bHl+PFgfGaKduTGgAn8fBktgbEegJeiqYYoZHTfsn2ARuEq2pzr6CrXvKmA9US/dwhl1KLFe
+	lSsenH7c2ztP4Q85ciARG6vDtpaCHuSmFJ+wFnJJaZYCYiduMTliabYk=
+X-Google-Smtp-Source: AGHT+IERpDLmPFAJpJ8+6JKcLbHcXtZBNujYlqliN8siKmzcxZgt9d88fNgZeQYdyjNZx0VSeQIdBysFv5KwHz4ZoYwl2qFGUmih
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: aconnic.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: FR4P281MB3530.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3783065-e014-4ade-a0f3-08dcc02fea33
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2024 09:18:40.4616
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b0c6afb7-e762-4e9c-a18f-757ec69e3cc3
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: SNRS9px9I+kJiWZgpAG3JAeZzVQQk/9COh1hwNFTfa18Z0Ey9hKehXwo3HuQG0vKBoVxJP20dW3MJNxPUsiSL1SW6J3WvUC+SXFd6v1Etsg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR2P281MB2489
+X-Received: by 2002:a05:6638:22ca:b0:4bd:4861:d7f8 with SMTP id
+ 8926c6da1cb9f-4ce62fd0173mr105869173.4.1724281235997; Wed, 21 Aug 2024
+ 16:00:35 -0700 (PDT)
+Date: Wed, 21 Aug 2024 16:00:35 -0700
+In-Reply-To: <0000000000006bc6d20620023a14@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000090974a0620398254@google.com>
+Subject: Re: [syzbot] [ppp?] inconsistent lock state in valid_state (4)
+From: syzbot <syzbot+d43eb079c2addf2439c3@syzkaller.appspotmail.com>
+To: coreteam@netfilter.org, davem@davemloft.net, dsahern@kernel.org, 
+	edumazet@google.com, kadlec@netfilter.org, kuba@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-ppp@vger.kernel.org, 
+	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, pabeni@redhat.com, 
+	pablo@netfilter.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,=0A=
-=0A=
-I updated ppp-2.4.9 to ppp-2.5.0.=0A=
-I have may found an issue using pkg-config to find openssl includes and lib=
-s.=0A=
-After calling autogen.sh, we call configure with a lot of environment varia=
-bles.=0A=
-PATH=3D... CC=3D... CFLAGS=3D... LDFLAGS=3D...=0A=
-PKG_CONFIG_PATH=3DPATH_TO_PKG_CONFIG_FILES =0A=
-configure --host=3Dmips-34kc-linux-gnu --build=3Di486-linux-gnu=0A=
-=0A=
-As you can see we do cross-compilation and don't pass --with-openssl=0A=
-During configure, default ssl dirs are checked but no ssl.h file could be f=
-ound.=0A=
-Btw. On cross-compile we should skip checking default locations.=0A=
-However the variable found is still false.=0A=
-Then we come to following if:=0A=
-if test "${with_openssl}" !=3D "no" && test ! ${found}=0A=
-For some reason we don't go into the if condition to use pkg-config to get=
-=0A=
-openssl includes and libs.=0A=
-I think the "test ! ${found}" should be changed to "test ${found} =3D=3D fa=
-lse".=0A=
-"test ! ${somevar}" seems to be true, if somevar does not exists. It=0A=
-does not check the content of the variable.=0A=
-=0A=
-Here are some tests I made:=0A=
-    foo=3Dtrue=0A=
-    if test ! ${foo}=0A=
-    then :=0A=
-        printf "%s\n" "in if test ! foo=3Dtrue" >&6=0A=
-    fi=0A=
-    =0A=
-    if test ${foo}=0A=
-    then :=0A=
-        printf "%s\n" "in if test foo=3Dtrue" >&6=0A=
-    fi=0A=
-    =0A=
-    foo=3Dfalse=0A=
-    =0A=
-    if test ! ${foo}=0A=
-    then :=0A=
-        printf "%s\n" "in if test ! foo=3Dfalse " >&6=0A=
-    fi=0A=
-    =0A=
-    if test ${foo}=0A=
-    then :=0A=
-        printf "%s\n" "in if test foo=3Dfalse " >&6=0A=
-    fi=0A=
-    =0A=
-    if test ${foobarbaz}=0A=
-    then :=0A=
-        printf "%s\n" "in if test foobarbaz " >&6=0A=
-    fi=0A=
-    if test ! ${foobarbaz}=0A=
-    then :=0A=
-        printf "%s\n" "in if test ! foobarbaz " >&6=0A=
-    fi=0A=
-    =0A=
-    On terminal I see following lines:=0A=
-    in if test foo=3Dtrue=0A=
-    in if test foo=3Dfalse=0A=
-    in if test ! foobarbaz=0A=
-=0A=
-Therefore I propose following patch (based on tag ppp-2.5.0)=0A=
---- a/m4/ax_check_openssl.m4=0A=
-+++ b/m4/ax_check_openssl.m4=0A=
-@@ -70,7 +70,7 @@ AC_DEFUN([AX_CHECK_OPENSSL], [=0A=
-            ])=0A=
-        done])=0A=
-      =0A=
--    AS_IF([test "${with_openssl}" !=3D "no" && test ! ${found}], [  =0A=
-+    AS_IF([test "${with_openssl}" !=3D "no" && test ${found} =3D=3D false]=
-, [=0A=
-        # if pkg-config is installed and openssl has installed a .pc file,=
-=0A=
-        # then use that information and don't search ssldirs=0A=
-        AC_PATH_PROG([PKG_CONFIG], [pkg-config])=0A=
-=0A=
-May you can check this.=0A=
-=0A=
-At the moment, we use autoconf version 2.72c=0A=
-=0A=
-If you need more details, don't hesitate to contact me.=0A=
-=0A=
-Best regards,=0A=
-Stefan Scheibner=0A=
-Software engineer=0A=
+syzbot has found a reproducer for the following issue on:
+
+HEAD commit:    b311c1b497e5 Merge tag '6.11-rc4-server-fixes' of git://gi..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12dccc7b980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=df2f0ed7e30a639d
+dashboard link: https://syzkaller.appspot.com/bug?extid=d43eb079c2addf2439c3
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17cf93d5980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=101bb693980000
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-b311c1b4.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/1c99fa48192f/vmlinux-b311c1b4.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/16d5710a012a/bzImage-b311c1b4.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+d43eb079c2addf2439c3@syzkaller.appspotmail.com
+
+================================
+WARNING: inconsistent lock state
+6.11.0-rc4-syzkaller-00019-gb311c1b497e5 #0 Not tainted
+--------------------------------
+inconsistent {SOFTIRQ-ON-W} -> {IN-SOFTIRQ-W} usage.
+ksoftirqd/0/16 [HC0[0]:SC1[1]:HE1:SE0] takes:
+ffff888039c531e0 (&pch->downl){+.?.}-{2:2}, at: spin_lock include/linux/spinlock.h:351 [inline]
+ffff888039c531e0 (&pch->downl){+.?.}-{2:2}, at: ppp_channel_bridge_input drivers/net/ppp/ppp_generic.c:2272 [inline]
+ffff888039c531e0 (&pch->downl){+.?.}-{2:2}, at: ppp_input+0x18b/0xa10 drivers/net/ppp/ppp_generic.c:2304
+{SOFTIRQ-ON-W} state was registered at:
+  lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5759
+  __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+  _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:154
+  spin_lock include/linux/spinlock.h:351 [inline]
+  ppp_channel_bridge_input drivers/net/ppp/ppp_generic.c:2272 [inline]
+  ppp_input+0x18b/0xa10 drivers/net/ppp/ppp_generic.c:2304
+  pppoe_rcv_core+0x117/0x310 drivers/net/ppp/pppoe.c:379
+  sk_backlog_rcv include/net/sock.h:1111 [inline]
+  __release_sock+0x243/0x350 net/core/sock.c:3004
+  release_sock+0x61/0x1f0 net/core/sock.c:3558
+  pppoe_sendmsg+0xd5/0x750 drivers/net/ppp/pppoe.c:903
+  sock_sendmsg_nosec net/socket.c:730 [inline]
+  __sock_sendmsg+0x221/0x270 net/socket.c:745
+  ____sys_sendmsg+0x525/0x7d0 net/socket.c:2597
+  ___sys_sendmsg net/socket.c:2651 [inline]
+  __sys_sendmmsg+0x3b2/0x740 net/socket.c:2737
+  __do_sys_sendmmsg net/socket.c:2766 [inline]
+  __se_sys_sendmmsg net/socket.c:2763 [inline]
+  __x64_sys_sendmmsg+0xa0/0xb0 net/socket.c:2763
+  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+  do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+irq event stamp: 1309336
+hardirqs last  enabled at (1309336): [<ffffffff8bc0d5ff>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (1309336): [<ffffffff8bc0d5ff>] _raw_spin_unlock_irqrestore+0x8f/0x140 kernel/locking/spinlock.c:194
+hardirqs last disabled at (1309335): [<ffffffff8bc0d300>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (1309335): [<ffffffff8bc0d300>] _raw_spin_lock_irqsave+0xb0/0x120 kernel/locking/spinlock.c:162
+softirqs last  enabled at (1309326): [<ffffffff81578ffa>] run_ksoftirqd+0xca/0x130 kernel/softirq.c:928
+softirqs last disabled at (1309331): [<ffffffff81578ffa>] run_ksoftirqd+0xca/0x130 kernel/softirq.c:928
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&pch->downl);
+  <Interrupt>
+    lock(&pch->downl);
+
+ *** DEADLOCK ***
+
+1 lock held by ksoftirqd/0/16:
+ #0: ffffffff8e938320 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:326 [inline]
+ #0: ffffffff8e938320 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:838 [inline]
+ #0: ffffffff8e938320 (rcu_read_lock){....}-{1:2}, at: ppp_channel_bridge_input drivers/net/ppp/ppp_generic.c:2267 [inline]
+ #0: ffffffff8e938320 (rcu_read_lock){....}-{1:2}, at: ppp_input+0x55/0xa10 drivers/net/ppp/ppp_generic.c:2304
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 16 Comm: ksoftirqd/0 Not tainted 6.11.0-rc4-syzkaller-00019-gb311c1b497e5 #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:93 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
+ valid_state+0x13a/0x1c0 kernel/locking/lockdep.c:4012
+ mark_lock_irq+0xbb/0xc20 kernel/locking/lockdep.c:4215
+ mark_lock+0x223/0x350 kernel/locking/lockdep.c:4677
+ __lock_acquire+0xbf9/0x2040 kernel/locking/lockdep.c:5096
+ lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5759
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ ppp_channel_bridge_input drivers/net/ppp/ppp_generic.c:2272 [inline]
+ ppp_input+0x18b/0xa10 drivers/net/ppp/ppp_generic.c:2304
+ ppp_sync_process+0x71/0x160 drivers/net/ppp/ppp_synctty.c:490
+ tasklet_action_common+0x321/0x4d0 kernel/softirq.c:785
+ handle_softirqs+0x2c4/0x970 kernel/softirq.c:554
+ run_ksoftirqd+0xca/0x130 kernel/softirq.c:928
+ smpboot_thread_fn+0x544/0xa30 kernel/smpboot.c:164
+ kthread+0x2f0/0x390 kernel/kthread.c:389
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
