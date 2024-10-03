@@ -1,98 +1,102 @@
-Return-Path: <linux-ppp+bounces-97-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-98-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FC59899F0
-	for <lists+linux-ppp@lfdr.de>; Mon, 30 Sep 2024 07:05:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9921398F048
+	for <lists+linux-ppp@lfdr.de>; Thu,  3 Oct 2024 15:24:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2665AB212EB
-	for <lists+linux-ppp@lfdr.de>; Mon, 30 Sep 2024 05:05:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C63F1F21FA5
+	for <lists+linux-ppp@lfdr.de>; Thu,  3 Oct 2024 13:24:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB8C723BE;
-	Mon, 30 Sep 2024 05:05:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1F59770F1;
+	Thu,  3 Oct 2024 13:24:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b="mIHu1NUo"
+	dkim=pass (2048-bit key) header.d=workingcode.com header.i=@workingcode.com header.b="NExO7RMs"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from carlson.workingcode.com (carlson.workingcode.com [50.78.21.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DE31362
-	for <linux-ppp@vger.kernel.org>; Mon, 30 Sep 2024 05:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4811E495
+	for <linux-ppp@vger.kernel.org>; Thu,  3 Oct 2024 13:24:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=50.78.21.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727672717; cv=none; b=SSxhnhjv3CqQ6iFpe4f5XhDF6KTtQ7y6SARSFKQMf0QusSrHUXZKSXHDPIOkO2t9UStgf1RcflJnUYWm7/1QqCovhyHjBWgFcc/ju7AmR4lGKGWqCbfn/1fIp/6v8wlSXHbgqBLdxZnYOzX4/DCt++MWhlybv0sMS7y6d27B7no=
+	t=1727961889; cv=none; b=XIdFNVe9roMN4OhphXT3pUR/TC1//844seN6GaPHll0Cujrcnt4P+ImVYQnVi6pqpFHBIaKuayri4VRosLfjjjiBap56O/PVEIUeUba1ceb+80HCtV2GO3tKu3aDkUTll8HHYDE+KIpmYKFLD6BzHXS8K5P+KoOHRR8vPTFlNOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727672717; c=relaxed/simple;
-	bh=+IVcehI6dxKZMbJDhNvWBhbZHpQUOxswe8wd1BWZ0bA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CqVF2TV713N+NqJw4ywvql6CUYfUo6+rZa4TSUafjhfol2yaadjd2FsaSQfC315DQDN2XHzq3X4mytHhLxzMWkuPyhkuu6o1hwWLlccq+G6A6wsYbry2/8QXkot1MDUXMxYcBqTYyWATjTO31sseFIGxYdmI8cOC/rEFxsWlJvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ozlabs.org; spf=pass smtp.mailfrom=gandalf.ozlabs.org; dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b=mIHu1NUo; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ozlabs.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gandalf.ozlabs.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
-	s=201707; t=1727672711;
-	bh=rtLcxgzDItRYezb4H4PT2uwUnfX8bPpmQI3rA+Q+sIc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mIHu1NUon+eBoebpfRYK6fJXmkrTuwHeoF6nfTk0mKlEv4jFfCDbKkTg7WezW4bh1
-	 NDjNOR1+PvjCs2TblEuv6BWkc9S9EVAKdAt6YltTgkMrTexM4YiqLl8MP4EetRI4Kr
-	 NaM+Hs28kjLk+sh2nm3gjkh2bmDovQGLMoULnNEha0hUoHLso7EfnPPQ4+5qiuwK1i
-	 WxZWzxpZOtFJmrd9YRW27aMBEmIoUE++4zQgnUNaLonQCAzcLuuM4UuTPe3x75fsqv
-	 pX5pz/Fvh3QttoGtCO2CFh5GaKavJN7aMTGjpiBSPydsy51OHQbTwkFnEdoJJzB/1P
-	 PmB1RcC/WZutw==
-Received: by gandalf.ozlabs.org (Postfix, from userid 1003)
-	id 4XH8CC4mrNz4wc3; Mon, 30 Sep 2024 15:05:11 +1000 (AEST)
-Date: Mon, 30 Sep 2024 15:05:07 +1000
-From: Paul Mackerras <paulus@ozlabs.org>
-To: James Carlson <carlsonj@workingcode.com>
-Cc: ppp Linux <linux-ppp@vger.kernel.org>
-Subject: Re: patch to bring Solaris back up to date
-Message-ID: <Zvoxg9_Yoyk4-2kP@cleo.paulus.ozlabs.org>
-References: <c9ad04a2-e9ee-4953-afd6-9412711c4f35@workingcode.com>
+	s=arc-20240116; t=1727961889; c=relaxed/simple;
+	bh=2Tu0MEoQ9NhgtKoqlCnktRZbHvlmTHO+LYEvU4goeUU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OhogEEgCRaTTMRug/L83juYrfGRs2h7AQs408fT2f8VWlnQVMaR4f0vsVIHKEKo6E+ACpWT30fWD9mbYwXeTN0EkEhrZw7k8K08+CC8SJ4sWfUd7XdOLSkSDXw5hr2wK+XKt8vrS4s4jKrxc6HBNd3HC40yf3stFw1zGsqPwFfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=workingcode.com; spf=pass smtp.mailfrom=workingcode.com; dkim=pass (2048-bit key) header.d=workingcode.com header.i=@workingcode.com header.b=NExO7RMs; arc=none smtp.client-ip=50.78.21.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=workingcode.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=workingcode.com
+Received: from localhost (localhost [127.0.0.1])
+	by carlson.workingcode.com (Postfix) with ESMTP id 2C9551E200F0;
+	Thu,  3 Oct 2024 09:17:28 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=workingcode.com;
+	 h=content-transfer-encoding:content-type:content-type
+	:in-reply-to:from:from:content-language:references:subject
+	:subject:user-agent:mime-version:date:date:message-id:received
+	:received; s=default; t=1727961447; x=1728825448; bh=2Tu0MEoQ9Nh
+	gtKoqlCnktRZbHvlmTHO+LYEvU4goeUU=; b=NExO7RMso7vPaAXTKPqRqnxfT9s
+	LCeXqV1P9fcaHCZ1YsOBJ13JC1QzGguPF1COpFsum5si9tm3H7gAvIS7RoiOX3am
+	cY4NFaK+TvSTwPAQLF/vsVtHwmjHdryRq2NVfmYJrrv8Fx8KKaz/2LlhuvTfikuH
+	jRMOuHaYjRdxpkFidoYXLnVJmnJN+m2R2J7PWhkDgmOR8Ig9EFIo3nSIPWI7N26I
+	wpITRSFCiTjlBJEi25vcGz+N9v+egWxOfjcp7ig72f2roNspGHjzh+Nwn0jE6fQ6
+	kvY8TQf1mWZMQ+MU273YcyuTbkP+DvRycacbnzo8OHQSbUsirCtGepo+JZg==
+X-Virus-Scanned: amavisd-new at workingcode.com
+Received: from carlson.workingcode.com ([127.0.0.1])
+	by localhost (carlson.workingcode.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id pRofHRFEFpH8; Thu,  3 Oct 2024 09:17:27 -0400 (EDT)
+Received: from [50.78.21.49] (carlson [50.78.21.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by carlson.workingcode.com (Postfix) with ESMTPSA id AE9D11E20035;
+	Thu,  3 Oct 2024 09:17:27 -0400 (EDT)
+Message-ID: <08168610-387b-420f-a75f-db1ec7393f64@workingcode.com>
+Date: Thu, 3 Oct 2024 09:17:27 -0400
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c9ad04a2-e9ee-4953-afd6-9412711c4f35@workingcode.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: patch to bring Solaris back up to date
+To: Paul Mackerras <paulus@ozlabs.org>
+Cc: ppp Linux <linux-ppp@vger.kernel.org>
+References: <c9ad04a2-e9ee-4953-afd6-9412711c4f35@workingcode.com>
+ <Zvoxg9_Yoyk4-2kP@cleo.paulus.ozlabs.org>
+Content-Language: en-US
+From: James Carlson <carlsonj@workingcode.com>
+In-Reply-To: <Zvoxg9_Yoyk4-2kP@cleo.paulus.ozlabs.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Sep 21, 2024 at 05:04:49PM -0400, James Carlson wrote:
-> The attached patch for review brings the Solaris support back up to
-> date. Here is a summary of the changes it contains:
+On 9/30/24 01:05, Paul Mackerras wrote:
+> Basically the patch looks good to me.  I do need a Signed-off-by line
+> from you, or at least your permission to add one like the one below
+> for you.  Let me know if you want me to add that for you and edit the
+> description, or if you would prefer to resubmit it.  In the former
+> case I would edit the description to look like this:
 > 
-> - Updated readmes
+> ------------------------------------------------------
+> Bring Solaris port back up to date
+> 
+> - Updated READMEs
 > - Disabled MPPE support for Solaris
 > - Fixed compilation error in ccp.c with MPPE disabled
 > - Use OS-provided drivers and associated include files
 > - Tested on OpenIndiana Hipster (Illumos)
 > 
-> -- 
-> James Carlson     42.703N 71.076W FN42lq08    <carlsonj@workingcode.com>
+> Signed-off-by: James Carlson <carlsonj@workingcode.com>
+> ------------------------------------------------------
 
-Thanks James, and I apologize for my slow response.
+That looks fine to me.
 
-Basically the patch looks good to me.  I do need a Signed-off-by line
-from you, or at least your permission to add one like the one below
-for you.  Let me know if you want me to add that for you and edit the
-description, or if you would prefer to resubmit it.  In the former
-case I would edit the description to look like this:
+-- 
+James Carlson     42.703N 71.076W FN42lq08    <carlsonj@workingcode.com>
 
-------------------------------------------------------
-Bring Solaris port back up to date
-
-- Updated READMEs
-- Disabled MPPE support for Solaris
-- Fixed compilation error in ccp.c with MPPE disabled
-- Use OS-provided drivers and associated include files
-- Tested on OpenIndiana Hipster (Illumos)
-
-Signed-off-by: James Carlson <carlsonj@workingcode.com>
-------------------------------------------------------
-
-Thanks,
-Paul.
 
