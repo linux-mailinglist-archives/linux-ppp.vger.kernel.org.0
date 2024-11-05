@@ -1,183 +1,133 @@
-Return-Path: <linux-ppp+bounces-102-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-103-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80A99BB405
-	for <lists+linux-ppp@lfdr.de>; Mon,  4 Nov 2024 12:58:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 903719BCC1A
+	for <lists+linux-ppp@lfdr.de>; Tue,  5 Nov 2024 12:47:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 00BF7B23545
-	for <lists+linux-ppp@lfdr.de>; Mon,  4 Nov 2024 11:50:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 547AB28288E
+	for <lists+linux-ppp@lfdr.de>; Tue,  5 Nov 2024 11:47:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 760A81B0F2C;
-	Mon,  4 Nov 2024 11:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5F1D1D362B;
+	Tue,  5 Nov 2024 11:47:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZTWqpI5B"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hpPxMjfC"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C60618A6B5;
-	Mon,  4 Nov 2024 11:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045F51D2B2A
+	for <linux-ppp@vger.kernel.org>; Tue,  5 Nov 2024 11:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730721009; cv=none; b=BPDgiIX1OfAJm4PDD1dsLCV3p7SNDnryGemci2Vlnu8mT+xPo381c86rY+TfNlcr3RpGLbAW3QAoSVJUYEk8eLr8a7wv+c463AaCEoXprySYKacr+027vTb+YGkAvdd3xRv73b89fnYTaJepx2UD73Y5enyTdDs4w9ID/79hg6U=
+	t=1730807254; cv=none; b=rDBqERz+y8hrY8LiGCnmopPwmxAodVI/4nMxI93B+18D/RbCNIUQGSyeGom5vX/DYcww5C1a7jqEmkIGqJNQL9IylXHP5GNtE56C4WnkPQ/oAHtoywA2GN2Qt6VDrihn4UYUKFJVMn9aL9U+KH6oGFr/7Z2BG441iamOYuHcmuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730721009; c=relaxed/simple;
-	bh=7bAXGSIMkDmiiArsenU5Ko1NFwTmYvJcvE7RrpL1XVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=olMnjII0yHoKYZXL5XLMfHbUeHSjRaN0MNM1a/53dMvRJYag8ul6cZdopQKUwny6WNadyccGcExPc49p5tQYtfaofaiaBlnHTLZ2SUMtEmdasdpA9Nn+Cm4ELXhtY256oSizQy+fjHRsp46OhDMb0+IM0HNZ/Jru4LZqNFxTj1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZTWqpI5B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13C34C4CECE;
-	Mon,  4 Nov 2024 11:50:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730721008;
-	bh=7bAXGSIMkDmiiArsenU5Ko1NFwTmYvJcvE7RrpL1XVo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZTWqpI5BAjfaPnVDNQPwae5G5vgeb83Sgz22Qw8kSaHF3mvvIw7lMuZQpshUbHmKd
-	 zIpAorhnt7H0r7MQgS+z2E48aJPOMUGPg8utBDy55yUqcNcLeVjGK09lRjhNNgPVFO
-	 DRR+/YdNtvmpcf/ShPy3Gkod++4MJmRpzW4PkRIWfoYQyBnIhsiT2ZTPY96Jj/F/0i
-	 qgwgzXuoIZnuQ2lq4G0Vx1fIP4zpTU5N60LyFU6+kjJA3MLp8+8JrniMiHhk3pYiH4
-	 yWhlGla8muTvIkfNlqFhLHHq3+D+EexV4Mn8hftA6sCNWI3JPaKAya/lfDCDP38Odu
-	 vbsGBQssmUR6w==
-Date: Mon, 4 Nov 2024 11:50:04 +0000
-From: Simon Horman <horms@kernel.org>
-To: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-Cc: Qingfang Deng <dqfext@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-ppp@vger.kernel.org
+	s=arc-20240116; t=1730807254; c=relaxed/simple;
+	bh=+6/H/XDafrltzhOFfb+5FmSnOevGqRPMwlJKVVM64SI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QJGasbnIBUjLf7TjP/Rr00yuz2gu4FJ4WAefIqppIAR0EW0xdElyZpK6006C6wd5fCPnJg8O3d6l/fg91em7mekZ5o+sEpW1B+DijL2l6U0SUPXhGJwkwOTsLZC2N2OWC7sIPN0EIXXNQMaByXt6idJ25VcOmh1sb+YfMOd9RDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hpPxMjfC; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730807252;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AvEt+630bp2zTwkv8fB0BYAPpHvXTyBk/V9RY8sAZMo=;
+	b=hpPxMjfCU6k/05bR20OvwPFk8OfjksUn1oVllqyqRd8OLujg6PPZ4dzQlYCrA2KRXfKwEY
+	9pHDOD+i9jvA900JjXehgmZ9NRanGsMtkYj12+jTwUerUqfNdxJ1xpv0wHBjFEP04+oAye
+	o9czIwcu7j1YHHShKGdFx0hAd/yotUw=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-693-xoL5Y3niMTGuEI9vlsVbRw-1; Tue, 05 Nov 2024 06:47:30 -0500
+X-MC-Unique: xoL5Y3niMTGuEI9vlsVbRw-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-a9a23eada74so353045266b.3
+        for <linux-ppp@vger.kernel.org>; Tue, 05 Nov 2024 03:47:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730807249; x=1731412049;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AvEt+630bp2zTwkv8fB0BYAPpHvXTyBk/V9RY8sAZMo=;
+        b=PHog2zuC/29vKqXgok22WSe2BOWvt/cI9jNX5R/zFigPeZO30FiF3M/WH2szskcxL+
+         UH8OXfeMoyqdFcJTzt69mYaYs2nAJNAPqJP6NGaPQlbGW3MjIIAM9pSJ37hdGk8+jQP4
+         bW4T4yJHN/04+quzv8oTdA6NRkP0pwviSawJRCkOeLhDhdu+2O2GFM82Xrv2YTSNwwHI
+         HlHx99OVHaVXCiBm88ys9F6sue3qwlxo+4oqDcUgXfSoQF/jNWyn8Op4bAu6QjGtDyln
+         +/LkGRIZyoGXmyjrkOBEn00ssynvycEOQcajRkpVQBeZ6nVlIeesKximlipo0hDcjgOI
+         SpaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUSzpx3LOvBgAxQd6VJItJPcz3Oj+paw4oei6sla491PF6InSrERQiGDezaUdeV++QUlaroOYxhsR8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyk6b10mOU9i6dJ705Dq9yhNOlIASeEjw948NegfpoD/EcFXPxI
+	TLaAnVpxAui4I3TO+FkTT5vkLRs3VSvE9eVHq+YpJIGVlnuxc86zwgySBvsvn7OHv+PAaxpu5kS
+	YtaaY6usYXOTrcYLdM0uQBYJ3IfS3Aaq7utqfSdrBKtjBCUEJH2THRlHL5w==
+X-Received: by 2002:a17:906:c113:b0:a9a:5e3a:641d with SMTP id a640c23a62f3a-a9e50cb0401mr1967595366b.59.1730807249485;
+        Tue, 05 Nov 2024 03:47:29 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFXnL+6T8mGipW8cAyu0azUR7FlsedzWWDQr98e0c9nhVPjkKd8TbpT2mFnkD3c0nE8mjR0kQ==
+X-Received: by 2002:a17:906:c113:b0:a9a:5e3a:641d with SMTP id a640c23a62f3a-a9e50cb0401mr1967592966b.59.1730807249104;
+        Tue, 05 Nov 2024 03:47:29 -0800 (PST)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb17f964csm122895066b.159.2024.11.05.03.47.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 03:47:28 -0800 (PST)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+	id 57ABF164C228; Tue, 05 Nov 2024 12:47:27 +0100 (CET)
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To: Simon Horman <horms@kernel.org>
+Cc: Qingfang Deng <dqfext@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-ppp@vger.kernel.org
 Subject: Re: [RFC PATCH net-next] net: ppp: convert to IFF_NO_QUEUE
-Message-ID: <20241104115004.GC2118587@kernel.org>
+In-Reply-To: <20241104115004.GC2118587@kernel.org>
 References: <20241029103656.2151-1-dqfext@gmail.com>
+ <20241104115004.GC2118587@kernel.org>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date: Tue, 05 Nov 2024 12:47:27 +0100
+Message-ID: <87pln99a28.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241029103656.2151-1-dqfext@gmail.com>
+Content-Type: text/plain
 
-+ Toke
+Simon Horman <horms@kernel.org> writes:
 
-On Tue, Oct 29, 2024 at 06:36:56PM +0800, Qingfang Deng wrote:
-> When testing the parallel TX performance of a single PPPoE interface
-> over a 2.5GbE link with multiple hardware queues, the throughput could
-> not exceed 1.9Gbps, even with low CPU usage.
-> 
-> This issue arises because the PPP interface is registered with a single
-> queue and a tx_queue_len of 3. This default behavior dates back to Linux
-> 2.3.13, which was suitable for slower serial ports. However, in modern
-> devices with multiple processors and hardware queues, this configuration
-> can lead to congestion.
-> 
-> For PPPoE/PPTP, the lower interface should handle qdisc, so we need to
-> set IFF_NO_QUEUE. For PPP over a serial port, we don't benefit from a
-> qdisc with such a short TX queue, so handling TX queueing in the driver
-> and setting IFF_NO_QUEUE is more effective.
-> 
-> With this change, PPPoE interfaces can now fully saturate a 2.5GbE link.
-> 
-> Signed-off-by: Qingfang Deng <dqfext@gmail.com>
+> + Toke
+>
+> On Tue, Oct 29, 2024 at 06:36:56PM +0800, Qingfang Deng wrote:
+>> When testing the parallel TX performance of a single PPPoE interface
+>> over a 2.5GbE link with multiple hardware queues, the throughput could
+>> not exceed 1.9Gbps, even with low CPU usage.
+>> 
+>> This issue arises because the PPP interface is registered with a single
+>> queue and a tx_queue_len of 3. This default behavior dates back to Linux
+>> 2.3.13, which was suitable for slower serial ports. However, in modern
+>> devices with multiple processors and hardware queues, this configuration
+>> can lead to congestion.
+>> 
+>> For PPPoE/PPTP, the lower interface should handle qdisc, so we need to
+>> set IFF_NO_QUEUE. For PPP over a serial port, we don't benefit from a
+>> qdisc with such a short TX queue, so handling TX queueing in the driver
+>> and setting IFF_NO_QUEUE is more effective.
+>> 
+>> With this change, PPPoE interfaces can now fully saturate a 2.5GbE link.
+>> 
+>> Signed-off-by: Qingfang Deng <dqfext@gmail.com>
+>
+> Hi Toke,
+>
+> I'm wondering if you could offer an opinion on this.
 
-Hi Toke,
+Hi Simon
 
-I'm wondering if you could offer an opinion on this.
+Thanks for bringing this to my attention; I'll reply to the parent
+directly :)
 
-> ---
->  drivers/net/ppp/ppp_generic.c | 27 ++++++++++++---------------
->  1 file changed, 12 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-> index 4b2971e2bf48..5470e0fe1f9b 100644
-> --- a/drivers/net/ppp/ppp_generic.c
-> +++ b/drivers/net/ppp/ppp_generic.c
-> @@ -236,8 +236,8 @@ struct ppp_net {
->  /* Get the PPP protocol number from a skb */
->  #define PPP_PROTO(skb)	get_unaligned_be16((skb)->data)
->  
-> -/* We limit the length of ppp->file.rq to this (arbitrary) value */
-> -#define PPP_MAX_RQLEN	32
-> +/* We limit the length of ppp->file.rq/xq to this (arbitrary) value */
-> +#define PPP_MAX_QLEN	32
->  
->  /*
->   * Maximum number of multilink fragments queued up.
-> @@ -920,8 +920,6 @@ static long ppp_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
->  				break;
->  		} else {
->  			ppp->npmode[i] = npi.mode;
-> -			/* we may be able to transmit more packets now (??) */
-> -			netif_wake_queue(ppp->dev);
->  		}
->  		err = 0;
->  		break;
-> @@ -1639,6 +1637,7 @@ static void ppp_setup(struct net_device *dev)
->  	dev->tx_queue_len = 3;
->  	dev->type = ARPHRD_PPP;
->  	dev->flags = IFF_POINTOPOINT | IFF_NOARP | IFF_MULTICAST;
-> +	dev->priv_flags |= IFF_NO_QUEUE;
->  	dev->priv_destructor = ppp_dev_priv_destructor;
->  	netif_keep_dst(dev);
->  }
-> @@ -1654,17 +1653,15 @@ static void __ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb)
->  	if (!ppp->closing) {
->  		ppp_push(ppp);
->  
-> -		if (skb)
-> -			skb_queue_tail(&ppp->file.xq, skb);
-> +		if (skb) {
-> +			if (ppp->file.xq.qlen > PPP_MAX_QLEN)
-> +				kfree_skb(skb);
-> +			else
-> +				skb_queue_tail(&ppp->file.xq, skb);
-> +		}
->  		while (!ppp->xmit_pending &&
->  		       (skb = skb_dequeue(&ppp->file.xq)))
->  			ppp_send_frame(ppp, skb);
-> -		/* If there's no work left to do, tell the core net
-> -		   code that we can accept some more. */
-> -		if (!ppp->xmit_pending && !skb_peek(&ppp->file.xq))
-> -			netif_wake_queue(ppp->dev);
-> -		else
-> -			netif_stop_queue(ppp->dev);
->  	} else {
->  		kfree_skb(skb);
->  	}
-> @@ -1850,7 +1847,7 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
->  	 * queue it up for pppd to receive.
->  	 */
->  	if (ppp->flags & SC_LOOP_TRAFFIC) {
-> -		if (ppp->file.rq.qlen > PPP_MAX_RQLEN)
-> +		if (ppp->file.rq.qlen > PPP_MAX_QLEN)
->  			goto drop;
->  		skb_queue_tail(&ppp->file.rq, skb);
->  		wake_up_interruptible(&ppp->file.rwait);
-> @@ -2319,7 +2316,7 @@ ppp_input(struct ppp_channel *chan, struct sk_buff *skb)
->  		/* put it on the channel queue */
->  		skb_queue_tail(&pch->file.rq, skb);
->  		/* drop old frames if queue too long */
-> -		while (pch->file.rq.qlen > PPP_MAX_RQLEN &&
-> +		while (pch->file.rq.qlen > PPP_MAX_QLEN &&
->  		       (skb = skb_dequeue(&pch->file.rq)))
->  			kfree_skb(skb);
->  		wake_up_interruptible(&pch->file.rwait);
-> @@ -2472,7 +2469,7 @@ ppp_receive_nonmp_frame(struct ppp *ppp, struct sk_buff *skb)
->  		/* control or unknown frame - pass it to pppd */
->  		skb_queue_tail(&ppp->file.rq, skb);
->  		/* limit queue length by dropping old frames */
-> -		while (ppp->file.rq.qlen > PPP_MAX_RQLEN &&
-> +		while (ppp->file.rq.qlen > PPP_MAX_QLEN &&
->  		       (skb = skb_dequeue(&ppp->file.rq)))
->  			kfree_skb(skb);
->  		/* wake up any process polling or blocking on read */
-> -- 
-> 2.34.1
-> 
-> 
+-Toke
+
 
