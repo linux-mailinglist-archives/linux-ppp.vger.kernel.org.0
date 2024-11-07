@@ -1,167 +1,115 @@
-Return-Path: <linux-ppp+bounces-107-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-108-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FDE49BD007
-	for <lists+linux-ppp@lfdr.de>; Tue,  5 Nov 2024 16:05:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F11269C055A
+	for <lists+linux-ppp@lfdr.de>; Thu,  7 Nov 2024 13:09:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 572371C2119F
-	for <lists+linux-ppp@lfdr.de>; Tue,  5 Nov 2024 15:05:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D7531C225EF
+	for <lists+linux-ppp@lfdr.de>; Thu,  7 Nov 2024 12:09:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5F4A1D7E46;
-	Tue,  5 Nov 2024 15:04:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5701220F5B1;
+	Thu,  7 Nov 2024 12:08:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TuPVa2Yv"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Zbw2wbCF"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E0C33080;
-	Tue,  5 Nov 2024 15:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FD21DDA3B
+	for <linux-ppp@vger.kernel.org>; Thu,  7 Nov 2024 12:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730819097; cv=none; b=dlCba3sOzmIGGCBS/+D5cngk1nS3RDjy2Pjptfv3x0QBfQ4F+Eqa9csWEMvyqdbtPUYNQpNW3DOA9IlTXqp4u6ztcruLfQbtkcK1vYVEeISCxpvJZsVTiJfHDDSu3cGiUgrQkWiHzEafAjKLC10d0CB/KfAHY0oQyI53F3fU7CA=
+	t=1730981328; cv=none; b=JG5VgQvxz7IdvGlKo3p3bynBZ5pi45nVfTL3qswADthnrS7STl9OBNQfMpnDRWSnJUJQFwe5Wfr/c6gFCplCiH5/4MsCoE+6kGSjsYOFjYn/Jt6R0hga+ZeVa9LkvOd+sbp/dRE7OZ+GUnIxpC+pgs1+JwhvBTK0Cn6OHLDqbcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730819097; c=relaxed/simple;
-	bh=63apKU3oCK84jQYr9wI2Tor+Zn6BKoINp1mEwP9zZfI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DDjfc3uZVlJA/BsQkEIPhgsu2oND5XEmKTjsLKgbY1Sa3u1muPs5aXcJZX1LicyhCyZBQreJ85n2K5+4zjMh4ecPQI650ktxkAKWm4rgzfvzXMW7GbLcJDMKPAFBgD5Eku5uf3s5NfyKk9fiDd7W/eGN1nFRqJ8oPgiPTQY73QA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TuPVa2Yv; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6e5cec98cceso44338397b3.2;
-        Tue, 05 Nov 2024 07:04:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730819095; x=1731423895; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=63apKU3oCK84jQYr9wI2Tor+Zn6BKoINp1mEwP9zZfI=;
-        b=TuPVa2YvHZwrp3Y3AAhN5wosKUC9E5bKSm9K5nonakYwC+2vwzAwpMpiNdQp2vYT8R
-         vB1sA/WSlkk8c+w2iG2MK/ZPTCo4XHOca5ImJg2LYXfHAXaWeqTrFV1hf5lo5pfbJrDG
-         1nkA9aQeYS9WCh1zrQpH8pppzv/Y6YHY50kNwT3fvYFiJalUEb2HgGNdLMP3oxC1+kWQ
-         bz7hmdKLzwHH/YegTuGvO+4LtRE5lfVJZXudPlHcIBCYUSeNU+5h4ryMgVVwnyWT2EWM
-         8g7Km0i8r5v+6gMcZj9KeL3hTz9fqArE6EYNt0tNVbKuslJ/uNER5oHk44P2piEQRBKH
-         g7Iw==
+	s=arc-20240116; t=1730981328; c=relaxed/simple;
+	bh=P+ZmCLNqT/7hSPWujVP3owEJpB951n6H3S7VxdBjr2s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=TCg1gqNB4Ya32ePuEjfFK8dqDTl54QJLBlwzQjUPzEBPSGhCYq6GcMlfHJsaiCYrJq+6Aw8wmfSi/DS1EQZ6izPiSqIYu4aWJozwtSl0hBEEYWDC0MIr6gJkrNWnCHkT720BzJf8Cp3+LP/IhF7RijUDOG/pZiwgz3E21GLbIyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Zbw2wbCF; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730981325;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P+ZmCLNqT/7hSPWujVP3owEJpB951n6H3S7VxdBjr2s=;
+	b=Zbw2wbCFfcmyriiBER4v0yI/iksoGo+KQAEbhjQBJzWATdBPEM7hsEVjSFU8VnWvt18iDR
+	XhwbuEYuw9d8xNy/95swXo/LmRE26wAe7MUWOKtzH30oJ9szG/0KZkpmF5LOQK1qysSpm2
+	BISmGc6jBXh1VDIqSBn1FkB9Cfr4fYU=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-516-RGhZwmU-Plm-ocXfTvJkmA-1; Thu, 07 Nov 2024 07:08:44 -0500
+X-MC-Unique: RGhZwmU-Plm-ocXfTvJkmA-1
+X-Mimecast-MFC-AGG-ID: RGhZwmU-Plm-ocXfTvJkmA
+Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-2891d447ebaso1063910fac.3
+        for <linux-ppp@vger.kernel.org>; Thu, 07 Nov 2024 04:08:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730819095; x=1731423895;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=63apKU3oCK84jQYr9wI2Tor+Zn6BKoINp1mEwP9zZfI=;
-        b=lTcH8bVWWgcWGDXpV9js/T3y5z3s2q6h1RHdupqwvI/L2ZJFtpm0hldN8XxXMYuT7b
-         IHFGoJAL0/LSc8k1dBgEP6VKyx5mCgzHhTDrFfFihjCqjQC763l+jeFPzSKBd1XvIHMp
-         nKJ6qVqxmEWGRIzadMEp30j5m2Rcb3q33P+yjuZrT53Qi97/J/KXELP5EQqJImsJ+4RW
-         o+DflTMf5SN67vRWSSZnpGtrAEy8fVmRITSEY7XzksREOnrvXF+AwMBBcTWz5Dm5lJuw
-         DXugH+iFCg31Y7vVDEZuvsFhEZ8duLh/MWjUqgTIZp2BdxwNYixa8cuGinVj+yJqma3E
-         pZ6g==
-X-Forwarded-Encrypted: i=1; AJvYcCVW6XpdA0RMOvbN6crWl0TuKz+cqJBIz9YjsR2M3m+n9HRDadDY6XHaReVSYgDam6Ka166xnYZz@vger.kernel.org, AJvYcCW+ps+lot2RWDkx4lTC6+rBhVv39FZDccMFjjH2g4IiLui0mhU1mzC8QokGLeC+/f4nRyBT9/sUGEFZ@vger.kernel.org, AJvYcCX/Ki4mx1F47oLqDJTRWZz2WGqJ570tpB1zauMxzVgUO4D+sOD+QExU6Ra078vq4xPUys7y8UNUI+/rEQE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytoQYD+EkygFxSeiuI+8Sul/QES8e8v9C9sPtJ4nGKF19dWtEI
-	LcRk16EQwY0Xxq+8q5eofTodN5NONUcaKTWv6r4XjdowGe+NlRSW89Do0Do0YWHEkBBYOrz8SOM
-	16cc3JXHokjhJAA2vBgB7yOybaDkv9eRHCa4=
-X-Google-Smtp-Source: AGHT+IG9OEtgCqxYH2AGUXx+y9wCsQ2BKy/xHrqmG9IrH/j8u8vvE2+KgIidIE6DaWBTb75baRQbZmqsFfJmCge7nmI=
-X-Received: by 2002:a05:690c:6ac2:b0:6ea:4d3f:df7c with SMTP id
- 00721157ae682-6ea52329c6amr209250267b3.9.1730819095116; Tue, 05 Nov 2024
- 07:04:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1730981323; x=1731586123;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P+ZmCLNqT/7hSPWujVP3owEJpB951n6H3S7VxdBjr2s=;
+        b=LVY6SsVrVRFV6BSZgiqZ36IQFyuBKE+YQo9iXi8i19e2yXIDeDJpES4rbY2ALIAZ0U
+         VxE/vb0Q77qIVB0euPcACE4LY9tdpJb4XdkD+dDcUZKw4Vt48p5ncyVRWQy0HVkhAZuL
+         v4ziU5ufQm7eXDvZimV3skytsflDJyZ1sW1/bbhZ1VkzSZrznqx8urMlEjVIzwkjNIjd
+         YHL7ZPz1/XPcjJFHURwEZTv+SSGb3x+pJggEEL4zKbG9/CQC9QYrqkcWPwDpne1zcxm/
+         HMzk/fW56GPFbBD55LTKlAHZ6ep1qfpTdabNgtxd3ufs5nQ/i4XILv8R8T4ojFg+XtD+
+         htfA==
+X-Forwarded-Encrypted: i=1; AJvYcCUNeldO8Y6GH+c+Kq6iNhUAjVTIg5U1cn0vJK1JaoXoIUl8TQemYA89CCQPKqPASCg34hRVSZJQemc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywsqizbefp3ONdacQAKpm4gAlRq5NK+ai4Rr8xxXXet55RMsul+
+	RrQTM3AkHoHxlIJbLRWZAFU11U971tQAqduQEOFzAWkbra8Eh8UOcOk+9gAWa5pDhwjkILt7Kz8
+	GvYS/X1Mfjx6LFlLhAiVstKjKNRrrZ5+v3ldQqCv5IKyZxSTIPmJ8ntTY7g==
+X-Received: by 2002:a05:6870:178e:b0:261:164e:d12a with SMTP id 586e51a60fabf-2949ee0b87emr21308218fac.22.1730981323738;
+        Thu, 07 Nov 2024 04:08:43 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHeJrwUsl9lztRDYZl1aEOL++WosS7qon8mJ6s7nwFpWJQj81Qdxv4suuQ4ykwvnLVP/ZrxCg==
+X-Received: by 2002:a05:6870:178e:b0:261:164e:d12a with SMTP id 586e51a60fabf-2949ee0b87emr21308196fac.22.1730981323479;
+        Thu, 07 Nov 2024 04:08:43 -0800 (PST)
+Received: from [192.168.88.24] (146-241-44-112.dyn.eolo.it. [146.241.44.112])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-71a107eb5c8sm227391a34.13.2024.11.07.04.08.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Nov 2024 04:08:43 -0800 (PST)
+Message-ID: <7e0df321-e297-4d32-aac5-a885de906ad5@redhat.com>
+Date: Thu, 7 Nov 2024 13:08:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241029103656.2151-1-dqfext@gmail.com> <87msid98dc.fsf@toke.dk>
- <CALW65jbz=3JNTx-SWk21DT4yc+oD3Dsz49z__zgDXF7TjUV7Lw@mail.gmail.com> <87a5ed92ah.fsf@toke.dk>
-In-Reply-To: <87a5ed92ah.fsf@toke.dk>
-From: Qingfang Deng <dqfext@gmail.com>
-Date: Tue, 5 Nov 2024 23:04:44 +0800
-Message-ID: <CALW65jZtdy8xkNnMD2pCFKyf6JM4uwTHgt8v49M46GpCfS8cCw@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next] net: ppp: convert to IFF_NO_QUEUE
-To: =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-ppp@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] net: ppp: remove ppp->closing check
+To: Qingfang Deng <dqfext@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, linux-ppp@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241104092434.2677-1-dqfext@gmail.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20241104092434.2677-1-dqfext@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 5, 2024 at 10:35=E2=80=AFPM Toke H=C3=B8iland-J=C3=B8rgensen <t=
-oke@redhat.com> wrote:
->
-> Qingfang Deng <dqfext@gmail.com> writes:
->
-> > Hi Toke,
-> >
-> > On Tue, Nov 5, 2024 at 8:24=E2=80=AFPM Toke H=C3=B8iland-J=C3=B8rgensen=
- <toke@redhat.com> wrote:
-> >>
-> >> Qingfang Deng <dqfext@gmail.com> writes:
-> >>
-> >> > When testing the parallel TX performance of a single PPPoE interface
-> >> > over a 2.5GbE link with multiple hardware queues, the throughput cou=
-ld
-> >> > not exceed 1.9Gbps, even with low CPU usage.
-> >> >
-> >> > This issue arises because the PPP interface is registered with a sin=
-gle
-> >> > queue and a tx_queue_len of 3. This default behavior dates back to L=
-inux
-> >> > 2.3.13, which was suitable for slower serial ports. However, in mode=
-rn
-> >> > devices with multiple processors and hardware queues, this configura=
-tion
-> >> > can lead to congestion.
-> >> >
-> >> > For PPPoE/PPTP, the lower interface should handle qdisc, so we need =
-to
-> >> > set IFF_NO_QUEUE.
-> >>
-> >> This bit makes sense - the PPPoE and PPTP channel types call through t=
-o
-> >> the underlying network stack, and their start_xmit() ops never return
-> >> anything other than 1 (so there's no pushback against the upper PPP
-> >> device anyway). The same goes for the L2TP PPP channel driver.
-> >>
-> >> > For PPP over a serial port, we don't benefit from a qdisc with such =
-a
-> >> > short TX queue, so handling TX queueing in the driver and setting
-> >> > IFF_NO_QUEUE is more effective.
-> >>
-> >> However, this bit is certainly not true. For the channel drivers that
-> >> do push back (which is everything apart from the three mentioned above=
-,
-> >> AFAICT), we absolutely do want a qdisc to store the packets, instead o=
-f
-> >> this arbitrary 32-packet FIFO inside the driver. Your comment about th=
-e
-> >> short TX queue only holds for the pfifo_fast qdisc (that's the only on=
-e
-> >> that uses the tx_queue_len for anything), anything else will do its ow=
-n
-> >> thing.
-> >>
-> >> (Side note: don't use pfifo_fast!)
-> >>
-> >> I suppose one option here could be to set the IFF_NO_QUEUE flag
-> >> conditionally depending on whether the underlying channel driver does
-> >> pushback against the PPP device or not (add a channel flag to indicate
-> >> this, or something), and then call the netif_{wake,stop}_queue()
-> >> functions conditionally depending on this. But setting the noqueue fla=
-g
-> >> unconditionally like this patch does, is definitely not a good idea!
-> >
-> > I agree. Then the problem becomes how to test if a PPP device is a PPPo=
-E.
-> > It seems like PPPoE is the only one that implements
-> > ops->fill_forward_path, should I use that? Or is there a better way?
->
-> Just add a new field to struct ppp_channel and have the PPoE channel
-> driver set that? Could be a flags field, or even just a 'bool
-> direct_xmit' field...
 
-Okay, I'll send a patch later.
 
->
-> -Toke
->
+On 11/4/24 10:24, Qingfang Deng wrote:
+> ppp->closing was used to test if an interface is closing down. But upon
+> .ndo_uninit() where ppp->closing is set to 1, dev_close() is already
+> called to bring down an interface and a synchronize_net() guarantees
+> that no pending TX/RX can take place, so the check is unnecessary.
+> Remove the check.
+
+I'm unsure we can remote such check. The TX callback can be triggered
+even from a write on the controlling file, and it looks like such file
+will be untouched by uninit.
+
+Cheers,
+
+Paolo
+
 
