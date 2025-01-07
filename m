@@ -1,107 +1,79 @@
-Return-Path: <linux-ppp+bounces-166-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-167-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82CE9A014E2
-	for <lists+linux-ppp@lfdr.de>; Sat,  4 Jan 2025 14:03:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD75A03A57
+	for <lists+linux-ppp@lfdr.de>; Tue,  7 Jan 2025 09:57:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 027B63A11FF
-	for <lists+linux-ppp@lfdr.de>; Sat,  4 Jan 2025 13:03:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97EEE18865C3
+	for <lists+linux-ppp@lfdr.de>; Tue,  7 Jan 2025 08:57:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F18721C3027;
-	Sat,  4 Jan 2025 12:59:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 976BA1DFE29;
+	Tue,  7 Jan 2025 08:57:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EvczOAyZ"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="bU4BdYcn"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-fw-80008.amazon.com (smtp-fw-80008.amazon.com [99.78.197.219])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13621C3033;
-	Sat,  4 Jan 2025 12:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41677198E78;
+	Tue,  7 Jan 2025 08:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735995558; cv=none; b=GRs1OH0ykLKWsx2Qf3q7lCXG2QQOUYDoQWllgK+Bh3LrsgVPldgRw6vY6kWgxOQVSx+f9/Ai+Quju6Uqrtn/aqIaeEOk6tjtP7UQatNtA4veY/bp2yYivzB+zBJ0wxWhkABhQ3shTi8IaK/qXr7CQMFp4iliUbS/r+fpJlOhLNY=
+	t=1736240254; cv=none; b=p65pfIyGT9WgmXpuS7pKdSI533Jb4PdIFfrtMzcC2j+IJilUnOJhDVMsVuiPjzy/2FKu4PiVL81SItaQVh6fjp9UUJLvZRtxPDW0yDj2fkRJ+CllqFYlLoEzxNxCMRYs7H/I9WB8Ez0z0GU9xEveggauSUhzbbBWURbR+nwrljY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735995558; c=relaxed/simple;
-	bh=0G+WJHelzbbjtgv/Zbgactw+yzF4V+X8MJldF12Uf7A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VdjA00VjUwXBn4ELMksrPWmPw0wggMvhnXG/G/XkIxnpf25njeZRVh1Ge5bGsypyQZyHzMQrCluswAohjfljHZyTOPIzRf16InmfeDr96+MGLPerDfxBaYS8ecm4KmgQdPy3+dDe4MnG1IU+l2WHZubD5NYlnAq4kmDW7+XP/vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EvczOAyZ; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-21680814d42so156003385ad.2;
-        Sat, 04 Jan 2025 04:59:16 -0800 (PST)
+	s=arc-20240116; t=1736240254; c=relaxed/simple;
+	bh=2j0To2z708Hn2b6bNch2njDc+GPMbDoEWEYZbiTv8rQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=P0Dl3nDUPm0pq7HyThDhbv9WqKE89dKowRV6Qh0rKRtqAY7ZoCue99GZ8OOReK+Gzrz7cyXpbixSdjLjEAuFJ6fSyNRjWkKb2fhf7T9UJpd3aUVSfBfdajX/BWNdqNCufqakKbxpp+pNlNoaWaiaM6XV4ALIf4utjAkmPeblVj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=bU4BdYcn; arc=none smtp.client-ip=99.78.197.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735995555; x=1736600355; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R0TVXDX/Oq9IB0mhgmi61TXIFVtPNPu1PWKjPd5bzuM=;
-        b=EvczOAyZtwqMmb2Id3htcmHkIeb2jtYmjTrmDvbDnY5/UDsfbVMnmGjpVCMYI121K5
-         DvWLRNrXSQsCdwMTpNpDNIjoGaWAQCXSj2VxLQOYBVSl4BBn3FJRC5Oh19Xos/Kh2ZLL
-         OpTZmp9EMIVM9N6Jw+9PN9Nun8oaFAJvMtJxiEZP2yXpEFpELiQevq6Xz5wfveEwXQ+c
-         eMw4UuauR/ccZEFKl7+lVYvfX+sHTN/I/NhFuIXmVuRoECIsFJWzfFKZNpM11SAIfF7m
-         QklAEspdKofle0ohEnJ5XEgEtVBqUyWICWd3QHLdTPC5MjhhC3x0I61f/EoQhm9cUGxq
-         jqDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735995555; x=1736600355;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R0TVXDX/Oq9IB0mhgmi61TXIFVtPNPu1PWKjPd5bzuM=;
-        b=Ike5tNutahEdrzFzMiTsV1uyypScXWbMbQVA5UNQuYkI/ZmPy344KFcY5nZtZgfMgf
-         cAD0TFQO3/v2s5fH0rXVbjnhtzHDIbbINKdVyrvIwQ18aQzCvD3NKKWlKyQY1U0IeRl5
-         LNNcDMOJnpYdeFZo4wOqO4iqdoCXOBEuGW3uzJw1O3NCdR/0AaA8Re/7PHiv6bLqhgIG
-         jp4/nltzhgZ2se4p5j0O9Lj1wsulU54nIJWdTXkJMrAU6hsdmeK9VuT0DFO0ybEPuH7f
-         3b0DlUL80TM6FT1aIg9YH87PdiHq4GnbLxYl+GI3qIN6H7aP0rqjWz2auEHkAbmVMHjw
-         9DAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdm0FDJI6bixrVjZ+wgKPepNKtctZcVVbHyHeUz8HtS+d4l98HS3YYHydv6T0il50xH9IlYEHUXqWs@vger.kernel.org, AJvYcCV0IA0b6av8AiE6iYv6fuGmRL4DLcwwLxmEDpW2BS6S3bAgkEvA2TKDcpZX0tb59UCxF7hiV/iewHpmPw==@vger.kernel.org, AJvYcCVKvHfLcyo9a2LSPW3R3wdst7Df4u9qa2w69eTCrhKSOxjtI/7fMdkkBq4WPeQl5RkY9WrbMDlyNS6JDGjE7+dj@vger.kernel.org, AJvYcCVe1DczSD2T6B2NoS0BWQmvM40jf6ymhAQGmHwcfkH0Ii9xHE/2LaW16ai4AYGUxJQHQFB5Uw/kO/asLg==@vger.kernel.org, AJvYcCVxlgjpKH5+2L1Bg+uYhtdX7zhCd3LMOtzZT9HzH39qr5w3fHge6/7bfziRQ+7aUWDKY6Xw5O4fF88g431b@vger.kernel.org, AJvYcCW93OuHeFJmsXPaYW96S2GQB6fGb42NKT+IN53KlpBCB2SL//WEgkf0/qilnZXz4ccLjQe2b7rsuId2vlbGmq8=@vger.kernel.org, AJvYcCWWa4WCAYMAujh2XX4c9UJNZzY6O8FCZrBE09xm3VKhanKY3wh3AYjw/93GTYJqy1RstGA=@vger.kernel.org, AJvYcCXyCCQtCq+71SAPfegpsOeTV9GtULMhsCTh0VGaXsil5ue6EuB7vtvz8LvYBslTLIQtRyjaRhlS63Li@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYkGFcq3nx6BNc9s4RVJuIFH6QKAk6hnUj7LpJFBaxHG955lPW
-	rQoJRkT774HLRUr4zpTTFoZ1vMgEffRvhCNZwi0wqtjwHpqJkHl+/IKhjQIi0T0=
-X-Gm-Gg: ASbGnctxIrgYuE7M6PUJ2XTmnR1DJQwmwbiKvPb7KdjiZyyOpit/5eJPRW5uqYATKK9
-	BI/GdgaOdt3cs7LDVcQ/F/9VhiJNN+RTe50NkmOxYZ7CRaMCe0QhkEmGDc1oQy2U75BcYCqa0zh
-	Fcrixkog3NOqy9k+VcFXi/LLRr2CBF39FMPyKMcbRHszxl1gXHBhDRx36j5RBov6E7wgNcvJna6
-	6uz/K9lD2Pi+9k1ml11krJh9kjcmqIxdkv3ZDaJGjPupME=
-X-Google-Smtp-Source: AGHT+IEUXpwO+l/hEGdKf9OR2BDjiiFxnC7t4NGPTcXQ7io7HhNpF9KYbA9KthQzQ0Wr8hVvBSWkSg==
-X-Received: by 2002:a05:6a21:1519:b0:1e1:cdff:5f18 with SMTP id adf61e73a8af0-1e5e044ef7fmr72396060637.4.1735995555179;
-        Sat, 04 Jan 2025 04:59:15 -0800 (PST)
-Received: from ws.. ([103.167.140.11])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad830349sm27761344b3a.47.2025.01.04.04.59.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jan 2025 04:59:14 -0800 (PST)
-From: Xiao Liang <shaw.leon@gmail.com>
-To: netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	David Ahern <dsahern@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Ido Schimmel <idosch@nvidia.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Hangbin Liu <liuhangbin@gmail.com>,
-	linux-rdma@vger.kernel.org,
-	linux-can@vger.kernel.org,
-	osmocom-net-gprs@lists.osmocom.org,
-	bpf@vger.kernel.org,
-	linux-ppp@vger.kernel.org,
-	wireguard@lists.zx2c4.com,
-	linux-wireless@vger.kernel.org,
-	b.a.t.m.a.n@lists.open-mesh.org,
-	bridge@lists.linux.dev,
-	linux-wpan@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v7 11/11] selftests: net: Add test cases for link and peer netns
-Date: Sat,  4 Jan 2025 20:57:32 +0800
-Message-ID: <20250104125732.17335-12-shaw.leon@gmail.com>
-X-Mailer: git-send-email 2.47.1
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1736240251; x=1767776251;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=SC1mbAev+9sK6OCOjA6+EkRnZ+bYlCkoq+asNgcdmS4=;
+  b=bU4BdYcn0Ax0KfqIt9LTTFgJpdB5xiU49v4k/HZFsOk2ktDZcqN+Rm2B
+   4mP3cG7zpiv0HZKg13pQgQOTmNPT/X4aunjU5ErSAURKYX4RqHr+OKV9I
+   L+Ryr5HiLY4ZfRb+UdU1E3OPeFFUbryZnSwsaGKLiuX3tA0OcP3XFMugP
+   Y=;
+X-IronPort-AV: E=Sophos;i="6.12,295,1728950400"; 
+   d="scan'208";a="159523600"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
+  by smtp-border-fw-80008.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 08:57:29 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [10.0.38.20:39955]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.36.119:2525] with esmtp (Farcaster)
+ id 9f3ed6e6-aeb4-4841-95ac-539e22d429cf; Tue, 7 Jan 2025 08:57:29 +0000 (UTC)
+X-Farcaster-Flow-ID: 9f3ed6e6-aeb4-4841-95ac-539e22d429cf
+Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.39;
+ Tue, 7 Jan 2025 08:57:28 +0000
+Received: from 6c7e67c6786f.amazon.com (10.118.249.113) by
+ EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.39;
+ Tue, 7 Jan 2025 08:57:07 +0000
+From: Kuniyuki Iwashima <kuniyu@amazon.com>
+To: <shaw.leon@gmail.com>
+CC: <andrew+netdev@lunn.ch>, <b.a.t.m.a.n@lists.open-mesh.org>,
+	<bpf@vger.kernel.org>, <bridge@lists.linux.dev>, <davem@davemloft.net>,
+	<donald.hunter@gmail.com>, <dsahern@kernel.org>, <edumazet@google.com>,
+	<horms@kernel.org>, <idosch@nvidia.com>, <jiri@resnulli.us>,
+	<kuba@kernel.org>, <kuniyu@amazon.com>, <linux-can@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-ppp@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<linux-wireless@vger.kernel.org>, <linux-wpan@vger.kernel.org>,
+	<liuhangbin@gmail.com>, <netdev@vger.kernel.org>,
+	<osmocom-net-gprs@lists.osmocom.org>, <pabeni@redhat.com>,
+	<shuah@kernel.org>, <wireguard@lists.zx2c4.com>
+Subject: Re: [PATCH net-next v7 00/11] net: Improve netns handling in rtnetlink
+Date: Tue, 7 Jan 2025 17:56:46 +0900
+Message-ID: <20250107085646.42302-1-kuniyu@amazon.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20250104125732.17335-1-shaw.leon@gmail.com>
 References: <20250104125732.17335-1-shaw.leon@gmail.com>
 Precedence: bulk
@@ -111,218 +83,290 @@ List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWA001.ant.amazon.com (10.13.139.88) To
+ EX19D004ANA001.ant.amazon.com (10.37.240.138)
 
- - Add test for creating link in another netns when a link of the same
-   name and ifindex exists in current netns.
- - Add test to verify that link is created in target netns directly -
-   no link new/del events should be generated in link netns or current
-   netns.
- - Add test cases to verify that link-netns is set as expected for
-   various drivers and combination of namespace-related parameters.
+From: Xiao Liang <shaw.leon@gmail.com>
+Date: Sat,  4 Jan 2025 20:57:21 +0800
+> This patch series includes some netns-related improvements and fixes for
+> rtnetlink, to make link creation more intuitive:
+> 
+>  1) Creating link in another net namespace doesn't conflict with link
+>     names in current one.
+>  2) Refector rtnetlink link creation. Create link in target namespace
+>     directly.
+> 
+> So that
+> 
+>   # ip link add netns ns1 link-netns ns2 tun0 type gre ...
+> 
+> will create tun0 in ns1, rather than create it in ns2 and move to ns1.
+> And don't conflict with another interface named "tun0" in current netns.
+> 
+> Patch 01 serves for 1) to avoids link name conflict in different netns.
+> 
+> To achieve 2), there're mainly 3 steps:
+> 
+>  - Patch 02 packs newlink() parameters into a struct, including
+>    the original "src_net" along with more netns context. No semantic
+>    changes are introduced.
+>  - Patch 03 ~ 07 converts device drivers to use the explicit netns
+>    extracted from params.
+>  - Patch 08 ~ 09 removes the old netns parameter, and converts
+>    rtnetlink to create device in target netns directly.
+> 
+> Patch 10 ~ 11 adds some tests for link name and link netns.
+> 
+> 
+> BTW please note there're some issues found in current code:
+> 
+> - In amt_newlink() drivers/net/amt.c:
+> 
+>     amt->net = net;
+>     ...
+>     amt->stream_dev = dev_get_by_index(net, ...
+> 
+>   Uses net, but amt_lookup_upper_dev() only searches in dev_net.
+>   So the AMT device may not be properly deleted if it's in a different
+>   netns from lower dev.
 
-Signed-off-by: Xiao Liang <shaw.leon@gmail.com>
----
- tools/testing/selftests/net/Makefile      |   1 +
- tools/testing/selftests/net/config        |   5 +
- tools/testing/selftests/net/link_netns.py | 141 ++++++++++++++++++++++
- tools/testing/selftests/net/netns-name.sh |  10 ++
- 4 files changed, 157 insertions(+)
- create mode 100755 tools/testing/selftests/net/link_netns.py
+I think you are right, and the upper device will be leaked
+and UAF will happen.
 
-diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
-index 73ee88d6b043..df07a38f884f 100644
---- a/tools/testing/selftests/net/Makefile
-+++ b/tools/testing/selftests/net/Makefile
-@@ -35,6 +35,7 @@ TEST_PROGS += cmsg_so_mark.sh
- TEST_PROGS += cmsg_so_priority.sh
- TEST_PROGS += cmsg_time.sh cmsg_ipv6.sh
- TEST_PROGS += netns-name.sh
-+TEST_PROGS += link_netns.py
- TEST_PROGS += nl_netdev.py
- TEST_PROGS += srv6_end_dt46_l3vpn_test.sh
- TEST_PROGS += srv6_end_dt4_l3vpn_test.sh
-diff --git a/tools/testing/selftests/net/config b/tools/testing/selftests/net/config
-index 5b9baf708950..ab55270669ec 100644
---- a/tools/testing/selftests/net/config
-+++ b/tools/testing/selftests/net/config
-@@ -107,3 +107,8 @@ CONFIG_XFRM_INTERFACE=m
- CONFIG_XFRM_USER=m
- CONFIG_IP_NF_MATCH_RPFILTER=m
- CONFIG_IP6_NF_MATCH_RPFILTER=m
-+CONFIG_IPVLAN=m
-+CONFIG_CAN=m
-+CONFIG_CAN_DEV=m
-+CONFIG_CAN_VXCAN=m
-+CONFIG_NETKIT=y
-diff --git a/tools/testing/selftests/net/link_netns.py b/tools/testing/selftests/net/link_netns.py
-new file mode 100755
-index 000000000000..aab043c59d69
---- /dev/null
-+++ b/tools/testing/selftests/net/link_netns.py
-@@ -0,0 +1,141 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import time
-+
-+from lib.py import ksft_run, ksft_exit, ksft_true
-+from lib.py import ip
-+from lib.py import NetNS, NetNSEnter
-+from lib.py import RtnlFamily
-+
-+
-+LINK_NETNSID = 100
-+
-+
-+def test_event() -> None:
-+    with NetNS() as ns1, NetNS() as ns2:
-+        with NetNSEnter(str(ns2)):
-+            rtnl = RtnlFamily()
-+
-+        rtnl.ntf_subscribe("rtnlgrp-link")
-+
-+        ip(f"netns set {ns2} {LINK_NETNSID}", ns=str(ns1))
-+        ip(f"link add netns {ns1} link-netnsid {LINK_NETNSID} dummy1 type dummy")
-+        ip(f"link add netns {ns1} dummy2 type dummy", ns=str(ns2))
-+
-+        ip("link del dummy1", ns=str(ns1))
-+        ip("link del dummy2", ns=str(ns1))
-+
-+        time.sleep(1)
-+        rtnl.check_ntf()
-+        ksft_true(rtnl.async_msg_queue.empty(),
-+                  "Received unexpected link notification")
-+
-+
-+def validate_link_netns(netns, ifname, link_netnsid) -> bool:
-+    link_info = ip(f"-d link show dev {ifname}", ns=netns, json=True)
-+    if not link_info:
-+        return False
-+    return link_info[0].get("link_netnsid") == link_netnsid
-+
-+
-+def test_link_net() -> None:
-+    configs = [
-+        # type, common args, type args, fallback to dev_net
-+        ("ipvlan", "link dummy1", "", False),
-+        ("macsec", "link dummy1", "", False),
-+        ("macvlan", "link dummy1", "", False),
-+        ("macvtap", "link dummy1", "", False),
-+        ("vlan", "link dummy1", "id 100", False),
-+        ("gre", "", "local 192.0.2.1", True),
-+        ("vti", "", "local 192.0.2.1", True),
-+        ("ipip", "", "local 192.0.2.1", True),
-+        ("ip6gre", "", "local 2001:db8::1", True),
-+        ("ip6tnl", "", "local 2001:db8::1", True),
-+        ("vti6", "", "local 2001:db8::1", True),
-+        ("sit", "", "local 192.0.2.1", True),
-+        ("xfrm", "", "if_id 1", True),
-+    ]
-+
-+    with NetNS() as ns1, NetNS() as ns2, NetNS() as ns3:
-+        net1, net2, net3 = str(ns1), str(ns2), str(ns3)
-+
-+        # prepare link netnsid  and a dummy link needed by certain drivers
-+        ip(f"netns set {net3} {LINK_NETNSID}", ns=str(net2))
-+        ip("link add dummy1 type dummy", ns=net3)
-+
-+        cases = [
-+            # source, "netns", "link-netns", expected link-netns
-+            (net3, None, None, None, None),
-+            (net3, net2, None, None, LINK_NETNSID),
-+            (net2, None, net3, LINK_NETNSID, LINK_NETNSID),
-+            (net1, net2, net3, LINK_NETNSID, LINK_NETNSID),
-+        ]
-+
-+        for src_net, netns, link_netns, exp1, exp2 in cases:
-+            tgt_net = netns or src_net
-+            for typ, cargs, targs, fb_dev_net in configs:
-+                cmd = "link add"
-+                if netns:
-+                    cmd += f" netns {netns}"
-+                if link_netns:
-+                    cmd += f" link-netns {link_netns}"
-+                cmd += f" {cargs} foo type {typ} {targs}"
-+                ip(cmd, ns=src_net)
-+                if fb_dev_net:
-+                    ksft_true(validate_link_netns(tgt_net, "foo", exp1),
-+                              f"{typ} link_netns validation failed")
-+                else:
-+                    ksft_true(validate_link_netns(tgt_net, "foo", exp2),
-+                              f"{typ} link_netns validation failed")
-+                ip(f"link del foo", ns=tgt_net)
-+
-+
-+def test_peer_net() -> None:
-+    types = [
-+        "vxcan",
-+        "netkit",
-+        "veth",
-+    ]
-+
-+    with NetNS() as ns1, NetNS() as ns2, NetNS() as ns3, NetNS() as ns4:
-+        net1, net2, net3, net4 = str(ns1), str(ns2), str(ns3), str(ns4)
-+
-+        ip(f"netns set {net3} {LINK_NETNSID}", ns=str(net2))
-+
-+        cases = [
-+            # source, "netns", "link-netns", "peer netns", expected
-+            (net1, None, None, None, None),
-+            (net1, net2, None, None, None),
-+            (net2, None, net3, None, LINK_NETNSID),
-+            (net1, net2, net3, None, None),
-+            (net2, None, None, net3, LINK_NETNSID),
-+            (net1, net2, None, net3, LINK_NETNSID),
-+            (net2, None, net2, net3, LINK_NETNSID),
-+            (net1, net2, net4, net3, LINK_NETNSID),
-+        ]
-+
-+        for src_net, netns, link_netns, peer_netns, exp in cases:
-+            tgt_net = netns or src_net
-+            for typ in types:
-+                cmd = "link add"
-+                if netns:
-+                    cmd += f" netns {netns}"
-+                if link_netns:
-+                    cmd += f" link-netns {link_netns}"
-+                cmd += f" foo type {typ}"
-+                if peer_netns:
-+                    cmd += f" peer netns {peer_netns}"
-+                ip(cmd, ns=src_net)
-+                ksft_true(validate_link_netns(tgt_net, "foo", exp),
-+                          f"{typ} peer_netns validation failed")
-+                ip(f"link del foo", ns=tgt_net)
-+
-+
-+def main() -> None:
-+    ksft_run([test_event, test_link_net, test_peer_net])
-+    ksft_exit()
-+
-+
-+if __name__ == "__main__":
-+    main()
-diff --git a/tools/testing/selftests/net/netns-name.sh b/tools/testing/selftests/net/netns-name.sh
-index 6974474c26f3..0be1905d1f2f 100755
---- a/tools/testing/selftests/net/netns-name.sh
-+++ b/tools/testing/selftests/net/netns-name.sh
-@@ -78,6 +78,16 @@ ip -netns $NS link show dev $ALT_NAME 2> /dev/null &&
-     fail "Can still find alt-name after move"
- ip -netns $test_ns link del $DEV || fail
+amt must manage a list linked to a lower dev.
+
+Given no one has reported the issue, another option would be
+drop cross netns support in a short period.
+
+---8<---
+diff --git a/drivers/net/amt.c b/drivers/net/amt.c
+index 98c6205ed19f..d39a5fe17a6f 100644
+--- a/drivers/net/amt.c
++++ b/drivers/net/amt.c
+@@ -3168,6 +3168,12 @@ static int amt_newlink(struct net *net, struct net_device *dev,
+ 	struct amt_dev *amt = netdev_priv(dev);
+ 	int err = -EINVAL;
  
-+#
-+# Test no conflict of the same name/ifindex in different netns
-+#
-+ip -netns $NS link add name $DEV index 100 type dummy || fail
-+ip -netns $NS link add netns $test_ns name $DEV index 100 type dummy ||
-+    fail "Can create in netns without moving"
-+ip -netns $test_ns link show dev $DEV >> /dev/null || fail "Device not found"
-+ip -netns $NS link del $DEV || fail
-+ip -netns $test_ns link del $DEV || fail
++	if (!net_eq(net, dev_net(dev))) {
++		NL_SET_ERR_MSG_ATTR(extack, tb[IFLA_TARGET_NETNSID],
++				    "Can't find stream device in a different netns");
++		return err;
++	}
 +
- echo -ne "$(basename $0) \t\t\t\t"
- if [ $RET_CODE -eq 0 ]; then
-     echo "[  OK  ]"
--- 
-2.47.1
+ 	amt->net = net;
+ 	amt->mode = nla_get_u32(data[IFLA_AMT_MODE]);
+ 
+---8<---
 
+
+> 
+> - In gtp_newlink() in drivers/net/gtp.c:
+> 
+>     gtp->net = src_net;
+>     ...
+>     gn = net_generic(dev_net(dev), gtp_net_id);
+>     list_add_rcu(&gtp->list, &gn->gtp_dev_list);
+> 
+>   Uses src_net, but priv is linked to list in dev_net. So it may not be
+>   properly deleted on removal of link netns.
+
+The device is linked to a list in the same netns, so the
+device will not be leaked.  See gtp_net_exit_batch_rtnl().
+
+Rather, the problem is the udp tunnel socket netns could be
+freed earlier than the dev netns.
+
+---8<---
+# ip netns add test
+# ip netns attach root 1
+# ip -n test link add netns root name gtp0 type gtp role sgsn
+# ip netns del test
+[  125.828205] ref_tracker: net notrefcnt@0000000061c9afc0 has 1/2 users at
+[  125.828205]      sk_alloc+0x7c8/0x8c0
+[  125.828205]      inet_create+0x284/0xd70
+[  125.828205]      __sock_create+0x23b/0x6a0
+[  125.828205]      udp_sock_create4+0x94/0x3f0
+[  125.828205]      gtp_create_sock+0x286/0x340
+[  125.828205]      gtp_create_sockets+0x43/0x110
+[  125.828205]      gtp_newlink+0x775/0x1070
+[  125.828205]      rtnl_newlink+0xa7f/0x19e0
+[  125.828205]      rtnetlink_rcv_msg+0x71b/0xc10
+[  125.828205]      netlink_rcv_skb+0x12b/0x360
+[  125.828205]      netlink_unicast+0x446/0x710
+[  125.828205]      netlink_sendmsg+0x73a/0xbf0
+[  125.828205]      ____sys_sendmsg+0x89d/0xb00
+[  125.828205]      ___sys_sendmsg+0xe9/0x170
+[  125.828205]      __sys_sendmsg+0x104/0x190
+[  125.828205]      do_syscall_64+0xc1/0x1d0
+[  125.828205] 
+[  125.833135] ref_tracker: net notrefcnt@0000000061c9afc0 has 1/2 users at
+[  125.833135]      sk_alloc+0x7c8/0x8c0
+[  125.833135]      inet_create+0x284/0xd70
+[  125.833135]      __sock_create+0x23b/0x6a0
+[  125.833135]      udp_sock_create4+0x94/0x3f0
+[  125.833135]      gtp_create_sock+0x286/0x340
+[  125.833135]      gtp_create_sockets+0x21/0x110
+[  125.833135]      gtp_newlink+0x775/0x1070
+[  125.833135]      rtnl_newlink+0xa7f/0x19e0
+[  125.833135]      rtnetlink_rcv_msg+0x71b/0xc10
+[  125.833135]      netlink_rcv_skb+0x12b/0x360
+[  125.833135]      netlink_unicast+0x446/0x710
+[  125.833135]      netlink_sendmsg+0x73a/0xbf0
+[  125.833135]      ____sys_sendmsg+0x89d/0xb00
+[  125.833135]      ___sys_sendmsg+0xe9/0x170
+[  125.833135]      __sys_sendmsg+0x104/0x190
+[  125.833135]      do_syscall_64+0xc1/0x1d0
+[  125.833135] 
+[  125.837998] ------------[ cut here ]------------
+[  125.838345] WARNING: CPU: 0 PID: 11 at lib/ref_tracker.c:179 ref_tracker_dir_exit+0x26c/0x520
+[  125.838906] Modules linked in:
+[  125.839130] CPU: 0 UID: 0 PID: 11 Comm: kworker/u16:0 Not tainted 6.13.0-rc5-00150-gc707e6e25dde #188
+[  125.839734] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+[  125.840497] Workqueue: netns cleanup_net
+[  125.840773] RIP: 0010:ref_tracker_dir_exit+0x26c/0x520
+[  125.841128] Code: 00 00 00 fc ff df 4d 8b 26 49 bd 00 01 00 00 00 00 ad de 4c 39 f5 0f 85 df 00 00 00 48 8b 74 24 08 48 89 df e8 a5 cc 12 02 90 <0f> 0b 90 48 8d 6b 44 be 04 00 00 00 48 89 ef e8 80 de 67 ff 48 89
+[  125.842364] RSP: 0018:ff11000007f3fb60 EFLAGS: 00010286
+[  125.842714] RAX: 0000000000004337 RBX: ff1100000d231aa0 RCX: 1ffffffff0e40d5c
+[  125.843195] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff8423ee3c
+[  125.843664] RBP: ff1100000d231af0 R08: 0000000000000001 R09: fffffbfff0e397ae
+[  125.844142] R10: 0000000000000001 R11: 0000000000036001 R12: ff1100000d231af0
+[  125.844606] R13: dead000000000100 R14: ff1100000d231af0 R15: dffffc0000000000
+[  125.845067] FS:  0000000000000000(0000) GS:ff1100006ce00000(0000) knlGS:0000000000000000
+[  125.845596] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  125.845984] CR2: 0000564cbf104000 CR3: 000000000ef44001 CR4: 0000000000771ef0
+[  125.846480] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  125.846958] DR3: 0000000000000000 DR6: 00000000fffe07f0 DR7: 0000000000000400
+[  125.847450] PKRU: 55555554
+[  125.847634] Call Trace:
+[  125.847800]  <TASK>
+[  125.847946]  ? __warn+0xcc/0x2d0
+[  125.848177]  ? ref_tracker_dir_exit+0x26c/0x520
+[  125.848485]  ? report_bug+0x28c/0x2d0
+[  125.848742]  ? handle_bug+0x54/0xa0
+[  125.848982]  ? exc_invalid_op+0x18/0x50
+[  125.849252]  ? asm_exc_invalid_op+0x1a/0x20
+[  125.849537]  ? _raw_spin_unlock_irqrestore+0x2c/0x50
+[  125.849865]  ? ref_tracker_dir_exit+0x26c/0x520
+[  125.850174]  ? __pfx_ref_tracker_dir_exit+0x10/0x10
+[  125.850510]  ? kfree+0x1cf/0x3e0
+[  125.850740]  net_free+0x5d/0x90
+[  125.850962]  cleanup_net+0x685/0x8e0
+[  125.851226]  ? __pfx_cleanup_net+0x10/0x10
+[  125.851514]  process_one_work+0x7d4/0x16f0
+[  125.851795]  ? __pfx_lock_acquire+0x10/0x10
+[  125.852072]  ? __pfx_process_one_work+0x10/0x10
+[  125.852396]  ? assign_work+0x167/0x240
+[  125.852653]  ? lock_is_held_type+0x9e/0x120
+[  125.852931]  worker_thread+0x54c/0xca0
+[  125.853193]  ? __pfx_worker_thread+0x10/0x10
+[  125.853485]  kthread+0x249/0x300
+[  125.853709]  ? __pfx_kthread+0x10/0x10
+[  125.853966]  ret_from_fork+0x2c/0x70
+[  125.854229]  ? __pfx_kthread+0x10/0x10
+[  125.854480]  ret_from_fork_asm+0x1a/0x30
+[  125.854746]  </TASK>
+[  125.854897] irq event stamp: 17849
+[  125.855138] hardirqs last  enabled at (17883): [<ffffffff812dc6ad>] __up_console_sem+0x4d/0x60
+[  125.855714] hardirqs last disabled at (17892): [<ffffffff812dc692>] __up_console_sem+0x32/0x60
+[  125.856315] softirqs last  enabled at (17878): [<ffffffff8117d603>] handle_softirqs+0x4f3/0x750
+[  125.856908] softirqs last disabled at (17857): [<ffffffff8117d9e4>] __irq_exit_rcu+0xc4/0x100
+[  125.857492] ---[ end trace 0000000000000000 ]---
+---8<---
+
+We can fix this by linking the dev to the socket's netns and
+clean them up in __net_exit hook as done in bareudp and geneve.
+
+---8<---
+diff --git a/drivers/net/gtp.c b/drivers/net/gtp.c
+index 89a996ad8cd0..77638a815873 100644
+--- a/drivers/net/gtp.c
++++ b/drivers/net/gtp.c
+@@ -70,6 +70,7 @@ struct pdp_ctx {
+ /* One instance of the GTP device. */
+ struct gtp_dev {
+ 	struct list_head	list;
++	struct list_head	sock_list;
+ 
+ 	struct sock		*sk0;
+ 	struct sock		*sk1u;
+@@ -102,6 +103,7 @@ static unsigned int gtp_net_id __read_mostly;
+ 
+ struct gtp_net {
+ 	struct list_head gtp_dev_list;
++	struct list_head gtp_sock_list;
+ };
+ 
+ static u32 gtp_h_initval;
+@@ -1526,6 +1528,10 @@ static int gtp_newlink(struct net *src_net, struct net_device *dev,
+ 
+ 	gn = net_generic(dev_net(dev), gtp_net_id);
+ 	list_add_rcu(&gtp->list, &gn->gtp_dev_list);
++
++	gn = net_generic(src_net, gtp_net_id);
++	list_add(&gtp->sock_list, &gn->gtp_sock_list);
++
+ 	dev->priv_destructor = gtp_destructor;
+ 
+ 	netdev_dbg(dev, "registered new GTP interface\n");
+@@ -1552,6 +1558,7 @@ static void gtp_dellink(struct net_device *dev, struct list_head *head)
+ 			pdp_context_delete(pctx);
+ 
+ 	list_del_rcu(&gtp->list);
++	list_del(&gtp->sock_list);
+ 	unregister_netdevice_queue(dev, head);
+ }
+ 
+@@ -2465,6 +2472,8 @@ static int __net_init gtp_net_init(struct net *net)
+ 	struct gtp_net *gn = net_generic(net, gtp_net_id);
+ 
+ 	INIT_LIST_HEAD(&gn->gtp_dev_list);
++	INIT_LIST_HEAD(&gn->gtp_sock_list);
++
+ 	return 0;
+ }
+ 
+@@ -2475,9 +2484,12 @@ static void __net_exit gtp_net_exit_batch_rtnl(struct list_head *net_list,
+ 
+ 	list_for_each_entry(net, net_list, exit_list) {
+ 		struct gtp_net *gn = net_generic(net, gtp_net_id);
+-		struct gtp_dev *gtp;
++		struct gtp_dev *gtp, *next;
++
++		list_for_each_entry_safe(gtp, next, &gn->gtp_dev_list, list)
++			gtp_dellink(gtp->dev, dev_to_kill);
+ 
+-		list_for_each_entry(gtp, &gn->gtp_dev_list, list)
++		list_for_each_entry_safe(gtp, next, &gn->gtp_sock_list, sock_list)
+ 			gtp_dellink(gtp->dev, dev_to_kill);
+ 	}
+ }
+---8<---
+
+
+> 
+> - In pfcp_newlink() in drivers/net/pfcp.c:
+> 
+>     pfcp->net = net;
+>     ...
+>     pn = net_generic(dev_net(dev), pfcp_net_id);
+>     list_add_rcu(&pfcp->list, &pn->pfcp_dev_list);
+> 
+>   Same as above.
+
+I haven't tested pfcp but it seems to have the same problem.
+
+I'll post patches for gtp and pfcp.
+
+
+> 
+> - In lowpan_newlink() in net/ieee802154/6lowpan/core.c:
+> 
+>     wdev = dev_get_by_index(dev_net(ldev), nla_get_u32(tb[IFLA_LINK]));
+> 
+>   Looks for IFLA_LINK in dev_net, but in theory the ifindex is defined
+>   in link netns.
+
+I guess you mean the ifindex is defined in src_net instead.
+Not sure if it's too late to change the behaviour.
 
