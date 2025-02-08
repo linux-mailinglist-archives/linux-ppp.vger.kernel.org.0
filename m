@@ -1,261 +1,104 @@
-Return-Path: <linux-ppp+bounces-188-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-189-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57627A1029A
-	for <lists+linux-ppp@lfdr.de>; Tue, 14 Jan 2025 10:03:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC8EA2D434
+	for <lists+linux-ppp@lfdr.de>; Sat,  8 Feb 2025 07:02:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D93D9167577
-	for <lists+linux-ppp@lfdr.de>; Tue, 14 Jan 2025 09:03:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BB13F3ABBC8
+	for <lists+linux-ppp@lfdr.de>; Sat,  8 Feb 2025 06:01:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6625C28EC94;
-	Tue, 14 Jan 2025 09:03:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2D2B1990C7;
+	Sat,  8 Feb 2025 06:02:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PHmupNuS"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=truemaisha.co.tz header.i=@truemaisha.co.tz header.b="wkojrPcV"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from server-598995.kolorio.com (server-598995.kolorio.com [162.241.152.247])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7095D1C3BFC;
-	Tue, 14 Jan 2025 09:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBDB192B63
+	for <linux-ppp@vger.kernel.org>; Sat,  8 Feb 2025 06:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.241.152.247
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736845401; cv=none; b=NWQPyJd7/wW2mg7VKIXWfGGzzpzJZWu7yTe6J9mfJ+xGArBt3RTVdum4rix7XKqE9qPyXoqJPGVU4H8qrQ7b1mZMBOU3xwTZgX3AeF5YWzH58CKFk2avje8qlXEK8/nnkXTybsriq+j/d2oQ9iJMsguYtABa1T3vyapQnqF/+80=
+	t=1738994520; cv=none; b=R7+wDQo3qEk1AqTeN+m6TacNYpfuzkfpvBomSd+W3HxQUM2uKiALWTozjg4tztW/nCMe5cXv8G2z3/nO/FHvjWeYSrL0gdie8ymXXeeb9EoMmntRAWtOe1wFTvt7GpStemZOQg+4Jmhp3pjhCqzjfPxfyJ6THFAdSSBkaE8lIuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736845401; c=relaxed/simple;
-	bh=QNvuh5EDJiuoHdaCpoRHoR7O5EvfHOckuuZ644v9d00=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i5PGQvG4AyzcthDOwLJZnzzuNX3QB/MpzTtvxsUJA6itDrLlypMjPloxfVyRoR+Lc9KID0gAwmhVqPc5ExHygGkNwmnIXcmeVtErjyyMQ4Qc0xnEnV4dKYzxAND395Rx6eLTwX4cwLPSkaxltotcEJW9soal3tsC3FlpgJe4loo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PHmupNuS; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-436345cc17bso37198405e9.0;
-        Tue, 14 Jan 2025 01:03:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736845398; x=1737450198; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RJdpc5af8GraPbTvgj2FYJk8F44uMY7sTK/kVSc+LHs=;
-        b=PHmupNuSqVZ1c4/9v08gmJxdnkQvZjVlsgbq7lqgakh3UY6n2MUmIPbh7XyCDtOYi8
-         h6sP9bD7t1gKblz/t/SDukdku4HCUnggUayfr9KuWegfBu/n2S169RZ3lOToLNqjrtEI
-         deVyH7+RxKyoEpeBYPhwOYl42E0oYPM8lmSdCidaZJQy/cswl50hF/yHR3bHgWfNwBNp
-         bkMQmOlMV50gc6eVTvPUSyAWDIWxDJjz5J6sYZLq512TktDYZu9X+nKcZVILkax40d1m
-         zh6Pr8Wgag24BZyv5ZyUFUvHdaVh6sDLpLC2b4GH+UvX3Q+YqKCTF3LQ/Kd/RR6f+0TH
-         fwTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736845398; x=1737450198;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RJdpc5af8GraPbTvgj2FYJk8F44uMY7sTK/kVSc+LHs=;
-        b=SR0b32nf6bZsp/Id9rQoUgTQlhiY23Nwz8yTybRsvjaDVWQ8GK2a6TU9/tB1S++qXy
-         4A5OlPxy2yLuYEMaqgp7bca9Bo7PlyalMeF3YZy0x8q+QiFcuPv/xPXBruol7M3Muy65
-         UXl/FaFOHJvUBRa6QK0AP71vPTeiBb3WJdoUMPSkzDyuOTRtbPAUOP4PwUo79NycKEsB
-         Tl/fldDzs4cZT5aXGX/QdRif2FXEnF5mSxXGHTLwOxU4XJUxmxvzUPbOkuu9q2ykl2dI
-         uMwLroPkyy1w7AdlkCX+vDAro+1de1DAMYQbOeda4rbbC0IbnKT0Gslq4aLwlRUWFeWc
-         3c5w==
-X-Forwarded-Encrypted: i=1; AJvYcCVUJ12DHJyneuoUvKCUd+A1iXh2/D62xggUWicCF6YeikE2Hm9DZRd94ZfvhzXtiREdeyE=@vger.kernel.org, AJvYcCWDMweVxKdTfL345NNnW78cGwY/72iAVTK/Eyn7zYGX+ehNKfbMqxjJvCM5EGk2kdAq+TDKtBJzYcB0dw==@vger.kernel.org, AJvYcCWMqiEvqS7S+p19JoyC4Mxy972Vd2LiczbS6FG4FTZeam+On2DzenjrFb1z6Gyi+OJ3ViSbNkwk@vger.kernel.org, AJvYcCWNBkAKp9/QN6NVsD/h0Q02/ZsLvO9OyvLQGYLLWF3GW8ZGFCOsv9wTTFgirS//Ytn+3q31xGLLEk4dDtznM00=@vger.kernel.org, AJvYcCXJ8t/KNOq1MB57Uai6xRBh0hL7otQfEeu3UgiDI2n+7xV4iIXP/aKMdU2khKhdm0mDpdGLa9VC22yat8ztC7J2@vger.kernel.org, AJvYcCXLuHVvTS/agrf59atzsIcg/BGiLaJqHr4k9hIxDR1Jz14HnUdo0rEsAgRYS7MwsNsIQBizLqwSRcE6AtGA@vger.kernel.org, AJvYcCXMv1EaYpD8i7Oku1H4GtQCkc9Y4s7kIeg6yWCiqod77UbsMAFKnnY7VwH4z6sAOCTtWKeALybkVXoJFQ==@vger.kernel.org, AJvYcCXa7WaEwP8vuyDTOrFnXjGE2Prpg+vceKX14fsUJE+h3i9yTDPrTER7S8/todguSfwelgJG/LVSDfN0@vger.kernel.org, AJvYcCXuuZ8G7OjtYnRKMa+CYDHhrdEDpPQt87Raq5qdhR3zMG9ZD8O5YhLEjhdDgoZQZw7WjVtxx/FaM1YR@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1zBSZt600gFH9asb9ZlFZ19wtcTE+285dLRqCkxyci/RBJbb4
-	GaILyXT8XXKsd13/iHHWhueRSsnsc/xnOj2Qj8pEYiCtq2eVHqNrs2AtKp6pnU4lyOIBC3GRfnp
-	qAXrPEqlHLV+/Dy4FHaj7sHxK4R1+WDqnM1w=
-X-Gm-Gg: ASbGnctdlxk6OoyjEmfE4+sJM0l36A8DZ36/8hJzxFdVAmpO+BlY/Ln+dx8Iszu0v9m
-	byTbQYtz4gmww3wyo+7fUsllfBRiDgMs78u6U
-X-Google-Smtp-Source: AGHT+IE8ZeqfL/AgiOHI7JzByaRH/gCmdKgPWO5Hj9zc39/ATmbh/1nt9GKO3Q2GNRNSP3Oe53/t8se7t847Ok8yve4=
-X-Received: by 2002:a05:600c:1ca9:b0:435:136:75f6 with SMTP id
- 5b1f17b1804b1-436e2551d7bmr233515785e9.0.1736845397493; Tue, 14 Jan 2025
- 01:03:17 -0800 (PST)
+	s=arc-20240116; t=1738994520; c=relaxed/simple;
+	bh=gl4+7vNxgV9+JzZtw7EthQ6aGDgi0WVn3wQV/lnKiyo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W4X6SAE8TrfS0kcDf1ppCj44lYokDOJbyAq7W4NUBl4XHGKfSsLt6pOY/aCz+6KEU3m6JtPwTAdbo8xjE42NMYlGh4oAm7uQafaSSb2y52xWfkQvIvlKdVc/G9K36tZ7UleEOq7R2RfcKPjfSQwQ+6rMwHLxVSWCgr1W6AnPNI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=truemaisha.co.tz; spf=pass smtp.mailfrom=truemaisha.co.tz; dkim=pass (2048-bit key) header.d=truemaisha.co.tz header.i=@truemaisha.co.tz header.b=wkojrPcV; arc=none smtp.client-ip=162.241.152.247
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=truemaisha.co.tz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=truemaisha.co.tz
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=truemaisha.co.tz; s=default; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Sender:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=gl4+7vNxgV9+JzZtw7EthQ6aGDgi0WVn3wQV/lnKiyo=; b=wkojrPcVP4tSuGiVmk4FEqUg1p
+	vyw0xKuaZ2J06UlriV7j3MfXswmHPJf1ZDQ+907uItYXPYebR7nARNt7uHF4Iom9Ar7w+8BoPbq+9
+	mK69MGVJRt6/BW97/vXK/QFO5eo40FFJpaGYFi/aqsESmj/qrLxhWrxxY+7zyTPmBW2zuJ0ZJUIRI
+	DdaTorJ1SeFdKGBnmT9WkRGP03FzMrwXqOk5DyHkwSv00W3GEnv1aJJPvhFpkMKMaqyCIdkopAScC
+	ELB0/mmovWoISvQO3Q6OEnAFcMdRjclFSVGcTXRQzyoh73OLPkjkiIe+cHpZOQAabEFNI4Sr4651Q
+	nCMhwzNQ==;
+Received: from [74.208.124.33] (port=53641 helo=truemaisha.co.tz)
+	by server-598995.kolorio.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <chrispinerick@truemaisha.co.tz>)
+	id 1tgdud-0008Fm-15
+	for linux-ppp@vger.kernel.org;
+	Sat, 08 Feb 2025 00:01:56 -0600
+Reply-To: dsong@aa4financialservice.com
+From: David Song <chrispinerick@truemaisha.co.tz>
+To: linux-ppp@vger.kernel.org
+Subject: Re: The business loan- 
+Date: 08 Feb 2025 06:01:57 +0000
+Message-ID: <20250208015436.9BE70826142AC7B8@truemaisha.co.tz>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250113143719.7948-3-shaw.leon@gmail.com> <20250114044935.26418-1-kuniyu@amazon.com>
-In-Reply-To: <20250114044935.26418-1-kuniyu@amazon.com>
-From: Xiao Liang <shaw.leon@gmail.com>
-Date: Tue, 14 Jan 2025 17:02:40 +0800
-X-Gm-Features: AbW1kvbnYf6XKcEPFQ7StR4SBvDI6u3mnWVP_-_JSDczC5xWtD3eG1aBQEYey8A
-Message-ID: <CABAhCOQy-qw8pY+8XjHGPVz7jWZ7wqnadPXZrF-enAO0AEgXyQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v8 06/11] net: ipv6: Use link netns in newlink()
- of rtnl_link_ops
-To: Kuniyuki Iwashima <kuniyu@amazon.com>
-Cc: alex.aring@gmail.com, andrew+netdev@lunn.ch, 
-	b.a.t.m.a.n@lists.open-mesh.org, bpf@vger.kernel.org, bridge@lists.linux.dev, 
-	davem@davemloft.net, donald.hunter@gmail.com, dsahern@kernel.org, 
-	edumazet@google.com, herbert@gondor.apana.org.au, horms@kernel.org, 
-	kuba@kernel.org, linux-can@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-ppp@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	linux-wpan@vger.kernel.org, miquel.raynal@bootlin.com, netdev@vger.kernel.org, 
-	osmocom-net-gprs@lists.osmocom.org, pabeni@redhat.com, shuah@kernel.org, 
-	stefan@datenfreihafen.org, steffen.klassert@secunet.com, 
-	wireguard@lists.zx2c4.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+	charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server-598995.kolorio.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - truemaisha.co.tz
+X-Get-Message-Sender-Via: server-598995.kolorio.com: authenticated_id: chrispinerick@truemaisha.co.tz
+X-Authenticated-Sender: server-598995.kolorio.com: chrispinerick@truemaisha.co.tz
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-On Tue, Jan 14, 2025 at 12:49=E2=80=AFPM Kuniyuki Iwashima <kuniyu@amazon.c=
-om> wrote:
->
-> From: Xiao Liang <shaw.leon@gmail.com>
-> Date: Mon, 13 Jan 2025 22:37:14 +0800
-> > diff --git a/drivers/net/bonding/bond_netlink.c b/drivers/net/bonding/b=
-ond_netlink.c
-> > index 2a6a424806aa..ac5e402c34bc 100644
-> > --- a/drivers/net/bonding/bond_netlink.c
-> > +++ b/drivers/net/bonding/bond_netlink.c
-> > @@ -564,10 +564,12 @@ static int bond_changelink(struct net_device *bon=
-d_dev, struct nlattr *tb[],
-> >       return 0;
-> >  }
-> >
-> > -static int bond_newlink(struct net *src_net, struct net_device *bond_d=
-ev,
-> > -                     struct nlattr *tb[], struct nlattr *data[],
-> > +static int bond_newlink(struct net_device *bond_dev,
-> > +                     struct rtnl_newlink_params *params,
-> >                       struct netlink_ext_ack *extack)
-> >  {
-> > +     struct nlattr **data =3D params->data;
-> > +     struct nlattr **tb =3D params->tb;
-> >       int err;
-> >
-> >       err =3D bond_changelink(bond_dev, tb, data, extack);
->
-> Note that IFLA_BOND_ACTIVE_SLAVE uses dev_net(dev) for
-> __dev_get_by_index().
+Hello,
 
-That's true. Bond devices have no "link-netns", and a slave
-device must be in the same namespace of the main dev.
+My name is David Song, at AA4 FS, we are a consultancy and
+brokerage Firm specializing in Growth Financial Loan and joint
+partnership venture. We specialize in investments in all Private
+and public sectors in a broad range of areas within our Financial
+Investment Services.
 
-> [...]
-> > diff --git a/drivers/net/macvlan.c b/drivers/net/macvlan.c
-> > index fed4fe2a4748..0c496aa1f706 100644
-> > --- a/drivers/net/macvlan.c
-> > +++ b/drivers/net/macvlan.c
-> > @@ -1565,11 +1565,12 @@ int macvlan_common_newlink(struct net *src_net,=
- struct net_device *dev,
-> >  }
-> >  EXPORT_SYMBOL_GPL(macvlan_common_newlink);
-> >
-> > -static int macvlan_newlink(struct net *src_net, struct net_device *dev=
-,
-> > -                        struct nlattr *tb[], struct nlattr *data[],
-> > +static int macvlan_newlink(struct net_device *dev,
-> > +                        struct rtnl_newlink_params *params,
-> >                          struct netlink_ext_ack *extack)
-> >  {
-> > -     return macvlan_common_newlink(src_net, dev, tb, data, extack);
-> > +     return macvlan_common_newlink(params->net, dev, params->tb,
-> > +                                   params->data, extack);
->
-> Pass params as is as you did for ipvlan_link_new().
->
-> Same for macvtap_newlink().
+ We are experts in financial and operational management, due
+diligence and capital planning in all markets and industries. Our
+Investors wish to invest in any viable Project presented by your
+Management after reviews on your Business Project Presentation
+Plan.
 
-OK.
+ We look forward to your Swift response. We also offer commission
+to consultants and brokers for any partnership referrals.
 
-> [...]
-> > diff --git a/drivers/net/netkit.c b/drivers/net/netkit.c
-> > index 1e1b00756be7..1e9eadc77da2 100644
-> > --- a/drivers/net/netkit.c
-> > +++ b/drivers/net/netkit.c
-> > @@ -327,10 +327,13 @@ static int netkit_validate(struct nlattr *tb[], s=
-truct nlattr *data[],
-> >
-> >  static struct rtnl_link_ops netkit_link_ops;
-> >
-> > -static int netkit_new_link(struct net *peer_net, struct net_device *de=
-v,
-> > -                        struct nlattr *tb[], struct nlattr *data[],
-> > +static int netkit_new_link(struct net_device *dev,
-> > +                        struct rtnl_newlink_params *params,
-> >                          struct netlink_ext_ack *extack)
-> >  {
-> > +     struct nlattr **data =3D params->data;
-> > +     struct net *peer_net =3D params->net;
-> > +     struct nlattr **tb =3D params->tb;
->
-> nit: please keep the reverse xmas tree order.
->
->
-> >       struct nlattr *peer_tb[IFLA_MAX + 1], **tbp =3D tb, *attr;
->
-> you can define *tbp here and initialise it later.
->
->         struct nlattr *peer_tb[IFLA_MAX + 1], **tbp, *attr;
->
-> >       enum netkit_action policy_prim =3D NETKIT_PASS;
-> >       enum netkit_action policy_peer =3D NETKIT_PASS;
->
->
-> [...]
-> > @@ -1064,6 +1067,11 @@ static void wwan_create_default_link(struct wwan=
-_device *wwandev,
-> >       struct net_device *dev;
-> >       struct nlmsghdr *nlh;
-> >       struct sk_buff *msg;
-> > +     struct rtnl_newlink_params params =3D {
-> > +             .net =3D &init_net,
-> > +             .tb =3D tb,
-> > +             .data =3D data,
-> > +     };
->
-> nit: Reverse xmas tree order
->
->
-> [...]
-> > diff --git a/net/core/rtnetlink.c b/net/core/rtnetlink.c
-> > index ec98349b9620..7ff5e96f6ba7 100644
-> > --- a/net/core/rtnetlink.c
-> > +++ b/net/core/rtnetlink.c
-> > @@ -3766,6 +3766,14 @@ static int rtnl_newlink_create(struct sk_buff *s=
-kb, struct ifinfomsg *ifm,
-> >       struct net_device *dev;
-> >       char ifname[IFNAMSIZ];
-> >       int err;
-> > +     struct rtnl_newlink_params params =3D {
->
-> nit: Reverse xmas tree order
->
->
-> > +             .net =3D net,
->
-> Use sock_net(skb->sk) directly here and remove net defined above,
-> which is no longer used in this function.
->
-> ---8<---
->         unsigned char name_assign_type =3D NET_NAME_USER;
->         struct rtnl_newlink_params params =3D {
->                 .net =3D sock_net(skb->sk),
->                 .src_net =3D net,
->                 .link_net =3D link_net,
->                 .peer_net =3D peer_net,
->                 .tb =3D tb,
->                 .data =3D data,
->         };
->         u32 portid =3D NETLINK_CB(skb).portid;
-> ---8<---
->
->
-> [...]
-> > @@ -1698,6 +1702,10 @@ struct net_device *gretap_fb_dev_create(struct n=
-et *net, const char *name,
-> >       LIST_HEAD(list_kill);
-> >       struct ip_tunnel *t;
-> >       int err;
-> > +     struct rtnl_newlink_params params =3D {
-> > +             .net =3D net,
-> > +             .tb =3D tb,
-> > +     };
-> >
-> >       memset(&tb, 0, sizeof(tb));
->
-> nit: Reverse xmas tree
+ Regards,
+David Song
+Senior Broker
 
-Will fix the style issues mentioned above in the next version.
+AA4 Financial Services
+13 Wonersh Way, Cheam,
+Sutton, Surrey, SM2 7LX
+Email: dsong@aa4financialservice.com
 
-Thanks.
 
