@@ -1,166 +1,175 @@
-Return-Path: <linux-ppp+bounces-214-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-215-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59CEEA34D94
-	for <lists+linux-ppp@lfdr.de>; Thu, 13 Feb 2025 19:25:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12953A35A2D
+	for <lists+linux-ppp@lfdr.de>; Fri, 14 Feb 2025 10:24:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0F003A127B
-	for <lists+linux-ppp@lfdr.de>; Thu, 13 Feb 2025 18:25:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4225B16117A
+	for <lists+linux-ppp@lfdr.de>; Fri, 14 Feb 2025 09:23:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5577024290C;
-	Thu, 13 Feb 2025 18:25:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFA2423A9BB;
+	Fri, 14 Feb 2025 09:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YMRAt9LF"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADED22063E1
-	for <linux-ppp@vger.kernel.org>; Thu, 13 Feb 2025 18:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDFB22D799;
+	Fri, 14 Feb 2025 09:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739471125; cv=none; b=eLwwKj1+FHo/Bu/wasU2el8zHIrlFexMdGiN5JAkEPVSbOEd1oA7+oabPSUVl7nOsFM/VMZwFUU7ju7v+G/8SIjsTxzoSm6PhuwuNIOyY6X+1+w+tebvxbMOpOcH63/9JOruITfkPvGHhpj/mlqCMNdaQRip627E6YZ7gBEJVL0=
+	t=1739524989; cv=none; b=Eaz1jWVYhWq7rXLyN7VldzT3IIUNlvRzUzO6VApj01fSvYTemVwxJbsuLRmdujvF+Lr2RxRCsXOZ0+57Xq/c+4jStH8wsdDMvrJlZ7eGzSQVftiAR9PCtSYrp9BoQnlcRM5TWA24QB80Nei55dFu/hVaWkxMj/aHFJ0DtGY7kDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739471125; c=relaxed/simple;
-	bh=fYT+0hn4LN4TCcfjDS0s+i8ggVVeBeWT+1SZ1n15P9U=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=K7AHiJvCGc8yHJ3aHJqxx1+TF/IbXtFEG0rIO8k+/0FTYT7h25PIFGMLsiLisO7h1yH47TYRdgCGw1CCCooDWo+FjBJhR3AwFD0XhbIKU+gM48O0SoKE0N9xAEvwJhzVpeXzdWRTEoSI+JkRYMXbw//FAJtHSLxUdzzwvTQ7NVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3d18e28a0c1so16856205ab.3
-        for <linux-ppp@vger.kernel.org>; Thu, 13 Feb 2025 10:25:23 -0800 (PST)
+	s=arc-20240116; t=1739524989; c=relaxed/simple;
+	bh=+h2GkDj+OoeHXnuD3ME91MATvB8iz1ermwPdmsLVLQg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jHtPFM3/1qY4pRfIWbNR7TJ95kJXF97jommWMs0YaJx2tWN/kDtzeIv5ViB1HdXIBYYojA07hLiVLmwPXaOMtF71hwzobu4KEeT0af1IeF/D/h6PqPD+vg28sQme/fntyLcGX00o93A+h443IEg052mRSEQnxg2LaK4vUxITZrU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YMRAt9LF; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43955067383so12629595e9.0;
+        Fri, 14 Feb 2025 01:23:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739524986; x=1740129786; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k7BNqikEMUFZIk3bGCtvMWc4aGoto03Aq8Yw25jOfXg=;
+        b=YMRAt9LFnElc16Ouol8JFp4gzR3cXZXDALXu5n6ncVKRwdDp9v7DetV8WPqTDh5K73
+         +v9pFEVUe+7jgv7MKXCO81anJm7E0vYVHeDvh3bgpu3tuq86g+WJEHVL/82OnN5qqFrY
+         2T7IWjAfQQRQ0WAdvYi9Nf7A+Av42zLx6BN0BHfCBmBLRt0eAkWu7fmsBZbD+j0kDaUh
+         W8GlWHLWgKas4VSOro2PbVsexv5IopnDECZ+f+DImh710H2/kVaJSn6xNh5eBAhuOwcp
+         wdX7joD6A3GEPq0Aqc0YVDrZgCvXh1S2YvSpZjoGVSrpHJu3kVxmPdhdtvxjTtAKqqdc
+         Gypg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739471123; x=1740075923;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YmmpOVCfEgi0ptkqJPtsGe9FgkXLTDtXBsR9MtbAgF8=;
-        b=cHFC7jGACqIQhECwVdColWwBtnUVJSgyNw0KpXmOBJ4MjhM03T5vBewC97NYtqwLyJ
-         Dl27oGlBKacujgQO7G8pOjlAxjAAmoFIl7IlmZ5X4cBZUFAtWkLlCZRXvUrI+nqqn3I/
-         8qxHkl/clvbXOYvGKWxIw1lezkBCOK5dSU/nPKHNgFYg2Y/mqN44oo0ETDAl8lbd/sPF
-         M/I5B0DJf6CtqERHllr8jROzLvYOxxPVEbBomYztkbGudXDQLGNYcHI+OuBTH76rCmSn
-         uFebfd9Uf5X7rG7Q2OIqBiFHfvmNUtO31W7kEMiLLkz5qPlIx8DoEOjAwnJYAbz0KaEa
-         j8JA==
-X-Forwarded-Encrypted: i=1; AJvYcCWtVvXY8Fam0y4bC/0d0SccJsP3H5PYI2D2LuX5fSCBE2XAFAuP0tXsyuB7pHvEaIXKhRprYNuK2vA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvHdEegIamyP6pOG+HiGt/+jX+1SfLQj/ADij3uXE6MTwdaDAN
-	yopTO3dMylrO/6BZ2yIdBwHxegeZ1xFKyC5mhw/Ps5/xTPNiRwIedUwa0N9Kss7rZzpf/f+APpm
-	muOI2TBJ7BZgWwKsyLTCkUtRtMiKANurdZekVMViyyQNOizxwiFfBV2g=
-X-Google-Smtp-Source: AGHT+IHYJphH/00k6pql6g5oy6NLNRlrxwXkGv+8BX1jOE6w8Kfwtp0KM+x1CAZlZg3d4vGtfnUbvUcAcqS4wc1YZFa9JN7nMOmN
+        d=1e100.net; s=20230601; t=1739524986; x=1740129786;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k7BNqikEMUFZIk3bGCtvMWc4aGoto03Aq8Yw25jOfXg=;
+        b=LfY6sRiHUntAYFQvL0lXHITiPLuOts9iQrrRdjozk32f8ez6204iqb0GBCTdiLn6V3
+         GIBdgLm3fpN/2ZOYpU4VmcI5zKA3cu+s5a9NicLcAHLAgy87BNxd5SJO7HJYyCPeDM+b
+         tzFWIpt3zo7UDZYAjx2Xys2/eT1cCpsfoeq1Yt1DwjAH1G6l9QwPZU9PFOcQY1pqIUd3
+         /DUHGIQV8sSQIULAKk7+5FcrzgFeFiAiLjQcLf6i8FwA7+cdR3FtCvBWSWitMBbr+K/g
+         J8IWVdPuBxR5XpbQZ9w+7RAKSzBSxuYa/9Z/et1dD5NmO75JYjiKj1uGMPmMQmRUUPGe
+         7YZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnnvSbX2MWFPaAfXYiQbo2HS/d88eYV/KyoNdLJcynlEE/NK5t0a6E1uEMQw75SNBCEZMAX4U2gMhNn/MWTys=@vger.kernel.org, AJvYcCV2Ca/PSqhyZOZzEjL3MYiZpcQnyc0IhEY0OAH0xHc41VB9Y+wvxuHgqyIVuW6JHRODgj2vHQX9@vger.kernel.org, AJvYcCVSB2JKEhtLU5CJnMLkhwhMATfIWOmG3/pcZGGZ3pQBscuFvqGuTV/AE7GJmr5TnC1NpiSOsBaeiNImxg==@vger.kernel.org, AJvYcCVSHp0GqTfGvVd7tqlnKFSERZoNAgYInCRhWJZYlJ8nxWR9ZP7MpYNIfZOBwbEPm8aIIL1oQaokReHk3Q==@vger.kernel.org, AJvYcCVvjyAylXesngMqj81v3+QJyPnokoSiAqxGv1q6g9Jtt2FdJ+YXsW3C+R9K1QXdiLf8DDbqNntAWM6I@vger.kernel.org, AJvYcCVxwGaRuOz/bV7o7/4hc8s0WahLaEHYefU7QAjJD6kI1V8gsIPLfI/S93yQt9RKhZG3dFJ5Hs9iM57s@vger.kernel.org, AJvYcCWtgqdrCtJuhnUnP4oURVgJdnpWMVsMi8UuKlJULRjghQwm8ZmtNGdplC2sgScHT/10F2BASluuiHNF5zuHcT4J@vger.kernel.org, AJvYcCXjKFedsaJetbpF0dFPoertji1xiR1BgGOv61AdmSVO6HdpcrZNJNX9Jf2n4QaP6RFS0qg=@vger.kernel.org, AJvYcCXpdmdRUWBURKezBx6aM1QdA1HOt7XVM1NAhyxNJOnFoEn9J4lmG9u7h0InDDIdQzHQPVRfVaDuyQIj+fzZ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzv7xnnC5yMcRGieheNtcO55dpuGVPURgkkfOvwVKyvunNzDHiX
+	qqk3NzUB986go9dapYDsW19No6QE9RqMmO4MfSfDuafRzU1dyLCkzhwuLVUroWxyQvxSywts2dl
+	Huom25Jjhf4xDkQjftJgZw/TJHkY=
+X-Gm-Gg: ASbGncvHPs1gO/K5DtrLU3Fc7l8gmHUhw7i+XbRoR1HwIjqzWuPcgJMqb7TXKvfVVSN
+	V0EPvUk1VJRZslgoJYxRg+bXniYbw9eOrqirMLszhKtMMOvJtXQCIF+IDhrS+b0xHmMbWPnU=
+X-Google-Smtp-Source: AGHT+IFc4q5LtCR4oH56B/JnsUWjOnr2P8qnhLaQaAQF/xsTMWgc84lPizP0lboCQWCd1BP4FsSRkQxEWx0I5MF+EcM=
+X-Received: by 2002:a05:6000:18ae:b0:38f:23bc:c19e with SMTP id
+ ffacd0b85a97d-38f23bcc233mr9719529f8f.29.1739524985787; Fri, 14 Feb 2025
+ 01:23:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:154e:b0:3d0:f2ca:659a with SMTP id
- e9e14a558f8ab-3d17d136916mr76258345ab.15.1739471122856; Thu, 13 Feb 2025
- 10:25:22 -0800 (PST)
-Date: Thu, 13 Feb 2025 10:25:22 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67ae3912.050a0220.21dd3.0021.GAE@google.com>
-Subject: [syzbot] [ppp?] KMSAN: uninit-value in ppp_sync_send (2)
-From: syzbot <syzbot+29fc8991b0ecb186cf40@syzkaller.appspotmail.com>
-To: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, linux-kernel@vger.kernel.org, linux-ppp@vger.kernel.org, 
-	netdev@vger.kernel.org, pabeni@redhat.com, syzkaller-bugs@googlegroups.com
+References: <CABAhCORgi7Jqu=Aigs6Fc8ewG5OshFvcunye03R43C+Z0ojZyw@mail.gmail.com>
+ <20250213110004.38415-1-kuniyu@amazon.com>
+In-Reply-To: <20250213110004.38415-1-kuniyu@amazon.com>
+From: Xiao Liang <shaw.leon@gmail.com>
+Date: Fri, 14 Feb 2025 17:22:28 +0800
+X-Gm-Features: AWEUYZmC-_4d4WbO4zj0CDnf9myDuv_5df2UqBnW8RiGwAq7tiZ7QonxxL4s5P4
+Message-ID: <CABAhCOSsZqzrsqct+c613TVhGJdubv+_wTDxmjH8z6-PL1Mu2A@mail.gmail.com>
+Subject: Re: [PATCH net-next v9 06/11] net: ipv6: Use link netns in newlink()
+ of rtnl_link_ops
+To: Kuniyuki Iwashima <kuniyu@amazon.com>
+Cc: alex.aring@gmail.com, andrew+netdev@lunn.ch, 
+	b.a.t.m.a.n@lists.open-mesh.org, bpf@vger.kernel.org, bridge@lists.linux.dev, 
+	davem@davemloft.net, donald.hunter@gmail.com, dsahern@kernel.org, 
+	edumazet@google.com, herbert@gondor.apana.org.au, horms@kernel.org, 
+	kuba@kernel.org, linux-can@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-ppp@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	linux-wpan@vger.kernel.org, miquel.raynal@bootlin.com, netdev@vger.kernel.org, 
+	osmocom-net-gprs@lists.osmocom.org, pabeni@redhat.com, shuah@kernel.org, 
+	stefan@datenfreihafen.org, steffen.klassert@secunet.com, 
+	wireguard@lists.zx2c4.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Thu, Feb 13, 2025 at 7:00=E2=80=AFPM Kuniyuki Iwashima <kuniyu@amazon.co=
+m> wrote:
+>
+> From: Xiao Liang <shaw.leon@gmail.com>
+> Date: Thu, 13 Feb 2025 17:55:32 +0800
+> > On Thu, Feb 13, 2025 at 4:37=E2=80=AFPM Xiao Liang <shaw.leon@gmail.com=
+> wrote:
+> > >
+> > > On Thu, Feb 13, 2025 at 3:05=E2=80=AFPM Kuniyuki Iwashima <kuniyu@ama=
+zon.com> wrote:
+> > > >
+> > > [...]
+> > > > > diff --git a/net/ipv6/ip6_gre.c b/net/ipv6/ip6_gre.c
+> > > > > index 863852abe8ea..108600dc716f 100644
+> > > > > --- a/net/ipv6/ip6_gre.c
+> > > > > +++ b/net/ipv6/ip6_gre.c
+> > > > > @@ -1498,7 +1498,8 @@ static int ip6gre_tunnel_init_common(struct=
+ net_device *dev)
+> > > > >       tunnel =3D netdev_priv(dev);
+> > > > >
+> > > > >       tunnel->dev =3D dev;
+> > > > > -     tunnel->net =3D dev_net(dev);
+> > > > > +     if (!tunnel->net)
+> > > > > +             tunnel->net =3D dev_net(dev);
+> > > >
+> > > > Same question as patch 5 for here and other parts.
+> > > > Do we need this check and assignment ?
+> > > >
+> > > > ip6gre_newlink_common
+> > > > -> nt->net =3D dev_net(dev)
+> > > > -> register_netdevice
+> > > >   -> ndo_init / ip6gre_tunnel_init()
+> > > >     -> ip6gre_tunnel_init_common
+> > > >       -> tunnel->net =3D dev_net(dev)
+> > >
+> > > Will remove this line.
+> >
+> > However, fb tunnel of ip6_tunnel, ip6_vti and sit can have
+> > tunnel->net =3D=3D NULL here. Take ip6_tunnel for example:
+> >
+> > ip6_tnl_init_net()
+> >     -> ip6_fb_tnl_dev_init()
+> >     -> register_netdev()
+> >         -> register_netdevice()
+> >             -> ip6_tnl_dev_init()
+> >
+> > This code path (including ip6_fb_tnl_dev_init()) doesn't set
+> > tunnel->net. But for ip6_gre, ip6gre_fb_tunnel_init() does.
+>
+> Ah, okay.  Then, let's set net in a single place, which would
+> be better than spreading net assignment and adding null check
+> in ->ndo_init(), and maybe apply the same to IPv4 tunnels ?
 
-syzbot found the following issue on:
+Tunnels are created in three ways: a) rtnetlink newlink,
+b) ioctl SIOCADDTUNNEL and c) during per netns init (fb).
+The code paths don't have much in common, and refactoring
+to set net in a single place is somewhat beyond the scope
+of this series. But for now I think we could put a general rule:
+net should be set prior to register_netdevice().
 
-HEAD commit:    9946eaf552b1 Merge tag 'hardening-v6.14-rc2' of git://git...
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=131dabdf980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f20bce78db15972a
-dashboard link: https://syzkaller.appspot.com/bug?extid=29fc8991b0ecb186cf40
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17b142a4580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14167df8580000
+For IPv4 tunnels, tunnel->net of a) is set in ip_tunnel_newlink().
+b) and c) are set in __ip_tunnel_create():
+ip_tunnel_init_net() -> __ip_tunnel_create()
+ip_tunnel_ctl() -> ip_tunnel_create() -> __ip_tunnel_create()
+So net has already been initialized when register_netdevice()
+is called.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/955ec208b383/disk-9946eaf5.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/ccb7613686d1/vmlinux-9946eaf5.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/10b92522362a/bzImage-9946eaf5.xz
+But it varies for IPv6 tunnels. Some set net for a) or c) while
+some don't. This patch has "fixed" for a). As for c) we can
+adopt the way of ip6_gre - setting net in *_fb_tunnel_init(),
+then remove the check in ndo_init().
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+29fc8991b0ecb186cf40@syzkaller.appspotmail.com
+Is it reasonable?
 
-=====================================================
-BUG: KMSAN: uninit-value in ppp_sync_txmunge drivers/net/ppp/ppp_synctty.c:516 [inline]
-BUG: KMSAN: uninit-value in ppp_sync_send+0x21c/0xb00 drivers/net/ppp/ppp_synctty.c:568
- ppp_sync_txmunge drivers/net/ppp/ppp_synctty.c:516 [inline]
- ppp_sync_send+0x21c/0xb00 drivers/net/ppp/ppp_synctty.c:568
- ppp_channel_bridge_input drivers/net/ppp/ppp_generic.c:2280 [inline]
- ppp_input+0x1f1/0xe60 drivers/net/ppp/ppp_generic.c:2304
- pppoe_rcv_core+0x1d3/0x720 drivers/net/ppp/pppoe.c:379
- sk_backlog_rcv+0x13b/0x420 include/net/sock.h:1122
- __release_sock+0x1da/0x330 net/core/sock.c:3106
- release_sock+0x6b/0x250 net/core/sock.c:3660
- pppoe_sendmsg+0xb35/0xc50 drivers/net/ppp/pppoe.c:903
- sock_sendmsg_nosec net/socket.c:718 [inline]
- __sock_sendmsg+0x30f/0x380 net/socket.c:733
- ____sys_sendmsg+0x903/0xb60 net/socket.c:2573
- ___sys_sendmsg+0x28d/0x3c0 net/socket.c:2627
- __sys_sendmmsg+0x2ff/0x880 net/socket.c:2716
- __do_sys_sendmmsg net/socket.c:2743 [inline]
- __se_sys_sendmmsg net/socket.c:2740 [inline]
- __x64_sys_sendmmsg+0xbc/0x120 net/socket.c:2740
- x64_sys_call+0x33c2/0x3c30 arch/x86/include/generated/asm/syscalls_64.h:308
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x1e0 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Uninit was created at:
- slab_post_alloc_hook mm/slub.c:4121 [inline]
- slab_alloc_node mm/slub.c:4164 [inline]
- kmem_cache_alloc_node_noprof+0x907/0xe00 mm/slub.c:4216
- kmalloc_reserve+0x13d/0x4a0 net/core/skbuff.c:587
- __alloc_skb+0x363/0x7b0 net/core/skbuff.c:678
- alloc_skb include/linux/skbuff.h:1331 [inline]
- sock_wmalloc+0xfe/0x1a0 net/core/sock.c:2746
- pppoe_sendmsg+0x385/0xc50 drivers/net/ppp/pppoe.c:867
- sock_sendmsg_nosec net/socket.c:718 [inline]
- __sock_sendmsg+0x30f/0x380 net/socket.c:733
- ____sys_sendmsg+0x903/0xb60 net/socket.c:2573
- ___sys_sendmsg+0x28d/0x3c0 net/socket.c:2627
- __sys_sendmmsg+0x2ff/0x880 net/socket.c:2716
- __do_sys_sendmmsg net/socket.c:2743 [inline]
- __se_sys_sendmmsg net/socket.c:2740 [inline]
- __x64_sys_sendmmsg+0xbc/0x120 net/socket.c:2740
- x64_sys_call+0x33c2/0x3c30 arch/x86/include/generated/asm/syscalls_64.h:308
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x1e0 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-CPU: 1 UID: 0 PID: 5806 Comm: syz-executor201 Not tainted 6.14.0-rc1-syzkaller-00235-g9946eaf552b1 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 12/27/2024
-=====================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks.
 
