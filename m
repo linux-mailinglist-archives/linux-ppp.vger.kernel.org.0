@@ -1,164 +1,142 @@
-Return-Path: <linux-ppp+bounces-216-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-217-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDCEA35BE9
-	for <lists+linux-ppp@lfdr.de>; Fri, 14 Feb 2025 11:53:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A890EA37237
+	for <lists+linux-ppp@lfdr.de>; Sun, 16 Feb 2025 07:06:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CBE41893A38
-	for <lists+linux-ppp@lfdr.de>; Fri, 14 Feb 2025 10:52:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5D15016EC47
+	for <lists+linux-ppp@lfdr.de>; Sun, 16 Feb 2025 06:06:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E029725A654;
-	Fri, 14 Feb 2025 10:52:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A342013C9B8;
+	Sun, 16 Feb 2025 06:05:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="MNfAtpwx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ShB7WDIb"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from smtp-fw-9102.amazon.com (smtp-fw-9102.amazon.com [207.171.184.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13998245B1F;
-	Fri, 14 Feb 2025 10:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.184.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C715367;
+	Sun, 16 Feb 2025 06:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739530341; cv=none; b=H/4jaBehW6HTbglIcIg9lRVypUQkniqcqwJgIcKw+IYCPEAF4kMocIbyXeFF4ydeaLevJfuwE/xli4T9dV8sFp1mR525xL2gRLl1vRmSC+NBAoOIC6P4Vkv9Q+6vEHd3ZluPu8EOsucYU7NbvS0mGpMB0cMv7cKlfk+j9lLkLVg=
+	t=1739685959; cv=none; b=jB3KwLrWNY6VENu47EvrVAqDSp0XB7MmBRMZzVDXpf5Vonc879jj3E5p1gJKNdlrV1YYfWgO2+hbzKv+hyNtC7dBw5XhoifsdHdrYWyeL1ruRyL+0dcUAF6LFZYtfBKzZSlpbbn6ZOnLdDZ8PzGzgomD3lFO+cT/HxmEjhc6PEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739530341; c=relaxed/simple;
-	bh=mDVjtyGUVb1KOH6XFAgZg0raVWfx3ObaCsvs+QX6YF0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ispBiUXHtJEb6yXGvv7f9uX3TZaP/kjEmbIo/wflkeIIMVVUgwZqw2cOIfFfFM0JFtDtdduLB8IgwhMcqRUbHqN+rW+9chDb6ohwk94oAzkmgShxgPUML6KlySzsOyfVPPRYnTPSu5u4ayp4tGoFxHNoQzS643rFQpxtZJNQdac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=MNfAtpwx; arc=none smtp.client-ip=207.171.184.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
+	s=arc-20240116; t=1739685959; c=relaxed/simple;
+	bh=Ne7UlvkHLrSu5pPHFMnqQpZbQ/XsBwEe47R2mLq5gqk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HGr0ax+N++7TkMOyjwr2dVCvd25TsVJ69dQDaDVGWVqiirGx7FiMD1kcsrtiPsZOpg1oL9z78Eb13ciXMqAfehaBBmabhqlwuco9AtLEGquGa02I0SyDZ/nDbgj+vHvxWoXG2b3/vzmL/ywx+tRrG/KfoYhdu3F6O2SC8XKreSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ShB7WDIb; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2212a930001so796385ad.0;
+        Sat, 15 Feb 2025 22:05:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1739530340; x=1771066340;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=X45XUOzd/bOUyeGuamt7kL+bHzoQ+bKhEEl7QpzEQY8=;
-  b=MNfAtpwxQumG2P41iJonYF5wLi1RA8BwpfWObzF3yqoNvstn79cywCCB
-   jYnOGgzNl4OHygjKREetMT+AjGRXH1GGjc9XIgI1e598HF6INwm+TgF95
-   dpyCyeP3JtvkF13POp3Hou/eRO5WTV4Z7EXfdeuNxQ8GGJrFPQ6RWTcW+
-   g=;
-X-IronPort-AV: E=Sophos;i="6.13,285,1732579200"; 
-   d="scan'208";a="493875980"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
-  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2025 10:52:13 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [10.0.7.35:41133]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.61.181:2525] with esmtp (Farcaster)
- id 014291f4-deb9-4469-b9db-a2315c599e77; Fri, 14 Feb 2025 10:52:12 +0000 (UTC)
-X-Farcaster-Flow-ID: 014291f4-deb9-4469-b9db-a2315c599e77
-Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.39;
- Fri, 14 Feb 2025 10:52:08 +0000
-Received: from 6c7e67bfbae3.amazon.com (10.118.254.117) by
- EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Fri, 14 Feb 2025 10:51:59 +0000
-From: Kuniyuki Iwashima <kuniyu@amazon.com>
-To: <shaw.leon@gmail.com>
-CC: <alex.aring@gmail.com>, <andrew+netdev@lunn.ch>,
-	<b.a.t.m.a.n@lists.open-mesh.org>, <bpf@vger.kernel.org>,
-	<bridge@lists.linux.dev>, <davem@davemloft.net>, <donald.hunter@gmail.com>,
-	<dsahern@kernel.org>, <edumazet@google.com>, <herbert@gondor.apana.org.au>,
-	<horms@kernel.org>, <kuba@kernel.org>, <kuniyu@amazon.com>,
-	<linux-can@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <linux-ppp@vger.kernel.org>,
-	<linux-rdma@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
-	<linux-wpan@vger.kernel.org>, <miquel.raynal@bootlin.com>,
-	<netdev@vger.kernel.org>, <osmocom-net-gprs@lists.osmocom.org>,
-	<pabeni@redhat.com>, <shuah@kernel.org>, <stefan@datenfreihafen.org>,
-	<steffen.klassert@secunet.com>, <wireguard@lists.zx2c4.com>
-Subject: Re: [PATCH net-next v9 06/11] net: ipv6: Use link netns in newlink() of rtnl_link_ops
-Date: Fri, 14 Feb 2025 19:51:48 +0900
-Message-ID: <20250214105148.1920-1-kuniyu@amazon.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <CABAhCOSsZqzrsqct+c613TVhGJdubv+_wTDxmjH8z6-PL1Mu2A@mail.gmail.com>
-References: <CABAhCOSsZqzrsqct+c613TVhGJdubv+_wTDxmjH8z6-PL1Mu2A@mail.gmail.com>
+        d=gmail.com; s=20230601; t=1739685957; x=1740290757; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5jTapXlC1YJYE8Fuo/zvj49N9KVPFzd+PYqhYKTYCbI=;
+        b=ShB7WDIbYa+slgtKzmBcbYhccJGtsVafqU/ADPtKbZGJxLQzy3hamqZP5nhS2msjD1
+         l9MSkwBb6bEN+FBg2wmbQJYZHZhkOPy7lFEXUY2bl4nlv1Z04/RBNl6BcYjC3ABsrUd+
+         26D6/7OFLASISO/ufhnGopytKBEoKSUdg+9SnnTsAvIOvXRDlFARcqsBQt1ZwcKOLv8s
+         seOXl32vUtMCUaFB//B0j9H8ShqPfEJrX7VJYctP4DZoFwNeUT2P07jh9qnzE2rzdarg
+         x9gShsfUrB5gcaMQgHAszVedQnlYEOQD7pisbmzA9IU3wN4b8Et/Xo4KsVqYElrbZ8c2
+         IQIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739685957; x=1740290757;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5jTapXlC1YJYE8Fuo/zvj49N9KVPFzd+PYqhYKTYCbI=;
+        b=lFWg6UwNUBcwfvmRoKVnWIcGaFiOM1fpWK687OqUmcadq+6rT2RlW2Ub6RqdLhuT4r
+         c0zkPXGLyjd9vBw7rao325+SyIRE3olHHh6JOiCki7h3lm/aeldYt/LSOzFcYIFiq66O
+         QuNCOFMB1gRpSt6HN1oJgSk0SaOit7eX2wVDWf1sGwkVv+xDR8cX80JII2l9u3/FlFc/
+         /LjtSqo3hxw5yDiKpnes3JS0jAvlqEA4tpv1uBrolYzI6rkkpEj0vicaYdyAfvY9Y0oM
+         ji6TdXCDUNxuuxLAzYKSnED0pqgdnN1Eijj1A4zcX/xvp60C1Aoc+sk0dZ6cUm/AlZoP
+         zu0A==
+X-Forwarded-Encrypted: i=1; AJvYcCVIbOHBpVVJX3p5Vy2aaihqlxiQE7MoCrZB6nB/LcpcP9TY/exslB0AKsNEGGYCFESLsnBfythmZkQ6@vger.kernel.org, AJvYcCVc92+pLMm31fRh+AdGZ+yhLx8VrdguBaKlC4AZopduQswz8Wcsle5z0lvuMzRsX2aeu/wI4YaU@vger.kernel.org, AJvYcCXcv/hroXJ5BIrDr5dfdaIzzQG16LgMBMXS288CSKq1gfT09hbamtI19/e/+IBXQDCm8nvJVeyv7jTaQBE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsQsHa5kTnjNesbsovP0KbkplAGyQdM49qNfUdOKCi6Qk0cGc/
+	v8tvX0LWKqKzHsi0Ez3iRZqEYHw6xefvGW2U+NCGeLi8fLS5tkYB
+X-Gm-Gg: ASbGncv1XKtgZBEFhXhjBVzVBhkNF12b5/PV0gi/WYktpywl6XO5ejo+uUnsU1KFEfX
+	5d/QOP+Bl7+FzZ3ZrJT0AKr3tJrbq0seamSjuLQQfbLnGyKJ34R9nbXzaBMQVx47D91V1Z83cyM
+	9jDMZpnskKkdJ1L4ui6DS4rofx9p50YnepWvcA+EFYlaemEtt9/5qvBI4cgyZ/3o6SniPuyTE8P
+	Od1bF9O0brRos2hjlS/8P0XRtMVACI29Hd7zJihj6TMgJhcJbf0wW9ys6T3R3EK324APP5ZeupL
+	8dj9KjmZIjxkLeGukXDtTN3y2GG+E1uGL0JsJwknToB2Xw==
+X-Google-Smtp-Source: AGHT+IHs8XMBTRzu3KT73jxsEp0W44CgM/+zKPSZcHvbAB3MU3yM2R/HWZe7wKmWc2rKQVVWyUrrcQ==
+X-Received: by 2002:a17:903:2b0f:b0:21f:f02:413c with SMTP id d9443c01a7336-221040b18a4mr71761035ad.42.1739685957269;
+        Sat, 15 Feb 2025 22:05:57 -0800 (PST)
+Received: from purva-IdeaPad-Gaming-3-15IHU6.. ([2409:40c0:2e:ea4:de25:f19b:8521:c31d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d5367510sm52188685ad.83.2025.02.15.22.05.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 15 Feb 2025 22:05:56 -0800 (PST)
+From: Purva Yeshi <purvayeshi550@gmail.com>
+To: andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: skhan@linuxfoundation.org,
+	linux-ppp@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Purva Yeshi <purvayeshi550@gmail.com>,
+	syzbot+29fc8991b0ecb186cf40@syzkaller.appspotmail.com
+Subject: [PATCH] ppp: Prevent out-of-bounds access in ppp_sync_txmunge
+Date: Sun, 16 Feb 2025 11:34:46 +0530
+Message-Id: <20250216060446.9320-1-purvayeshi550@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EX19D041UWB004.ant.amazon.com (10.13.139.143) To
- EX19D004ANA001.ant.amazon.com (10.37.240.138)
 
-From: Xiao Liang <shaw.leon@gmail.com>
-Date: Fri, 14 Feb 2025 17:22:28 +0800
-> On Thu, Feb 13, 2025 at 7:00 PM Kuniyuki Iwashima <kuniyu@amazon.com> wrote:
-> >
-> > From: Xiao Liang <shaw.leon@gmail.com>
-> > Date: Thu, 13 Feb 2025 17:55:32 +0800
-> > > On Thu, Feb 13, 2025 at 4:37 PM Xiao Liang <shaw.leon@gmail.com> wrote:
-> > > >
-> > > > On Thu, Feb 13, 2025 at 3:05 PM Kuniyuki Iwashima <kuniyu@amazon.com> wrote:
-> > > > >
-> > > > [...]
-> > > > > > diff --git a/net/ipv6/ip6_gre.c b/net/ipv6/ip6_gre.c
-> > > > > > index 863852abe8ea..108600dc716f 100644
-> > > > > > --- a/net/ipv6/ip6_gre.c
-> > > > > > +++ b/net/ipv6/ip6_gre.c
-> > > > > > @@ -1498,7 +1498,8 @@ static int ip6gre_tunnel_init_common(struct net_device *dev)
-> > > > > >       tunnel = netdev_priv(dev);
-> > > > > >
-> > > > > >       tunnel->dev = dev;
-> > > > > > -     tunnel->net = dev_net(dev);
-> > > > > > +     if (!tunnel->net)
-> > > > > > +             tunnel->net = dev_net(dev);
-> > > > >
-> > > > > Same question as patch 5 for here and other parts.
-> > > > > Do we need this check and assignment ?
-> > > > >
-> > > > > ip6gre_newlink_common
-> > > > > -> nt->net = dev_net(dev)
-> > > > > -> register_netdevice
-> > > > >   -> ndo_init / ip6gre_tunnel_init()
-> > > > >     -> ip6gre_tunnel_init_common
-> > > > >       -> tunnel->net = dev_net(dev)
-> > > >
-> > > > Will remove this line.
-> > >
-> > > However, fb tunnel of ip6_tunnel, ip6_vti and sit can have
-> > > tunnel->net == NULL here. Take ip6_tunnel for example:
-> > >
-> > > ip6_tnl_init_net()
-> > >     -> ip6_fb_tnl_dev_init()
-> > >     -> register_netdev()
-> > >         -> register_netdevice()
-> > >             -> ip6_tnl_dev_init()
-> > >
-> > > This code path (including ip6_fb_tnl_dev_init()) doesn't set
-> > > tunnel->net. But for ip6_gre, ip6gre_fb_tunnel_init() does.
-> >
-> > Ah, okay.  Then, let's set net in a single place, which would
-> > be better than spreading net assignment and adding null check
-> > in ->ndo_init(), and maybe apply the same to IPv4 tunnels ?
-> 
-> Tunnels are created in three ways: a) rtnetlink newlink,
-> b) ioctl SIOCADDTUNNEL and c) during per netns init (fb).
-> The code paths don't have much in common, and refactoring
-> to set net in a single place is somewhat beyond the scope
-> of this series. But for now I think we could put a general rule:
-> net should be set prior to register_netdevice().
-> 
-> For IPv4 tunnels, tunnel->net of a) is set in ip_tunnel_newlink().
-> b) and c) are set in __ip_tunnel_create():
-> ip_tunnel_init_net() -> __ip_tunnel_create()
-> ip_tunnel_ctl() -> ip_tunnel_create() -> __ip_tunnel_create()
-> So net has already been initialized when register_netdevice()
-> is called.
-> 
-> But it varies for IPv6 tunnels. Some set net for a) or c) while
-> some don't. This patch has "fixed" for a). As for c) we can
-> adopt the way of ip6_gre - setting net in *_fb_tunnel_init(),
-> then remove the check in ndo_init().
-> 
-> Is it reasonable?
+Fix an issue detected by syzbot with KMSAN:
 
-Yes, fair enough.
+BUG: KMSAN: uninit-value in ppp_sync_txmunge
+drivers/net/ppp/ppp_synctty.c:516 [inline]
+BUG: KMSAN: uninit-value in ppp_sync_send+0x21c/0xb00
+drivers/net/ppp/ppp_synctty.c:568
+
+Ensure sk_buff is valid and has at least 3 bytes before accessing its
+data field in ppp_sync_txmunge(). Without this check, the function may
+attempt to read uninitialized or invalid memory, leading to undefined
+behavior.
+
+To address this, add a validation check at the beginning of the function
+to safely handle cases where skb is NULL or too small. If either condition
+is met, free the skb and return NULL to prevent processing an invalid
+packet.
+
+Reported-by: syzbot+29fc8991b0ecb186cf40@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=29fc8991b0ecb186cf40
+Tested-by: syzbot+29fc8991b0ecb186cf40@syzkaller.appspotmail.com
+Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
+---
+ drivers/net/ppp/ppp_synctty.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/net/ppp/ppp_synctty.c b/drivers/net/ppp/ppp_synctty.c
+index 644e99fc3..e537ea3d9 100644
+--- a/drivers/net/ppp/ppp_synctty.c
++++ b/drivers/net/ppp/ppp_synctty.c
+@@ -506,6 +506,12 @@ ppp_sync_txmunge(struct syncppp *ap, struct sk_buff *skb)
+ 	unsigned char *data;
+ 	int islcp;
+ 
++	/* Ensure skb is not NULL and has at least 3 bytes */
++	if (!skb || skb->len < 3) {
++		kfree_skb(skb);
++		return NULL;
++	}
++
+ 	data  = skb->data;
+ 	proto = get_unaligned_be16(data);
+ 
+-- 
+2.34.1
+
 
