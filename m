@@ -1,70 +1,75 @@
-Return-Path: <linux-ppp+bounces-220-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-222-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA460A39DCC
-	for <lists+linux-ppp@lfdr.de>; Tue, 18 Feb 2025 14:45:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC865A3A65A
+	for <lists+linux-ppp@lfdr.de>; Tue, 18 Feb 2025 19:55:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A76B3BB7EB
-	for <lists+linux-ppp@lfdr.de>; Tue, 18 Feb 2025 13:36:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9728F3B5C36
+	for <lists+linux-ppp@lfdr.de>; Tue, 18 Feb 2025 18:52:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A5962698A2;
-	Tue, 18 Feb 2025 13:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EBE11F582D;
+	Tue, 18 Feb 2025 18:50:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nYWcyrtA"
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="DZt7UW1l"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+Received: from smtp-fw-9102.amazon.com (smtp-fw-9102.amazon.com [207.171.184.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C8B26AA83
-	for <linux-ppp@vger.kernel.org>; Tue, 18 Feb 2025 13:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575C02356BA;
+	Tue, 18 Feb 2025 18:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.184.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739885539; cv=none; b=VHkoGGIeWgdpqEd9iWFykqsmgbxm8bkmWgZXWEbrJrDXeLKf7Q5xDzdzskzuXBZIBlfDySyJ7kggvZmCZCHdWuljTdcsQwf4EqCzOqXM4kfqn1YQlxba6T4I7sKyhFDf/9XIQo6iMv7s9EXCKrp2vFDW30Poj1O8DXaBk7lYdng=
+	t=1739904653; cv=none; b=tFELqTjIjT0U3lkog8sxuA+1wuv9Gs3jy9+CKnxmEOpMR5hgA/KHtwjUWA86O8dYr3Vhn8IEDOxiCbXYoZ4w+1fZ8vmiItDksB4Ms/qZ1icEnG1FavQsICCV2rUsFSVLQzEW2hD0x6r//rSQBfVINWAcyOBY9DYdTNZy5n0/NSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739885539; c=relaxed/simple;
-	bh=Y4bb2gMg2fhQX3UumMqYLIY1mVeZXXRdQb69m4+STL4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TAnAMfoeGeyBIgFf7PA8s95VgH4FX80Yy8QyWp0lKzi5082RXwl5N80YX33Yaiwkx2ASslrDptjELTCg3fDtP0DqEThAMXOII7mrT1no/+1LM/7A26nPh6fThNIZmDKqOCD00R81VGPlfGqttTnxWUOksMnKgdCCrUxNYpbET/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nYWcyrtA; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1739885535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HYjio39CMFV+Mh6EEVWTUj22Y7RBm4Gi+VVLarh3BvE=;
-	b=nYWcyrtAK2xqFBLaFB3HRZ2IxF6NVcxEUBcKDh3zyZQWxiykNSn8cdkIATx4O8gqFXFcFO
-	zQKPogA0Fqj2JT0l8VZq+u17y2o8/NEq4uWXQJ9xvnpmCf5lliRWyiM+q2CHGn2pLml/s7
-	zOpGSd8FzsLEdoNwn75vLxGoPb6NK8Q=
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: bpf@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: andrew+netdev@lunn.ch,
-	davem@davemloft.ne,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	ricardo@marliere.net,
-	jiayuan.chen@linux.dev,
-	viro@zeniv.linux.org.uk,
-	dmantipov@yandex.ru,
-	aleksander.lobakin@intel.com,
-	linux-ppp@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mrpre@163.com,
-	syzbot+853242d9c9917165d791@syzkaller.appspotmail.com
-Subject: [PATCH net-next v1 1/1] ppp: Fix KMSAN warning by initializing 2-byte header
-Date: Tue, 18 Feb 2025 21:31:44 +0800
-Message-ID: <20250218133145.265313-2-jiayuan.chen@linux.dev>
-In-Reply-To: <20250218133145.265313-1-jiayuan.chen@linux.dev>
-References: <20250218133145.265313-1-jiayuan.chen@linux.dev>
+	s=arc-20240116; t=1739904653; c=relaxed/simple;
+	bh=lsflQrO1N48O+jshUWxiHl8d7dgJUl8JR7UUofGDcOU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cxLRRPWfNs1eDBZf4J5Ka3GEJaUZagSF5/lczajNGB286tetBTcnO5p9xq0he00jHSicJHOh2czX9trtOjqRuQXA/L/Ei2HZG0JFjDUe0O+RC8aGx+4hhzaLa8zcALQUajtBv2bL8Ftxbsafs9dcqjeIAo0YgpszIdtIHawdcSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=DZt7UW1l; arc=none smtp.client-ip=207.171.184.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1739904651; x=1771440651;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=/1XY/m7rlHy9RJvp29NIT0p6dcrQvEcQVV1BnoOoOvg=;
+  b=DZt7UW1l/2ky4722t3/PIRud+K7BivymcsD91nyw+va21WNfHR7A9Jh6
+   onz6NuouVBzoE9hxQOJdUENIUeUqIOqs+cDhBU5j/Eje51bFlrT34i3ov
+   ODI/+xY9COHTi7OEzVhV/0IvuI0CkbODdssUehXFUPSfGNKbp3noewquj
+   A=;
+X-IronPort-AV: E=Sophos;i="6.13,296,1732579200"; 
+   d="scan'208";a="494971099"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
+  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 18:50:46 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [10.0.7.35:49314]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.29.115:2525] with esmtp (Farcaster)
+ id ad366e28-5030-4d80-9ae4-2708614bf9a9; Tue, 18 Feb 2025 18:50:45 +0000 (UTC)
+X-Farcaster-Flow-ID: ad366e28-5030-4d80-9ae4-2708614bf9a9
+Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.39;
+ Tue, 18 Feb 2025 18:50:44 +0000
+Received: from 6c7e67bfbae3.amazon.com (10.106.101.36) by
+ EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Tue, 18 Feb 2025 18:50:41 +0000
+From: Kuniyuki Iwashima <kuniyu@amazon.com>
+To: <purvayeshi550@gmail.com>
+CC: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <kuniyu@amazon.com>, <linux-kernel@vger.kernel.org>,
+	<linux-ppp@vger.kernel.org>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
+	<skhan@linuxfoundation.org>,
+	<syzbot+29fc8991b0ecb186cf40@syzkaller.appspotmail.com>
+Subject: Re: [PATCH] ppp: Prevent out-of-bounds access in ppp_sync_txmunge
+Date: Tue, 18 Feb 2025 10:50:33 -0800
+Message-ID: <20250218185033.26399-1-kuniyu@amazon.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <1e906059-83c7-4f29-a026-76cd73d8b6fa@gmail.com>
+References: <1e906059-83c7-4f29-a026-76cd73d8b6fa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
@@ -72,44 +77,80 @@ List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D039UWB001.ant.amazon.com (10.13.138.119) To
+ EX19D004ANA001.ant.amazon.com (10.37.240.138)
 
-The ppp program adds a 2-byte pseudo-header for socket filters, which is
-normally skipped by regular BPF programs, causing no issues.
+From: Purva Yeshi <purvayeshi550@gmail.com>
+Date: Tue, 18 Feb 2025 11:58:17 +0530
+> On 18/02/25 02:46, Kuniyuki Iwashima wrote:
+> > From: Purva Yeshi <purvayeshi550@gmail.com>
+> > Date: Sun, 16 Feb 2025 11:34:46 +0530
+> >> Fix an issue detected by syzbot with KMSAN:
+> >>
+> >> BUG: KMSAN: uninit-value in ppp_sync_txmunge
+> >> drivers/net/ppp/ppp_synctty.c:516 [inline]
+> >> BUG: KMSAN: uninit-value in ppp_sync_send+0x21c/0xb00
+> >> drivers/net/ppp/ppp_synctty.c:568
+> >>
+> >> Ensure sk_buff is valid and has at least 3 bytes before accessing its
+> >> data field in ppp_sync_txmunge(). Without this check, the function may
+> >> attempt to read uninitialized or invalid memory, leading to undefined
+> >> behavior.
+> >>
+> >> To address this, add a validation check at the beginning of the function
+> >> to safely handle cases where skb is NULL or too small. If either condition
+> >> is met, free the skb and return NULL to prevent processing an invalid
+> >> packet.
+> >>
+> >> Reported-by: syzbot+29fc8991b0ecb186cf40@syzkaller.appspotmail.com
+> >> Closes: https://syzkaller.appspot.com/bug?extid=29fc8991b0ecb186cf40
+> >> Tested-by: syzbot+29fc8991b0ecb186cf40@syzkaller.appspotmail.com
+> >> Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
+> >> ---
+> >>   drivers/net/ppp/ppp_synctty.c | 6 ++++++
+> >>   1 file changed, 6 insertions(+)
+> >>
+> >> diff --git a/drivers/net/ppp/ppp_synctty.c b/drivers/net/ppp/ppp_synctty.c
+> >> index 644e99fc3..e537ea3d9 100644
+> >> --- a/drivers/net/ppp/ppp_synctty.c
+> >> +++ b/drivers/net/ppp/ppp_synctty.c
+> >> @@ -506,6 +506,12 @@ ppp_sync_txmunge(struct syncppp *ap, struct sk_buff *skb)
+> >>   	unsigned char *data;
+> >>   	int islcp;
+> >>   
+> >> +	/* Ensure skb is not NULL and has at least 3 bytes */
+> >> +	if (!skb || skb->len < 3) {
+> > 
+> > When is skb NULL ?
+> 
+> skb pointer can be NULL in cases where memory allocation for the socket 
+> buffer fails, or if an upstream function incorrectly passes a NULL 
+> reference due to improper error handling.
 
-However, for abnormal BPF programs that use these uninitialized 2 bytes,
-a KMSAN warning is triggered.
+Which caller passes NULL skb ?
 
-Reported-by: syzbot+853242d9c9917165d791@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/bpf/000000000000dea025060d6bc3bc@google.com/
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
----
- drivers/net/ppp/ppp_generic.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+If it's really possible, you'll see null-ptr-deref at
 
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index 4583e15ad03a..a913403d5847 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -1765,7 +1765,7 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
- 		/* check if we should pass this packet */
- 		/* the filter instructions are constructed assuming
- 		   a four-byte PPP header on each packet */
--		*(u8 *)skb_push(skb, 2) = 1;
-+		*(u16 *)skb_push(skb, 2) = 1;
- 		if (ppp->pass_filter &&
- 		    bpf_prog_run(ppp->pass_filter, skb) == 0) {
- 			if (ppp->debug & 1)
-@@ -2489,7 +2489,7 @@ ppp_receive_nonmp_frame(struct ppp *ppp, struct sk_buff *skb)
- 			if (skb_unclone(skb, GFP_ATOMIC))
- 				goto err;
- 
--			*(u8 *)skb_push(skb, 2) = 0;
-+			*(u16 *)skb_push(skb, 2) = 0;
- 			if (ppp->pass_filter &&
- 			    bpf_prog_run(ppp->pass_filter, skb) == 0) {
- 				if (ppp->debug & 1)
--- 
-2.47.1
+  data = skb->data;
 
+below instead of KMSAN's uninit splat.
+
+
+> 
+> Additionally, skb->len being less than 3 can occur if the received 
+> packet is truncated or malformed, leading to out-of-bounds memory access 
+> when attempting to read data[2].
+> 
+> > 
+> > 
+> >> +		kfree_skb(skb);
+> >> +		return NULL;
+> >> +	}
+> >> +
+> >>   	data  = skb->data;
+> >>   	proto = get_unaligned_be16(data);
+> >>   
+> >> -- 
+> >> 2.34.1
 
