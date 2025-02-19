@@ -1,75 +1,108 @@
-Return-Path: <linux-ppp+bounces-222-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-223-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC865A3A65A
-	for <lists+linux-ppp@lfdr.de>; Tue, 18 Feb 2025 19:55:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCEC3A3BEA4
+	for <lists+linux-ppp@lfdr.de>; Wed, 19 Feb 2025 13:51:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9728F3B5C36
-	for <lists+linux-ppp@lfdr.de>; Tue, 18 Feb 2025 18:52:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6328A1896D70
+	for <lists+linux-ppp@lfdr.de>; Wed, 19 Feb 2025 12:51:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EBE11F582D;
-	Tue, 18 Feb 2025 18:50:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 708D01E1A14;
+	Wed, 19 Feb 2025 12:50:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="DZt7UW1l"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvedAyzh"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from smtp-fw-9102.amazon.com (smtp-fw-9102.amazon.com [207.171.184.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575C02356BA;
-	Tue, 18 Feb 2025 18:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.184.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACED91C7018;
+	Wed, 19 Feb 2025 12:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739904653; cv=none; b=tFELqTjIjT0U3lkog8sxuA+1wuv9Gs3jy9+CKnxmEOpMR5hgA/KHtwjUWA86O8dYr3Vhn8IEDOxiCbXYoZ4w+1fZ8vmiItDksB4Ms/qZ1icEnG1FavQsICCV2rUsFSVLQzEW2hD0x6r//rSQBfVINWAcyOBY9DYdTNZy5n0/NSo=
+	t=1739969457; cv=none; b=hi3Csvvb/hVjDk9MA8Gax2gi0hyljsB6JBajCfZwHCWc6jDs/XeLLvWPTtaW3ozdkAyh/1Lla/4YhVhbzMEog4OXMsknhBFqti7Nf4/AcoBCK2jzu7hd/ivEDK83OKcLNoJOapn2tYFjr2t/SVd0Y8wXdG0RPg5CdUXikbl/NlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739904653; c=relaxed/simple;
-	bh=lsflQrO1N48O+jshUWxiHl8d7dgJUl8JR7UUofGDcOU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cxLRRPWfNs1eDBZf4J5Ka3GEJaUZagSF5/lczajNGB286tetBTcnO5p9xq0he00jHSicJHOh2czX9trtOjqRuQXA/L/Ei2HZG0JFjDUe0O+RC8aGx+4hhzaLa8zcALQUajtBv2bL8Ftxbsafs9dcqjeIAo0YgpszIdtIHawdcSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=DZt7UW1l; arc=none smtp.client-ip=207.171.184.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
+	s=arc-20240116; t=1739969457; c=relaxed/simple;
+	bh=xkr//DIeJXWeI9t9OGQRsHzzt0mLyQ9yOF0ugDqOfuA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WsbfHeGhhM7uxXSmluhMvvgJultVywv9SATUiAoIgXP3LvDctEn0P1sYO8k76HajmPyoyuBa3BdN56K4n3LpWnOM2lSCmNFNWzpH/dyMKtjWPBrdo4Tf035SgrCRj1hFnjpH7h3d2Ex+PDo57qj2ZZwfdu2xW+rTo2Kz7tga5d4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cvedAyzh; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22100006bc8so75662145ad.0;
+        Wed, 19 Feb 2025 04:50:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1739904651; x=1771440651;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=/1XY/m7rlHy9RJvp29NIT0p6dcrQvEcQVV1BnoOoOvg=;
-  b=DZt7UW1l/2ky4722t3/PIRud+K7BivymcsD91nyw+va21WNfHR7A9Jh6
-   onz6NuouVBzoE9hxQOJdUENIUeUqIOqs+cDhBU5j/Eje51bFlrT34i3ov
-   ODI/+xY9COHTi7OEzVhV/0IvuI0CkbODdssUehXFUPSfGNKbp3noewquj
-   A=;
-X-IronPort-AV: E=Sophos;i="6.13,296,1732579200"; 
-   d="scan'208";a="494971099"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
-  by smtp-border-fw-9102.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2025 18:50:46 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [10.0.7.35:49314]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.29.115:2525] with esmtp (Farcaster)
- id ad366e28-5030-4d80-9ae4-2708614bf9a9; Tue, 18 Feb 2025 18:50:45 +0000 (UTC)
-X-Farcaster-Flow-ID: ad366e28-5030-4d80-9ae4-2708614bf9a9
-Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.39;
- Tue, 18 Feb 2025 18:50:44 +0000
-Received: from 6c7e67bfbae3.amazon.com (10.106.101.36) by
- EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Tue, 18 Feb 2025 18:50:41 +0000
-From: Kuniyuki Iwashima <kuniyu@amazon.com>
-To: <purvayeshi550@gmail.com>
-CC: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <kuniyu@amazon.com>, <linux-kernel@vger.kernel.org>,
-	<linux-ppp@vger.kernel.org>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
-	<skhan@linuxfoundation.org>,
-	<syzbot+29fc8991b0ecb186cf40@syzkaller.appspotmail.com>
-Subject: Re: [PATCH] ppp: Prevent out-of-bounds access in ppp_sync_txmunge
-Date: Tue, 18 Feb 2025 10:50:33 -0800
-Message-ID: <20250218185033.26399-1-kuniyu@amazon.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <1e906059-83c7-4f29-a026-76cd73d8b6fa@gmail.com>
-References: <1e906059-83c7-4f29-a026-76cd73d8b6fa@gmail.com>
+        d=gmail.com; s=20230601; t=1739969454; x=1740574254; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wOEjIz3jfJx7EGKo7QwRt3VtLNoT+pQ4mVUjPRekXyI=;
+        b=cvedAyzhxJKfPPoc/Kuv3u2OTRFf2/XJbWdzYv0D5f2RrdoQ42WEWDV8UU9dRbqEJf
+         Gh2KL0lpilrHhgr5iN8/tz8g8m0eULfQUm635HF/gnmbFnwrseV1uVRiEpiPdnE45blM
+         IukNQtZpglSiuspoaxrFNOzYikw0rEc+RFqv7hIVqkizVB4n8B+S9R5iqPoJSf23gyBQ
+         XBrBHIavd0OtvN0WZRg2/GcMetP2yFEteiXH1rIv+kuBq6RfMJE7hdbng3IaFphq9l0A
+         i8s/7p8GzL8LxqUcVyPLB2hSifpnRFmDjH+zsU1m9htTNe81q9mFOIeaiQZO2um/9IGZ
+         NHnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739969454; x=1740574254;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wOEjIz3jfJx7EGKo7QwRt3VtLNoT+pQ4mVUjPRekXyI=;
+        b=t7FkwOqw1V+JWcWm+JfX1Y/AZNOU6I5qaaRsNLtAdtC3gGB6z2BCJ7UoZOCigb0VD3
+         StL6t1uCeG0gBEYXYePuATqF28IXrqnBdWcfOXqzY2l1aAkjaIZetN4dNUpCsr+NKb78
+         +m6LXrQR7rFHO6ItnfXgyu2E+LX2tdXUO0HXj+/5ePmOIz+Nh8IKgtOk/HyyRcGZRmXH
+         /wOKv/v35x8V8lPCv8Luw1HIZuRkBhMBCABe7KjR3ERozWbx8uZ4VoqjaX/TUmVybzTF
+         WvO17sWNqgngkXyakB7GN/FT9HiVsr8kz/XuSTx1prf3Ny0nZNQ5SWzs26Oo2QXIfnnO
+         D6Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCU4wxo3/a4r4wJWyjpefVpQsnHbnRl4nKIXK2A0lpbf+eioMvQwedCqRz4EdMncis4zC/M=@vger.kernel.org, AJvYcCVMwPk4owKB05p7s6ZatJeKK/jerQWXkWCDRAqLXO/U4CR5YGE1mtjC9s8ECrdqcYAYZgyxv5lj1vri9z7DrNE=@vger.kernel.org, AJvYcCVixE6p8OvCHMLekk4/Ozqg1WedKfUHSdXRO9Uw4kSJk4kaPkKgDaxnCLHhMOcbn5VvEtseunekWOXe@vger.kernel.org, AJvYcCWQTRZIvlziMC8fY5MCibu37fMWy6qWwbEc/iZV60ItoPh7f00E1PrNI7zUSvQ56eZceSLYRn2ZEuem@vger.kernel.org, AJvYcCWSC0XV5y+T2aAsThw2tekdwwsz7c9yUYSfATDiCOF6jINYZtmcYRkfcZCEJllHSPuuMvMlkz8suLb+tsqP@vger.kernel.org, AJvYcCXcorfINW81uvLa6cVPzXOIcAkOk2AnqPs0p6CdbbS7bgmzQrrE/i+PzechFyYQ/RC2iruRir2k1aZkUg==@vger.kernel.org, AJvYcCXnpowksPKljH434+jxSGRxpZCYKqoIsf79HZ6zwt3Nv5/qMUW21an3B6heJ2EMYXtDlMJmQYVur7B/b5RebmBN@vger.kernel.org, AJvYcCXs07ZOPhsXWS/XJoDW/opgtnQY1efYyp37Fb9IpmJBFzQWy5bFIV2J7iJFAgvRvRJ4229DrD0GnA8LXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoktW+jWHB4HndiqMe9PL4EaIFcWtLKLqq0m7w4Qz3GuW/x7gz
+	bd08vz+ThdwjLKd33miaW3/snGvBVH91+PCkNEnNqQ/IR5nslEWaie40/OEEshw=
+X-Gm-Gg: ASbGncsvKaEauNEkp7YJGR0GqweyjMuQTLNXLdzY1pJYHVUPZ0y2aZFcVQOH7Xg6KeQ
+	lrc/8Spl/cZwJ2ziDtmpctQ84MPP/Fr/m/8TDI4ojllIcmbe18iix/O+EhbKHorrYvkFlikbNHv
+	19+pYlW3ynojizldG5c/NNfe4viROb4IoKRtQ6o317o06jDflTzQuJbnL/T+BqqDSzTs06azLU1
+	9vSgSIglPGrR3R7Fg2q5S4lK6PUINQ8m5FKqSS0fXylR2rqhruEVhY4k/DAqfqMph7V58rqbdXD
+	holTQA==
+X-Google-Smtp-Source: AGHT+IGTzmUs09YpyFPrUkefpGaoWuBh2+9iqLpiW9iEBwyuEmzG/kObjhneqUPTdxqOS7kfr/mohA==
+X-Received: by 2002:a17:902:d58b:b0:216:2426:767f with SMTP id d9443c01a7336-221040cec77mr301871725ad.49.1739969453951;
+        Wed, 19 Feb 2025 04:50:53 -0800 (PST)
+Received: from ws.. ([103.167.140.11])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d536436fsm103427175ad.64.2025.02.19.04.50.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Feb 2025 04:50:53 -0800 (PST)
+From: Xiao Liang <shaw.leon@gmail.com>
+To: netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Jakub Kicinski <kuba@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	David Ahern <dsahern@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Stefan Schmidt <stefan@datenfreihafen.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	linux-rdma@vger.kernel.org,
+	linux-can@vger.kernel.org,
+	osmocom-net-gprs@lists.osmocom.org,
+	bpf@vger.kernel.org,
+	linux-ppp@vger.kernel.org,
+	wireguard@lists.zx2c4.com,
+	linux-wireless@vger.kernel.org,
+	b.a.t.m.a.n@lists.open-mesh.org,
+	bridge@lists.linux.dev,
+	linux-wpan@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v10 00/13] net: Improve netns handling in rtnetlink
+Date: Wed, 19 Feb 2025 20:50:26 +0800
+Message-ID: <20250219125039.18024-1-shaw.leon@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
@@ -77,80 +110,188 @@ List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D039UWB001.ant.amazon.com (10.13.138.119) To
- EX19D004ANA001.ant.amazon.com (10.37.240.138)
 
-From: Purva Yeshi <purvayeshi550@gmail.com>
-Date: Tue, 18 Feb 2025 11:58:17 +0530
-> On 18/02/25 02:46, Kuniyuki Iwashima wrote:
-> > From: Purva Yeshi <purvayeshi550@gmail.com>
-> > Date: Sun, 16 Feb 2025 11:34:46 +0530
-> >> Fix an issue detected by syzbot with KMSAN:
-> >>
-> >> BUG: KMSAN: uninit-value in ppp_sync_txmunge
-> >> drivers/net/ppp/ppp_synctty.c:516 [inline]
-> >> BUG: KMSAN: uninit-value in ppp_sync_send+0x21c/0xb00
-> >> drivers/net/ppp/ppp_synctty.c:568
-> >>
-> >> Ensure sk_buff is valid and has at least 3 bytes before accessing its
-> >> data field in ppp_sync_txmunge(). Without this check, the function may
-> >> attempt to read uninitialized or invalid memory, leading to undefined
-> >> behavior.
-> >>
-> >> To address this, add a validation check at the beginning of the function
-> >> to safely handle cases where skb is NULL or too small. If either condition
-> >> is met, free the skb and return NULL to prevent processing an invalid
-> >> packet.
-> >>
-> >> Reported-by: syzbot+29fc8991b0ecb186cf40@syzkaller.appspotmail.com
-> >> Closes: https://syzkaller.appspot.com/bug?extid=29fc8991b0ecb186cf40
-> >> Tested-by: syzbot+29fc8991b0ecb186cf40@syzkaller.appspotmail.com
-> >> Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
-> >> ---
-> >>   drivers/net/ppp/ppp_synctty.c | 6 ++++++
-> >>   1 file changed, 6 insertions(+)
-> >>
-> >> diff --git a/drivers/net/ppp/ppp_synctty.c b/drivers/net/ppp/ppp_synctty.c
-> >> index 644e99fc3..e537ea3d9 100644
-> >> --- a/drivers/net/ppp/ppp_synctty.c
-> >> +++ b/drivers/net/ppp/ppp_synctty.c
-> >> @@ -506,6 +506,12 @@ ppp_sync_txmunge(struct syncppp *ap, struct sk_buff *skb)
-> >>   	unsigned char *data;
-> >>   	int islcp;
-> >>   
-> >> +	/* Ensure skb is not NULL and has at least 3 bytes */
-> >> +	if (!skb || skb->len < 3) {
-> > 
-> > When is skb NULL ?
-> 
-> skb pointer can be NULL in cases where memory allocation for the socket 
-> buffer fails, or if an upstream function incorrectly passes a NULL 
-> reference due to improper error handling.
+This patch series includes some netns-related improvements and fixes for
+rtnetlink, to make link creation more intuitive:
 
-Which caller passes NULL skb ?
+ 1) Creating link in another net namespace doesn't conflict with link
+    names in current one.
+ 2) Refector rtnetlink link creation. Create link in target namespace
+    directly.
 
-If it's really possible, you'll see null-ptr-deref at
+So that
 
-  data = skb->data;
+  # ip link add netns ns1 link-netns ns2 tun0 type gre ...
 
-below instead of KMSAN's uninit splat.
+will create tun0 in ns1, rather than create it in ns2 and move to ns1.
+And don't conflict with another interface named "tun0" in current netns.
+
+Patch 01 avoids link name conflict in different netns.
+
+To achieve 2), there're mainly 3 steps:
+
+ - Patch 02 packs newlink() parameters into a struct, including
+   the original "src_net" along with more netns context. No semantic
+   changes are introduced.
+ - Patch 03 ~ 09 converts device drivers to use the explicit netns
+   extracted from params.
+ - Patch 10 ~ 11 removes the old netns parameter, and converts
+   rtnetlink to create device in target netns directly.
+
+Patch 12 ~ 13 adds some tests for link name and link netns.
+
+---
+
+BTW please note there're some issues found in current code:
+
+- In amt_newlink() drivers/net/amt.c:
+
+    amt->net = net;
+    ...
+    amt->stream_dev = dev_get_by_index(net, ...
+
+  Uses net, but amt_lookup_upper_dev() only searches in dev_net.
+  So the AMT device may not be properly deleted if it's in a different
+  netns from lower dev.
+
+- In lowpan_newlink() in net/ieee802154/6lowpan/core.c:
+
+    wdev = dev_get_by_index(dev_net(ldev), nla_get_u32(tb[IFLA_LINK]));
+
+  Looks for IFLA_LINK in dev_net, but in theory the ifindex is defined
+  in link netns.
+
+And thanks to Kuniyuki for fixing related issues in gtp and pfcp:
+https://lore.kernel.org/netdev/20250110014754.33847-1-kuniyu@amazon.com/
+
+---
+
+v10:
+ - Move link/peer net helper functions to from patch 02 to 03.
+ - Remove redundant tunnel->net assignment for IPv4 tunnels (patch 05).
+ - Initialize tunnel->net before calling register_netdevice() for IPv6
+   tunnels (patch 07).
+ - Coding style fixes.
+
+v9:
+ link: https://lore.kernel.org/all/20250210133002.883422-1-shaw.leon@gmail.com/
+ - Change the prototype of macvlan_common_newlink().
+ - Minor fixes of coding style and local variables.
+
+v8:
+ link: https://lore.kernel.org/all/20250113143719.7948-1-shaw.leon@gmail.com/
+ - Move dev and ext_ack out from param struct.
+ - Validate link_net and dev_net are identical for 6lowpan.
+
+v7:
+ link: https://lore.kernel.org/all/20250104125732.17335-1-shaw.leon@gmail.com/
+ - Add selftest kconfig.
+ - Remove a duplicated test of ip6gre.
+
+v6:
+ link: https://lore.kernel.org/all/20241218130909.2173-1-shaw.leon@gmail.com/
+ - Split prototype, driver and rtnetlink changes.
+ - Add more tests for link netns.
+ - Fix IPv6 tunnel net overwriten in ndo_init().
+ - Reorder variable declarations.
+ - Exclude a ip_tunnel-specific patch.
+
+v5:
+ link: https://lore.kernel.org/all/20241209140151.231257-1-shaw.leon@gmail.com/
+ - Fix function doc in batman-adv.
+ - Include peer_net in rtnl newlink parameters.
+
+v4:
+ link: https://lore.kernel.org/all/20241118143244.1773-1-shaw.leon@gmail.com/
+ - Pack newlink() parameters to a single struct.
+ - Use ynl async_msg_queue.empty() in selftest.
+
+v3:
+ link: https://lore.kernel.org/all/20241113125715.150201-1-shaw.leon@gmail.com/
+ - Drop "netns_atomic" flag and module parameter. Add netns parameter to
+   newlink() instead, and convert drivers accordingly.
+ - Move python NetNSEnter helper to net selftest lib.
+
+v2:
+ link: https://lore.kernel.org/all/20241107133004.7469-1-shaw.leon@gmail.com/
+ - Check NLM_F_EXCL to ensure only link creation is affected.
+ - Add self tests for link name/ifindex conflict and notifications
+   in different netns.
+ - Changes in dummy driver and ynl in order to add the test case.
+
+v1:
+ link: https://lore.kernel.org/all/20241023023146.372653-1-shaw.leon@gmail.com/
 
 
-> 
-> Additionally, skb->len being less than 3 can occur if the received 
-> packet is truncated or malformed, leading to out-of-bounds memory access 
-> when attempting to read data[2].
-> 
-> > 
-> > 
-> >> +		kfree_skb(skb);
-> >> +		return NULL;
-> >> +	}
-> >> +
-> >>   	data  = skb->data;
-> >>   	proto = get_unaligned_be16(data);
-> >>   
-> >> -- 
-> >> 2.34.1
+Xiao Liang (13):
+  rtnetlink: Lookup device in target netns when creating link
+  rtnetlink: Pack newlink() params into struct
+  net: Use link/peer netns in newlink() of rtnl_link_ops
+  ieee802154: 6lowpan: Validate link netns in newlink() of rtnl_link_ops
+  net: ip_tunnel: Don't set tunnel->net in ip_tunnel_init()
+  net: ip_tunnel: Use link netns in newlink() of rtnl_link_ops
+  net: ipv6: Init tunnel link-netns before registering dev
+  net: ipv6: Use link netns in newlink() of rtnl_link_ops
+  net: xfrm: Use link netns in newlink() of rtnl_link_ops
+  rtnetlink: Remove "net" from newlink params
+  rtnetlink: Create link directly in target net namespace
+  selftests: net: Add python context manager for netns entering
+  selftests: net: Add test cases for link and peer netns
+
+ drivers/infiniband/ulp/ipoib/ipoib_netlink.c  |   9 +-
+ drivers/net/amt.c                             |  11 +-
+ drivers/net/bareudp.c                         |   9 +-
+ drivers/net/bonding/bond_netlink.c            |   6 +-
+ drivers/net/can/dev/netlink.c                 |   4 +-
+ drivers/net/can/vxcan.c                       |   7 +-
+ .../ethernet/qualcomm/rmnet/rmnet_config.c    |   9 +-
+ drivers/net/geneve.c                          |   9 +-
+ drivers/net/gtp.c                             |  10 +-
+ drivers/net/ipvlan/ipvlan.h                   |   3 +-
+ drivers/net/ipvlan/ipvlan_main.c              |   8 +-
+ drivers/net/ipvlan/ipvtap.c                   |   6 +-
+ drivers/net/macsec.c                          |   9 +-
+ drivers/net/macvlan.c                         |  21 +--
+ drivers/net/macvtap.c                         |   6 +-
+ drivers/net/netkit.c                          |  14 +-
+ drivers/net/pfcp.c                            |   9 +-
+ drivers/net/ppp/ppp_generic.c                 |   9 +-
+ drivers/net/team/team_core.c                  |   6 +-
+ drivers/net/veth.c                            |   7 +-
+ drivers/net/vrf.c                             |   5 +-
+ drivers/net/vxlan/vxlan_core.c                |   9 +-
+ drivers/net/wireguard/device.c                |   7 +-
+ drivers/net/wireless/virtual/virt_wifi.c      |   8 +-
+ drivers/net/wwan/wwan_core.c                  |  16 +-
+ include/linux/if_macvlan.h                    |   6 +-
+ include/net/ip_tunnels.h                      |   5 +-
+ include/net/rtnetlink.h                       |  40 ++++-
+ net/8021q/vlan_netlink.c                      |   9 +-
+ net/batman-adv/soft-interface.c               |   9 +-
+ net/bridge/br_netlink.c                       |   6 +-
+ net/caif/chnl_net.c                           |   5 +-
+ net/core/rtnetlink.c                          |  34 +++--
+ net/hsr/hsr_netlink.c                         |  12 +-
+ net/ieee802154/6lowpan/core.c                 |   7 +-
+ net/ipv4/ip_gre.c                             |  22 ++-
+ net/ipv4/ip_tunnel.c                          |   7 +-
+ net/ipv4/ip_vti.c                             |   9 +-
+ net/ipv4/ipip.c                               |   9 +-
+ net/ipv6/ip6_gre.c                            |  26 ++--
+ net/ipv6/ip6_tunnel.c                         |  18 ++-
+ net/ipv6/ip6_vti.c                            |  14 +-
+ net/ipv6/sit.c                                |  20 ++-
+ net/xfrm/xfrm_interface_core.c                |  15 +-
+ tools/testing/selftests/net/Makefile          |   1 +
+ tools/testing/selftests/net/config            |   5 +
+ .../testing/selftests/net/lib/py/__init__.py  |   2 +-
+ tools/testing/selftests/net/lib/py/netns.py   |  18 +++
+ tools/testing/selftests/net/link_netns.py     | 141 ++++++++++++++++++
+ tools/testing/selftests/net/netns-name.sh     |  10 ++
+ 50 files changed, 486 insertions(+), 181 deletions(-)
+ create mode 100755 tools/testing/selftests/net/link_netns.py
+
+-- 
+2.48.1
+
 
