@@ -1,86 +1,98 @@
-Return-Path: <linux-ppp+bounces-254-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-255-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21149A4300F
-	for <lists+linux-ppp@lfdr.de>; Mon, 24 Feb 2025 23:26:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD145A43098
+	for <lists+linux-ppp@lfdr.de>; Tue, 25 Feb 2025 00:20:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1968017AE47
-	for <lists+linux-ppp@lfdr.de>; Mon, 24 Feb 2025 22:26:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 29B883AD3FC
+	for <lists+linux-ppp@lfdr.de>; Mon, 24 Feb 2025 23:20:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34EDB204F85;
-	Mon, 24 Feb 2025 22:26:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D13205AA0;
+	Mon, 24 Feb 2025 23:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oDkB0OAs"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cPmG9K5U"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E60204687;
-	Mon, 24 Feb 2025 22:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35651A9B23
+	for <linux-ppp@vger.kernel.org>; Mon, 24 Feb 2025 23:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740436006; cv=none; b=rVChCcV9xq7NvYnFcn7USHS+b4N7SAoNtq8R3DQm/tz213y7IBudTUM6PHcN/2vAmbvrJ8Pv6g137uSzvCoZLnLfLddCLfujN7eE7qst7jjzFGDDzDaqC7e4OtyVciyPj6RUMV41JQvjgUobtTxuu7FWA/YNe4JVGXnUmlGyxSY=
+	t=1740439234; cv=none; b=ET2oAXWZGxcmJ4yHoQZtSj2N5M9DWyxVS02TfdTtC5eRsjijFv83YfmCMx8WogvlUqikxICLXFvp9ZMF6xfN3VVAUqe0/AupVyU4R7ClbZcEEJNR+qE468Eq1tZtXB01D7f3aJphODgS3IiAFGiYfvfbs9FJPGZ6uV+t/7VG5rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740436006; c=relaxed/simple;
-	bh=QcYkjBOdJxVH7cTUR2mujk8yFO9GgvzVk3JPMLEdJYY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JNiHsMfTi80muNX6i8CYai+jbDLymlRXgB0DI/d/+ZHqt7hmm/QBRk8Za4YW5HR+z45C7wcVW/lopP7RQ72Bg51z2VKcfLEu5LtRpFFf8SFRmox56ctfxFCuWZ6vEqut7aQ5Pq9fknMQR4dIa1ZUYJ9UKf9BQ6DknitjkXKsoGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oDkB0OAs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E195AC4CED6;
-	Mon, 24 Feb 2025 22:26:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740436005;
-	bh=QcYkjBOdJxVH7cTUR2mujk8yFO9GgvzVk3JPMLEdJYY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=oDkB0OAs0nKzmO2rtq1kGyfMOb3Qqw6+x5fFKJhmM5XXmzHb3U09awJj5hIIJ6/6L
-	 dWzeZ4yx3oQJmfv3VN4VxX6tPZFJGyvCgoHFnLx6EQeuhAAw13S8qCivfOf6LkQ+F0
-	 u9isopyZEYfXbejwBRpkLmB4V19EIQxhyndApNOCUtgrrLnk8Tc9LWasW+Q88a9rZC
-	 C6fiBbsvoj3NPOZo7FWodAk/Z2hC1Hiqz1VyGMi4r4f+ZIEwbVSkGYgAv2R/Wg9Qqf
-	 1PJlMpX+MBuXmyThuyOJoSCLezYc16xLq8ibWm/4t1ELDcj1e7iOp4q3ki5CQyzwxx
-	 qB7B3m8sUFOfQ==
-Date: Mon, 24 Feb 2025 14:26:44 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: bpf@vger.kernel.org, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- horms@kernel.org, ricardo@marliere.net, viro@zeniv.linux.org.uk,
- dmantipov@yandex.ru, aleksander.lobakin@intel.com,
- linux-ppp@vger.kernel.org, linux-kernel@vger.kernel.org, mrpre@163.com,
- syzbot+853242d9c9917165d791@syzkaller.appspotmail.com
+	s=arc-20240116; t=1740439234; c=relaxed/simple;
+	bh=uGUg9O93vy9Ev9YHxD1ZTf3zu1QyYOnOMCtepVXiXAI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ACjHdczV93kE7LwvMADvxYFsVAnJgnBWYS+zjExUez1gHF6Td+T+pEgvMSIEZOXVV6oSpLCEiHlivYhRGP/TDBbz4D6vd8pQyLLftJLReG9b5rLRE5ovtCleFOBJVEYOOKgoMiooidEC56j9okEuylH8NKDRISAZcvXosH2hXjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cPmG9K5U; arc=none smtp.client-ip=95.215.58.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Tue, 25 Feb 2025 07:20:08 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1740439219;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oP6m+hZBnp4KsKQ8t0+lMNt2yjlcdxRzvfcGy4QPDpM=;
+	b=cPmG9K5UMJxjtkuR2qk0Dr4TXTOPwwesMnc33S7MaofFPb2KUWwCSIp7jTAvimriAFQko0
+	GjrW6uij3lDOKmUQ5UfEDS3VFxO4gdmlJdf142KZTgD1IB8V0BFrKunKKz6BXRJ4xv8i+3
+	rssCnKMRVANQsNil1iEleQwTjqQHPBU=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: bpf@vger.kernel.org, netdev@vger.kernel.org, andrew+netdev@lunn.ch, 
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com, horms@kernel.org, 
+	ricardo@marliere.net, viro@zeniv.linux.org.uk, dmantipov@yandex.ru, 
+	aleksander.lobakin@intel.com, linux-ppp@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	mrpre@163.com, syzbot+853242d9c9917165d791@syzkaller.appspotmail.com
 Subject: Re: [PATCH net-next v2 1/1] ppp: Fix KMSAN warning by initializing
  2-byte header
-Message-ID: <20250224142644.7c084e9e@kernel.org>
-In-Reply-To: <20250221061219.295590-2-jiayuan.chen@linux.dev>
+Message-ID: <fm6hvchejtwpqp55te7rbiwt6y2pmjywikfdpnfv5ao5otxzm3@yxfem4zhdqkp>
 References: <20250221061219.295590-1-jiayuan.chen@linux.dev>
-	<20250221061219.295590-2-jiayuan.chen@linux.dev>
+ <20250221061219.295590-2-jiayuan.chen@linux.dev>
+ <20250224142644.7c084e9e@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250224142644.7c084e9e@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 21 Feb 2025 14:12:19 +0800 Jiayuan Chen wrote:
-> +		/* Check if we should pass this packet.
-> +		 * BPF filter instructions assume each PPP packet has a 4-byte
-> +		 * header (e.g., those generated by libpcap), and then default
-> +		 * to skipping the first 2 bytes at the beginning of the
-> +		 * instruction. However, we still need to initialize these
-> +		 * 2-byte new headers to prevent crafted BPF programs from
-> +		 * reading them which would cause reading of uninitialized
-> +		 * data. Here, we set the headers according to the RFC 1662.
-> +		 */
-> +		*(u16 *)skb_push(skb, 2) = htons(0xff03);
+On Mon, Feb 24, 2025 at 02:26:44PM -0800, Jakub Kicinski wrote:
+> On Fri, 21 Feb 2025 14:12:19 +0800 Jiayuan Chen wrote:
+> > +		/* Check if we should pass this packet.
+> > +		 * BPF filter instructions assume each PPP packet has a 4-byte
+> > +		 * header (e.g., those generated by libpcap), and then default
+> > +		 * to skipping the first 2 bytes at the beginning of the
+> > +		 * instruction. However, we still need to initialize these
+> > +		 * 2-byte new headers to prevent crafted BPF programs from
+> > +		 * reading them which would cause reading of uninitialized
+> > +		 * data. Here, we set the headers according to the RFC 1662.
+> > +		 */
+> > +		*(u16 *)skb_push(skb, 2) = htons(0xff03);
+> 
+> The constant from the RFC deserves a #define or enum.
+> Looks like we may already need it in one other place:
+> 
+> drivers/net/wan/fsl_ucc_hdlc.h:#define DEFAULT_PPP_HEAD    0xff03
+> -- 
+> pw-bot: cr
+Hi Jakub,
 
-The constant from the RFC deserves a #define or enum.
-Looks like we may already need it in one other place:
+I apologize for the mistake, I've investigated the original maintainer's
+user-space PPP implementation and libpcap's behavior, and found that
+initializing the first byte to 0 or 1 is necessary, it indicates
+direction, which is used in libpcap to distinguish between inbound and
+outbound traffic.
+For more details, please refer to the cover letter of my v3 patch.
 
-drivers/net/wan/fsl_ucc_hdlc.h:#define DEFAULT_PPP_HEAD    0xff03
--- 
-pw-bot: cr
+https://lore.kernel.org/linux-ppp/20250222092556.274267-1-jiayuan.chen@linux.dev/T/#t
 
