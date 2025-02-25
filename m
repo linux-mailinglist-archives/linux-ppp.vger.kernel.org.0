@@ -1,98 +1,150 @@
-Return-Path: <linux-ppp+bounces-259-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-261-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCCE4A4398C
-	for <lists+linux-ppp@lfdr.de>; Tue, 25 Feb 2025 10:33:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C47A44358
+	for <lists+linux-ppp@lfdr.de>; Tue, 25 Feb 2025 15:46:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3B73E7A4E52
-	for <lists+linux-ppp@lfdr.de>; Tue, 25 Feb 2025 09:32:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C8D63B2120
+	for <lists+linux-ppp@lfdr.de>; Tue, 25 Feb 2025 14:42:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA91E260A3A;
-	Tue, 25 Feb 2025 09:32:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C204A26B0BC;
+	Tue, 25 Feb 2025 14:40:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WTg4IHMt"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="O/xgNeZU"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FDB25A2D4;
-	Tue, 25 Feb 2025 09:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844D3271272
+	for <linux-ppp@vger.kernel.org>; Tue, 25 Feb 2025 14:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740475975; cv=none; b=uucsJGPmPxMLsqSooFfzSa+gGodm0o6v/Bf7DmK3ujS6Ez9MYEzDC3Mv/ogXBrCNhnugrgp1OaKIMN1sZQMpSpQZ2hZXrK/uz1NWP2pNDAQokhX6BCnfqofBsLcYJluillEfcmhj1MusEO3EXqvaMt+WS+eb5CgersiGUyuBlcs=
+	t=1740494429; cv=none; b=IJTf3Y5nb1XX727+NyFhxw6puyJUj0+9TeLO7LyEKskzS/c7HCB54uhYjAkS1t1eZpcTHyJYyBVl0Q6GQZ3hWp/bULGDB2Q0/ZrHWLe0pBhlDMhGbkn/GjspUN9VAJcrnexkrw35nwpv3xPLSqNxy6H2RQwHRBxakwfzrMApMwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740475975; c=relaxed/simple;
-	bh=3vyiDv0/EKdVyd0wOgOhy6MPHW+txdIZfyH6UME8zuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ce7k2/nAhyZJ+DG7lQQvo7TZNS5r7oAa0gczATR/FVKtZ7LCMYMJHXL1PhUsrTKTOrPNlgF2qKODCS5FG0ZYzceg6RjcXy/avWLVTTQx420WFRJRWY4UfcC3EyaUb9NaKKz3E1dHHakG1ewgpKzrt5CxUKr2ETHTxs3bcublbxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WTg4IHMt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E76A3C4CEDD;
-	Tue, 25 Feb 2025 09:32:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740475974;
-	bh=3vyiDv0/EKdVyd0wOgOhy6MPHW+txdIZfyH6UME8zuk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WTg4IHMtfkQSENr4GaeEwK1qPGxq3SFQ/VcVeBODoOfGifDu6oqkyV4sRbbvwI+CV
-	 sptFLJvB0E3/pfZAnyYHQKelDBdRO7dzUW7ZRYTDOgznpfLguKeM+JRWMkRR6vTOQG
-	 cIyLDMlmUdvK4Pg+4rVk2oQposlfnB+dOk4bfxmelSbJ6PnOsZWekKemFedP6KQieN
-	 Np8OyE/kBmXxWeFMy2K26KTCQRBKi7jK5EIRyPvXM+n+VqKBRMowy0uKsTxNT3HvEZ
-	 fYZWGRU79xZceC46eUNXrbiobrgXENzeq1WagvLjarHei4cq2jXBEMKTTZjEBD/h8M
-	 lEn2j9rVap0lA==
-Date: Tue, 25 Feb 2025 09:32:49 +0000
-From: Simon Horman <horms@kernel.org>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: Jakub Kicinski <kuba@kernel.org>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, pabeni@redhat.com, ricardo@marliere.net,
-	viro@zeniv.linux.org.uk, dmantipov@yandex.ru,
-	aleksander.lobakin@intel.com, linux-ppp@vger.kernel.org,
-	linux-kernel@vger.kernel.org, mrpre@163.com,
-	syzbot+853242d9c9917165d791@syzkaller.appspotmail.com
-Subject: Re: [PATCH net-next v1 1/1] ppp: Fix KMSAN warning by initializing
- 2-byte header
-Message-ID: <20250225093249.GI1615191@kernel.org>
-References: <20250218133145.265313-1-jiayuan.chen@linux.dev>
- <20250218133145.265313-2-jiayuan.chen@linux.dev>
- <20250220152703.619bf1c9@kernel.org>
- <rqdpj4pdxkiad7amqp7qzsrdtgy3i5beqpz7gsrjy4dwkmwg2x@3bsn7svbawic>
+	s=arc-20240116; t=1740494429; c=relaxed/simple;
+	bh=Gcu0/y2YMP2LlNhJAtEESlhx/D3SReNbDRxbsrVxZnM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qSVi+u9UDPT1YSDuyUmO7zcWrLGwWyD16NHzAGM0EHn+i+/Yw/ZIKCh/iKiugQ4skINCe/k4yS2UjHDHaUtcp3XMDSDY84LvA0aPyc3+jLy+puluzsGAXrFkG0zyVFsqmSDOAaIVv/G+DEiPAVILo6Fmf8M1PsnTgHR0tamKrFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=O/xgNeZU; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1740494415;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=RLRUQ6K3ZxrvBuZuKZAonhzQHThtxFHbpTnpSZBjIXA=;
+	b=O/xgNeZU7zk6zS7kTLRt0naInEXik3C/Jeirb8KGy2+4zmAONIGQJAXkW1OLlKpAGI9LVJ
+	/HBQmNyVhxSpxfKe3kk0YTr/L7SvFijVqO2uGQ29nrDGKr6ebZmLFylSpVoIkay66mSfA9
+	1o4QNWsBxZ2ieE1FJYnin6QLGnP6eUs=
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: horms@kernel.org,
+	kuba@kernel.org
+Cc: bpf@vger.kernel.org,
+	netdev@vger.kernel.org,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	ricardo@marliere.net,
+	viro@zeniv.linux.org.uk,
+	dmantipov@yandex.ru,
+	aleksander.lobakin@intel.com,
+	linux-ppp@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mrpre@163.com,
+	Jiayuan Chen <jiayuan.chen@linux.dev>,
+	Paul Mackerras <paulus@samba.org>
+Subject: [PATCH net-next 0/1] ppp: Fix KMSAN uninit-value warning with bpf
+Date: Tue, 25 Feb 2025 22:40:03 +0800
+Message-ID: <20250225144004.277169-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <rqdpj4pdxkiad7amqp7qzsrdtgy3i5beqpz7gsrjy4dwkmwg2x@3bsn7svbawic>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Feb 21, 2025 at 09:48:33AM +0800, Jiayuan Chen wrote:
-> On Thu, Feb 20, 2025 at 03:27:03PM -0800, Jakub Kicinski wrote:
-> > On Tue, 18 Feb 2025 21:31:44 +0800 Jiayuan Chen wrote:
-> > > -		*(u8 *)skb_push(skb, 2) = 1;
-> > > +		*(u16 *)skb_push(skb, 2) = 1;
-> > 
-> > This will write the 1 to a different byte now, on big endian machines.
-> > Probably doesn't matter but I doubt it's intentional?
-> > -- 
-> > pw-bot: cr
-> You are correct that I assigned the value in a way that produces different
-> data on big-endian and little-endian systems, although it doesn't cause
-> any issues.
-> I think it's better to assign it correctly according to the corresponding
-> header and add more comments to avoid confusion for other developers in
-> the future.
+Syzbot caught an "KMSAN: uninit-value" warning [1], which is caused by the
+ppp driver not initializing a 2-byte header when using socket filters.
 
-I agree correctness is good.
+Here's a detailed explanation:
 
-Perhaps I am over-thinking things, but does the following approach
-achieve both of the following?
+The following code can generate a PPP filter BPF program:
+'''
+struct bpf_program fp;
+pcap_t *handle;
+handle = pcap_open_dead(DLT_PPP_PPPD, 65535);
+pcap_compile(handle, &fp, "ip and outbound", 0, 0);
+bpf_dump(&fp, 1);
+'''
+Its output is:
+'''
+(000) ldh [2]
+(001) jeq #0x21 jt 2 jf 5
+(002) ldb [0]
+(003) jeq #0x1 jt 4 jf 5
+(004) ret #65535
+(005) ret #0
+'''
 
-a) Initialise both bytes.
-b) Place the 1 consistently on both big and little endian hosts,
-   as is the case without this patch (which I assume is correct).
+wen can find similar code at the following link:
+https://github.com/ppp-project/ppp/blob/master/pppd/options.c#L1680
+The maintainer of this code repository is also the original maintainer
+of the ppp driver.
 
-	*(__be16 *)skb_push(skb, 2) = cpu_to_be16(1);
+
+3. Current problem
+The problem is that the skb->data generated by ppp_write() starts from the
+'Protocol' field.
+
+But the BPF program skips 2 bytes of data and then reads the 'Protocol'
+field to determine if it's an IP packet just like the comment in
+'drivers/net/ppp/ppp_generic.c':
+/* the filter instructions are constructed assuming
+   a four-byte PPP header on each packet */
+
+In the current PPP driver implementation, to correctly use the BPF filter
+program, a 2-byte header is added, after running the socket filter, it's
+restored:
+'''
+1768 *(u8 *)skb_push(skb, 2) = 1;
+1770 bpf_prog_run()
+1782 skb_pull(skb, 2);
+'''
+
+The issue is that only the first byte indicating direction is initialized,
+while the second byte is not initialized. For normal BPF programs
+generated by libpcap, uninitialized data won't be used, so it's not a
+problem.
+
+However, for carefully crafted BPF programs, such as those generated by
+syzkaller [2], which start reading from offset 0, the uninitialized data
+will be used and caught by KMSAN.
+
+4. Fix
+The fix is simple: initialize the entire 2-byte header.
+
+Cc: Paul Mackerras <paulus@samba.org>
+
+[1] https://syzkaller.appspot.com/bug?extid=853242d9c9917165d791
+[2] https://syzkaller.appspot.com/text?tag=ReproC&x=11994913980000
+
+---
+v3 -> v4: Use macro instead.
+
+Jiayuan Chen (1):
+  ppp: Fix KMSAN warning by initializing 2-byte header
+
+ drivers/net/ppp/ppp_generic.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+-- 
+2.47.1
+
 
