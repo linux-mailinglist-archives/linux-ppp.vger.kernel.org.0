@@ -1,70 +1,78 @@
-Return-Path: <linux-ppp+bounces-277-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-278-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C42EFA4E50D
-	for <lists+linux-ppp@lfdr.de>; Tue,  4 Mar 2025 17:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1810A4F342
+	for <lists+linux-ppp@lfdr.de>; Wed,  5 Mar 2025 02:10:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5447217A7D1
-	for <lists+linux-ppp@lfdr.de>; Tue,  4 Mar 2025 16:01:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 08E1816F34E
+	for <lists+linux-ppp@lfdr.de>; Wed,  5 Mar 2025 01:10:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D93128F94B;
-	Tue,  4 Mar 2025 15:42:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA8E184A35;
+	Wed,  5 Mar 2025 01:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mM6ty0yc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="skucHruF"
 X-Original-To: linux-ppp@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DBE28F94A;
-	Tue,  4 Mar 2025 15:42:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55A45228;
+	Wed,  5 Mar 2025 01:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741102962; cv=none; b=UqwagCLRSCjC0joRrzztU8wNt2O9fGPvayHFaKthqVj2ZNMm0Tph2n8u7rj/LObjGLlb9soYjhDlOyLJpO2ceUlZ90UikTMg9Edx+byUmSx94zdQ2qQJbipkKPbRuKHIsAncHee8eqrVP4Z8961XopoRmnr1QR2Elj9W5Bw9g88=
+	t=1741136999; cv=none; b=dNHHCRQAqm+yCUgLyUjncsJ6KwLHz0yR66+uyHfLagCiYSdGN47MxIv+/4CL0m7wD2WfGjRA9OM4yrrRZWKaJ8Vz3pqir19XW74b/WMhPn0tKF920hbbwLixUdLQHCaARNzYb0/JIsnX98HeL2hPExCUEzavgg3WhJDtQiMCo5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741102962; c=relaxed/simple;
-	bh=54cw3ZsEsDqGaWMwifys1UxImGLZAucBvesS78YvsZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YkRz9SrFBjXbekxrWjXsUJS3v20Lo1Puy+aoMkIOHvv87XRaHG9PYsD+oCFgovqtfQWzlR7vm53FPxpW6+RzEuYKocGGz7HmWhY/L6R7/z27JYguLAKstVJdJN0IIWYl9B5OQSI0tufMSj//J4AR2evU49y3xm0hQKJIv4dQhkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mM6ty0yc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 876A3C4CEE5;
-	Tue,  4 Mar 2025 15:42:38 +0000 (UTC)
+	s=arc-20240116; t=1741136999; c=relaxed/simple;
+	bh=oRu4ENvt5IO9ShjHhUpiGMnLQIYnQAofJB58ttqXE7c=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=t2A77PI5TyJ0G0/gnX6Llj1el362DMfxTzlMgICeZvvx+QHT11LpXOpS7vE8THY/a5fokED9WNJ08CMquD9wY2tz6RcWREnC054mLS1U9hjmvpuV8kasg1p9emyC6vUUAXfKkx2/cuywUTbE6dTHxbCzj0dRwiy1v8ybsf8xuRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=skucHruF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 064E0C4CEE5;
+	Wed,  5 Mar 2025 01:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741102961;
-	bh=54cw3ZsEsDqGaWMwifys1UxImGLZAucBvesS78YvsZc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mM6ty0ycLjzDp5PBT5OUCIgMNa0sVGhucEz2xIftlfLjEbpsrB9SusnLojl6Mf3C8
-	 3mljRiSznlb9s6f9Dviq5oXD+21DG21o/uq0EsZIvFDmbAKb/PMCFdRlDIatBGJLkj
-	 kz91wnm0ybBJ10uYVD+Hi6iJ7w8wGNP8HqCrwyi0/d+B2vE+zjDvbdJk24I5JQ8gyh
-	 sC8xFqudDB35xlJA7leYqQMTOyVSgIPdr4wx1Ex48DN3ZW/mOFF36EHPlkcBU6AeEK
-	 LDj/UFxguLHGfrfUwNJHU6j9MlawV5d+PRjmRSg/oD/19F/91tBWd6wqJvCnJiyhOu
-	 qGEaKFu0g61Kg==
-Date: Tue, 4 Mar 2025 15:42:36 +0000
-From: Simon Horman <horms@kernel.org>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: kuba@kernel.org, bpf@vger.kernel.org, netdev@vger.kernel.org,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	pabeni@redhat.com, ricardo@marliere.net, viro@zeniv.linux.org.uk,
-	dmantipov@yandex.ru, aleksander.lobakin@intel.com,
-	linux-ppp@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mrpre@163.com, Paul Mackerras <paulus@samba.org>,
-	syzbot+853242d9c9917165d791@syzkaller.appspotmail.com
-Subject: Re: [PATCH net-next v5] ppp: Fix KMSAN uninit-value warning with bpf
-Message-ID: <20250304154236.GE3666230@kernel.org>
-References: <20250228141408.393864-1-jiayuan.chen@linux.dev>
+	s=k20201202; t=1741136999;
+	bh=oRu4ENvt5IO9ShjHhUpiGMnLQIYnQAofJB58ttqXE7c=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=skucHruF5uipXBnKaegjV66QTN65SNZJ7h+UT9MiCm7WhrRpQ89Yd9VxH/lSiKG2o
+	 +Ap6hL3tyJ8Zb0bec9HG9WwKoqkmnzda6J096DadF9VTfjeXLctyIe1wHzaTyUibxD
+	 SJHmaDtuTBux0bVwxRe1sOcsFvTRnCKHYbSHEDYvmWq9TbM+eoKx72Taq7VZx+/jFf
+	 k+8qUo9P+yZdtc8tuz58/VXRn/K/s7npgHmMolkoGxBo0UgvMz1ADOJBHyd/CIJ8E8
+	 wPA/aHw6xxhIRT+Q/KNVwPlXJPmCuKPKBpq1uO5Rux1ZZFH4uTCH4WmU20cx4tBxhk
+	 wau7SjCLTTv2w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33C89380CFEB;
+	Wed,  5 Mar 2025 01:10:33 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v5] ppp: Fix KMSAN uninit-value warning with bpf
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <174113703200.354590.6042068788472875055.git-patchwork-notify@kernel.org>
+Date: Wed, 05 Mar 2025 01:10:32 +0000
+References: <20250228141408.393864-1-jiayuan.chen@linux.dev>
 In-Reply-To: <20250228141408.393864-1-jiayuan.chen@linux.dev>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: horms@kernel.org, kuba@kernel.org, bpf@vger.kernel.org,
+ netdev@vger.kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, ricardo@marliere.net,
+ viro@zeniv.linux.org.uk, dmantipov@yandex.ru, aleksander.lobakin@intel.com,
+ linux-ppp@vger.kernel.org, linux-kernel@vger.kernel.org, mrpre@163.com,
+ paulus@samba.org, syzbot+853242d9c9917165d791@syzkaller.appspotmail.com
 
-On Fri, Feb 28, 2025 at 10:14:08PM +0800, Jiayuan Chen wrote:
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Fri, 28 Feb 2025 22:14:08 +0800 you wrote:
 > Syzbot caught an "KMSAN: uninit-value" warning [1], which is caused by the
 > ppp driver not initializing a 2-byte header when using socket filter.
 > 
@@ -90,27 +98,16 @@ On Fri, Feb 28, 2025 at 10:14:08PM +0800, Jiayuan Chen wrote:
 > The maintainer of this code repository is also the original maintainer
 > of the ppp driver.
 > 
-> As you can see the BPF program skips 2 bytes of data and then reads the
-> 'Protocol' field to determine if it's an IP packet. Then it read the first
-> byte of the first 2 bytes to determine the direction.
-> 
-> The issue is that only the first byte indicating direction is initialized
-> in current ppp driver code while the second byte is not initialized.
-> 
-> For normal BPF programs generated by libpcap, uninitialized data won't be
-> used, so it's not a problem. However, for carefully crafted BPF programs,
-> such as those generated by syzkaller [2], which start reading from offset
-> 0, the uninitialized data will be used and caught by KMSAN.
-> 
-> [1] https://syzkaller.appspot.com/bug?extid=853242d9c9917165d791
-> [2] https://syzkaller.appspot.com/text?tag=ReproC&x=11994913980000
-> 
-> Cc: Paul Mackerras <paulus@samba.org>
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Reported-by: syzbot+853242d9c9917165d791@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/bpf/000000000000dea025060d6bc3bc@google.com/
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+> [...]
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+Here is the summary with links:
+  - [net-next,v5] ppp: Fix KMSAN uninit-value warning with bpf
+    https://git.kernel.org/netdev/net/c/4c2d14c40a68
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
