@@ -1,175 +1,217 @@
-Return-Path: <linux-ppp+bounces-293-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-294-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22193ABAC27
-	for <lists+linux-ppp@lfdr.de>; Sat, 17 May 2025 21:48:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CCA3AC7AEE
+	for <lists+linux-ppp@lfdr.de>; Thu, 29 May 2025 11:21:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1C59C189CEBC
-	for <lists+linux-ppp@lfdr.de>; Sat, 17 May 2025 19:49:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 00C5F3B030D
+	for <lists+linux-ppp@lfdr.de>; Thu, 29 May 2025 09:21:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAA3C1ADFE4;
-	Sat, 17 May 2025 19:48:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54D0221CA0E;
+	Thu, 29 May 2025 09:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g+N9N7HY"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60EA94B1E77;
-	Sat, 17 May 2025 19:48:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DF0A55;
+	Thu, 29 May 2025 09:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747511333; cv=none; b=oTV2G+aAbAF6KTa4S1qriCTfkGHICQVt1gYt0/cu2hINJSFNPgAmH91RF27WbpBFTQWqyo3pZ9zvzG3IUwQzehtVJVQkdsqzyf1/xM4ln29jtyev2d44L4Ty6rb3jcAs0Zf6WdK7cMhzTjBGOK+oeMUlshEvhWKTg6fA7hcBZjQ=
+	t=1748510478; cv=none; b=gWv+OVOGA/GMCVa/ZUgRp5VtV6AIJn3E8Zng+4RLx3ABUYg7EgpBJ/d/4CIwvymHBSBUrSvuYufhZkb5+lwL3kjey3GvCTVk7r6NXssVcgXpkLPLzEuOpmk+6LubQd6FRQxd1xtKcZ8qO1bvjW02Z8zm7g33eoC+u/9396Zk91M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747511333; c=relaxed/simple;
-	bh=Z6YzL1H0GBfu9PDaQyBtiwbNQT74oezkvmWLO1FNaPI=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=IHIlPmydioKkEaRnYMEW3ylAx/36MSMYG29B7WUANVwshyJCc/HUGY2XNQSMMr+if4Os7DI97DmfPzeGU7yupNH59oraNu+tnBGAYUPCwj/GorbvsBxXmM33DytP0B4n13cctIRXdjJUdgPZg8WK3PktSn0Fj65AG0tIoRb9IZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from [192.168.2.107] (p57bd9f10.dip0.t-ipconnect.de [87.189.159.16])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 5E3C7601D7139;
-	Sat, 17 May 2025 21:48:40 +0200 (CEST)
-Message-ID: <536c7c6e-a802-48f7-8b31-002b1aa14ac4@molgen.mpg.de>
-Date: Sat, 17 May 2025 21:48:39 +0200
+	s=arc-20240116; t=1748510478; c=relaxed/simple;
+	bh=W0yFPNzghD/m0qo6z45ZC+KVhcSO5Hmul2+Wqtljfgg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=PQQ+z/DaoaLarjwhPszb3nnTes1RSH3AYMOKY/UDyEH8zx0U0xGoKyvOYtnyVFEDK7nKXCbBxHP2uI/TxUc7sDZ76CFEjZ+1wdlOf/3fSCumocMVxcXpFA+Lui1lR42rrRjTEQaNq+gTD/b9r3Kb/7RaFjc8rXoEIc1gn136Jgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g+N9N7HY; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2351227b098so1322835ad.2;
+        Thu, 29 May 2025 02:21:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748510474; x=1749115274; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Djk6LW+XO5QLh/AdYQk9jVpJ0pUwmyCcPNNU/gRWDR8=;
+        b=g+N9N7HYdlqNQxQfFNUUiP6NZXG50gxucLXJqY63dINwSd6urXGFT5x8IMpzZnVfSD
+         +ro5Ql8aST8nivN09slQqtksvQQHzwltSNYN4fiRtRyYbjcFGwDhKLN5exeB3hlEh6rE
+         dfZVihsrr1y17i+lhAdSnCc/DyxUd1fFiWkmV55tpjIzLEOj8OiL9YYleoQrGiFXKQpe
+         Y8ne9jMgE+ADjfzhvJkJj1dToQYOEG5LEARxsY1xzQotaoN094J3ado3PImH5wsTfOQy
+         vEwQJJyxaJQMmV/jv+g/nI57Qncd6xkP0zolVq/COdv/TJvqKgswnEjFk99/EeD/e/dO
+         j/sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748510474; x=1749115274;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Djk6LW+XO5QLh/AdYQk9jVpJ0pUwmyCcPNNU/gRWDR8=;
+        b=bvGwjwGcwwmPoN9G0upnLnb+zxwi8O/+xEqIFUFbZjaA+SMvjGcJU6nzbJ526QedUw
+         qwTblIrSdLXg7h3zTSFELzvWX+xeEAtwjYcqPhqi3ZQtykbdhhittFhR2WK6y8f7Yra2
+         gxilCzWydPOqVf8hXl4x3C5Wk98SM0fC+/wlgD2DeJKZhaZt2VDJR7ZuTbNWnQ83lELv
+         4kS2WEBQx2PPFrN3Td86ZeELn7H19ukY4gl3fhXqCnmp/+xe4U1est1Cl7k6Vm/F1qHM
+         yJC7ZkUGoIK0AtRwZzi86PTuehkefeR3HRQQa7LnOu+SO7b4/LsUVLbQVggT0CdEFJFz
+         oRyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVXtX80vv9ptekH06Q2Tx8YwNEz7pW4KuYvForjBZVfAxJX3YMP+gIey5qe189RLznZN94sqZvrfjRm22U=@vger.kernel.org, AJvYcCWSdUFuZZqLvMJmzw7j09lY0+8E5R34aGLSNR/+/2POuGE8IthI3yLADtbtj56R3AtQYLCRHe85Nho5@vger.kernel.org, AJvYcCXvgnBcAqyqtyGorqgiIKKEFmiR1Nx3FN8XHyhvlPhYASdclf3hw6eAR2S9YjLrhpTYXVVS17bb@vger.kernel.org
+X-Gm-Message-State: AOJu0YxT10ABwQV+pIzLhh4ke/5X5kUlQAoDS+lK3/ZicMcNu+SzyPYS
+	A29hOwlkJ+Gx6os3zRLzO7sLLaQgIK1cmLU+YkWGMhe3oGY9SRt0MHIYEZlLg5HH
+X-Gm-Gg: ASbGncte5IxImMVwfmDYzBVzCYTqTYR+ZsfUwll2r4iYzkdX+rDUHe0pHhBo0OHWkRh
+	7Vo2ylJSde967DRE4aHUtO+CTbg5SfUuy7TV7jJl3btBREneMIAXr8taA2NHR7+frE+VCxKZLf2
+	hPqWeYdSeue4chZs6dScFRXB/23VLPwqS3pYjFNxQGQmgr51DrVhLzlycyHzWsJCko02vL4i+IB
+	uYNnek8YFw21hie833EgCD0UYKFPNcr6kSUIlmI6NwszGSHIElc9b9zScwIXwfyrbJHymkpPFAr
+	DXxsUDoFKHvYmHN9In6iP3+qTXHDGdWtXTtecsxSoRwK
+X-Google-Smtp-Source: AGHT+IEZAUO3tp5oDgeovkd9SC7gidqYnhtj88gpaWIQvUE4IfAzWCtycTZiA3Z/G1IQ/VEy1VCQUg==
+X-Received: by 2002:a17:903:32cd:b0:235:779:edf0 with SMTP id d9443c01a7336-2350779f25amr22782445ad.50.1748510473960;
+        Thu, 29 May 2025 02:21:13 -0700 (PDT)
+Received: from gmail.com ([116.237.135.88])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23506d19bfesm8425835ad.253.2025.05.29.02.21.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 May 2025 02:21:13 -0700 (PDT)
+From: Qingfang Deng <dqfext@gmail.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-ppp@vger.kernel.org
+Subject: [PATCH net-next] ppp: convert to percpu netstats
+Date: Thu, 29 May 2025 17:21:08 +0800
+Message-ID: <20250529092109.2303441-1-dqfext@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-Subject: ppp0: recursion detected
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Dear Linux folks,
+Convert to percpu netstats avoid lock contention when reading netstats.
 
+Signed-off-by: Qingfang Deng <dqfext@gmail.com>
+---
+ drivers/net/ppp/ppp_generic.c | 52 +++++++++++++----------------------
+ 1 file changed, 19 insertions(+), 33 deletions(-)
 
-In my logs September 23rd, 2024 up to now, I detected that with 
-6.15-rc1, Linux logs the error:
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index a27357bd674e..330c0cd89c15 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -107,18 +107,6 @@ struct ppp_file {
+ #define PF_TO_PPP(pf)		PF_TO_X(pf, struct ppp)
+ #define PF_TO_CHANNEL(pf)	PF_TO_X(pf, struct channel)
+ 
+-/*
+- * Data structure to hold primary network stats for which
+- * we want to use 64 bit storage.  Other network stats
+- * are stored in dev->stats of the ppp strucute.
+- */
+-struct ppp_link_stats {
+-	u64 rx_packets;
+-	u64 tx_packets;
+-	u64 rx_bytes;
+-	u64 tx_bytes;
+-};
+-
+ /*
+  * Data structure describing one ppp unit.
+  * A ppp unit corresponds to a ppp network interface device
+@@ -162,7 +150,6 @@ struct ppp {
+ 	struct bpf_prog *active_filter; /* filter for pkts to reset idle */
+ #endif /* CONFIG_PPP_FILTER */
+ 	struct net	*ppp_net;	/* the net we belong to */
+-	struct ppp_link_stats stats64;	/* 64 bit network stats */
+ };
+ 
+ /*
+@@ -1539,23 +1526,12 @@ ppp_net_siocdevprivate(struct net_device *dev, struct ifreq *ifr,
+ static void
+ ppp_get_stats64(struct net_device *dev, struct rtnl_link_stats64 *stats64)
+ {
+-	struct ppp *ppp = netdev_priv(dev);
+-
+-	ppp_recv_lock(ppp);
+-	stats64->rx_packets = ppp->stats64.rx_packets;
+-	stats64->rx_bytes   = ppp->stats64.rx_bytes;
+-	ppp_recv_unlock(ppp);
+-
+-	ppp_xmit_lock(ppp);
+-	stats64->tx_packets = ppp->stats64.tx_packets;
+-	stats64->tx_bytes   = ppp->stats64.tx_bytes;
+-	ppp_xmit_unlock(ppp);
+-
+ 	stats64->rx_errors        = dev->stats.rx_errors;
+ 	stats64->tx_errors        = dev->stats.tx_errors;
+ 	stats64->rx_dropped       = dev->stats.rx_dropped;
+ 	stats64->tx_dropped       = dev->stats.tx_dropped;
+ 	stats64->rx_length_errors = dev->stats.rx_length_errors;
++	dev_fetch_sw_netstats(stats64, dev->tstats);
+ }
+ 
+ static int ppp_dev_init(struct net_device *dev)
+@@ -1650,6 +1626,7 @@ static void ppp_setup(struct net_device *dev)
+ 	dev->type = ARPHRD_PPP;
+ 	dev->flags = IFF_POINTOPOINT | IFF_NOARP | IFF_MULTICAST;
+ 	dev->priv_destructor = ppp_dev_priv_destructor;
++	dev->pcpu_stat_type = NETDEV_PCPU_STAT_TSTATS;
+ 	netif_keep_dst(dev);
+ }
+ 
+@@ -1796,8 +1773,7 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
+ #endif /* CONFIG_PPP_FILTER */
+ 	}
+ 
+-	++ppp->stats64.tx_packets;
+-	ppp->stats64.tx_bytes += skb->len - PPP_PROTO_LEN;
++	dev_sw_netstats_tx_add(ppp->dev, 1, skb->len - PPP_PROTO_LEN);
+ 
+ 	switch (proto) {
+ 	case PPP_IP:
+@@ -2474,8 +2450,7 @@ ppp_receive_nonmp_frame(struct ppp *ppp, struct sk_buff *skb)
+ 		break;
+ 	}
+ 
+-	++ppp->stats64.rx_packets;
+-	ppp->stats64.rx_bytes += skb->len - 2;
++	dev_sw_netstats_rx_add(ppp->dev, skb->len - PPP_PROTO_LEN);
+ 
+ 	npi = proto_to_npindex(proto);
+ 	if (npi < 0) {
+@@ -3303,14 +3278,25 @@ static void
+ ppp_get_stats(struct ppp *ppp, struct ppp_stats *st)
+ {
+ 	struct slcompress *vj = ppp->vj;
++	int cpu;
+ 
+ 	memset(st, 0, sizeof(*st));
+-	st->p.ppp_ipackets = ppp->stats64.rx_packets;
++	for_each_possible_cpu(cpu) {
++		struct pcpu_sw_netstats *p = per_cpu_ptr(ppp->dev->tstats, cpu);
++		u64 rx_packets, rx_bytes, tx_packets, tx_bytes;
++
++		rx_packets = u64_stats_read(&p->rx_packets);
++		rx_bytes = u64_stats_read(&p->rx_bytes);
++		tx_packets = u64_stats_read(&p->tx_packets);
++		tx_bytes = u64_stats_read(&p->tx_bytes);
++
++		st->p.ppp_ipackets += rx_packets;
++		st->p.ppp_ibytes += rx_bytes;
++		st->p.ppp_opackets += tx_packets;
++		st->p.ppp_obytes += tx_bytes;
++	}
+ 	st->p.ppp_ierrors = ppp->dev->stats.rx_errors;
+-	st->p.ppp_ibytes = ppp->stats64.rx_bytes;
+-	st->p.ppp_opackets = ppp->stats64.tx_packets;
+ 	st->p.ppp_oerrors = ppp->dev->stats.tx_errors;
+-	st->p.ppp_obytes = ppp->stats64.tx_bytes;
+ 	if (!vj)
+ 		return;
+ 	st->vj.vjs_packets = vj->sls_o_compressed + vj->sls_o_uncompressed;
+-- 
+2.43.0
 
-     ppp0: recursion detected
-
-and pppd logs:
-
-     Couldn't set PPP MRU: Transport endpoint is not connected
-
-Unfortunately, I do not know how to reproduce it. Starting the VPN and 
-stopping it, didn’t tricker it.
-
-
-Kind regards,
-
-Paul
-
-
-$ journalctl -o short-precise
-[…]
-Apr 13 13:08:06.524838 abreu kernel: Linux version 
-6.15.0-rc1-00325-g7cdabafc0012 (build@bohemianrhapsody.molgen.mpg.de) 
-(gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44) 
-#24 SMP PREEMPT_DYNAMIC Sun Apr 13 07:33:10 CEST 2025
-Apr 13 13:08:06.524877 abreu kernel: Command line: 
-BOOT_IMAGE=/vmlinuz-6.15.0-rc1-00325-g7cdabafc0012 
-root=UUID=32e29882-d94d-4a92-9ee4-4d03002bfa29 ro quiet pci=noaer 
-mem_sleep_default=deep log_buf_len=16M cryptomgr.notests
-[…]
-Apr 14 16:11:08.585722 abreu systemd[1]: Started 
-NetworkManager-dispatcher.service - Network Manager Script Dispatcher 
-Service.
-Apr 14 16:11:08.587011 abreu NetworkManager[750]: <info> 
-[1744639868.5869] policy: set 'Kabelgebundene Verbindung 1' 
-(enx00e04cf4ead4) as default for IPv4 routing and DNS
-Apr 14 16:11:08.599155 abreu NetworkManager[493654]: xl2tpd[493654]: 
-death_handler: Fatal signal 15 received
-Apr 14 16:11:08.599155 abreu NetworkManager[493654]: xl2tpd[493654]: 
-Terminating pppd: sending TERM signal to pid 493659
-Apr 14 16:11:08.599155 abreu NetworkManager[493654]: xl2tpd[493654]: 
-Connection 1 closed to 141.14.220.175, port 1701 (Server closing)
-Apr 14 16:11:08.599616 abreu pppd[493659]: Terminating on signal 15
-Apr 14 16:11:08.600343 abreu pppd[493659]: Connect time 6.7 minutes.
-Apr 14 16:11:08.600370 abreu pppd[493659]: Sent 1735197 bytes, received 
-56173839 bytes.
-Apr 14 16:11:08.601538 abreu charon[493547]: 15[KNL] 141.14.14.90 
-disappeared from ppp0
-Apr 14 16:11:08.601673 abreu charon[493547]: 16[KNL] interface ppp0 
-deactivated
-Apr 14 16:11:08.605867 abreu kernel: ppp0: recursion detected
-Apr 14 16:11:08.606180 abreu NetworkManager[494070]: Stopping strongSwan 
-IPsec...
-Apr 14 16:11:08.603094 abreu pppd[493659]: Overriding mtu 1500 to 1400
-Apr 14 16:11:08.602792 abreu NetworkManager[750]: <info> 
-[1744639868.6027] device (ppp0): state change: disconnected -> unmanaged 
-(reason 'unmanaged-external-down', managed-type: 'external')
-Apr 14 16:11:08.603111 abreu pppd[493659]: Overriding mru 1500 to mtu 
-value 1400
-Apr 14 16:11:08.603121 abreu pppd[493659]: Couldn't set PPP MRU: 
-Transport endpoint is not connected
-Apr 14 16:11:08.606938 abreu charon[493547]: 00[DMN] SIGINT received, 
-shutting down
-[…]
-Mai 16 08:30:51.562764 abreu kernel: Linux version 
-6.15.0-rc6-00085-gc94d59a126cb (build@bohemianrhapsody.molgen.mpg.de) 
-(gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44) 
-#47 SMP PREEMPT_DYNAMIC Thu May 15 00:09:00 CEST 2025
-Mai 16 08:30:51.562904 abreu kernel: Command line: 
-BOOT_IMAGE=/vmlinuz-6.15.0-rc6-00085-gc94d59a126cb 
-root=UUID=32e29882-d94d-4a92-9ee4-4d03002bfa29 ro quiet pci=noaer 
-mem_sleep_default=deep log_buf_len=16M cryptomgr.notests
-[…]
-Mai 16 08:53:51.280468 abreu charon[10205]: 11[NET] sending packet: from 
-192.168.0.192[4500] to 141.14.220.175[4500] (108 bytes)
-Mai 16 08:53:53.108772 abreu systemd[1537]: Started 
-ptyxis-spawn-be64c1b8-8110-413d-acfe-e88f0f09ec17.scope - [systemd-run] 
-/usr/bin/bash.
-Mai 16 08:53:56.871412 abreu NetworkManager[826]: <info> 
-[1747378436.8713] audit: op="connection-deactivate" 
-uuid="837a96df-4fbc-4487-a2f5-152ff4e1ebd7" name="Molgen L2TP" pid=10744 
-uid=5272 result="success"
-Mai 16 08:53:56.872817 abreu dbus-daemon[789]: [system] Activating via 
-systemd: service name='org.freedesktop.nm_dispatcher' 
-unit='dbus-org.freedesktop.nm-dispatcher.service' requested by ':1.8' 
-(uid=0 pid=826 comm="/usr/sbin/NetworkManager --no-daemon")
-Mai 16 08:53:56.878345 abreu systemd[1]: Starting 
-NetworkManager-dispatcher.service - Network Manager Script Dispatcher 
-Service...
-Mai 16 08:53:56.914278 abreu dbus-daemon[789]: [system] Successfully 
-activated service 'org.freedesktop.nm_dispatcher'
-Mai 16 08:53:56.914544 abreu systemd[1]: Started 
-NetworkManager-dispatcher.service - Network Manager Script Dispatcher 
-Service.
-Mai 16 08:53:56.916548 abreu NetworkManager[826]: <info> 
-[1747378436.9165] policy: set 'Kabelgebundene Verbindung 1' 
-(enx00e04ceb9e75) as default for IPv4 routing and DNS
-Mai 16 08:53:56.936629 abreu kernel: ppp0: recursion detected
-Mai 16 08:53:56.936891 abreu NetworkManager[10309]: xl2tpd[10309]: 
-death_handler: Fatal signal 15 received
-Mai 16 08:53:56.936891 abreu NetworkManager[10309]: xl2tpd[10309]: 
-Terminating pppd: sending TERM signal to pid 10313
-Mai 16 08:53:56.936891 abreu NetworkManager[10309]: xl2tpd[10309]: 
-Connection 1 closed to 141.14.220.175, port 1701 (Server closing)
-Mai 16 08:53:56.937310 abreu pppd[10313]: Terminating on signal 15
-Mai 16 08:53:56.937853 abreu pppd[10313]: Connect time 5.1 minutes.
-Mai 16 08:53:56.937869 abreu pppd[10313]: Sent 1054040 bytes, received 
-15208988 bytes.
-Mai 16 08:53:56.938258 abreu charon[10205]: 06[KNL] interface ppp0 
-deactivated
-Mai 16 08:53:56.943844 abreu pppd[10313]: Overriding mtu 1500 to 1400
-Mai 16 08:53:56.943881 abreu pppd[10313]: Overriding mru 1500 to mtu 
-value 1400
-Mai 16 08:53:56.943902 abreu pppd[10313]: Couldn't set PPP MRU: 
-Transport endpoint is not connected
-Mai 16 08:53:56.943993 abreu charon[10205]: 13[KNL] 141.14.14.125 
-disappeared from ppp0
-[…]
 
