@@ -1,93 +1,171 @@
-Return-Path: <linux-ppp+bounces-300-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-301-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5494AE7357
-	for <lists+linux-ppp@lfdr.de>; Wed, 25 Jun 2025 01:39:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 218F5AE741F
+	for <lists+linux-ppp@lfdr.de>; Wed, 25 Jun 2025 03:11:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A218717FA04
-	for <lists+linux-ppp@lfdr.de>; Tue, 24 Jun 2025 23:39:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 09D7E7B2441
+	for <lists+linux-ppp@lfdr.de>; Wed, 25 Jun 2025 01:09:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7293626B094;
-	Tue, 24 Jun 2025 23:39:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65971347B4;
+	Wed, 25 Jun 2025 01:11:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tN5zKH1A"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=amountary.cfd header.i=@amountary.cfd header.b="dHJ+H0JS"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from amountary.cfd (ip44.ip-51-81-76.us [51.81.76.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422932236F8;
-	Tue, 24 Jun 2025 23:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D1EAD58
+	for <linux-ppp@vger.kernel.org>; Wed, 25 Jun 2025 01:10:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.81.76.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750808382; cv=none; b=EInIIH3CPF6YWYIcoHjaXDIcyZ8L7Yk9BsAVA4ShZdcLexpGORVh/S1V9g++Smqw186iQGcoo0OwzYUGlhYqasBpy+yDMyW3UwKcoc/1fyf94yQJe/QuXR9uu4tcsrQqo8B5EXcx4eu2SuoVM2Jhawd1Yhi3ByJ+22GJ1VzDzq0=
+	t=1750813860; cv=none; b=G+gtCTOJvlR0bmZvtT8ezCIAbO2Z461mFfZUrNzWMM6JTUCdU5e3EQ+f/qDGTPiPk+90hhwu9It4gq1sE9paGKD8HNsRZ5aQYaxoPYd4KPGxQJ549nWDbqwCPkTeLaM1h4whXeFf0MwkPK95o0LoSkz9CiddErXuPZbLzrpeLnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750808382; c=relaxed/simple;
-	bh=Ctn9ZO/Vaog3ZEn6cNs81uaFrkS/cOiLHfLO1oAws+s=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Buqsm2FwUKQpjQbbpANLZnjS9ixLYA1wPTFhYmILzu7CdI9mM6ctse6f8OSjop7R3TRbrq84XGd9qSlQCpbeAnV55iZ+0k3KZkJUxL0rPFIA4GwJZ0vR569dO9+OxPRT0iFl1U89GC6YD9AJttHsmPnnzWDKjEHbfqRnQ0vLt44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tN5zKH1A; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B78ADC4CEE3;
-	Tue, 24 Jun 2025 23:39:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750808381;
-	bh=Ctn9ZO/Vaog3ZEn6cNs81uaFrkS/cOiLHfLO1oAws+s=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=tN5zKH1AjWnJSvlpUNZ9VJDVzwvmJT3itb3/6yG4f4xEOqrczD0iUbTN1JANEhV4g
-	 Cpqq8b+IS6wI8xiD+2DLYHzlc93l+iqLNbbsvBylL5+jAV/voplaA0FDlh5DKrL+Nx
-	 4zzRA+2fOisS0fofIUwi9ZQirTmEOCcyAqx8DSz0Bimc6lM2cPBayKRhdZQS/OxSKn
-	 P2gPAx5Mm1FSxy2NfTlJt3FcFmfBQKQ7HaqdNLR96v3BnxZ8/VWg4py4AGpvAoNkV2
-	 jyrDXWk83OvwX+lGEHSWiWb5TGve23irnEgnUnToSuSk2tTE84uGyzNoCzVMudspuB
-	 g1w3wGcVcuYog==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADCED39FEB73;
-	Tue, 24 Jun 2025 23:40:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1750813860; c=relaxed/simple;
+	bh=obGNXWf44oXLYnASYRdowmMvwCIVBYpJ6rOCp3DpTpQ=;
+	h=To:Subject:Date:From:Message-ID:MIME-Version:Content-Type; b=cHJ3CyO7G9TLOFFlL8HfBjtDQ97Xr7mlOi+w1AYDwtG+BW7ayiqBtULgpQXsahcbQDHwMvklkQkd1onKp8r28/wAzXGLzY1hwawRGXGPfO+i3UU2IqhoJA+EXe4Iig1tM0OLfRo576cQKR4D2oSgxVreemcrL5WRNBuurX/8KDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amountary.cfd; spf=pass smtp.mailfrom=amountary.cfd; dkim=pass (1024-bit key) header.d=amountary.cfd header.i=@amountary.cfd header.b=dHJ+H0JS; arc=none smtp.client-ip=51.81.76.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amountary.cfd
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amountary.cfd
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=amountary.cfd; s=mail; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Reply-To:From:Date:Subject:To:Sender:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=61nQyG14VHXx6Zo1vprLNcd395mcViGyzKp3Sxl4oMc=; b=dHJ+H0JSZ8XPfNSeyDFN9J7fMT
+	iPMBTw7FwVoUB1Ko0ffhswSHs/MJweqLsMxne5QwRgKMbozLAB61UKnkM9ZBkn60EaW9NVOycRx8/
+	Z3Vo9nfJxmKnlir3MyT7Yyofun04ANPwQpPseQjgtph27FIXLyghY+rbLPbFvxSfLae8=;
+Received: from admin by amountary.cfd with local (Exim 4.90_1)
+	(envelope-from <support@amountary.cfd>)
+	id 1uUAru-000DEc-2d
+	for linux-ppp@vger.kernel.org; Wed, 25 Jun 2025 04:07:50 +0700
+To: linux-ppp@vger.kernel.org
+Subject: For sale
+Date: Tue, 24 Jun 2025 21:07:50 +0000
+From: Exceptional One PC <support@amountary.cfd>
+Reply-To: info@exceptionalonepc.com
+Message-ID: <e6c7848d0a1a4f62f9b82cc1e111a000@amountary.cfd>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] pppoe: drop PACKET_OTHERHOST before
- skb_share_check()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <175080840824.4073187.6601306669663226829.git-patchwork-notify@kernel.org>
-Date: Tue, 24 Jun 2025 23:40:08 +0000
-References: <20250623033431.408810-1-dqfext@gmail.com>
-In-Reply-To: <20250623033431.408810-1-dqfext@gmail.com>
-To: Qingfang Deng <dqfext@gmail.com>
-Cc: linux-ppp@vger.kernel.org, mostrows@earthlink.net, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Hello:
+Hello,
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+ These are available for sale. If you’re interested in purchasing these, please email me
 
-On Mon, 23 Jun 2025 11:34:31 +0800 you wrote:
-> Align with ip_rcv() by dropping PACKET_OTHERHOST packets before
-> calling skb_share_check(). This avoids unnecessary skb processing
-> for packets that will be discarded anyway.
-> 
-> Signed-off-by: Qingfang Deng <dqfext@gmail.com>
-> ---
->  drivers/net/ppp/pppoe.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+005052112 _ 7.68TB HDD -$200 PER w/ caddies refurbished
+Quantity 76, price $100
 
-Here is the summary with links:
-  - [net-next] pppoe: drop PACKET_OTHERHOST before skb_share_check()
-    https://git.kernel.org/netdev/net-next/c/7eebd219feda
+ 960GB SSD SATA 600 pcs/18 USD
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+S/N MTFDDAK960TDS-1AW1ZABDB
 
+Brand New C9200L-48T-4X-E  $1,200 EAC
+
+Brand New ST8000NM017B  $70 EA
+
+Brand New ST20000NM007D
+QTY 86  $100 EACH
+
+Brand New ST4000NM000A   $30 EA
+
+Brand New WD80EFPX   $60 EA
+
+ Brand New WD101PURZ    $70 EA
+
+Intel Xeon Gold 5418Y Processors
+
+QTY $70 each
+
+CPU  4416    200pcs/$500
+
+CPU  5418Y    222pcs/$700
+
+8TB 7.2K RPM SATA
+6Gbps 512   2500pcs/$70
+
+
+960GB SSD SATA   600pcs/$30
+serial number MTFDDAK960TDS-1AW1ZABDB
+
+
+SK Hynix 48GB 2RX8 PC5 56008 REO_1010-XT
+PH HMCGY8MG8RB227N AA
+QTY 239 $50 EACH
+
+
+SAMSUNG 64GB 4DRX4 PC4-2666V-LD2-12-MAO
+M386A8K40BM2-CTD60 S
+QTY 320 $42 each
+
+
+Ipad pro 129 2021 MI 5th Gen 256 WiFi   Cellular
+quantity 24 $200 EACH
+
+
+Ipad pro 12.9 2022 m2 6th Gen 128 WiFi   Cellular
+quantity - 44 $250 EAC
+
+ 
+
+Brand New NVIDIA GeForce RTX 4090 Founders
+Edition 24GB - QTY: 56 - $700 each
+
+ 
+
+ Brand New ASUS TUF Gaming GeForce RTX 4090 OC
+ 24GB GDDR6X Graphics Card
+ QTY87 $1000 each
+ 
+brand new and original
+Brand New ST8000NM017B  $70 EA
+Brand New ST20000NM007D   $100 EACH
+Brand New ST4000NM000A   $30 EA
+Brand New WD80EFPX   $60 EA
+ Brand New WD101PURZ    $70 EA
+
+
+ 
+
+Refurbished Apple iPhone 14 Pro Max - 256 GB
+quantity-10 $35O EACH
+
+Refurbished Apple iPhone 13 Pro Max has
+quantity-22 $300 EACH
+
+
+Apple MacBook Pro 14-inch with M3 Pro chip, 512GB SSD (Space Black)[2023
+QTY50
+USD 280
+
+
+Apple MacBook Air 15" (2023) MQKR3LL/A M2 8GB 256GB
+QTY25
+USD 300 EACH
+
+
+HP EliteBook 840 G7 i7-10610U 16GB RAM 512GB
+SSD Windows 11 Pro TOUCH Screen
+QTY 237 USD 100 each
+
+
+
+
+Charles Lawson
+Exceptional One PC
+3645 Central Ave, Riverside
+CA 92506, United States
+www.exceptionalonepc.com
+info@exceptionalonepc.com
+Office: (951)-556-3104
 
 
