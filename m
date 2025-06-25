@@ -1,34 +1,34 @@
-Return-Path: <linux-ppp+bounces-306-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-307-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8DDAE79A4
-	for <lists+linux-ppp@lfdr.de>; Wed, 25 Jun 2025 10:11:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04560AE79C7
+	for <lists+linux-ppp@lfdr.de>; Wed, 25 Jun 2025 10:17:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 08B427A2825
-	for <lists+linux-ppp@lfdr.de>; Wed, 25 Jun 2025 08:10:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B12E4A1941
+	for <lists+linux-ppp@lfdr.de>; Wed, 25 Jun 2025 08:17:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E46420CCE5;
-	Wed, 25 Jun 2025 08:11:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EEF521171B;
+	Wed, 25 Jun 2025 08:16:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ZqOItU6W"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="BnFbIaq6"
 X-Original-To: linux-ppp@vger.kernel.org
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8506B72626;
-	Wed, 25 Jun 2025 08:11:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6414D211290;
+	Wed, 25 Jun 2025 08:16:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750839101; cv=none; b=Fc8oDOXApKM5mFuml/Acp36lusTwWi6odDhJTZZaSfCqIEmjlMVYFintGG6U0SaXSzEr2bX+sQbouBmA38an3Mdd3Xqgu41eykOgTlyPgu1v3d8aI5QXwx0/409HsUrm/VEbCCGRetFmi9UDhc38fCrpztXrs8iwbA8AG8efgDM=
+	t=1750839389; cv=none; b=BVQ7q+ZKvg2QZZHQiHaSVUJ3c2ruHvkPjaYnK9CAs1FB8qtZMtfkCYb2pAlsVLU+qJGvJDnKh97dTbz50LPbf0N/qCFxdLNUmBqAavpPUSaqGjKYPAkk7SrokVJvwAwv7YIdgaHUGVNwbvA2Y37Ujp9M05X5NYCScStG4Hak0/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750839101; c=relaxed/simple;
-	bh=jVuJDCIwDzf3NFdcFh/CU7NRT8EoqQ7c9r4TyfsvxxI=;
+	s=arc-20240116; t=1750839389; c=relaxed/simple;
+	bh=Tq7JiNhUc/TmZgnGqkVm2S6PN6rdSjbPFvW/AHOLB8E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TU536EIO4klH4Vsv2TJpF0BZQ4eHhamXfhUjN1xEOtwFZR5uMApfaIqVX0F1olo6GE+3WWdjJHbTZpcJQWRZe7svmIyfCNxwh8OQ5jc/v6iETM6BgeS6yh38M+hIC42bn+VTUb+IzhdE9gdm2jf1JgCOO66rDYwJULimNg8m+78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ZqOItU6W; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=QIppNeWXzNxeV5KsL8wuufaAnJJSxq/bw4KUyoSas+5gXfpdxraaHe0H6vlei0Nun2tQvB57hUjlC2wCxhyv5qNYE5BKNXQUEKWfBkkgx8j0dSRvWgTZVzUWGxSLQWS/nMHYq0xUKeLRZQkJ25ABaPd0eGdv8TU0WY/r4Uik1Os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=BnFbIaq6; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=5ttrqB6Re8Lm6BJNJnP255dFExkdnIWrJLmm7SAWYcs=; b=ZqOItU6WkrfEMyogqc4WxVgWWn
-	PeLARWQH5cvUgc9h4rXSpXSdvEjSA3CAoVUBBkatTDvamDq+DGHYYVJHpQgZbss9jxboLU02mvtBI
-	8uoUqDafdWFmQvDdGQOmxYKKBn6KXn7ZM8p0KGbZQ5rUNNnR62gNNQATb7u+p+N362Gk=;
+	bh=Kmzfb1nkzdrlqwAWTt9ms5w6okRVCGLkfGIvWoO8lgk=; b=BnFbIaq61VP2otrUASU7ANP7VN
+	8pPOx63R9LzJZ3WSQHnuS7afqC47qBYFhRwU4N59Ih0Hi2pzn+Z4h51OXEZS62lRZkkP3as6oxssY
+	T8Wo2vKbk2mlfxKNoZMnVdsdcFQIZw6wVP+VXmNZz3qxunn/iPQ9SBSQyFmJKdMPrdPs=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1uULEF-00Gt2t-5K; Wed, 25 Jun 2025 10:11:35 +0200
-Date: Wed, 25 Jun 2025 10:11:35 +0200
+	id 1uULIu-00Gt4U-7j; Wed, 25 Jun 2025 10:16:24 +0200
+Date: Wed, 25 Jun 2025 10:16:24 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Qingfang Deng <dqfext@gmail.com>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -51,11 +51,10 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org, Guillaume Nault <gnault@redhat.com>
-Subject: Re: [PATCH net-next 1/3] ppp: convert rlock to rwlock to improve RX
- concurrency
-Message-ID: <224c4c68-6e6e-4109-9933-2ab1bdb5eedd@lunn.ch>
+Subject: Re: [PATCH net-next 3/3] ppp: synchronize netstats updates
+Message-ID: <e6110e8c-34cb-4152-8fce-4de7675b639d@lunn.ch>
 References: <20250625034021.3650359-1-dqfext@gmail.com>
- <20250625034021.3650359-2-dqfext@gmail.com>
+ <20250625034021.3650359-4-dqfext@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
@@ -64,24 +63,31 @@ List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250625034021.3650359-2-dqfext@gmail.com>
+In-Reply-To: <20250625034021.3650359-4-dqfext@gmail.com>
 
->  #define ppp_xmit_lock(ppp)	spin_lock_bh(&(ppp)->wlock)
->  #define ppp_xmit_unlock(ppp)	spin_unlock_bh(&(ppp)->wlock)
-> -#define ppp_recv_lock(ppp)	spin_lock_bh(&(ppp)->rlock)
-> -#define ppp_recv_unlock(ppp)	spin_unlock_bh(&(ppp)->rlock)
-> +#define ppp_recv_lock(ppp)	write_lock_bh(&(ppp)->rlock)
-> +#define ppp_recv_unlock(ppp)	write_unlock_bh(&(ppp)->rlock)
->  #define ppp_lock(ppp)		do { ppp_xmit_lock(ppp); \
->  				     ppp_recv_lock(ppp); } while (0)
->  #define ppp_unlock(ppp)		do { ppp_recv_unlock(ppp); \
->  				     ppp_xmit_unlock(ppp); } while (0)
-> +#define ppp_recv_read_lock(ppp)		read_lock_bh(&(ppp)->rlock)
-> +#define ppp_recv_read_unlock(ppp)	read_unlock_bh(&(ppp)->rlock)
+On Wed, Jun 25, 2025 at 11:40:20AM +0800, Qingfang Deng wrote:
+> The PPP receive path can now run concurrently across CPUs (after converting
+> rlock to rwlock in an earlier patch). This may lead to data races on
+> net_device->stats.
+> 
+> Convert all stats updates in both transmit and receive paths to use the
+> DEV_STATS_INC() macro, which updates stats atomically.
 
-Given the _read_ in ppp_recv_read_lock(), maybe ppp_recv_lock() should
-be ppp_recv_write_lock()? Makes it symmetrical, and clearer there is a
-read/write lock.
+Do you have benchmark numbers for these changes? How big an
+improvement does it makes?
 
-	Andrew
+https://elixir.bootlin.com/linux/v6.15.3/source/include/linux/netdevice.h#L5549
+
+/* Note: Avoid these macros in fast path, prefer per-cpu or per-queue counters. */
+#define DEV_STATS_INC(DEV, FIELD) atomic_long_inc(&(DEV)->stats.__##FIELD)
+
+As far as i can see, you only use DEV_STATS_INC() in error paths. It
+might be worth mentioning this. As the comment says, you don't want to
+use it on the hot path.
+
+
+    Andrew
+
+---
+pw-bot: cr
 
