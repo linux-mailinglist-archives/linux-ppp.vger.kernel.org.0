@@ -1,73 +1,73 @@
-Return-Path: <linux-ppp+bounces-309-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-310-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF93AEADAA
-	for <lists+linux-ppp@lfdr.de>; Fri, 27 Jun 2025 06:00:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43850AEAF21
+	for <lists+linux-ppp@lfdr.de>; Fri, 27 Jun 2025 08:44:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B218D1BC7C10
-	for <lists+linux-ppp@lfdr.de>; Fri, 27 Jun 2025 04:00:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D68C37AA127
+	for <lists+linux-ppp@lfdr.de>; Fri, 27 Jun 2025 06:43:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B1BD1BE871;
-	Fri, 27 Jun 2025 04:00:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44DA6214813;
+	Fri, 27 Jun 2025 06:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lrlrvfPO"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bg+rhwJt"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09C0249E5;
-	Fri, 27 Jun 2025 04:00:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6D01D5154
+	for <linux-ppp@vger.kernel.org>; Fri, 27 Jun 2025 06:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750996811; cv=none; b=Cn4zxHo1NRq+PHxFSkYaqRp+aWuxO3DAaiVSo6ifMFAvet2FFnyVMS6M9RM/dszPfWRO8shoJImjARljA1KtMKoFvenH4mAJvBRfeVfwIKnrObHLZl27QbRF46Nbd1Njz0nLq2DDOBMj/56sqA+NwetvaO/xRY9pR0lvZhwTYbc=
+	t=1751006678; cv=none; b=RH2AGjvvnzYP+DQhM93aW7GRxWxJp3v0qepTcRJlSqCxOM0UqmjP8XktswVUvhA+V+0PetrRop6oZe6aOvQ9M9BbMkRcIG2rZx/NDuncMCMa7yL7767PkEO0+vTZthvcFKBXJDSczI4GIYXknzzNwiwz/J8LTSxqmp8b4iXVj2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750996811; c=relaxed/simple;
-	bh=uzh6Ejeo0zjoQzvbnZGYIBfTNLOOJRawGCX6NyVzMaQ=;
+	s=arc-20240116; t=1751006678; c=relaxed/simple;
+	bh=al0hP3jK7BMgOXJbds9j4gsxtWUZxEhNq2cDmR5SwyY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZF5ga7swSmoY2NikenFzK+9NWm0W8CvJwMaToCS2W+UNtrQJRtAzWI6ovFgMtzw880UyQIcyJFQ+m5Lu0mQY5UU3uqMk+x+YRutqPqlETHhYvguJEfqAm9sw+vZqWBWheGxLuPWqfezBPSQJmcqk0bqL4H4QKQVtVViQq8vfbOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lrlrvfPO; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-711a3dda147so19579157b3.2;
-        Thu, 26 Jun 2025 21:00:09 -0700 (PDT)
+	 To:Cc:Content-Type; b=siYMaPrBM+Y6Rcv0LzE3QLGXVR3hS8zqUX54mbMlmhJov+CPGd1txEcxXfUR6LPaYwK3HLOzArRXd+zy/xJF++85EcznqB+znEn0wR1ieJMm2tNOjNGUm2vnB4XrY9iYOGfpStpJ5cwSxxHtav2HasQPvLmPWgAWoiFNmkiXD30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bg+rhwJt; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4a5851764e1so34845751cf.2
+        for <linux-ppp@vger.kernel.org>; Thu, 26 Jun 2025 23:44:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750996808; x=1751601608; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1751006675; x=1751611475; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uzh6Ejeo0zjoQzvbnZGYIBfTNLOOJRawGCX6NyVzMaQ=;
-        b=lrlrvfPOAzaPRRBZVHWNSGC5PZ+izJuIC8G9AwKboi3FNNVSHFOfcnyExpybSf9a+M
-         Z3XamDvkEtXNazzVwhZejaThdkW2Wv+9g6Qq8ZG1VOODZrk6dzSgaKd2HKA3AoMGGCEr
-         Ha0iKsNWdQy3Q1DbteNdpimKefMuPSTa16IcGu4cvciqb0VwgcUXg2LRLw2+9I+77kXq
-         abrJEvhYLbkQPWuwsQ5dDzOxYHvF1vVrAIlBnAdpUBzLyW9m+j9QfzpTJAzRwksj2myk
-         EgR2x9sgVBJKeyIxGecpgrZ7J9BacWAqKX18M8Q1JoT4D33i0zUHnCKVuLfP8wCZv6z4
-         ijKw==
+        bh=al0hP3jK7BMgOXJbds9j4gsxtWUZxEhNq2cDmR5SwyY=;
+        b=bg+rhwJtjuCvWKjaO2SL2WgEc5oLgxXFiDpL6om96q6yHnyT+EyioDhclyWTRYab/4
+         mfvuOLow6Pl+Heb1fEDsd+fz7gqDCIXAbzdvBB5bypa6xI3B9DVu++Nu/QzSYLM3tPFW
+         0ISCgI0sFS7N+1zTkVSNGPgvjWPgpEHFhc9DgvoAB66WuljMnAVJgpsZybWo7hriTIPI
+         6VVcbqm0G9/FaiY5yq2K0WUxmpyRopgWudrPpS8dFHOxL+Ie11cAQGrMBbavwmFS6XN/
+         lx+Um/cHUwK+qmXKzfLEZ70kT25BiwuBDcDdqIE8cGxQQcHuEQQKI1yRHsPwQnWlaYsz
+         kb7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750996808; x=1751601608;
+        d=1e100.net; s=20230601; t=1751006675; x=1751611475;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uzh6Ejeo0zjoQzvbnZGYIBfTNLOOJRawGCX6NyVzMaQ=;
-        b=wQ/DAr2J+Pw+tH0uAKp0xKUKqyZOUdboKjjy+i4J/208mtiFta/o46wS7LXlodoyu7
-         mWefBEfsoTTtb/YqPOE0eInxn6ydtossDA4o5ezbR2NsOAuhycieTNXoWfJI+7Savibj
-         DIWr9Pf7LlcnqLDik9Gsk2begePnU48/ZnSBw6XUO4i9k3gmfK00oLUVhXDqWTPkqewg
-         qnMGtmVGIrKT4LzIYxhjp5Veut7IQ7t1ThIARVCSJE5wouSwn68KBR7+VsuSIT8tX83o
-         oidXiSweRBC89bNxuiqGw9LabkiY5iToa+yzFB9QrUbXJ0HNY/qb85zESkr82GwUDm6h
-         LSyA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFHAHvbEHlMHhhFxYXC7J6Zvl+5hwKxhuSt3M7OsTj3POf0LVSjgSTv20Nq+W5PNC9qjFOicWF@vger.kernel.org, AJvYcCWA1PvXXqMJVk6Ezf1OP8qmo0kTGzPefxNHj8muLhiTBY/EQloGJnEGElXDCmvF+p+ephDUwrSwZlK7I3Y=@vger.kernel.org, AJvYcCWRWy9/Q3EdosPgvaMPVTJ1kgDGKu8c2DFfnfjlNTrIOO7qEFybO2ixwmnGYAE8scwR3+NGbCqHsHKu@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxw0xUDFNmpyv6ZLwQyys8OeixA6D9CJRG/2SKh1ABVe+u+Wq7z
-	xJyMupDgTRF3wbDmSbRe+WOQr8hSojQH9W0THPb0hqTJhX+W9YPDDorw4nQyQFVaiRVcE2nj4aq
-	dfsY2Ff1qv8VOz3mntB77+PW5JVnJyUg=
-X-Gm-Gg: ASbGncts/b17RAjaHvpE40gwvq1NOL9cXS1whNPKESgcCuq7mCp//9Ak0ety0HOgmCO
-	D/1sEhrFa/yN8B0VV0Lea3Txn4QyGn3DoAz/yeRIpiE25bE2i1Y7qSzohYmIbFY+wuinnExxgmt
-	+5pbMPdh6zsUTj+d3bIolKG09uXWtuLd6XFFN+dGCPNi0s61Uu0N2S542dN9c=
-X-Google-Smtp-Source: AGHT+IFGFbNxfM2Y3pKB8FLy0/CNkvBvLBQxCbwsOZh36DwBvQpux8n0sFeXGu96NI0KeKMemd9NFiA0SpOeoRaXABE=
-X-Received: by 2002:a05:690c:6e8e:b0:6fb:a696:b23b with SMTP id
- 00721157ae682-715171d2002mr27679707b3.33.1750996808407; Thu, 26 Jun 2025
- 21:00:08 -0700 (PDT)
+        bh=al0hP3jK7BMgOXJbds9j4gsxtWUZxEhNq2cDmR5SwyY=;
+        b=ugVcjTBScDKCr1SDjTBDIBg3RHix6Exia4TEOowsxdad4MlyoJ5UtgRDboTqfjprKL
+         KlMbeVXa+flHbH72jGSqNLWuho3p5/TJGVuoGnCA3nSIudE9PjfNCtd/AMIaSjEONyEO
+         uJTBOs2t42mxDk2c+v670+tiG5W1wuHs4G+naVe599StAM/FFqqnfI0OJ1iPo0w20shZ
+         WcOZ6HRlrigi9kqf+XssfPcHebsGK/TOdcahtZ+1UIZK/wk0EiQa9qJdDmTLYbuJWmD3
+         1409ESV4PYRjrrCsGLgY0nj1w0+mes+WYnGhS8hMfWhh+BoBcjUfc/mCmcbzX+JEJ36Q
+         0SoA==
+X-Forwarded-Encrypted: i=1; AJvYcCUhd+FUfOxDuJJK4wYE42NTPP6xnsjVkQmS5Sl5+yD/cfpWycIiaoXorQegqKF8wqzpsbV5gvNeUUc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/v2ISkywhNmB13vptPl9yffvTmbkOfME8tDXREoQ0CjCCZGKg
+	9P8kJRYX8UGfPmFXyf0xCCo+5oJox2R7QAGBKntq4Mgczkqk3B41449DLEPUcVx8jQnOu2B+RXm
+	ZLsNGFAApqoh8OYh76+7UqeMiAJRfrcu3xfm279yV
+X-Gm-Gg: ASbGncu0xIh3edR9oG78zBlpOe/LGLMk+LxjCKKBIP7tDVdVcd/FEuScRU8vLI1mP4h
+	3DVYLxXupNAcuYwC96I0Ae4bLdamjpkYFiAFR/RDObZWF3VekvVWcfWj9cM4KdITeuTa7Jolnyq
+	e+KoGXmcbjydCheO3gj30SlEHPVk+BjsK8zDVyUF+IiA==
+X-Google-Smtp-Source: AGHT+IEPBqWT/GV01Fy00IJ77bWCUdtJK/GlNaGd/pKF+Z/UsurcBd54QfHuDJmPQ+IFuYw4TsscuIy8eVOU5/Hm7c0=
+X-Received: by 2002:ac8:5f0d:0:b0:4a3:5ba8:4978 with SMTP id
+ d75a77b69052e-4a7fca45d98mr40468011cf.21.1751006669534; Thu, 26 Jun 2025
+ 23:44:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
@@ -75,34 +75,48 @@ List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250625034021.3650359-1-dqfext@gmail.com> <20250625034021.3650359-2-dqfext@gmail.com>
- <aF1z52+rpNyIKk0O@debian>
-In-Reply-To: <aF1z52+rpNyIKk0O@debian>
-From: Qingfang Deng <dqfext@gmail.com>
-Date: Fri, 27 Jun 2025 11:58:58 +0800
-X-Gm-Features: Ac12FXxEbCjk6xKhlXBSv8er9UxDmmmlmhm8ygwfkngkLtj7QrRRPuHIJzB3Cqg
-Message-ID: <CALW65jasGOz_EKHPhKPNQf3i0Sxr1DQyBWBeXm=bbKRdDusAKg@mail.gmail.com>
+ <aF1z52+rpNyIKk0O@debian> <CALW65jasGOz_EKHPhKPNQf3i0Sxr1DQyBWBeXm=bbKRdDusAKg@mail.gmail.com>
+In-Reply-To: <CALW65jasGOz_EKHPhKPNQf3i0Sxr1DQyBWBeXm=bbKRdDusAKg@mail.gmail.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Thu, 26 Jun 2025 23:44:18 -0700
+X-Gm-Features: Ac12FXw8B5uCF1YYGK-NP__GnNnDRKGjEfGKypkayVaYnKX9pkP04LmQrIHb8dk
+Message-ID: <CANn89i+GO3jSDs94SaqvC8FvO9uv4Jyn_Q0W752QcvRSPLnzcQ@mail.gmail.com>
 Subject: Re: [PATCH net-next 1/3] ppp: convert rlock to rwlock to improve RX concurrency
-To: Guillaume Nault <gnault@redhat.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+To: Qingfang Deng <dqfext@gmail.com>
+Cc: Guillaume Nault <gnault@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
 	linux-ppp@vger.kernel.org, netdev@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 27, 2025 at 12:23=E2=80=AFAM Guillaume Nault <gnault@redhat.com=
-> wrote:
-> That doesn't look right. Several PPP Rx features are stateful
-> (multilink, compression, etc.) and the current implementations
-> currently don't take any precaution when updating the shared states.
+On Thu, Jun 26, 2025 at 9:00=E2=80=AFPM Qingfang Deng <dqfext@gmail.com> wr=
+ote:
 >
-> For example, see how bsd_decompress() (in bsd_comp.c) updates db->*
-> fields all over the place. This db variable comes from ppp->rc_state,
-> which is passed as parameter of the ppp->rcomp->decompress() call in
-> ppp_decompress_frame().
+> On Fri, Jun 27, 2025 at 12:23=E2=80=AFAM Guillaume Nault <gnault@redhat.c=
+om> wrote:
+> > That doesn't look right. Several PPP Rx features are stateful
+> > (multilink, compression, etc.) and the current implementations
+> > currently don't take any precaution when updating the shared states.
+> >
+> > For example, see how bsd_decompress() (in bsd_comp.c) updates db->*
+> > fields all over the place. This db variable comes from ppp->rc_state,
+> > which is passed as parameter of the ppp->rcomp->decompress() call in
+> > ppp_decompress_frame().
+> >
+> > I think a lot of work would be needed before we could allow
+> > ppp_do_recv() to run concurrently on the same struct ppp.
 >
-> I think a lot of work would be needed before we could allow
-> ppp_do_recv() to run concurrently on the same struct ppp.
+> Right. I think we can grab a write lock where it updates struct ppp.
 
-Right. I think we can grab a write lock where it updates struct ppp.
+tldr: network maintainers do not want rwlock back.
+
+If you really care about concurrency, do not use rwlock, because it is
+more expensive than a spinlock and very problematic.
+
+Instead use RCU for readers, and spinlock for the parts needing exclusion.
+
+Adding rwlock in network fast path is almost always a very bad choice.
+
+Take a look at commit 0daf07e527095e6 for gory details.
 
