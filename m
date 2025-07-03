@@ -1,367 +1,145 @@
-Return-Path: <linux-ppp+bounces-312-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-313-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4DFAEB55A
-	for <lists+linux-ppp@lfdr.de>; Fri, 27 Jun 2025 12:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F92AF6C26
+	for <lists+linux-ppp@lfdr.de>; Thu,  3 Jul 2025 09:56:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 366A81BC1A31
-	for <lists+linux-ppp@lfdr.de>; Fri, 27 Jun 2025 10:50:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DFA41C47E64
+	for <lists+linux-ppp@lfdr.de>; Thu,  3 Jul 2025 07:56:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C3A52980A5;
-	Fri, 27 Jun 2025 10:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C64C2BF3DF;
+	Thu,  3 Jul 2025 07:55:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="G9fk/Hee";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qmu2KWDh"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gF9ILZ8D"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE912951A0;
-	Fri, 27 Jun 2025 10:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3D529B8C6
+	for <linux-ppp@vger.kernel.org>; Thu,  3 Jul 2025 07:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751021420; cv=none; b=m2VTMWJoR1yhi6Zzxy96aFZdb0+VLHdNesOLLP3l/feFNqCGdndRapsMSdIpUVVL8wFT4bhO++VQnwvWhN7K1adp7STrw/Uy9Cst0SpGKQIRmayxknr/71gUgC0K1vB7q+mrao6G2J5OZLsN7IfW09gjOzn8yLOac9GcjHq5y50=
+	t=1751529329; cv=none; b=ViRth5QmLIgow0GwZFK+T8ZcasENvHhR+Y5egqI7VSGaN7inS7MH5KlB5LlKYqavvoMxHu4PlT/JxmeHaQn+yfroQq+u7gWDKsrrbgGjaR0HC/cBRgKPnI0686AjeDcuGnb/3Dh8CQ45VJYyCK/jTjvq0P19teWTCBS8NxhUheA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751021420; c=relaxed/simple;
-	bh=PhnPw8VKabqZqcnyP2oegTyX8gAvFTHpI1rkUaCFpPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tdv8+M9gDmxVodfpTF4/rGGL2PRw6rh4vA+XPsuQN9vMAyRBtMHPS/tdGA2rpXj2Efrk/QkQJ9t8xEPdndQ8Epzlxt076bj5+4JveYNDIkcX2f5f777zxA2dEViVy4390AhWQrakqk6I0JTziDiqRHOzGIhOHfDC793HgeeY0Eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=G9fk/Hee; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qmu2KWDh; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Date: Fri, 27 Jun 2025 12:50:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1751021415;
+	s=arc-20240116; t=1751529329; c=relaxed/simple;
+	bh=4eQMR5Cxv3vb5mcNACtf57k9qc9ksHsIKZzfmokX3jg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Xv48X3OoT6rEr6OloNjLK85jDomtGaP4yjVeBjC57wE6CU3kOx6Z0ilody79o+pUWQTMFzLSmiYzApNsE79bOOUlKnAquGVMwjA36W/fenLX/ZiRPnfGJLVV0HfvdfaGuzEWwXRHW0AkEiei5Z8gQJBjMQphV0dYTtSgK46znlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gF9ILZ8D; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751529326;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=FwXbVMpAFegirVQ0GOJGpeAUdcJY0/cvIkfdQkC0E1k=;
-	b=G9fk/HeeiO4VrpDXW5aZHW+78c/b4lkuJUBS/RrrNij6bf+KDFM+Wu6rb/yMn4yWeFvw7F
-	UhGgBCHZR7b2l/ldcmjMK7uBge3nB7VHBq3ReZMIelf/dGFwFcOjHmFJS844mwCNsgYHpb
-	fvqN7e4ncbzsoFGlg3kRWnRGJuRm7B74CAPWZZ1ckBioe6e4oest39xyiyYc0AOpidt7QO
-	KqInMzniuq767GYyeDBr1fOA9rtxlXs5cOEP6q8iJja5/1pxDso1LVO/oSa/X6iK0S+qQA
-	GNvEYWm4Hsnen8VGL0wqo4kgDKXkxkHxmlDJJ6G0VnvdQ+VDb5LZbzhjds9kCw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1751021415;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=FwXbVMpAFegirVQ0GOJGpeAUdcJY0/cvIkfdQkC0E1k=;
-	b=qmu2KWDhBpNWlxB6bGhGgx23/Qm9lb/f/nZfIggA3bhXdCqZ+n0bEnTrOAMDWwYIdsgfB4
-	If/FYbE6UfowUoCA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Gao Feng <gfree.wind@vip.163.com>,
-	Guillaume Nault <g.nault@alphalink.fr>
-Subject: [PATCH net-next] ppp: Replace per-CPU recursion counter with
- lock-owner field
-Message-ID: <20250627105013.Qtv54bEk@linutronix.de>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rHZg+urUsTPRagTEEFZ2q0TPLV/wheKvXpnortkonGg=;
+	b=gF9ILZ8DK/EUpzvOSA3afD5uAWFNELL5Eq3ik5ey8u/EZubGhDccaSQOqIReJL/dI2JJ8K
+	0upBDewg+TO5W7I9supjTHYZ3kVFLhyjYiWpfWV55GS2h6BCyex0OkmR2VJaVgcpyM+qhO
+	aPe/IPQJMhHWD45O1QTk3X5NId0x1xw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-287-r3Gaic8FPl-PDNaecoPybg-1; Thu, 03 Jul 2025 03:55:25 -0400
+X-MC-Unique: r3Gaic8FPl-PDNaecoPybg-1
+X-Mimecast-MFC-AGG-ID: r3Gaic8FPl-PDNaecoPybg_1751529324
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4530ec2c87cso34179515e9.0
+        for <linux-ppp@vger.kernel.org>; Thu, 03 Jul 2025 00:55:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751529324; x=1752134124;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rHZg+urUsTPRagTEEFZ2q0TPLV/wheKvXpnortkonGg=;
+        b=tHlCJPyd3ilWmXwUURgB5iGUWm2CXTPoQij46HUQEP0OPKmaMC7HCotXX+KdlnoprJ
+         Zshx3pylCvfJO9yOqFhz9NEKS3MODml2JGNmEqtj62L2AGs62Bx2m0Pg9Jq6GD0V+Urk
+         ide35D86ZpkuYF+zVHpTRf7WPzejImZAI1CU8y31a9SCl2dnMU1wai7c78qCAFR4FI3E
+         r06ky+4/43Rz9P8lFu3Zszj9sYvR18JfUUbz/0BgohnEhZofJmU7gmhjA30GP4JHs7P6
+         xNXeMIfmXqiAwbjXqEEK2A9CAS9a2GFmqDPETjZVBheTR6KsPrPI6n97BUPvxZ9SYYFi
+         LZlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVNGvy+F9XiXPfA78Q+id1MI4HNGJIPEzepzuiAjYBrkcuD2xjYNKAR0l3jf/pVNVr56kY44J27pLY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlENKqSJpNJIpOH4XuVhFVxus+JdhurUe0vj2THx3lB3zjcWel
+	XU9ct2A4yP/zStr08ksgcTfol6QFp6ydxkKQnmvtCvl9EwzDTwwkk7pxZ6r3c0dOuQ0eVkqcq4J
+	b7xLt0cA1HPJOxdX7JHX4S1Q/CxMclLhUzPn8MCJCrxnb34Pv2TyjjABs8OcA1Q==
+X-Gm-Gg: ASbGncu/El/4Dl0117WEPoUefYJnVljcWey73oPYWWVgntBnmcDc/8Nr/9m3cfvMrkE
+	uZsfwZNHDU5TG5bG5hcdNCVS8qibr8OoJ9O7/iFMmSqXNqfBCzZnNnzfPWEfo3zIjvOHuDOweLm
+	eAOxzB0DSCYSw8Xre9zX0/NTggLh1usxo6zEIpYjC1o5Af2J0KCHi3tomclTVltHsw2s1XSChVt
+	t7zAhikKy9ata8HM31DtfpzAT2ocp9l4X/55aSoxMaYZcaL5dItZW0goLobjl9Is42PphiIpmF3
+	4CfT1yZLY8p58Cml0lQ7Na1hQheWVLPRCEo69T3u0crwPH05fEg8tguEXKdfLAeMRVI=
+X-Received: by 2002:a05:600c:8208:b0:453:b44:eb69 with SMTP id 5b1f17b1804b1-454a9c7bb55mr26672225e9.13.1751529323693;
+        Thu, 03 Jul 2025 00:55:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEiHFj1UwVxSDWdgovCLzh2YT1kL2uHoVeghrzdOqaM06vcAM7xPfEjdU057FfSSf2GyYXOsA==
+X-Received: by 2002:a05:600c:8208:b0:453:b44:eb69 with SMTP id 5b1f17b1804b1-454a9c7bb55mr26671865e9.13.1751529323186;
+        Thu, 03 Jul 2025 00:55:23 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:270a:b10:5fbf:faa5:ef2b:6314? ([2a0d:3344:270a:b10:5fbf:faa5:ef2b:6314])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7fa54dsm17665107f8f.23.2025.07.03.00.55.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Jul 2025 00:55:22 -0700 (PDT)
+Message-ID: <9bffa021-2f33-4246-a8d4-cce0affe9efe@redhat.com>
+Date: Thu, 3 Jul 2025 09:55:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] ppp: Replace per-CPU recursion counter with
+ lock-owner field
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Clark Williams <clrkwllms@kernel.org>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Gao Feng <gfree.wind@vip.163.com>, Guillaume Nault <g.nault@alphalink.fr>
+References: <20250627105013.Qtv54bEk@linutronix.de>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250627105013.Qtv54bEk@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The per-CPU variable ppp::xmit_recursion is protecting against recursion
-due to wrong configuration of the ppp channels. The per-CPU variable
-relies on disabled BH for its locking. Without per-CPU locking in
-local_bh_disable() on PREEMPT_RT this data structure requires explicit
-locking.
+On 6/27/25 12:50 PM, Sebastian Andrzej Siewior wrote:
+> The per-CPU variable ppp::xmit_recursion is protecting against recursion
+> due to wrong configuration of the ppp channels. The per-CPU variable
+> relies on disabled BH for its locking. Without per-CPU locking in
+> local_bh_disable() on PREEMPT_RT this data structure requires explicit
+> locking.
+> 
+> The ppp::xmit_recursion is used as a per-CPU boolean. The counter is
+> checked early in the send routing and the transmit path is only entered
+> if the counter is zero. Then the counter is incremented to avoid
+> recursion. It used to detect recursion on channel::downl and
+> ppp::wlock.
+> 
+> Replace the per-CPU ppp:xmit_recursion counter with an explicit owner
+> field for both structs.
+> pch_downl_lock() is helper to check for recursion on channel::downl and
+> either assign the owner field if there is no recursion.
+> __ppp_channel_push() is moved into ppp_channel_push() and gets the
+> recursion check unconditionally because it is based on the lock now.
+> The recursion check in ppp_xmit_process() is based on ppp::wlock which
+> is acquired by ppp_xmit_lock(). The locking is moved from
+> __ppp_xmit_process() into ppp_xmit_lock() to check the owner, lock and
+> then assign the owner in one spot.
+> The local_bh_disable() in ppp_xmit_lock() can be removed because
+> ppp_xmit_lock() disables BH as part of the locking.
+> 
+> Cc: Gao Feng <gfree.wind@vip.163.com>
+> Cc: Guillaume Nault <g.nault@alphalink.fr>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-The ppp::xmit_recursion is used as a per-CPU boolean. The counter is
-checked early in the send routing and the transmit path is only entered
-if the counter is zero. Then the counter is incremented to avoid
-recursion. It used to detect recursion on channel::downl and
-ppp::wlock.
+Is there any special reason to not use local_lock here? I find this
+patch quite hard to read and follow, as opposed to the local_lock usage
+pattern. Also the fact that the code change does not affect RT enabled
+build only is IMHO a negative thing.
 
-Replace the per-CPU ppp:xmit_recursion counter with an explicit owner
-field for both structs.
-pch_downl_lock() is helper to check for recursion on channel::downl and
-either assign the owner field if there is no recursion.
-__ppp_channel_push() is moved into ppp_channel_push() and gets the
-recursion check unconditionally because it is based on the lock now.
-The recursion check in ppp_xmit_process() is based on ppp::wlock which
-is acquired by ppp_xmit_lock(). The locking is moved from
-__ppp_xmit_process() into ppp_xmit_lock() to check the owner, lock and
-then assign the owner in one spot.
-The local_bh_disable() in ppp_xmit_lock() can be removed because
-ppp_xmit_lock() disables BH as part of the locking.
-
-Cc: Gao Feng <gfree.wind@vip.163.com>
-Cc: Guillaume Nault <g.nault@alphalink.fr>
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/net/ppp/ppp_generic.c | 94 ++++++++++++++++-------------------
- 1 file changed, 44 insertions(+), 50 deletions(-)
-
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index def84e87e05b2..d7b10d60c5d08 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -132,7 +132,7 @@ struct ppp {
- 	int		n_channels;	/* how many channels are attached 54 */
- 	spinlock_t	rlock;		/* lock for receive side 58 */
- 	spinlock_t	wlock;		/* lock for transmit side 5c */
--	int __percpu	*xmit_recursion; /* xmit recursion detect */
-+	struct task_struct *wlock_owner;/* xmit recursion detect */
- 	int		mru;		/* max receive unit 60 */
- 	unsigned int	flags;		/* control bits 64 */
- 	unsigned int	xstate;		/* transmit state bits 68 */
-@@ -186,6 +186,7 @@ struct channel {
- 	struct ppp_channel *chan;	/* public channel data structure */
- 	struct rw_semaphore chan_sem;	/* protects `chan' during chan ioctl */
- 	spinlock_t	downl;		/* protects `chan', file.xq dequeue */
-+	struct task_struct *downl_owner;/* xmit recursion detect */
- 	struct ppp	*ppp;		/* ppp unit we're connected to */
- 	struct net	*chan_net;	/* the net channel belongs to */
- 	netns_tracker	ns_tracker;
-@@ -391,6 +392,24 @@ static const int npindex_to_ethertype[NUM_NP] = {
- #define ppp_unlock(ppp)		do { ppp_recv_unlock(ppp); \
- 				     ppp_xmit_unlock(ppp); } while (0)
- 
-+static bool pch_downl_lock(struct channel *pch, struct ppp *ppp)
-+{
-+	if (pch->downl_owner == current) {
-+		if (net_ratelimit())
-+			netdev_err(ppp->dev, "recursion detected\n");
-+		return false;
-+	}
-+	spin_lock(&pch->downl);
-+	pch->downl_owner = current;
-+	return true;
-+}
-+
-+static void pch_downl_unlock(struct channel *pch)
-+{
-+	pch->downl_owner = NULL;
-+	spin_unlock(&pch->downl);
-+}
-+
- /*
-  * /dev/ppp device routines.
-  * The /dev/ppp device is used by pppd to control the ppp unit.
-@@ -1246,7 +1265,6 @@ static int ppp_dev_configure(struct net *src_net, struct net_device *dev,
- 	struct ppp *ppp = netdev_priv(dev);
- 	int indx;
- 	int err;
--	int cpu;
- 
- 	ppp->dev = dev;
- 	ppp->ppp_net = src_net;
-@@ -1262,14 +1280,6 @@ static int ppp_dev_configure(struct net *src_net, struct net_device *dev,
- 	spin_lock_init(&ppp->rlock);
- 	spin_lock_init(&ppp->wlock);
- 
--	ppp->xmit_recursion = alloc_percpu(int);
--	if (!ppp->xmit_recursion) {
--		err = -ENOMEM;
--		goto err1;
--	}
--	for_each_possible_cpu(cpu)
--		(*per_cpu_ptr(ppp->xmit_recursion, cpu)) = 0;
--
- #ifdef CONFIG_PPP_MULTILINK
- 	ppp->minseq = -1;
- 	skb_queue_head_init(&ppp->mrq);
-@@ -1281,15 +1291,11 @@ static int ppp_dev_configure(struct net *src_net, struct net_device *dev,
- 
- 	err = ppp_unit_register(ppp, conf->unit, conf->ifname_is_set);
- 	if (err < 0)
--		goto err2;
-+		return err;
- 
- 	conf->file->private_data = &ppp->file;
- 
- 	return 0;
--err2:
--	free_percpu(ppp->xmit_recursion);
--err1:
--	return err;
- }
- 
- static const struct nla_policy ppp_nl_policy[IFLA_PPP_MAX + 1] = {
-@@ -1660,7 +1666,6 @@ static void ppp_setup(struct net_device *dev)
- /* Called to do any work queued up on the transmit side that can now be done */
- static void __ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb)
- {
--	ppp_xmit_lock(ppp);
- 	if (!ppp->closing) {
- 		ppp_push(ppp);
- 
-@@ -1678,27 +1683,21 @@ static void __ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb)
- 	} else {
- 		kfree_skb(skb);
- 	}
--	ppp_xmit_unlock(ppp);
- }
- 
- static void ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb)
- {
--	local_bh_disable();
--
--	if (unlikely(*this_cpu_ptr(ppp->xmit_recursion)))
-+	if (ppp->wlock_owner == current)
- 		goto err;
- 
--	(*this_cpu_ptr(ppp->xmit_recursion))++;
-+	ppp_xmit_lock(ppp);
-+	ppp->wlock_owner = current;
- 	__ppp_xmit_process(ppp, skb);
--	(*this_cpu_ptr(ppp->xmit_recursion))--;
--
--	local_bh_enable();
--
-+	ppp->wlock_owner = NULL;
-+	ppp_xmit_unlock(ppp);
- 	return;
- 
- err:
--	local_bh_enable();
--
- 	kfree_skb(skb);
- 
- 	if (net_ratelimit())
-@@ -1903,7 +1902,9 @@ ppp_push(struct ppp *ppp)
- 		list = list->next;
- 		pch = list_entry(list, struct channel, clist);
- 
--		spin_lock(&pch->downl);
-+		if (!pch_downl_lock(pch, ppp))
-+			goto free_out;
-+
- 		if (pch->chan) {
- 			if (pch->chan->ops->start_xmit(pch->chan, skb))
- 				ppp->xmit_pending = NULL;
-@@ -1912,7 +1913,7 @@ ppp_push(struct ppp *ppp)
- 			kfree_skb(skb);
- 			ppp->xmit_pending = NULL;
- 		}
--		spin_unlock(&pch->downl);
-+		pch_downl_unlock(pch);
- 		return;
- 	}
- 
-@@ -1923,6 +1924,7 @@ ppp_push(struct ppp *ppp)
- 		return;
- #endif /* CONFIG_PPP_MULTILINK */
- 
-+free_out:
- 	ppp->xmit_pending = NULL;
- 	kfree_skb(skb);
- }
-@@ -2041,8 +2043,10 @@ static int ppp_mp_explode(struct ppp *ppp, struct sk_buff *skb)
- 			pch->avail = 1;
- 		}
- 
-+		if (!pch_downl_lock(pch, ppp))
-+			continue;
-+
- 		/* check the channel's mtu and whether it is still attached. */
--		spin_lock(&pch->downl);
- 		if (pch->chan == NULL) {
- 			/* can't use this channel, it's being deregistered */
- 			if (pch->speed == 0)
-@@ -2050,7 +2054,7 @@ static int ppp_mp_explode(struct ppp *ppp, struct sk_buff *skb)
- 			else
- 				totspeed -= pch->speed;
- 
--			spin_unlock(&pch->downl);
-+			pch_downl_unlock(pch);
- 			pch->avail = 0;
- 			totlen = len;
- 			totfree--;
-@@ -2101,7 +2105,7 @@ static int ppp_mp_explode(struct ppp *ppp, struct sk_buff *skb)
- 		 */
- 		if (flen <= 0) {
- 			pch->avail = 2;
--			spin_unlock(&pch->downl);
-+			pch_downl_unlock(pch);
- 			continue;
- 		}
- 
-@@ -2146,14 +2150,14 @@ static int ppp_mp_explode(struct ppp *ppp, struct sk_buff *skb)
- 		len -= flen;
- 		++ppp->nxseq;
- 		bits = 0;
--		spin_unlock(&pch->downl);
-+		pch_downl_unlock(pch);
- 	}
- 	ppp->nxchan = i;
- 
- 	return 1;
- 
-  noskb:
--	spin_unlock(&pch->downl);
-+	pch_downl_unlock(pch);
- 	if (ppp->debug & 1)
- 		netdev_err(ppp->dev, "PPP: no memory (fragment)\n");
- 	++ppp->dev->stats.tx_errors;
-@@ -2163,12 +2167,15 @@ static int ppp_mp_explode(struct ppp *ppp, struct sk_buff *skb)
- #endif /* CONFIG_PPP_MULTILINK */
- 
- /* Try to send data out on a channel */
--static void __ppp_channel_push(struct channel *pch)
-+static void ppp_channel_push(struct channel *pch)
- {
- 	struct sk_buff *skb;
- 	struct ppp *ppp;
- 
-+	read_lock_bh(&pch->upl);
- 	spin_lock(&pch->downl);
-+	pch->downl_owner = current;
-+
- 	if (pch->chan) {
- 		while (!skb_queue_empty(&pch->file.xq)) {
- 			skb = skb_dequeue(&pch->file.xq);
-@@ -2182,24 +2189,13 @@ static void __ppp_channel_push(struct channel *pch)
- 		/* channel got deregistered */
- 		skb_queue_purge(&pch->file.xq);
- 	}
-+	pch->downl_owner = NULL;
- 	spin_unlock(&pch->downl);
- 	/* see if there is anything from the attached unit to be sent */
- 	if (skb_queue_empty(&pch->file.xq)) {
- 		ppp = pch->ppp;
- 		if (ppp)
--			__ppp_xmit_process(ppp, NULL);
--	}
--}
--
--static void ppp_channel_push(struct channel *pch)
--{
--	read_lock_bh(&pch->upl);
--	if (pch->ppp) {
--		(*this_cpu_ptr(pch->ppp->xmit_recursion))++;
--		__ppp_channel_push(pch);
--		(*this_cpu_ptr(pch->ppp->xmit_recursion))--;
--	} else {
--		__ppp_channel_push(pch);
-+			ppp_xmit_process(ppp, NULL);
- 	}
- 	read_unlock_bh(&pch->upl);
- }
-@@ -3424,8 +3420,6 @@ static void ppp_destroy_interface(struct ppp *ppp)
- #endif /* CONFIG_PPP_FILTER */
- 
- 	kfree_skb(ppp->xmit_pending);
--	free_percpu(ppp->xmit_recursion);
--
- 	free_netdev(ppp->dev);
- }
- 
--- 
-2.50.0
+/P
 
 
