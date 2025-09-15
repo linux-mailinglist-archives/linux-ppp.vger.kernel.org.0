@@ -1,196 +1,475 @@
-Return-Path: <linux-ppp+bounces-356-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-357-lists+linux-ppp=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-ppp@lfdr.de
 Delivered-To: lists+linux-ppp@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A65B5488E
-	for <lists+linux-ppp@lfdr.de>; Fri, 12 Sep 2025 11:59:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7386B5846A
+	for <lists+linux-ppp@lfdr.de>; Mon, 15 Sep 2025 20:19:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7B8AE7B0751
-	for <lists+linux-ppp@lfdr.de>; Fri, 12 Sep 2025 09:58:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C96B71A24D3E
+	for <lists+linux-ppp@lfdr.de>; Mon, 15 Sep 2025 18:19:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EEFE289358;
-	Fri, 12 Sep 2025 09:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UtEGVVDs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8CD328C5DE;
+	Mon, 15 Sep 2025 18:19:31 +0000 (UTC)
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2903428643C
-	for <linux-ppp@vger.kernel.org>; Fri, 12 Sep 2025 09:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6062773F2
+	for <linux-ppp@vger.kernel.org>; Mon, 15 Sep 2025 18:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757671186; cv=none; b=n/qZzGdYY6mzCjwSKualIL8AQCSVDj3bvENJ9iSNvXOsuCE0DrCuEZ3ce7o8Aiu8ks8vTeMwpTGqjzLJLWOzJ3ov3bpi7+2XpwtDhgMcDLtB/zwA3bap4P0i5LCYEcBRkd1qTCWmBBEjBzkKJiqqKi/noRm/09/i+lwo32EfdAk=
+	t=1757960371; cv=none; b=ZD6kM1t6a8IL0eKBwHghglLdEhY/+d3mWzC2fKbT4F/OYZTzeZO9t6MXJwCs3Hp0B0a1JX8O9LAgTcKOnvtoai2AfZ8snO1XWbEGebQ/3ZGknLfGUkwBFWBEcxkRC7X1NksGQ05Eep2HXolCGQY1URL6yrjWtzAfRufeh7SBN9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757671186; c=relaxed/simple;
-	bh=lTfgKImhQNfN6u2BxK6SF4NKf7soc+1lwEKH6F0tn1M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X/DBtXOHRn7qTWsUdResZVZNZi76apwJOMmA+xNzfVCem6nSRHBohnzJzRF5eEIyyQvmqS9EePd957danr6su4p0fpopfEnHrrtLNNEVzqLHlUTsCgVM/F9U9SXNZr0dzNPIu/gNL3i48cBHB1TBcf0SPJHcHspija3m63C2R88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UtEGVVDs; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-772843b6057so1568268b3a.3
-        for <linux-ppp@vger.kernel.org>; Fri, 12 Sep 2025 02:59:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757671184; x=1758275984; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/U/oc7TDR2VUzY00gKP0s0JlDQ9xsneooHDgr8AAAf8=;
-        b=UtEGVVDs8lo+SfXJAlTs/ShvRs7lg/G0NbFd0YxfNaqpNfea4yIiNjhAxbSqAc6ly1
-         5SJntktBYAhpsZbn1sbkfdktWyNXPjoPspNfdpKWprlKuLno2bZHFCPi/DJAyxg4enhW
-         All/bjFhHPEnlUu4MLQTJwYhw1da/X7z47iiEtCKF9h0m1WoteQZHvf+j0/jnehNefT8
-         RBXlAzy/4NPz4JsbfgJseW5Jq9bEt8Q8juInDC7yFnbG1F7Do7khCASyC5dh5cJpuOvU
-         AeB+WmcAWvfxNpx5QzS0jxk72ciXA/DYGuXn0zL4wMRJ8UU2dCj/36XaoNIhDlKHdQWk
-         nN9g==
+	s=arc-20240116; t=1757960371; c=relaxed/simple;
+	bh=anZGBq8D/N625QcT0dGgWE2VEqPOgOvij8IgvBl0D/Q=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=SvSnzG21Mxp8ugXoBWSmiK2swmU9WRsz9Smj1tqTO/jI2dBUgiNfxUDqBsR4TpImF9ChvDwYp064754wmZqW5EbpBpP+RNxheHzeYBTMK5J1fRvqnjVbPuLAXfqJmn+Jys1p89+ByASwzMFVsqv4Vv7tDoMNv7t6njJs22k1Efk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-4133da01bdcso82027175ab.0
+        for <linux-ppp@vger.kernel.org>; Mon, 15 Sep 2025 11:19:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757671184; x=1758275984;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/U/oc7TDR2VUzY00gKP0s0JlDQ9xsneooHDgr8AAAf8=;
-        b=dNSVUsuMzGShBLSUFk4RH2gA9oK5tTQ2P23S0YFCcI1TNCvzoC/THt1DIfKHf0pfAl
-         AW96AXn+6NeBDL7ma/nxYW2nR50JQJJOjWfdA0vJFdaYe1IVdX4rYYT8d7B6vkjqfbNT
-         USmMnRS6DrdWqaQfH1uxdA2b+iYDSt3t3QrvJIE432JcO9wxXnehfEH+o/Wg6U1BHkoH
-         einei+2zI1YCv772KkgOCh2/e9blGS0CtWjfDhKeUm38fCmbwlcz/dSGQIoH6aLvbnhk
-         k6hBT9f+F6uuiPYD6FRD88UocpyQgZha+uA/qGx0i2adzPfCt2lf8yAhn2+dQiQlmvHb
-         416g==
-X-Forwarded-Encrypted: i=1; AJvYcCW+2HY+K6bH5tseBweCZ3PXBdwlOt8+y8LknaWT8FiK75RfFBxMkDHmhQ+jhuW6+1uKLHvjxHH0X7g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwS8/+u9IuzOP9A50rRgWwcJFKJRK50GMIlpcHPuUTZ8ipOVfB6
-	eDckWg7h7oBGtnpAW0keMXJmrWu6lodlXHLsGEpgTUqvabTm+/jOGgCV
-X-Gm-Gg: ASbGncuXi833C3iSONiachyBESO3sSzLVYfUDhdU6Wkj94QJQ+ahxiPVXxvgLudjAWj
-	vIh9tT1Yw/zjT08osk2SwIB4Z3kyBUicioQIbkWDcYY5YSR8T2x+zskSkamvtA1KfZDJvJj8R3s
-	5oKGfOjZzzCS3M875lZTNN6xqHCVWbYGfxHc/1poJE1ixkhNd4QUBytb6nM73B1W+Wc0PjvSAxD
-	gdZn7qBlHGxQ3x3xsx4DRngYMQ9buWa4RawLvYYh+YduyiqN37cmxOE5cUrW8YM2mrjO4ztFibd
-	Y/VFGg3WMLl/S5/s8jpdTmveX/VhU50TGmR8W136fspIOMU/K+D3Kz9XfbLwcbui7e3ZHdFq8nL
-	V4178ftAYCfVwqw==
-X-Google-Smtp-Source: AGHT+IF3JR3ArS2DE325tp7329BslWJiRQgkK4DDMmc7Q78E5uRK7Xm4SsTgTiPWVL89HRrP3OJy1w==
-X-Received: by 2002:a05:6a20:4322:b0:246:1c:46d with SMTP id adf61e73a8af0-26029fa0cf6mr3110864637.2.1757671184180;
-        Fri, 12 Sep 2025 02:59:44 -0700 (PDT)
-Received: from gmail.com ([223.166.84.15])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b54a387b5absm4192951a12.25.2025.09.12.02.59.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 02:59:43 -0700 (PDT)
-From: Qingfang Deng <dqfext@gmail.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-ppp@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Felix Fietkau <nbd@nbd.name>
-Subject: [PATCH net-next] ppp: enable TX scatter-gather
-Date: Fri, 12 Sep 2025 17:59:27 +0800
-Message-ID: <20250912095928.1532113-1-dqfext@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1757960368; x=1758565168;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KSL+W7rDicp3aXpJlSDXtxEXjcRp5Jhu9gK1+NJpfRU=;
+        b=AYZtHVuOOYYFZskOInBosAdDUG4o5kW33VaJ2P0hHOh5hebEicayzALPoB24w7rzwU
+         QomtjBdjyRj+np5nYqAitKVfg+ZWebvDvTrGmRDoO4iOF3T0Hp0Y/sVVvk7Q5MIjSWKg
+         01wP38kkQ2ohcM7YW9zIbPXlWEr627Z625QnkzeW4V44HKjJ1crZojStxV3dmp/1Q87G
+         gnOiwGtMxQuIKrdRB5lSswryDvmznbqa2zrnCgm/ORqpFAD3enJeiDP8vMmH1QTw6AsZ
+         ais5R669e4czn0PD5W2QWc4oHqq+FFY4LL5lKD1Ypkp2kW0EAL9H108SnbgGC+5ZU6xv
+         nTug==
+X-Forwarded-Encrypted: i=1; AJvYcCWtH2xkhqSj7jhQ86t/Nx+9+EhIQf3SuB4ZO42JKca6E6MjB0tzpXgNF8WtifD58mwXG9cFDozTna4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YziyCY3mxYHZDvdVpS+UImn8wvou2kvls0KfzA4pRaZjj3Nj67X
+	Wg+aEMIMnPmwDIDwO90NhWoSPGPWGRVLT54owhICR6xZ6CnEXMN+82ZusnP2HGUUfJICqiDmTHl
+	hzVIRDzoDJzbPsyPdig/YL5g+OqnUahpm1X0rpJflERHWbJlxSSP+vz/q0J8=
+X-Google-Smtp-Source: AGHT+IF+fMW8U2ctkj6TgkXEDhFaVDPRjle2ylsyIdXVQD1AARQ5HuLnFcSoyAHgOjY9kik9Bxtcmi0pYV6aK2Rb729H14mCYFpe
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a92:cd89:0:b0:424:86d:7bb9 with SMTP id
+ e9e14a558f8ab-424086d7e93mr29656485ab.0.1757960368625; Mon, 15 Sep 2025
+ 11:19:28 -0700 (PDT)
+Date: Mon, 15 Sep 2025 11:19:28 -0700
+In-Reply-To: <000000000000e8231f0601095c8e@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68c858b0.050a0220.3c6139.0d1c.GAE@google.com>
+Subject: Re: [syzbot] [hams?] possible deadlock in serial8250_handle_irq
+From: syzbot <syzbot+5fd749c74105b0e1b302@syzkaller.appspotmail.com>
+To: ajk@comnets.uni-bremen.de, andrew+netdev@lunn.ch, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, linux-hams@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-ppp@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, paulus@samba.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-When chan->direct_xmit is true, and no compressors are in use, PPP
-prepends its header to a skb, and calls dev_queue_xmit directly. In this
-mode the skb does not need to be linearized.
-Enable NETIF_F_SG and NETIF_F_FRAGLIST, and add .ndo_fix_features()
-callback to conditionally disable them if a linear skb is required.
-This is required to support PPPoE GSO.
+syzbot has found a reproducer for the following issue on:
 
-Signed-off-by: Qingfang Deng <dqfext@gmail.com>
+HEAD commit:    590b221ed425 Add linux-next specific files for 20250912
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=17af5762580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9134e501f17b95a4
+dashboard link: https://syzkaller.appspot.com/bug?extid=5fd749c74105b0e1b302
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14e41762580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10a88e42580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/872439e79d04/disk-590b221e.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/09ebcfd707c1/vmlinux-590b221e.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/e3417bc549df/bzImage-590b221e.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+5fd749c74105b0e1b302@syzkaller.appspotmail.com
+
+=====================================================
+WARNING: HARDIRQ-safe -> HARDIRQ-unsafe lock order detected
+syzkaller #0 Not tainted
+-----------------------------------------------------
+kworker/u8:1/13 [HC0[0]:SC0[0]:HE0:SE1] is trying to acquire:
+ffffffff8f1127b8 (disc_data_lock){.?.+}-{3:3}, at: sp_get drivers/net/hamradio/6pack.c:370 [inline]
+ffffffff8f1127b8 (disc_data_lock){.?.+}-{3:3}, at: sixpack_write_wakeup+0x30/0x480 drivers/net/hamradio/6pack.c:391
+
+and this task is already holding:
+ffffffff9a263db8 (&port_lock_key){-.-.}-{3:3}, at: uart_port_lock_irqsave include/linux/serial_core.h:717 [inline]
+ffffffff9a263db8 (&port_lock_key){-.-.}-{3:3}, at: uart_port_ref_lock+0xc4/0x3b0 drivers/tty/serial/serial_core.c:83
+which would create a new lock dependency:
+ (&port_lock_key){-.-.}-{3:3} -> (disc_data_lock){.?.+}-{3:3}
+
+but this new dependency connects a HARDIRQ-irq-safe lock:
+ (&port_lock_key){-.-.}-{3:3}
+
+... which became HARDIRQ-irq-safe at:
+  lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+  _raw_spin_lock_irqsave+0xa7/0xf0 kernel/locking/spinlock.c:162
+  uart_port_lock_irqsave include/linux/serial_core.h:717 [inline]
+  serial8250_handle_irq+0x6b/0xbb0 drivers/tty/serial/8250/8250_port.c:1798
+  serial8250_default_handle_irq+0xbf/0x200 drivers/tty/serial/8250/8250_port.c:1846
+  serial8250_interrupt+0x8d/0x180 drivers/tty/serial/8250/8250_core.c:82
+  __handle_irq_event_percpu+0x295/0xab0 kernel/irq/handle.c:203
+  handle_irq_event_percpu kernel/irq/handle.c:240 [inline]
+  handle_irq_event+0x8b/0x1e0 kernel/irq/handle.c:257
+  handle_edge_irq+0x23b/0xa10 kernel/irq/chip.c:855
+  generic_handle_irq_desc include/linux/irqdesc.h:173 [inline]
+  handle_irq arch/x86/kernel/irq.c:254 [inline]
+  call_irq_handler arch/x86/kernel/irq.c:-1 [inline]
+  __common_interrupt+0x141/0x1f0 arch/x86/kernel/irq.c:325
+  common_interrupt+0xb6/0xe0 arch/x86/kernel/irq.c:318
+  asm_common_interrupt+0x26/0x40 arch/x86/include/asm/idtentry.h:688
+  native_safe_halt arch/x86/include/asm/irqflags.h:48 [inline]
+  pv_native_safe_halt+0x13/0x20 arch/x86/kernel/paravirt.c:81
+  arch_safe_halt arch/x86/include/asm/paravirt.h:107 [inline]
+  default_idle+0x13/0x20 arch/x86/kernel/process.c:767
+  default_idle_call+0x74/0xb0 kernel/sched/idle.c:122
+  cpuidle_idle_call kernel/sched/idle.c:190 [inline]
+  do_idle+0x1e8/0x510 kernel/sched/idle.c:330
+  cpu_startup_entry+0x44/0x60 kernel/sched/idle.c:428
+  rest_init+0x2de/0x300 init/main.c:756
+  start_kernel+0x3a9/0x410 init/main.c:1109
+  x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+  x86_64_start_kernel+0x143/0x1c0 arch/x86/kernel/head64.c:291
+  common_startup_64+0x13e/0x147
+
+to a HARDIRQ-irq-unsafe lock:
+ (disc_data_lock){.?.+}-{3:3}
+
+... which became HARDIRQ-irq-unsafe at:
+...
+  lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+  __raw_read_lock include/linux/rwlock_api_smp.h:150 [inline]
+  _raw_read_lock+0x36/0x50 kernel/locking/spinlock.c:228
+  sp_get drivers/net/hamradio/6pack.c:370 [inline]
+  sixpack_receive_buf+0x5c/0x1450 drivers/net/hamradio/6pack.c:433
+  tty_ldisc_receive_buf+0x119/0x160 drivers/tty/tty_buffer.c:391
+  tty_port_default_receive_buf+0x6e/0xa0 drivers/tty/tty_port.c:37
+  receive_buf drivers/tty/tty_buffer.c:445 [inline]
+  flush_to_ldisc+0x24a/0x6e0 drivers/tty/tty_buffer.c:495
+  process_one_work kernel/workqueue.c:3263 [inline]
+  process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3346
+  worker_thread+0x8a0/0xda0 kernel/workqueue.c:3427
+  kthread+0x711/0x8a0 kernel/kthread.c:463
+  ret_from_fork+0x4bc/0x870 arch/x86/kernel/process.c:158
+  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+other info that might help us debug this:
+
+ Possible interrupt unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(disc_data_lock);
+                               local_irq_disable();
+                               lock(&port_lock_key);
+                               lock(disc_data_lock);
+  <Interrupt>
+    lock(&port_lock_key);
+
+ *** DEADLOCK ***
+
+6 locks held by kworker/u8:1/13:
+ #0: ffff88801a889148 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3238 [inline]
+ #0: ffff88801a889148 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_scheduled_works+0x9b4/0x17b0 kernel/workqueue.c:3346
+ #1: ffffc90000127ba0 ((work_completion)(&buf->work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3239 [inline]
+ #1: ffffc90000127ba0 ((work_completion)(&buf->work)){+.+.}-{0:0}, at: process_scheduled_works+0x9ef/0x17b0 kernel/workqueue.c:3346
+ #2: ffff888141b28ca0 (&buf->lock){+.+.}-{4:4}, at: flush_to_ldisc+0x38/0x6e0 drivers/tty/tty_buffer.c:467
+ #3: ffff88807808d0a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref+0x1c/0x90 drivers/tty/tty_ldisc.c:263
+ #4: ffffffff9a263db8 (&port_lock_key){-.-.}-{3:3}, at: uart_port_lock_irqsave include/linux/serial_core.h:717 [inline]
+ #4: ffffffff9a263db8 (&port_lock_key){-.-.}-{3:3}, at: uart_port_ref_lock+0xc4/0x3b0 drivers/tty/serial/serial_core.c:83
+ #5: ffff88807808d0a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref+0x1c/0x90 drivers/tty/tty_ldisc.c:263
+
+the dependencies between HARDIRQ-irq-safe lock and the holding lock:
+-> (&port_lock_key){-.-.}-{3:3} {
+   IN-HARDIRQ-W at:
+                    lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+                    __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+                    _raw_spin_lock_irqsave+0xa7/0xf0 kernel/locking/spinlock.c:162
+                    uart_port_lock_irqsave include/linux/serial_core.h:717 [inline]
+                    serial8250_handle_irq+0x6b/0xbb0 drivers/tty/serial/8250/8250_port.c:1798
+                    serial8250_default_handle_irq+0xbf/0x200 drivers/tty/serial/8250/8250_port.c:1846
+                    serial8250_interrupt+0x8d/0x180 drivers/tty/serial/8250/8250_core.c:82
+                    __handle_irq_event_percpu+0x295/0xab0 kernel/irq/handle.c:203
+                    handle_irq_event_percpu kernel/irq/handle.c:240 [inline]
+                    handle_irq_event+0x8b/0x1e0 kernel/irq/handle.c:257
+                    handle_edge_irq+0x23b/0xa10 kernel/irq/chip.c:855
+                    generic_handle_irq_desc include/linux/irqdesc.h:173 [inline]
+                    handle_irq arch/x86/kernel/irq.c:254 [inline]
+                    call_irq_handler arch/x86/kernel/irq.c:-1 [inline]
+                    __common_interrupt+0x141/0x1f0 arch/x86/kernel/irq.c:325
+                    common_interrupt+0xb6/0xe0 arch/x86/kernel/irq.c:318
+                    asm_common_interrupt+0x26/0x40 arch/x86/include/asm/idtentry.h:688
+                    native_safe_halt arch/x86/include/asm/irqflags.h:48 [inline]
+                    pv_native_safe_halt+0x13/0x20 arch/x86/kernel/paravirt.c:81
+                    arch_safe_halt arch/x86/include/asm/paravirt.h:107 [inline]
+                    default_idle+0x13/0x20 arch/x86/kernel/process.c:767
+                    default_idle_call+0x74/0xb0 kernel/sched/idle.c:122
+                    cpuidle_idle_call kernel/sched/idle.c:190 [inline]
+                    do_idle+0x1e8/0x510 kernel/sched/idle.c:330
+                    cpu_startup_entry+0x44/0x60 kernel/sched/idle.c:428
+                    rest_init+0x2de/0x300 init/main.c:756
+                    start_kernel+0x3a9/0x410 init/main.c:1109
+                    x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+                    x86_64_start_kernel+0x143/0x1c0 arch/x86/kernel/head64.c:291
+                    common_startup_64+0x13e/0x147
+   IN-SOFTIRQ-W at:
+                    lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+                    __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+                    _raw_spin_lock_irqsave+0xa7/0xf0 kernel/locking/spinlock.c:162
+                    uart_port_lock_irqsave include/linux/serial_core.h:717 [inline]
+                    serial8250_handle_irq+0x6b/0xbb0 drivers/tty/serial/8250/8250_port.c:1798
+                    serial8250_default_handle_irq+0xbf/0x200 drivers/tty/serial/8250/8250_port.c:1846
+                    serial8250_interrupt+0x8d/0x180 drivers/tty/serial/8250/8250_core.c:82
+                    __handle_irq_event_percpu+0x295/0xab0 kernel/irq/handle.c:203
+                    handle_irq_event_percpu kernel/irq/handle.c:240 [inline]
+                    handle_irq_event+0x8b/0x1e0 kernel/irq/handle.c:257
+                    handle_edge_irq+0x23b/0xa10 kernel/irq/chip.c:855
+                    generic_handle_irq_desc include/linux/irqdesc.h:173 [inline]
+                    handle_irq arch/x86/kernel/irq.c:254 [inline]
+                    call_irq_handler arch/x86/kernel/irq.c:-1 [inline]
+                    __common_interrupt+0x141/0x1f0 arch/x86/kernel/irq.c:325
+                    common_interrupt+0x5e/0xe0 arch/x86/kernel/irq.c:318
+                    asm_common_interrupt+0x26/0x40 arch/x86/include/asm/idtentry.h:688
+                    __sanitizer_cov_trace_pc+0x0/0x70
+                    deliver_ptype_list_skb net/core/dev.c:2483 [inline]
+                    __netif_receive_skb_core+0x393a/0x4020 net/core/dev.c:5997
+                    __netif_receive_skb_one_core net/core/dev.c:6038 [inline]
+                    __netif_receive_skb+0x72/0x380 net/core/dev.c:6153
+                    process_backlog+0x60e/0x14f0 net/core/dev.c:6505
+                    __napi_poll+0xc7/0x360 net/core/dev.c:7555
+                    napi_poll net/core/dev.c:7618 [inline]
+                    net_rx_action+0x707/0xe30 net/core/dev.c:7745
+                    handle_softirqs+0x286/0x870 kernel/softirq.c:579
+                    do_softirq+0xec/0x180 kernel/softirq.c:480
+                    __local_bh_enable_ip+0x17d/0x1c0 kernel/softirq.c:407
+                    local_bh_enable include/linux/bottom_half.h:33 [inline]
+                    rcu_read_unlock_bh include/linux/rcupdate.h:910 [inline]
+                    __dev_queue_xmit+0x1d79/0x3b50 net/core/dev.c:4752
+                    dev_queue_xmit include/linux/netdevice.h:3361 [inline]
+                    neigh_hh_output include/net/neighbour.h:531 [inline]
+                    neigh_output include/net/neighbour.h:545 [inline]
+                    ip6_finish_output2+0xf70/0x1480 net/ipv6/ip6_output.c:136
+                    NF_HOOK_COND include/linux/netfilter.h:307 [inline]
+                    ip6_output+0x340/0x550 net/ipv6/ip6_output.c:247
+                    NF_HOOK+0x9e/0x380 include/linux/netfilter.h:318
+                    mld_sendpack+0x8d4/0xe60 net/ipv6/mcast.c:1855
+                    mld_send_cr net/ipv6/mcast.c:2154 [inline]
+                    mld_ifc_work+0x83e/0xd60 net/ipv6/mcast.c:2693
+                    process_one_work kernel/workqueue.c:3263 [inline]
+                    process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3346
+                    worker_thread+0x8a0/0xda0 kernel/workqueue.c:3427
+                    kthread+0x711/0x8a0 kernel/kthread.c:463
+                    ret_from_fork+0x4bc/0x870 arch/x86/kernel/process.c:158
+                    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+   INITIAL USE at:
+                   lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+                   __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+                   _raw_spin_lock_irqsave+0xa7/0xf0 kernel/locking/spinlock.c:162
+                   uart_port_lock_irqsave include/linux/serial_core.h:717 [inline]
+                   class_uart_port_lock_irqsave_constructor include/linux/serial_core.h:797 [inline]
+                   serial8250_do_set_termios+0x4d1/0x1c30 drivers/tty/serial/8250/8250_port.c:2760
+                   uart_set_options+0x3c2/0x5b0 drivers/tty/serial/serial_core.c:2262
+                   serial8250_console_setup+0x2f4/0x3c0 drivers/tty/serial/8250/8250_port.c:3405
+                   univ8250_console_setup+0x43a/0x540 drivers/tty/serial/8250/8250_core.c:426
+                   console_call_setup kernel/printk/printk.c:3773 [inline]
+                   try_enable_preferred_console+0x4e4/0x650 kernel/printk/printk.c:3817
+                   register_console+0x551/0xf90 kernel/printk/printk.c:4011
+                   univ8250_console_init+0x3a/0x70 drivers/tty/serial/8250/8250_core.c:511
+                   console_init+0x10e/0x430 kernel/printk/printk.c:4298
+                   start_kernel+0x254/0x410 init/main.c:1047
+                   x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+                   x86_64_start_kernel+0x143/0x1c0 arch/x86/kernel/head64.c:291
+                   common_startup_64+0x13e/0x147
+ }
+ ... key      at: [<ffffffff9a2631a0>] port_lock_key+0x0/0x20
+
+the dependencies between the lock to be acquired
+ and HARDIRQ-irq-unsafe lock:
+-> (disc_data_lock){.?.+}-{3:3} {
+   IN-HARDIRQ-R at:
+                    lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+                    __raw_read_lock include/linux/rwlock_api_smp.h:150 [inline]
+                    _raw_read_lock+0x36/0x50 kernel/locking/spinlock.c:228
+                    sp_get drivers/net/hamradio/6pack.c:370 [inline]
+                    sixpack_write_wakeup+0x30/0x480 drivers/net/hamradio/6pack.c:391
+                    tty_wakeup+0xbe/0x100 drivers/tty/tty_io.c:515
+                    tty_port_default_wakeup+0xfb/0x170 drivers/tty/tty_port.c:67
+                    serial8250_tx_chars+0x72e/0x970 drivers/tty/serial/8250/8250_port.c:1719
+                    serial8250_handle_irq+0x633/0xbb0 drivers/tty/serial/8250/8250_port.c:1827
+                    serial8250_default_handle_irq+0xbf/0x200 drivers/tty/serial/8250/8250_port.c:1846
+                    serial8250_interrupt+0x8d/0x180 drivers/tty/serial/8250/8250_core.c:82
+                    __handle_irq_event_percpu+0x295/0xab0 kernel/irq/handle.c:203
+                    handle_irq_event_percpu kernel/irq/handle.c:240 [inline]
+                    handle_irq_event+0x8b/0x1e0 kernel/irq/handle.c:257
+                    handle_edge_irq+0x23b/0xa10 kernel/irq/chip.c:855
+                    generic_handle_irq_desc include/linux/irqdesc.h:173 [inline]
+                    handle_irq arch/x86/kernel/irq.c:254 [inline]
+                    call_irq_handler arch/x86/kernel/irq.c:-1 [inline]
+                    __common_interrupt+0x141/0x1f0 arch/x86/kernel/irq.c:325
+                    common_interrupt+0xb6/0xe0 arch/x86/kernel/irq.c:318
+                    asm_common_interrupt+0x26/0x40 arch/x86/include/asm/idtentry.h:688
+                    __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:152 [inline]
+                    _raw_spin_unlock_irqrestore+0xa8/0x110 kernel/locking/spinlock.c:194
+                    spin_unlock_irqrestore include/linux/spinlock.h:406 [inline]
+                    uart_port_unlock_irqrestore include/linux/serial_core.h:788 [inline]
+                    uart_port_unlock_deref+0x111/0x2f0 drivers/tty/serial/serial_core.c:91
+                    uart_write+0xe8/0x130 drivers/tty/serial/serial_core.c:634
+                    decode_prio_command drivers/net/hamradio/6pack.c:868 [inline]
+                    sixpack_decode drivers/net/hamradio/6pack.c:943 [inline]
+                    sixpack_receive_buf+0x447/0x1450 drivers/net/hamradio/6pack.c:447
+                    tty_ldisc_receive_buf+0x119/0x160 drivers/tty/tty_buffer.c:391
+                    tty_port_default_receive_buf+0x6e/0xa0 drivers/tty/tty_port.c:37
+                    receive_buf drivers/tty/tty_buffer.c:445 [inline]
+                    flush_to_ldisc+0x24a/0x6e0 drivers/tty/tty_buffer.c:495
+                    process_one_work kernel/workqueue.c:3263 [inline]
+                    process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3346
+                    worker_thread+0x8a0/0xda0 kernel/workqueue.c:3427
+                    kthread+0x711/0x8a0 kernel/kthread.c:463
+                    ret_from_fork+0x4bc/0x870 arch/x86/kernel/process.c:158
+                    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+   HARDIRQ-ON-R at:
+                    lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+                    __raw_read_lock include/linux/rwlock_api_smp.h:150 [inline]
+                    _raw_read_lock+0x36/0x50 kernel/locking/spinlock.c:228
+                    sp_get drivers/net/hamradio/6pack.c:370 [inline]
+                    sixpack_receive_buf+0x5c/0x1450 drivers/net/hamradio/6pack.c:433
+                    tty_ldisc_receive_buf+0x119/0x160 drivers/tty/tty_buffer.c:391
+                    tty_port_default_receive_buf+0x6e/0xa0 drivers/tty/tty_port.c:37
+                    receive_buf drivers/tty/tty_buffer.c:445 [inline]
+                    flush_to_ldisc+0x24a/0x6e0 drivers/tty/tty_buffer.c:495
+                    process_one_work kernel/workqueue.c:3263 [inline]
+                    process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3346
+                    worker_thread+0x8a0/0xda0 kernel/workqueue.c:3427
+                    kthread+0x711/0x8a0 kernel/kthread.c:463
+                    ret_from_fork+0x4bc/0x870 arch/x86/kernel/process.c:158
+                    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+   SOFTIRQ-ON-R at:
+                    lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+                    __raw_read_lock include/linux/rwlock_api_smp.h:150 [inline]
+                    _raw_read_lock+0x36/0x50 kernel/locking/spinlock.c:228
+                    sp_get drivers/net/hamradio/6pack.c:370 [inline]
+                    sixpack_receive_buf+0x5c/0x1450 drivers/net/hamradio/6pack.c:433
+                    tty_ldisc_receive_buf+0x119/0x160 drivers/tty/tty_buffer.c:391
+                    tty_port_default_receive_buf+0x6e/0xa0 drivers/tty/tty_port.c:37
+                    receive_buf drivers/tty/tty_buffer.c:445 [inline]
+                    flush_to_ldisc+0x24a/0x6e0 drivers/tty/tty_buffer.c:495
+                    process_one_work kernel/workqueue.c:3263 [inline]
+                    process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3346
+                    worker_thread+0x8a0/0xda0 kernel/workqueue.c:3427
+                    kthread+0x711/0x8a0 kernel/kthread.c:463
+                    ret_from_fork+0x4bc/0x870 arch/x86/kernel/process.c:158
+                    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+   INITIAL USE at:
+                   lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+                   __raw_write_lock_irq include/linux/rwlock_api_smp.h:195 [inline]
+                   _raw_write_lock_irq+0xa2/0xf0 kernel/locking/spinlock.c:326
+                   sixpack_close+0x2c/0x280 drivers/net/hamradio/6pack.c:641
+                   tty_ldisc_kill+0xa3/0x1a0 drivers/tty/tty_ldisc.c:613
+                   tty_ldisc_release+0x174/0x200 drivers/tty/tty_ldisc.c:781
+                   tty_release_struct+0x2a/0xd0 drivers/tty/tty_io.c:1681
+                   tty_release+0xcb0/0x1640 drivers/tty/tty_io.c:1852
+                   __fput+0x44c/0xa70 fs/file_table.c:468
+                   task_work_run+0x1d4/0x260 kernel/task_work.c:227
+                   resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+                   exit_to_user_mode_loop+0xec/0x130 kernel/entry/common.c:43
+                   exit_to_user_mode_prepare include/linux/irq-entry-common.h:225 [inline]
+                   syscall_exit_to_user_mode_work include/linux/entry-common.h:175 [inline]
+                   syscall_exit_to_user_mode include/linux/entry-common.h:210 [inline]
+                   do_syscall_64+0x2bd/0xfa0 arch/x86/entry/syscall_64.c:100
+                   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+   INITIAL READ USE at:
+                        lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+                        __raw_read_lock include/linux/rwlock_api_smp.h:150 [inline]
+                        _raw_read_lock+0x36/0x50 kernel/locking/spinlock.c:228
+                        sp_get drivers/net/hamradio/6pack.c:370 [inline]
+                        sixpack_receive_buf+0x5c/0x1450 drivers/net/hamradio/6pack.c:433
+                        tty_ldisc_receive_buf+0x119/0x160 drivers/tty/tty_buffer.c:391
+                        tty_port_default_receive_buf+0x6e/0xa0 drivers/tty/tty_port.c:37
+                        receive_buf drivers/tty/tty_buffer.c:445 [inline]
+                        flush_to_ldisc+0x24a/0x6e0 drivers/tty/tty_buffer.c:495
+                        process_one_work kernel/workqueue.c:3263 [inline]
+                        process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3346
+                        worker_thread+0x8a0/0xda0 kernel/workqueue.c:3427
+                        kthread+0x711/0x8a0 kernel/kthread.c:463
+                        ret_from_fork+0x4bc/0x870 arch/x86/kernel/process.c:158
+                        ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ }
+ ... key      at: [<ffffffff8f1127b8>] disc_data_lock+0x18/0x100 6pack.c:-1
+ ... acquired at:
+   lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+   __raw_read_lock include/linux/rwlock_api_smp.h:150 [inline]
+   _raw_read_lock+0x36/0x50 kernel/locking/spinlock.c:228
+   sp_get drivers/net/hamradio/6pack.c:370 [inline]
+   sixpack_write_wakeup+0x30/0x480 drivers/net/hamradio/6pack.c:391
+   tty_wakeup+0xbe/0x100 drivers/tty/tty_io.c:515
+   tty_port_default_wakeup+0xfb/0x170 drivers/tty/tty_port.c:67
+   serial8250_tx_chars+0x72e/0x970 drivers/tty/serial/8250/8250_port.c:1719
+   __start_tx+0x33b/0x480 drivers/tty/serial/8250/8250_port.c:1426
+   __uart_start+0x23f/0x460 drivers/tty/serial/serial_core.c:161
+   uart_write+0xdc/0x130 drivers/tty/serial/serial_core.c:633
+   decode_prio_command drivers/net/hamradio/6pack.c:868 [inline]
+   sixpack_decode drivers/net/hamradio/6pack.c:943 [inline]
+   sixpack_receive_buf+0x447/0x1450 drivers/net/hamradio/6pack.c:447
+   tty_ldisc_receive_buf+0x119/0x160 drivers/tty/tty_buffer.c:391
+   tty_port_default_receive_buf+0x6e/0xa0 drivers/tty/tty_port.c:37
+   receive_buf drivers/tty/tty_buffer.c:445 [inline]
+   flush_to_ldisc+0x24a/0x6e0 drivers/tty/tty_buffer.c:495
+   process_one_work kernel/workqueue.c:3263 [inline]
+   process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3346
+   worker_thread+0x8a0/0xda0 kernel/workqueue.c:3427
+   kthread+0x711/0x8a0 kernel/kthread.c:463
+   ret_from_fork+0x4bc/0x870 arch/x86/kernel/process.c:158
+   ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 13 Comm: kworker/u8:1 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
+Workqueue: events_unbound flush_to_ldisc
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x189/0x250 lib/dump_stack.c:120
+ print_bad_irq_dependency kernel/locking/lockdep.c:2616 [inline]
+ check_irq_usage kernel/locking/lockdep.c:2857 [inline]
+ check_prev_add kernel/locking/lockdep.c:3169 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3284 [inline]
+ validate_chain+0x1f05/0x2140 kernel/locking/lockdep.c:3908
+ __lock_acquire+0xab9/0xd20 kernel/locking/lockdep.c:5237
+ lock_acquire+0x120/0x360 kernel/locking/lockdep.c:5868
+ __raw_read_lock include/linux/rwlock_api_smp.h:150 [inline]
+ _raw_read_lock+0x36/0x50 kernel/locking/spinlock.c:228
+ sp_get drivers/net/hamradio/6pack.c:370 [inline]
+ sixpack_write_wakeup+0x30/0x480 drivers/net/hamradio/6pack.c:391
+ tty_wakeup+0xbe/0x100 drivers/tty/tty_io.c:515
+ tty_port_default_wakeup+0xfb/0x170 drivers/tty/tty_port.c:67
+ serial8250_tx_chars+0x72e/0x970 drivers/tty/serial/8250/8250_port.c:1719
+ __start_tx+0x33b/0x480 drivers/tty/serial/8250/8250_port.c:1426
+ __uart_start+0x23f/0x460 drivers/tty/serial/serial_core.c:161
+ uart_write+0xdc/0x130 drivers/tty/serial/serial_core.c:633
+ decode_prio_command drivers/net/hamradio/6pack.c:868 [inline]
+ sixpack_decode drivers/net/hamradio/6pack.c:943 [inline]
+ sixpack_receive_buf+0x447/0x1450 drivers/net/hamradio/6pack.c:447
+ tty_ldisc_receive_buf+0x119/0x160 drivers/tty/tty_buffer.c:391
+ tty_port_default_receive_buf+0x6e/0xa0 drivers/tty/tty_port.c:37
+ receive_buf drivers/tty/tty_buffer.c:445 [inline]
+ flush_to_ldisc+0x24a/0x6e0 drivers/tty/tty_buffer.c:495
+ process_one_work kernel/workqueue.c:3263 [inline]
+ process_scheduled_works+0xae1/0x17b0 kernel/workqueue.c:3346
+ worker_thread+0x8a0/0xda0 kernel/workqueue.c:3427
+ kthread+0x711/0x8a0 kernel/kthread.c:463
+ ret_from_fork+0x4bc/0x870 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+
 ---
-v1:
- Remove the test for SC_CCP_OPEN and instead test for xc_state changes.
- Link to RFC v2: https://lore.kernel.org/netdev/20250909012742.424771-1-dqfext@gmail.com/
-RFC v2:
- Dynamically update netdev features with ndo_fix_features() callback.
- Link to RFC v1: https://lore.kernel.org/netdev/20250904021328.24329-1-dqfext@gmail.com/
-
- drivers/net/ppp/ppp_generic.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index f9f0f16c41d1..1132159a8b92 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -835,6 +835,10 @@ static long ppp_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 		ppp_unlock(ppp);
- 		if (cflags & SC_CCP_OPEN)
- 			ppp_ccp_closed(ppp);
-+
-+		rtnl_lock();
-+		netdev_update_features(ppp->dev);
-+		rtnl_unlock();
- 		err = 0;
- 		break;
- 
-@@ -1545,6 +1549,22 @@ ppp_get_stats64(struct net_device *dev, struct rtnl_link_stats64 *stats64)
- 	dev_fetch_sw_netstats(stats64, dev->tstats);
- }
- 
-+static netdev_features_t
-+ppp_fix_features(struct net_device *dev, netdev_features_t features)
-+{
-+	struct ppp *ppp = netdev_priv(dev);
-+
-+	ppp_xmit_lock(ppp);
-+	/* Allow SG/FRAGLIST only when we have direct-xmit, and no compression
-+	 * path that wants a linear skb.
-+	 */
-+	if (!(dev->priv_flags & IFF_NO_QUEUE) || ppp->xc_state ||
-+	    ppp->flags & (SC_COMP_TCP | SC_CCP_UP))
-+		features &= ~(NETIF_F_SG | NETIF_F_FRAGLIST);
-+	ppp_xmit_unlock(ppp);
-+	return features;
-+}
-+
- static int ppp_dev_init(struct net_device *dev)
- {
- 	struct ppp *ppp;
-@@ -1619,6 +1639,7 @@ static const struct net_device_ops ppp_netdev_ops = {
- 	.ndo_start_xmit  = ppp_start_xmit,
- 	.ndo_siocdevprivate = ppp_net_siocdevprivate,
- 	.ndo_get_stats64 = ppp_get_stats64,
-+	.ndo_fix_features = ppp_fix_features,
- 	.ndo_fill_forward_path = ppp_fill_forward_path,
- };
- 
-@@ -1641,6 +1662,8 @@ static void ppp_setup(struct net_device *dev)
- 	dev->flags = IFF_POINTOPOINT | IFF_NOARP | IFF_MULTICAST;
- 	dev->priv_destructor = ppp_dev_priv_destructor;
- 	dev->pcpu_stat_type = NETDEV_PCPU_STAT_TSTATS;
-+	dev->features = NETIF_F_SG | NETIF_F_FRAGLIST;
-+	dev->hw_features = dev->features;
- 	netif_keep_dst(dev);
- }
- 
-@@ -3081,6 +3104,9 @@ ppp_set_compress(struct ppp *ppp, struct ppp_option_data *data)
- 				ocomp->comp_free(ostate);
- 				module_put(ocomp->owner);
- 			}
-+			rtnl_lock();
-+			netdev_update_features(ppp->dev);
-+			rtnl_unlock();
- 			err = 0;
- 		} else
- 			module_put(cp->owner);
-@@ -3537,6 +3563,12 @@ ppp_connect_channel(struct channel *pch, int unit)
- 	spin_unlock(&pch->upl);
-  out:
- 	mutex_unlock(&pn->all_ppp_mutex);
-+	if (ret == 0) {
-+		rtnl_lock();
-+		netdev_update_features(ppp->dev);
-+		rtnl_unlock();
-+	}
-+
- 	return ret;
- }
- 
--- 
-2.43.0
-
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
