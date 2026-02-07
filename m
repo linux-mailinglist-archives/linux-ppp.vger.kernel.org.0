@@ -1,188 +1,422 @@
-Return-Path: <linux-ppp+bounces-381-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-382-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QM4/Ar5fhWmfAgQAu9opvQ
-	(envelope-from <linux-ppp+bounces-381-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Fri, 06 Feb 2026 04:27:58 +0100
+	id jJQYGfbfhmmFRgQAu9opvQ
+	(envelope-from <linux-ppp+bounces-382-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Sat, 07 Feb 2026 07:47:18 +0100
 X-Original-To: lists+linux-ppp@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60305F9BB3
-	for <lists+linux-ppp@lfdr.de>; Fri, 06 Feb 2026 04:27:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A1110517A
+	for <lists+linux-ppp@lfdr.de>; Sat, 07 Feb 2026 07:47:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ED451301050B
-	for <lists+linux-ppp@lfdr.de>; Fri,  6 Feb 2026 03:26:14 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 17BEE3010BAC
+	for <lists+linux-ppp@lfdr.de>; Sat,  7 Feb 2026 06:47:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FC5D330B14;
-	Fri,  6 Feb 2026 03:26:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 670B82D8762;
+	Sat,  7 Feb 2026 06:47:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XXWJZ27z"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TpCgepgz"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1653B32FA3D
-	for <linux-ppp@vger.kernel.org>; Fri,  6 Feb 2026 03:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770348374; cv=pass; b=lwXPe4/J2zriMWK1ffWmjYbXxnWq84EflxjhW9roZC1d98IfELKY4pTICkRxM8NAodYTbHXt8m60M2VwsFAzee4jpQbphj+jMjO7xAb27eF6WVJyM0fPOwKzTC/Powobb12BKCwP/m5CD+kliAkE7FI53m3ww+7oBHDkmqddqqc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770348374; c=relaxed/simple;
-	bh=nzyi1NcjbBGTxpUVC/DDARbbFTgX86MBUEkykiCwkzk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=amt7ci8iD1oHsZoM8RAwoDRLnOo8xQZ/9AqrMq1IteNEiaTSTxvm2TZMZCtC6CekW+BOizcTRIOvZ65Ei+2CApQ3IC1exibkik9m8RHpjp9YBOtbrQQc8g+KjfsW5l58PIHtDXfkXyl0xghvDrtE0zXyotgmgevU+I7WWhRRiz0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XXWJZ27z; arc=pass smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0983F27E05E
+	for <linux-ppp@vger.kernel.org>; Sat,  7 Feb 2026 06:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770446834; cv=none; b=MfW5jvXrDup3mz5CmXM+Npc8FL9cAb6EIIA2gbh/0rbaxiQWPYPwAJH9yh4q9wtY7JVGBrSer5aD48Y0bmSAsRIIyI7/2ESXtqw6tMWihbPllAu34e/1q6qdZ3fPEZhdLz2izMECUD9tuFKyCVxY6pgYF/ZCk0joNPfv5cQchtU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770446834; c=relaxed/simple;
+	bh=2G6hV+wVZg6o//MYI5fkbIvZjfnqpl+ixHuzDnkOF/M=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=jpUHHLFL3sdfsDyUl8q9azNaVkpVMqjZHWnNwFv+SBuPelop5iMCYnazkDTmBglXMeVAeDMed7olO2kEb/FrUa56bpkiIBqJDU+bVHZGFSASsoKOr8vKz7626guwYcuOCJI0zzRDT+XFXgqJ8/Fsn5Ic7YQAUY4T58fMLDJqXVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TpCgepgz; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7927261a3acso3264927b3.0
-        for <linux-ppp@vger.kernel.org>; Thu, 05 Feb 2026 19:26:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770348373; cv=none;
-        d=google.com; s=arc-20240605;
-        b=d5PEwDJSDI56Aeg2sZKj9BWE4/f1S1GLGQV1I8Ee/EYkE9GwiaElzgQj6KLtHjEVzL
-         S3E23xgRnwqnmHY2D/Us2C4fLCFIEa4w+3ns0xIDR+Jb587e/n8m4zmTeFRck8BLxXJz
-         sFIdvjkwYBsFX+1/KX/vLeTdB3WP0EgZETQJF5RKkSb8J9hJbjcspufooENIR2YEtwon
-         EPwZ6YaxangIVHLaQMuO5/sm5hgU52dbIByhmJssX8hkcBJ5SU26SvU0RFQzbRk7CZSz
-         VMw4Of4eJ2lZt3v6OeSawggNG1JoirJIXu8QVtDkPNeZvsaRAD0+Epv4TJ4apFrruNcG
-         uZmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nzyi1NcjbBGTxpUVC/DDARbbFTgX86MBUEkykiCwkzk=;
-        fh=PdLKQUUJAJq5aFQJYV/9vOjnCzS0EYCu2GIlX9Uwo64=;
-        b=ExOcO7fNSAM4hVSUWCp29r2GVFUhA/OlMAGft7n7d6hsu40TAr1Jqe9GP70bQg5mGt
-         Ylc8g1fEd4DizB3md9Y2JfwE86iJpfI77Z4KGHudePEqAEN+Y2gF3Y86Bh9uxYaIr9RP
-         izgM5xrOBsj4pz2lsXf+LMdHR6Q3JRvDTniuJq0xNZwH0AMUa8SVVlQEodzI7n28ovV/
-         yyX+/v9wH3YIJltwCCudlSfa1lVrYrHh3XMfDpHqg7CM5pID6EZN9B/xriq8/uduPHME
-         EmEUH5Q8synIzy7A+JY/nYx6wU/Tb8cqiKW9iKheA8XYyS39+gEqdOKG8SXBj5aOKubE
-         43Dg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-64d1ef53cf3so3124477a12.0
+        for <linux-ppp@vger.kernel.org>; Fri, 06 Feb 2026 22:47:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770348373; x=1770953173; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nzyi1NcjbBGTxpUVC/DDARbbFTgX86MBUEkykiCwkzk=;
-        b=XXWJZ27zGi17WBr1VqxvCrCxMngEkT5d2fk/+ZafNggDzBsG+zpL3uimJN6ye2YUG1
-         Q28ONGTnlbMTRXfBKimO9xUKC+qM+1upSpGOe9tvY+I6Li9p9zsRnzpKX154eKRr4BKK
-         re3XXe0wxnvBM9KfJlbys0Ds3y08pJM8BuRinqWgLxnaiLLxtPPM62v3s7/5ifaMJ7Sg
-         vjv6fLxEbfi4rY+8S7sFHllKWVoJWEL5j7HMze3SsgSttSE2LyCaO6nHf7gKIZMK+Di3
-         sfNNUx5hwshkD+o3/pPhUu1MfxHGdGEgUhEPzJtQtDaMYgGT8R9ogXhXXYPPj1nPrdqf
-         +kbw==
+        d=gmail.com; s=20230601; t=1770446832; x=1771051632; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ttpBhaYPGwPNPTXRachj9WVFxsA4zzdO/ofWQNu6xMY=;
+        b=TpCgepgzzb0Kb3Sp9fu7bumoSsPXZfw7xOlq4AZ7la0O7VMkl2ZIGgd7EZ0030J47N
+         jCVLqTS8+2p/dFGIk5KILQU1cBfGwN2HzKbUAdPl68yPVGxUYl6rv2v4pWGkCx1q1jKp
+         2lqy6/1+MG1pUbRJB6dPsu1eQppor/cP5YR+bywoR5cCmFdVPojjNOtJAD37OMmHd0AM
+         nFLjY1NGYMhb81Y0QLjBIalL9+Gdmba5g/GGDz9vLZl100EPMerUBpnObqwRSPdAmnX/
+         HWNncCW0n1RbAyYo9Jc1kM8jbvf0ubEmOxY0whxGJgUX+VIPrzu3RIP+9kRe6IAAi7s/
+         xzwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770348373; x=1770953173;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nzyi1NcjbBGTxpUVC/DDARbbFTgX86MBUEkykiCwkzk=;
-        b=wq8BpsedHpMql+TuHEm8rjT/b76Mobe2I1hcZ6SI/L4doOZn7naL0ime369LNN4lDv
-         aYzXicqZfREH303hLtA52lhMqryFmK11ZHARZ6jdynpcFHAcXdxXu99lLcMYFftqcOGI
-         LZoZeddYdghBYWg1iknACE7T713518zQtgkv/HIXTLJ5bcwJMShOwDaaUUx1x+r6gvVF
-         fJFKPdkKomnBB5hsrCxo7SfLRV+m+KUNPynYWWAGsXwxZhyuYSsdEre86kodmENNLFBh
-         OlYyTdyqYjpr0CDsn9APe4sDmGp6+xLq/MkmhHcm0CnV93GtO1JFfLXJzSca2Pw464Ze
-         hhJw==
-X-Forwarded-Encrypted: i=1; AJvYcCV57EbzzAZYlq0OnXw1eGvMz2lgjr485zaibiHBdPLA76uUq/jTgSFx5uu8kSGtENMkU0GOacqEYyw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwhqEVpzc880SiQ0Al8i8fzFGDlLGW/qRCIf5n0Y0j5vL0SsWsy
-	ZXnrqZd1OgPLCwHKsv1xVn2i0Z+5RdCA8adyvBFkBWrn0+1D8EoQ2CAw3awyWedCnPmwjmbQJOv
-	8/2ffWGfx5F8bfK+G2gkIAN/XQFK8uwo=
-X-Gm-Gg: AZuq6aKQCXaG96UZLOQfuNrIMsplAazUjz3eTr+nGTFOh4Q0EdRz5SGGfyuBZC0GLbC
-	4vKr2QQm8vs2ehT2kjlJ198oQ3pRGFpbrQMPu2VbN3SSCmsxeFYiZa169cyF4erejDoCrW47nCL
-	zIm/h8C+hmq/BE9W+0VOk27RcNVYPt7J9hu+uZT6/4IuNYZRTUWYhIL4XfSZTf+h7OyI36b/d95
-	qDn6xfkoQUYdYg+ibKrQXSwlf1q1Q4CwijNMRFY823XHbcuRQHUv8THiOTpBmh1WQUcIhcMmDnx
-	GK1Jbj2WJe5sIBMZ227GPkkgowwTcME/gA09Qwk=
-X-Received: by 2002:a81:b813:0:b0:792:7828:b709 with SMTP id
- 00721157ae682-7952aaa0022mr11939057b3.22.1770348373142; Thu, 05 Feb 2026
- 19:26:13 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770446832; x=1771051632;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ttpBhaYPGwPNPTXRachj9WVFxsA4zzdO/ofWQNu6xMY=;
+        b=Rr5+PfhOUxa9ej4qF8pvq9uEt9KLAqAo8YfqElkz3xCz6OPb3KuClfCHr99aTjRcXM
+         wkiNPZBVLE7ziHt/eNn1jSHzBwC4W+O+8ew+zd+XUan7zglkRu/bcOnDrF5F5yNyLcxl
+         +G7uvGkMOUV/O0VJhaUEaLW72w1Sz5Jt+O0j6YM++wGit9rXhVN092CaGF/jFOUrG2WO
+         1ecletp5Wsg0aXuxb0/VnbmzIIWV+vUIY4Dqgl1UbM9Clqz3S0RdcCtp+q1MvhGhJvBG
+         3eFEL+1B//7yB8Gwhvjnuf/fP2ndU3mIeC9FfG9ebAztA3zojWa5FfZpAF34AnJxkB82
+         3Xug==
+X-Forwarded-Encrypted: i=1; AJvYcCUzjfwqSTdmpn2amO5b2q8+v/TrvuzwX/g6YcCxpm48fqXpzLmugDWun/CPe+8xBDNEk8JvOlwreyg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFh+Ys6WdC0oB4myZfqctH+Uf/6nny4OTzhDDfY6uqoJykqToQ
+	zdvHptrTyYoGvp78BzhLuJS/Ls3FExzEckXmJco5hUyetqmt317geev4
+X-Gm-Gg: AZuq6aKAmfoh+MHZRWj3jmB4oEqM0ca/MR4XV/WKbEj3jr8GZqJbwqNkCZnRn2qQh+S
+	5sfRswQblzWjfh3at+ACjVcwgEIEyoGWQdwh8duRXoKETWeCmxB0tatmwOFTVXGng+kUbfd0+sG
+	KS3vlZdkaJrjpRo9hmQT2EqRARQBUWSDYCSqcvUy1NxgYVq+zsKHCMr4Jxao69MBjWh9wb/pjCB
+	bDp29VwGtGFshS6DJ60yCBAI9NZFEaw+oAjhaynrifHWRImOyPylRnS8MfOxCut1SZ8xyfFWAbg
+	EwW7Ny+SzopACckkZ7NpgJXjhOyD0ArafkfNNMpjn1BeqW4HFWxG8FLubyseYy1AV31TuMj+5ul
+	rdnvNPd6Fuzo/XZCLI8rYJSHr4K1N7s4snIe2Wd6pZJgG0oKVxMREDweSWDOHuWaeyYW5slA=
+X-Received: by 2002:a17:907:2d8e:b0:b88:5bd7:63b3 with SMTP id a640c23a62f3a-b8edf1a9b51mr279203966b.19.1770446832197;
+        Fri, 06 Feb 2026 22:47:12 -0800 (PST)
+Received: from gmail.com ([2a09:bac1:5500::3e3:36])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8eda7e6577sm145405466b.30.2026.02.06.22.47.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Feb 2026 22:47:10 -0800 (PST)
+From: Qingfang Deng <dqfext@gmail.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	linux-ppp@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next] ppp: don't byte-swap at run time
+Date: Sat,  7 Feb 2026 14:47:04 +0800
+Message-ID: <20260207064705.208612-1-dqfext@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260202092116.266568-1-dqfext@gmail.com> <b8083480-b34c-4066-99c2-1bf1ebac7004@redhat.com>
-In-Reply-To: <b8083480-b34c-4066-99c2-1bf1ebac7004@redhat.com>
-From: Qingfang Deng <dqfext@gmail.com>
-Date: Fri, 6 Feb 2026 11:26:02 +0800
-X-Gm-Features: AZwV_Qj-fFrhjGxKJB2ciWFuDaM_bWlFVc0z83YZxZ3qBWUPXeppadCCcq7a9Sk
-Message-ID: <CALW65jab4ViEU_g1nMOwO90dtEEkpQrKE-ypZz8tu9ShNjahtg@mail.gmail.com>
-Subject: Re: [PATCH net-next v2] ppp: remove ppp->closing check
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, linux-ppp@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-381-lists,linux-ppp=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-382-lists,linux-ppp=lfdr.de];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[dqfext@gmail.com,linux-ppp@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	NEURAL_HAM(-0.00)[-0.990];
 	TAGGED_RCPT(0.00)[linux-ppp,netdev];
 	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 60305F9BB3
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: A5A1110517A
 X-Rspamd-Action: no action
 
-On Thu, Feb 5, 2026 at 7:40=E2=80=AFPM Paolo Abeni <pabeni@redhat.com> wrot=
-e:
->
-> On 2/2/26 10:21 AM, Qingfang Deng wrote:
-> > The ppp->closing flag is used to test if an interface is closing down.
-> > However, when .ndo_uninit() is called (where ppp->closing is set to 1),
-> > dev_close() has already brought down the interface, and
-> > synchronize_net() guarantees that no pending TX/RX in the network path
-> > can take place. Thus, the check in the network path is unnecessary.
-> >
-> > For file operations - ppp_read(), ppp_write(), and ppp_poll(), can
-> > normally still send or receive skbs. ppp_read() and ppp_poll() are safe
-> > because ppp_dev_uninit() sets pf->dead before waking them up, causing
-> > both to exit cleanly.
->
-> Please report the accurate call sequence that would lead to such syscall
-> complete cleanly. Also what if ndo_uninit() happens just after the
-> user-space has been woken-up?
+Currently, the code loads the protocol number from a skb and converts it
+to host-endian for comparison. This requires runtime byte swapping on
+little-endian architectures.
 
-ppp_read() and ppp_poll() do not care about ppp->closing so their
-behaviours remain unchanged. And since ppp_file is refcounted there
-isn't a UAF issue.
+Optimize this by comparing the protocol number directly to
+constant-folded big-endian values. This reduces code size, and slightly
+improves performance in the fastpath. ppp_ioctl() still takes a
+host-endian int, so keep the old function for it.
 
->
-> > ppp_write() does not check pf->dead, but
-> > ppp_push() verifies that ppp->channels list is not empty before sending=
-.
-> >
-> > Remove the ppp->closing check.
->
-> This still feel risky to me and it's not clear which would be the
-> goal/gain. It this change performance oriented? If so please included
-> actual figures.
+bloat-o-meter analysis on a x86_64 build:
+add/remove: 0/0 grow/shrink: 0/6 up/down: 0/-131 (-131)
+Function                                     old     new   delta
+ppp_receive_nonmp_frame                     2002    2000      -2
+ppp_input                                    641     639      -2
+npindex_to_proto                              24      12     -12
+npindex_to_ethertype                          24      12     -12
+ppp_start_xmit                               375     344     -31
+__ppp_xmit_process                          1881    1809     -72
+Total: Before=22998, After=22867, chg -0.57%
 
-For both performance and size, but I don't have the figures yet.
+Signed-off-by: Qingfang Deng <dqfext@gmail.com>
+---
+ drivers/net/ppp/ppp_generic.c | 109 ++++++++++++++++++++--------------
+ 1 file changed, 65 insertions(+), 44 deletions(-)
 
->
-> Thanks,
->
-> Paolo
->
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index f8814d7be6f1..eca9cd6f3a87 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -239,7 +239,7 @@ struct ppp_net {
+ };
+ 
+ /* Get the PPP protocol number from a skb */
+-#define PPP_PROTO(skb)	get_unaligned_be16((skb)->data)
++#define PPP_PROTO(skb)	get_unaligned((__be16 *)(skb)->data)
+ 
+ /* We limit the length of ppp->file.rq to this (arbitrary) value */
+ #define PPP_MAX_RQLEN	32
+@@ -312,7 +312,26 @@ static inline struct ppp_net *ppp_pernet(struct net *net)
+ }
+ 
+ /* Translates a PPP protocol number to a NP index (NP == network protocol) */
+-static inline int proto_to_npindex(int proto)
++static __always_inline int proto_to_npindex(__be16 proto)
++{
++	switch (proto) {
++	case htons(PPP_IP):
++		return NP_IP;
++	case htons(PPP_IPV6):
++		return NP_IPV6;
++	case htons(PPP_IPX):
++		return NP_IPX;
++	case htons(PPP_AT):
++		return NP_AT;
++	case htons(PPP_MPLS_UC):
++		return NP_MPLS_UC;
++	case htons(PPP_MPLS_MC):
++		return NP_MPLS_MC;
++	}
++	return -EINVAL;
++}
++
++static __always_inline int proto_to_npindex_user(int proto)
+ {
+ 	switch (proto) {
+ 	case PPP_IP:
+@@ -332,44 +351,44 @@ static inline int proto_to_npindex(int proto)
+ }
+ 
+ /* Translates an NP index into a PPP protocol number */
+-static const int npindex_to_proto[NUM_NP] = {
+-	PPP_IP,
+-	PPP_IPV6,
+-	PPP_IPX,
+-	PPP_AT,
+-	PPP_MPLS_UC,
+-	PPP_MPLS_MC,
++static const __be16 npindex_to_proto[NUM_NP] = {
++	htons(PPP_IP),
++	htons(PPP_IPV6),
++	htons(PPP_IPX),
++	htons(PPP_AT),
++	htons(PPP_MPLS_UC),
++	htons(PPP_MPLS_MC),
+ };
+ 
+ /* Translates an ethertype into an NP index */
+-static inline int ethertype_to_npindex(int ethertype)
++static inline int ethertype_to_npindex(__be16 ethertype)
+ {
+ 	switch (ethertype) {
+-	case ETH_P_IP:
++	case htons(ETH_P_IP):
+ 		return NP_IP;
+-	case ETH_P_IPV6:
++	case htons(ETH_P_IPV6):
+ 		return NP_IPV6;
+-	case ETH_P_IPX:
++	case htons(ETH_P_IPX):
+ 		return NP_IPX;
+-	case ETH_P_PPPTALK:
+-	case ETH_P_ATALK:
++	case htons(ETH_P_PPPTALK):
++	case htons(ETH_P_ATALK):
+ 		return NP_AT;
+-	case ETH_P_MPLS_UC:
++	case htons(ETH_P_MPLS_UC):
+ 		return NP_MPLS_UC;
+-	case ETH_P_MPLS_MC:
++	case htons(ETH_P_MPLS_MC):
+ 		return NP_MPLS_MC;
+ 	}
+ 	return -1;
+ }
+ 
+ /* Translates an NP index into an ethertype */
+-static const int npindex_to_ethertype[NUM_NP] = {
+-	ETH_P_IP,
+-	ETH_P_IPV6,
+-	ETH_P_IPX,
+-	ETH_P_PPPTALK,
+-	ETH_P_MPLS_UC,
+-	ETH_P_MPLS_MC,
++static const __be16 npindex_to_ethertype[NUM_NP] = {
++	htons(ETH_P_IP),
++	htons(ETH_P_IPV6),
++	htons(ETH_P_IPX),
++	htons(ETH_P_PPPTALK),
++	htons(ETH_P_MPLS_UC),
++	htons(ETH_P_MPLS_MC),
+ };
+ 
+ /*
+@@ -504,7 +523,7 @@ static bool ppp_check_packet(struct sk_buff *skb, size_t count)
+ 	/* LCP packets must include LCP header which 4 bytes long:
+ 	 * 1-byte code, 1-byte identifier, and 2-byte length.
+ 	 */
+-	return get_unaligned_be16(skb->data) != PPP_LCP ||
++	return PPP_PROTO(skb) != htons(PPP_LCP) ||
+ 		count >= PPP_PROTO_LEN + PPP_LCP_HDRLEN;
+ }
+ 
+@@ -914,7 +933,7 @@ static long ppp_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ 	case PPPIOCSNPMODE:
+ 		if (copy_from_user(&npi, argp, sizeof(npi)))
+ 			break;
+-		err = proto_to_npindex(npi.protocol);
++		err = proto_to_npindex_user(npi.protocol);
+ 		if (err < 0)
+ 			break;
+ 		i = err;
+@@ -1451,10 +1470,10 @@ static netdev_tx_t
+ ppp_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ {
+ 	struct ppp *ppp = netdev_priv(dev);
+-	int npi, proto;
+-	unsigned char *pp;
++	__be16 *pp, proto;
++	int npi;
+ 
+-	npi = ethertype_to_npindex(ntohs(skb->protocol));
++	npi = ethertype_to_npindex(skb->protocol);
+ 	if (npi < 0)
+ 		goto outf;
+ 
+@@ -1478,7 +1497,7 @@ ppp_start_xmit(struct sk_buff *skb, struct net_device *dev)
+ 
+ 	pp = skb_push(skb, 2);
+ 	proto = npindex_to_proto[npi];
+-	put_unaligned_be16(proto, pp);
++	put_unaligned(proto, pp);
+ 
+ 	skb_scrub_packet(skb, !net_eq(ppp->ppp_net, dev_net(dev)));
+ 	ppp_xmit_process(ppp, skb);
+@@ -1764,14 +1783,14 @@ pad_compress_skb(struct ppp *ppp, struct sk_buff *skb)
+ static void
+ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
+ {
+-	int proto = PPP_PROTO(skb);
++	__be16 proto = PPP_PROTO(skb);
+ 	struct sk_buff *new_skb;
+ 	int len;
+ 	unsigned char *cp;
+ 
+ 	skb->dev = ppp->dev;
+ 
+-	if (proto < 0x8000) {
++	if (!(proto & htons(0x8000))) {
+ #ifdef CONFIG_PPP_FILTER
+ 		/* check if the packet passes the pass and active filters.
+ 		 * See comment for PPP_FILTER_OUTBOUND_TAG above.
+@@ -2324,7 +2343,7 @@ ppp_input(struct ppp_channel *chan, struct sk_buff *skb)
+ {
+ 	struct channel *pch = chan->ppp;
+ 	struct ppp *ppp;
+-	int proto;
++	__be16 proto;
+ 
+ 	if (!pch) {
+ 		kfree_skb(skb);
+@@ -2347,7 +2366,8 @@ ppp_input(struct ppp_channel *chan, struct sk_buff *skb)
+ 	}
+ 
+ 	proto = PPP_PROTO(skb);
+-	if (!ppp || proto >= 0xc000 || proto == PPP_CCPFRAG) {
++	if (!ppp || (proto & htons(0xc000)) == htons(0xc000) ||
++	    proto == htons(PPP_CCPFRAG)) {
+ 		/* put it on the channel queue */
+ 		skb_queue_tail(&pch->file.rq, skb);
+ 		/* drop old frames if queue too long */
+@@ -2399,7 +2419,7 @@ ppp_receive_frame(struct ppp *ppp, struct sk_buff *skb, struct channel *pch)
+ 		skb_checksum_complete_unset(skb);
+ #ifdef CONFIG_PPP_MULTILINK
+ 		/* XXX do channel-level decompression here */
+-		if (PPP_PROTO(skb) == PPP_MP)
++		if (PPP_PROTO(skb) == htons(PPP_MP))
+ 			ppp_receive_mp_frame(ppp, skb, pch);
+ 		else
+ #endif /* CONFIG_PPP_MULTILINK */
+@@ -2422,7 +2442,8 @@ static void
+ ppp_receive_nonmp_frame(struct ppp *ppp, struct sk_buff *skb)
+ {
+ 	struct sk_buff *ns;
+-	int proto, len, npi;
++	int len, npi;
++	__be16 proto;
+ 
+ 	/*
+ 	 * Decompress the frame, if compressed.
+@@ -2441,7 +2462,7 @@ ppp_receive_nonmp_frame(struct ppp *ppp, struct sk_buff *skb)
+ 	 */
+ 	proto = PPP_PROTO(skb);
+ 	switch (proto) {
+-	case PPP_VJC_COMP:
++	case htons(PPP_VJC_COMP):
+ 		/* decompress VJ compressed packets */
+ 		if (!ppp->vj || (ppp->flags & SC_REJ_COMP_TCP))
+ 			goto err;
+@@ -2473,10 +2494,10 @@ ppp_receive_nonmp_frame(struct ppp *ppp, struct sk_buff *skb)
+ 			skb_put(skb, len - skb->len);
+ 		else if (len < skb->len)
+ 			skb_trim(skb, len);
+-		proto = PPP_IP;
++		proto = htons(PPP_IP);
+ 		break;
+ 
+-	case PPP_VJC_UNCOMP:
++	case htons(PPP_VJC_UNCOMP):
+ 		if (!ppp->vj || (ppp->flags & SC_REJ_COMP_TCP))
+ 			goto err;
+ 
+@@ -2490,10 +2511,10 @@ ppp_receive_nonmp_frame(struct ppp *ppp, struct sk_buff *skb)
+ 			netdev_err(ppp->dev, "PPP: VJ uncompressed error\n");
+ 			goto err;
+ 		}
+-		proto = PPP_IP;
++		proto = htons(PPP_IP);
+ 		break;
+ 
+-	case PPP_CCP:
++	case htons(PPP_CCP):
+ 		ppp_ccp_peek(ppp, skb, 1);
+ 		break;
+ 	}
+@@ -2546,7 +2567,7 @@ ppp_receive_nonmp_frame(struct ppp *ppp, struct sk_buff *skb)
+ 			/* chop off protocol */
+ 			skb_pull_rcsum(skb, 2);
+ 			skb->dev = ppp->dev;
+-			skb->protocol = htons(npindex_to_ethertype[npi]);
++			skb->protocol = npindex_to_ethertype[npi];
+ 			skb_reset_mac_header(skb);
+ 			skb_scrub_packet(skb, !net_eq(ppp->ppp_net,
+ 						      dev_net(ppp->dev)));
+@@ -2563,7 +2584,7 @@ ppp_receive_nonmp_frame(struct ppp *ppp, struct sk_buff *skb)
+ static struct sk_buff *
+ ppp_decompress_frame(struct ppp *ppp, struct sk_buff *skb)
+ {
+-	int proto = PPP_PROTO(skb);
++	__be16 proto = PPP_PROTO(skb);
+ 	struct sk_buff *ns;
+ 	int len;
+ 
+@@ -2573,7 +2594,7 @@ ppp_decompress_frame(struct ppp *ppp, struct sk_buff *skb)
+ 	if (!pskb_may_pull(skb, skb->len))
+ 		goto err;
+ 
+-	if (proto == PPP_COMP) {
++	if (proto == htons(PPP_COMP)) {
+ 		int obuff_size;
+ 
+ 		switch(ppp->rcomp->compress_proto) {
+-- 
+2.43.0
+
 
