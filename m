@@ -1,92 +1,101 @@
-Return-Path: <linux-ppp+bounces-388-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-389-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yPsiFIKiimleMgAAu9opvQ
-	(envelope-from <linux-ppp+bounces-388-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Tue, 10 Feb 2026 04:14:10 +0100
+	id 6AtLFhQ2jGnijAAAu9opvQ
+	(envelope-from <linux-ppp+bounces-389-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Wed, 11 Feb 2026 08:56:04 +0100
 X-Original-To: lists+linux-ppp@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5AF8116B41
-	for <lists+linux-ppp@lfdr.de>; Tue, 10 Feb 2026 04:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B6B121FA0
+	for <lists+linux-ppp@lfdr.de>; Wed, 11 Feb 2026 08:56:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 32D7330071E7
-	for <lists+linux-ppp@lfdr.de>; Tue, 10 Feb 2026 03:13:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CBE2B302A680
+	for <lists+linux-ppp@lfdr.de>; Wed, 11 Feb 2026 07:55:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44C9D2DB781;
-	Tue, 10 Feb 2026 03:13:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 874E734F244;
+	Wed, 11 Feb 2026 07:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HmZizgMb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HlBFqnmZ"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7EF2E2DDD
-	for <linux-ppp@vger.kernel.org>; Tue, 10 Feb 2026 03:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C7332BF55
+	for <linux-ppp@vger.kernel.org>; Wed, 11 Feb 2026 07:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770693205; cv=none; b=fvTPv41l+rgn9vq6NcFOfHLzCSorBVbdpCRotfLt04GCZEVz2jThyj7nc1kNTxv44GMBM/8NBJLroZS7M0/aZnNwYqj4umaYv7Y+6vZ6iprGs0QON9FIJ3dNTkl8sc0rfM4WxlJh1VbW3zZMuHO1espg6luZXB6C8vQ9g0YKmwA=
+	t=1770796558; cv=none; b=vEltcN963zkTDtBKPPE6mUweRps6okOcff1uCpU5brJar5YCl/JC2MMhusm+LQtX2+cR/Ed9m7iKUI+btNP7Jd9RTDQLavmSymRssS1M/bYP7X0gDp+gcQkY1dl3GmU1sxaaIfoLLlWvu91Ms/DQ4rM3WnfI1eUFJXdVB7/z7gM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770693205; c=relaxed/simple;
-	bh=4/nMmnI8zKAYeeLlG0XTvxB44Mg+06NdKDy3SZy19bE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k7yYhIvy6ke21WTScFOGPojuOh1/7sgekAA69a0JQDbjnlWQeYGO14bbmFN7WIO9+DmdRJTcG/E8LMMwRm5y2FRhZj+PGB2PyR/rmXhcfqQszBKP7Z+MbP/KBCUcJynJfu9UiMqX0VqAFjjMlfSDB25Z/CufjuWOwq00w9EnAng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HmZizgMb; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1770796558; c=relaxed/simple;
+	bh=NBNOVlCllpdYEyndId9bnUd3CjYv1ne/cPHtFJR/oO4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U/wXJ0B+Dh7EbO/oKBROVGPDa2N4tyx9KemYZehdU410hZZyr8YlPCKs/TAlbD4HkV9sQb/JJ5Zd1c1oE/SC+RIU/iE6eFmtrH3p4YAN0sSXi0IvavCevayMROUTRJOL3CzOWw/LclRgWrGyc5xb/VOOUnjWDUB2KUylsU5KWOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HlBFqnmZ; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b8876d1a39bso531233866b.1
-        for <linux-ppp@vger.kernel.org>; Mon, 09 Feb 2026 19:13:23 -0800 (PST)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-65a3fdeb7d9so474441a12.0
+        for <linux-ppp@vger.kernel.org>; Tue, 10 Feb 2026 23:55:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770693202; x=1771298002; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770796555; x=1771401355; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9yOqvn4iic2Welqp2RwCBkSo3ZxAKMu23cfko1WEdD8=;
-        b=HmZizgMbMOJaniZ/4+cIz0hEnuyudHyyiRX6qTvADKcTwgffKT+CetFsaO8zwNoUJS
-         8nF6d1JDnzTjmLu8f80w9zZVIcnGLOS94Lnynn9tVLIuzmHCPe1CpB6Z8rzXMxuMBP5J
-         /wlAs3eMQ/RKCcXWxRt6kDkaSb8GtlQbBOAchuTcnQKcUEPKj9kDOr1pGBD+13u/GCuo
-         qijOKcTVPqt28BAkI6/U5qIZrjsXXb2uKwD4p3r3LYEsSsTPVM3GimGVoJ6AXJJMq+Ej
-         /OygUcGOZDCMgCkgQpQw5G5l2GcRTkzOFBpQsYh7Ng++ijvODJQ5JCQnBU9x/oVaXZzM
-         wmOA==
+        bh=HFY74oEhMKgEBwIz79njhA1rP5gdyP3GZa9qdE7Wwkc=;
+        b=HlBFqnmZa3d9FCzUZkU826MB5xAp94A0/4xUnE8xRFNnpsIG1VUfGF6Yq/0/9fDXuk
+         HSsEMD8yG4ZDW3uKKEouyzZWiIsVdXf7742vRGTYYwgSO4403QGewAsOYAd3EargICpY
+         vxParpDjiXmT7Ur4/9WF7ekfMv9/6MM+xL4nUD9lyDyp7JEPi/0SUOefC2ZvoCpMomn9
+         kccFTCvbNwEkYoJwbZGA5QejXOCotyNyCcho6QkB1d82d3LPB5vDkh2id13a3R9fFxcu
+         BiTqf5Kj4SoucTCNhUXE5jLGcB7zJi03P6BVsSDqMfrNz8GptCzswVv1OWkUeeDKxhDy
+         w4rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770693202; x=1771298002;
+        d=1e100.net; s=20230601; t=1770796555; x=1771401355;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9yOqvn4iic2Welqp2RwCBkSo3ZxAKMu23cfko1WEdD8=;
-        b=ROCumq+zUyejED7TLKUsH2j7Ym/aNwBKU6uGihS3FSmobg0jqaxLM0O35aKYoGNrjL
-         sbhUw5zt2Ud2oMETtrMtlmO4PleWEQRAtbGM2r/RFB16fZdRpT1b9FmzIGKfe7D9aW1f
-         O0gx5s4Ir7EetYFd2ariLHAXLgkvgiIjtRz/Eav7Jp2BttxiQ303UdHuRZLX+QdESsDr
-         VyJYLxTpEfPkWZGx6+oGI/EJV5YWCOjPpvTdA8vy5efW6TbOv/Ya/eJXPMAan2ioVmpP
-         ScNewUodYqqZKXvRZK7kJFmL4nenBnQmplL8zoXIviIi5vt9ygC3Ow0ZtKnM2njfD7hF
-         krFw==
-X-Forwarded-Encrypted: i=1; AJvYcCX9QScFtgcRl1Z2yShKvKOvL2zE16naUBerbcnyhHwdF81jwEJ2mkW7fAxvOLEKAd+XYQUQVoWIy58=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfAK6YPQyMYmUz9+rLdMYThB6ptUR+cPq08EaPEsGjdOJPvQY/
-	o7+ffwx/DZoSQFVJw+YmgiyLQO94MxhEtkfD/37uKuVMiBOvr2Pm8t8t
-X-Gm-Gg: AZuq6aJDVpRfOcB0UvPL1BGSgset3FLqnbiURgRUBAiwRSgCbRLuyETKIPlmhAoFraE
-	VCAwKYKz3Cd6d/dnsVSlJi1DG4F6ddwtoo3JzxGZJ4FN3OVH/hSDtwqUTPqqj9q5z/3dpc1dmBb
-	yuaKgDQanypw2SBpeEa8i/9E9zGixKMbEjQNC4kk+sJQB0Tmta2qYIKBezvi4VSlSXeZgt7z2kB
-	r4SuoDWueMr0nQDQ/5MpdeHLU5RI9Bhs9ki9YUzSgjbyLsD0YAhd7FRxX7eyY3b5HL0YBBBUXbK
-	HzRY9HtamTzHUKpzU/5VZfh4/QNgDTU6PKHy+rSZJq/9sHG1hhoGj7jqAUHJoJqClqvk88yDKJr
-	nYW1mvCxXfoV9E/x0aptjg2kpkBVdX1SqKR3C6EIJJbCAFno78a0sU/c1WrGCQ8eclNn/MS4kiS
-	jv5Q==
-X-Received: by 2002:a17:906:f58d:b0:b87:1ffc:bf9b with SMTP id a640c23a62f3a-b8edf173b0amr809418766b.3.1770693201789;
-        Mon, 09 Feb 2026 19:13:21 -0800 (PST)
-Received: from gmail.com ([2a09:bac5:4e22:26fa::3e2:d])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8eda7e6577sm451058566b.30.2026.02.09.19.13.16
+        bh=HFY74oEhMKgEBwIz79njhA1rP5gdyP3GZa9qdE7Wwkc=;
+        b=hYJBCzZEzValM8/8/nU6M7hRusSll6oA9ZaRBK8DTGTvl5YWXDhbCnIgGlNY06v6QP
+         MLYyQYDmcmDIVkKx+avSiUV4lr2JN2Hyu2C62V7ch4m0odnp550h+mDTcwIxefRPXKx2
+         IIaDpwW1HRJzCziPw5XKl2QJMihTFJuvNZZy9UG+d9ZJr/j+lytp3qIeJHdNfb4gojS0
+         DqPzKUNe+4863HQNsJBngI52vTtnTAuWXh4TwrW7aGiWxpGceBRDiX71UGnyDL6DBR58
+         jC4guWXeO6cfz1voIouHPlGDIo1z3++m2L2LYOwTDySaNf1aSspXIa/tX3UGd+tyGm8A
+         EiGw==
+X-Gm-Message-State: AOJu0Yxbfe0OZVMdQCR7bQtXi+6tK202cNxvWxf4Ns/qHnW0kaN2jQ1g
+	0W2+j45qwrKSpy5qfv6mlD2BbZhVr1bdRo3lgZomvUXaDmLG6s0KN2FUpcniB5EkvlOVbg==
+X-Gm-Gg: AZuq6aLAwSo+eghAC61XOtO5Nb1wgmhKvUZwFLTdJP5/vCSYX1qjpwaVnwj3uQUHZQc
+	+1rM8PK5u603kyXxbIrZ75bFAgC+sFCV9VELwNINpQSjbe+v++aF7r5usR7GDS2Grz/BTQCPic2
+	plg144CypJKoXbWKEzg3GhaF7HhXW5wcVyIoxqgv8deTo9wfvQU3tRX9I3zZyL2Hkxw3atttJf0
+	ohZY0YGnPESmMfuf04vzwhNj3ntoJXxbkPawZ+/j6byZt2GuZ3qLhp+7d+D9qYVm0aCqcDchtUl
+	8mEJ4swJuca4bHUnqWdHWySuHQSsUVZL6LCez3VyMc92qolFEp2aaXfndxpTlKrUEpN0Zy14YCn
+	u/lOWokc79BXpkV92x3vuKiK7f5agPcLhLyrOrjslbvBibtSfbrKGrQXMZ/WppQ8KYo6wFXvhQB
+	2v
+X-Received: by 2002:a05:6402:388c:b0:659:78ae:7892 with SMTP id 4fb4d7f45d1cf-65a0d1f4b4bmr2704634a12.22.1770796554530;
+        Tue, 10 Feb 2026 23:55:54 -0800 (PST)
+Received: from gmail.com ([2a09:bac5:4e21:c8::14:2e0])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65a3cec914dsm483047a12.11.2026.02.10.23.55.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 19:13:20 -0800 (PST)
+        Tue, 10 Feb 2026 23:55:53 -0800 (PST)
 From: Qingfang Deng <dqfext@gmail.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
+To: linux-ppp@vger.kernel.org,
+	rp-pppoe@lists.skoll.ca,
+	Michal Ostrowski <mostrows@earthlink.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
-	linux-ppp@vger.kernel.org,
+	James Chapman <jchapman@katalix.com>,
+	Simon Horman <horms@kernel.org>,
 	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: [RFC PATCH net-next v2] ppp: don't store tx skb in the fastpath
-Date: Tue, 10 Feb 2026 11:13:13 +0800
-Message-ID: <20260210031313.29708-1-dqfext@gmail.com>
+Cc: Michal Ostrowski <mostrows@gmail.com>,
+	Dianne Skoll <dianne@skoll.ca>,
+	Paul Mackerras <paulus@ozlabs.org>,
+	Jaco Kroon <jaco@uls.co.za>,
+	James Carlson <carlsonj@workingcode.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Guillaume Nault <gnault@redhat.com>
+Subject: [PATCH RFC net-next] pppoe: remove unused kernel-mode relay support
+Date: Wed, 11 Feb 2026 15:55:46 +0800
+Message-ID: <20260211075547.138904-1-dqfext@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
@@ -102,292 +111,302 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-389-lists,linux-ppp=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[vger.kernel.org,lists.skoll.ca,earthlink.net,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,katalix.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-388-lists,linux-ppp=lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_CC(0.00)[gmail.com,skoll.ca,ozlabs.org,uls.co.za,workingcode.com,arndb.de,redhat.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[dqfext@gmail.com,linux-ppp@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-ppp,netdev];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-ppp,netdev];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: C5AF8116B41
+X-Rspamd-Queue-Id: 02B6B121FA0
 X-Rspamd-Action: no action
 
-Currently, ppp->xmit_pending is used in ppp_send_frame() to pass a skb
-to ppp_push(), and holds the skb when a PPP channel cannot immediately
-transmit it. This state is redundant because the transmit queue
-(ppp->file.xq) can already handle the backlog. Furthermore, during
-normal operation, an skb is queued in file.xq only to be immediately
-dequeued, causing unnecessary overhead.
+The kernel-mode PPPoE relay feature and its two associated ioctls
+(PPPOEIOCSFWD and PPPOEIOCDFWD) are not used by any existing userspace
+PPPoE implementations. The standard userspace package, rp-pppoe [1],
+handles relaying entirely in userspace.
 
-Refactor the transmit path to avoid stashing the skb when possible:
-- Remove ppp->xmit_pending.
-- Rename ppp_send_frame() to ppp_prepare_tx_skb(), and don't call
-  ppp_push() in it. It returns NULL if the skb is consumed
-  (dropped/queue) or a new skb to be passed to ppp_push().
-- Update ppp_push() to accept the skb. It returns 1 if the skb is
-  consumed, or 0 if the channel is busy.
-- Optimize __ppp_xmit_process():
-  - Fastpath: If the queue is empty, attempt to send the skb directly
-    via ppp_push(). If busy, queue it.
-  - Slowpath: If the queue is not empty, process the backlog in
-    file.xq. Split dequeuing loop into a separate function
-    ppp_xmit_flush() so ppp_channel_push() uses that directly instead of
-    passing a NULL skb to __ppp_xmit_process().
+This legacy code has remained in the driver since its introduction in
+kernel 2.3.99-pre7 for over two decades, but serves no practical
+purpose.
 
-This simplifies the states and reduces locking in the fastpath.
+Remove the unused relay code.
+
+[1] https://dianne.skoll.ca/projects/rp-pppoe/
 
 Signed-off-by: Qingfang Deng <dqfext@gmail.com>
 ---
-PPPoE encap forwarding performance on a RISC-V SBC increased from
- 86kpps to 91kpps. 
+ drivers/net/ppp/pppoe.c       | 82 -----------------------------------
+ drivers/net/ppp/pppox.c       | 13 ------
+ drivers/net/ppp/pptp.c        |  3 --
+ include/linux/if_pppox.h      |  7 ---
+ include/uapi/linux/if_pppox.h | 10 -----
+ net/l2tp/l2tp_ppp.c           |  3 --
+ 6 files changed, 118 deletions(-)
 
-v2: fix ppp_prepare_tx_skb() UAF.
- - https://lore.kernel.org/netdev/20260209021134.21194-1-dqfext@gmail.com/
-
- drivers/net/ppp/ppp_generic.c | 107 +++++++++++++++++++---------------
- 1 file changed, 61 insertions(+), 46 deletions(-)
-
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index f8814d7be6f1..b8a41f571aa3 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -134,7 +134,6 @@ struct ppp {
- 	int		debug;		/* debug flags 70 */
- 	struct slcompress *vj;		/* state for VJ header compression */
- 	enum NPmode	npmode[NUM_NP];	/* what to do with each net proto 78 */
--	struct sk_buff	*xmit_pending;	/* a packet ready to go out 88 */
- 	struct compressor *xcomp;	/* transmit packet compressor 8c */
- 	void		*xc_state;	/* its internal state 90 */
- 	struct compressor *rcomp;	/* receive decompressor 94 */
-@@ -264,8 +263,8 @@ struct ppp_net {
- static int ppp_unattached_ioctl(struct net *net, struct ppp_file *pf,
- 			struct file *file, unsigned int cmd, unsigned long arg);
- static void ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb);
--static void ppp_send_frame(struct ppp *ppp, struct sk_buff *skb);
--static void ppp_push(struct ppp *ppp);
-+static struct sk_buff *ppp_prepare_tx_skb(struct ppp *ppp, struct sk_buff *skb);
-+static int ppp_push(struct ppp *ppp, struct sk_buff *skb);
- static void ppp_channel_push(struct channel *pch);
- static void ppp_receive_frame(struct ppp *ppp, struct sk_buff *skb,
- 			      struct channel *pch);
-@@ -1651,26 +1650,45 @@ static void ppp_setup(struct net_device *dev)
-  */
+diff --git a/drivers/net/ppp/pppoe.c b/drivers/net/ppp/pppoe.c
+index 4275b393a454..a126f804e4dd 100644
+--- a/drivers/net/ppp/pppoe.c
++++ b/drivers/net/ppp/pppoe.c
+@@ -237,25 +237,6 @@ static inline struct pppox_sock *get_item(struct pppoe_net *pn, __be16 sid,
+ 	return po;
+ }
  
- /* Called to do any work queued up on the transmit side that can now be done */
-+static void ppp_xmit_flush(struct ppp *ppp)
-+{
-+	struct sk_buff *skb;
-+
-+	while ((skb = skb_dequeue(&ppp->file.xq))) {
-+		if (unlikely(!ppp_push(ppp, skb))) {
-+			skb_queue_head(&ppp->file.xq, skb);
-+			return;
-+		}
-+	}
-+	/* If there's no work left to do, tell the core net code that we can
-+	 * accept some more.
-+	 */
-+	netif_wake_queue(ppp->dev);
-+}
-+
- static void __ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb)
- {
- 	ppp_xmit_lock(ppp);
--	if (!ppp->closing) {
--		ppp_push(ppp);
+-static inline struct pppox_sock *__get_item_by_addr(struct net *net,
+-						    struct sockaddr_pppox *sp)
+-{
+-	struct net_device *dev;
+-	struct pppoe_net *pn;
+-	struct pppox_sock *pppox_sock = NULL;
 -
--		if (skb)
-+	if (unlikely(ppp->closing)) {
-+		kfree_skb(skb);
-+		goto out;
-+	}
-+	skb = ppp_prepare_tx_skb(ppp, skb);
-+	if (unlikely(!skb))
-+		goto out;
-+	/* Fastpath: No backlog, just send the new skb. */
-+	if (likely(skb_queue_empty(&ppp->file.xq))) {
-+		if (unlikely(!ppp_push(ppp, skb))) {
- 			skb_queue_tail(&ppp->file.xq, skb);
--		while (!ppp->xmit_pending &&
--		       (skb = skb_dequeue(&ppp->file.xq)))
--			ppp_send_frame(ppp, skb);
--		/* If there's no work left to do, tell the core net
--		   code that we can accept some more. */
--		if (!ppp->xmit_pending && !skb_peek(&ppp->file.xq))
--			netif_wake_queue(ppp->dev);
--		else
- 			netif_stop_queue(ppp->dev);
--	} else {
--		kfree_skb(skb);
-+		}
-+		goto out;
- 	}
-+
-+	/* Slowpath: Enqueue the new skb and process backlog */
-+	skb_queue_tail(&ppp->file.xq, skb);
-+	ppp_xmit_flush(ppp);
-+out:
- 	ppp_xmit_unlock(ppp);
- }
- 
-@@ -1757,12 +1775,11 @@ pad_compress_skb(struct ppp *ppp, struct sk_buff *skb)
- }
- 
- /*
-- * Compress and send a frame.
-- * The caller should have locked the xmit path,
-- * and xmit_pending should be 0.
-+ * Compress and prepare to send a frame.
-+ * The caller should have locked the xmit path.
-  */
--static void
--ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
-+static struct sk_buff *
-+ppp_prepare_tx_skb(struct ppp *ppp, struct sk_buff *skb)
- {
- 	int proto = PPP_PROTO(skb);
- 	struct sk_buff *new_skb;
-@@ -1784,7 +1801,7 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
- 					      "PPP: outbound frame "
- 					      "not passed\n");
- 			kfree_skb(skb);
--			return;
-+			return NULL;
- 		}
- 		/* if this packet passes the active filter, record the time */
- 		if (!(ppp->active_filter &&
-@@ -1869,42 +1886,38 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
- 			goto drop;
- 		skb_queue_tail(&ppp->file.rq, skb);
- 		wake_up_interruptible(&ppp->file.rwait);
--		return;
-+		return NULL;
- 	}
- 
--	ppp->xmit_pending = skb;
--	ppp_push(ppp);
--	return;
-+	return skb;
- 
-  drop:
- 	kfree_skb(skb);
- 	++ppp->dev->stats.tx_errors;
-+	return NULL;
- }
- 
- /*
-- * Try to send the frame in xmit_pending.
-+ * Try to send the frame.
-  * The caller should have the xmit path locked.
-+ * Returns 1 if the skb was consumed, 0 if not.
-  */
--static void
--ppp_push(struct ppp *ppp)
-+static int
-+ppp_push(struct ppp *ppp, struct sk_buff *skb)
- {
- 	struct list_head *list;
- 	struct channel *pch;
--	struct sk_buff *skb = ppp->xmit_pending;
+-	int ifindex;
 -
--	if (!skb)
--		return;
+-	dev = dev_get_by_name_rcu(net, sp->sa_addr.pppoe.dev);
+-	if (dev) {
+-		ifindex = dev->ifindex;
+-		pn = pppoe_pernet(net);
+-		pppox_sock = __get_item(pn, sp->sa_addr.pppoe.sid,
+-					sp->sa_addr.pppoe.remote, ifindex);
+-	}
+-	return pppox_sock;
+-}
+-
+ static inline void delete_item(struct pppoe_net *pn, __be16 sid,
+ 					char *addr, int ifindex)
+ {
+@@ -369,7 +350,6 @@ static struct notifier_block pppoe_notifier = {
+ static int pppoe_rcv_core(struct sock *sk, struct sk_buff *skb)
+ {
+ 	struct pppox_sock *po = pppox_sk(sk);
+-	struct pppox_sock *relay_po;
  
- 	list = &ppp->channels;
- 	if (list_empty(list)) {
- 		/* nowhere to send the packet, just drop it */
--		ppp->xmit_pending = NULL;
- 		kfree_skb(skb);
--		return;
-+		return 1;
+ 	/* Backlog receive. Semantics of backlog rcv preclude any code from
+ 	 * executing in lock_sock()/release_sock() bounds; meaning sk->sk_state
+@@ -378,17 +358,6 @@ static int pppoe_rcv_core(struct sock *sk, struct sk_buff *skb)
+ 
+ 	if (sk->sk_state & PPPOX_BOUND) {
+ 		ppp_input(&po->chan, skb);
+-	} else if (sk->sk_state & PPPOX_RELAY) {
+-		relay_po = __get_item_by_addr(sock_net(sk),
+-					      &po->pppoe_relay);
+-		if (relay_po == NULL)
+-			goto abort_kfree;
+-
+-		if ((sk_pppox(relay_po)->sk_state & PPPOX_CONNECTED) == 0)
+-			goto abort_kfree;
+-
+-		if (!__pppoe_xmit(sk_pppox(relay_po), skb))
+-			goto abort_kfree;
+ 	} else {
+ 		if (sock_queue_rcv_skb(sk, skb))
+ 			goto abort_kfree;
+@@ -656,7 +625,6 @@ static int pppoe_connect(struct socket *sock, struct sockaddr_unsized *uservaddr
+ 
+ 		po->pppoe_ifindex = 0;
+ 		memset(&po->pppoe_pa, 0, sizeof(po->pppoe_pa));
+-		memset(&po->pppoe_relay, 0, sizeof(po->pppoe_relay));
+ 		memset(&po->chan, 0, sizeof(po->chan));
+ 		po->next = NULL;
+ 		po->num = 0;
+@@ -783,53 +751,6 @@ static int pppoe_ioctl(struct socket *sock, unsigned int cmd,
+ 		err = 0;
+ 		break;
+ 
+-	case PPPOEIOCSFWD:
+-	{
+-		struct pppox_sock *relay_po;
+-
+-		err = -EBUSY;
+-		if (sk->sk_state & (PPPOX_BOUND | PPPOX_DEAD))
+-			break;
+-
+-		err = -ENOTCONN;
+-		if (!(sk->sk_state & PPPOX_CONNECTED))
+-			break;
+-
+-		/* PPPoE address from the user specifies an outbound
+-		   PPPoE address which frames are forwarded to */
+-		err = -EFAULT;
+-		if (copy_from_user(&po->pppoe_relay,
+-				   (void __user *)arg,
+-				   sizeof(struct sockaddr_pppox)))
+-			break;
+-
+-		err = -EINVAL;
+-		if (po->pppoe_relay.sa_family != AF_PPPOX ||
+-		    po->pppoe_relay.sa_protocol != PX_PROTO_OE)
+-			break;
+-
+-		/* Check that the socket referenced by the address
+-		   actually exists. */
+-		rcu_read_lock();
+-		relay_po = __get_item_by_addr(sock_net(sk), &po->pppoe_relay);
+-		rcu_read_unlock();
+-		if (!relay_po)
+-			break;
+-
+-		sk->sk_state |= PPPOX_RELAY;
+-		err = 0;
+-		break;
+-	}
+-
+-	case PPPOEIOCDFWD:
+-		err = -EALREADY;
+-		if (!(sk->sk_state & PPPOX_RELAY))
+-			break;
+-
+-		sk->sk_state &= ~PPPOX_RELAY;
+-		err = 0;
+-		break;
+-
+ 	default:
+ 		err = -ENOTTY;
  	}
+@@ -1136,9 +1057,6 @@ static const struct proto_ops pppoe_ops = {
+ 	.recvmsg	= pppoe_recvmsg,
+ 	.mmap		= sock_no_mmap,
+ 	.ioctl		= pppox_ioctl,
+-#ifdef CONFIG_COMPAT
+-	.compat_ioctl	= pppox_compat_ioctl,
+-#endif
+ };
  
- 	if ((ppp->flags & SC_MULTILINK) == 0) {
- 		struct ppp_channel *chan;
-+		int ret;
- 		/* not doing multilink: send it down the first channel */
- 		list = list->next;
- 		pch = list_entry(list, struct channel, clist);
-@@ -1916,27 +1929,26 @@ ppp_push(struct ppp *ppp)
- 			 * skb but linearization failed
- 			 */
- 			kfree_skb(skb);
--			ppp->xmit_pending = NULL;
-+			ret = 1;
- 			goto out;
- 		}
+ static const struct pppox_proto pppoe_proto = {
+diff --git a/drivers/net/ppp/pppox.c b/drivers/net/ppp/pppox.c
+index 08364f10a43f..5ef422a43d70 100644
+--- a/drivers/net/ppp/pppox.c
++++ b/drivers/net/ppp/pppox.c
+@@ -17,7 +17,6 @@
+ #include <linux/string.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+-#include <linux/compat.h>
+ #include <linux/errno.h>
+ #include <linux/netdevice.h>
+ #include <linux/net.h>
+@@ -99,18 +98,6 @@ int pppox_ioctl(struct socket *sock, unsigned int cmd, unsigned long arg)
  
--		if (chan->ops->start_xmit(chan, skb))
--			ppp->xmit_pending = NULL;
-+		ret = chan->ops->start_xmit(chan, skb);
+ EXPORT_SYMBOL(pppox_ioctl);
  
- out:
- 		spin_unlock(&pch->downl);
--		return;
-+		return ret;
- 	}
+-#ifdef CONFIG_COMPAT
+-int pppox_compat_ioctl(struct socket *sock, unsigned int cmd, unsigned long arg)
+-{
+-	if (cmd == PPPOEIOCSFWD32)
+-		cmd = PPPOEIOCSFWD;
+-
+-	return pppox_ioctl(sock, cmd, (unsigned long)compat_ptr(arg));
+-}
+-
+-EXPORT_SYMBOL(pppox_compat_ioctl);
+-#endif
+-
+ static int pppox_create(struct net *net, struct socket *sock, int protocol,
+ 			int kern)
+ {
+diff --git a/drivers/net/ppp/pptp.c b/drivers/net/ppp/pptp.c
+index b18acd810561..8838ed93eb70 100644
+--- a/drivers/net/ppp/pptp.c
++++ b/drivers/net/ppp/pptp.c
+@@ -634,9 +634,6 @@ static const struct proto_ops pptp_ops = {
+ 	.recvmsg    = sock_no_recvmsg,
+ 	.mmap       = sock_no_mmap,
+ 	.ioctl      = pppox_ioctl,
+-#ifdef CONFIG_COMPAT
+-	.compat_ioctl = pppox_compat_ioctl,
+-#endif
+ };
  
- #ifdef CONFIG_PPP_MULTILINK
- 	/* Multilink: fragment the packet over as many links
- 	   as can take the packet at the moment. */
- 	if (!ppp_mp_explode(ppp, skb))
--		return;
-+		return 0;
- #endif /* CONFIG_PPP_MULTILINK */
+ static const struct pppox_proto pppox_pptp_proto = {
+diff --git a/include/linux/if_pppox.h b/include/linux/if_pppox.h
+index db45d6f1c4f4..a015afa672b7 100644
+--- a/include/linux/if_pppox.h
++++ b/include/linux/if_pppox.h
+@@ -25,8 +25,6 @@ struct pppoe_opt {
+ 	struct net_device      *dev;	  /* device associated with socket*/
+ 	int			ifindex;  /* ifindex of device associated with socket */
+ 	struct pppoe_addr	pa;	  /* what this socket is bound to*/
+-	struct sockaddr_pppox	relay;	  /* what socket data will be
+-					     relayed to (PPPoE relaying) */
+ 	struct work_struct      padt_work;/* Work item for handling PADT */
+ };
  
--	ppp->xmit_pending = NULL;
- 	kfree_skb(skb);
-+	return 1;
- }
+@@ -53,7 +51,6 @@ struct pppox_sock {
+ #define pppoe_dev	proto.pppoe.dev
+ #define pppoe_ifindex	proto.pppoe.ifindex
+ #define pppoe_pa	proto.pppoe.pa
+-#define pppoe_relay	proto.pppoe.relay
  
- #ifdef CONFIG_PPP_MULTILINK
-@@ -2005,7 +2017,7 @@ static int ppp_mp_explode(struct ppp *ppp, struct sk_buff *skb)
- 	 * performance if we have a lot of channels.
- 	 */
- 	if (nfree == 0 || nfree < navail / 2)
--		return 0; /* can't take now, leave it in xmit_pending */
-+		return 0; /* can't take now, leave it in transmit queue */
+ static inline struct pppox_sock *pppox_sk(struct sock *sk)
+ {
+@@ -78,16 +75,12 @@ extern int register_pppox_proto(int proto_num, const struct pppox_proto *pp);
+ extern void unregister_pppox_proto(int proto_num);
+ extern void pppox_unbind_sock(struct sock *sk);/* delete ppp-channel binding */
+ extern int pppox_ioctl(struct socket *sock, unsigned int cmd, unsigned long arg);
+-extern int pppox_compat_ioctl(struct socket *sock, unsigned int cmd, unsigned long arg);
+-
+-#define PPPOEIOCSFWD32    _IOW(0xB1 ,0, compat_size_t)
  
- 	/* Do protocol field compression */
- 	if (skb_linearize(skb))
-@@ -2199,8 +2211,12 @@ static void __ppp_channel_push(struct channel *pch, struct ppp *ppp)
- 	spin_unlock(&pch->downl);
- 	/* see if there is anything from the attached unit to be sent */
- 	if (skb_queue_empty(&pch->file.xq)) {
--		if (ppp)
--			__ppp_xmit_process(ppp, NULL);
-+		if (ppp) {
-+			ppp_xmit_lock(ppp);
-+			if (!ppp->closing)
-+				ppp_xmit_flush(ppp);
-+			ppp_xmit_unlock(ppp);
-+		}
- 	}
- }
+ /* PPPoX socket states */
+ enum {
+     PPPOX_NONE		= 0,  /* initial state */
+     PPPOX_CONNECTED	= 1,  /* connection established ==TCP_ESTABLISHED */
+     PPPOX_BOUND		= 2,  /* bound to ppp device */
+-    PPPOX_RELAY		= 4,  /* forwarding is enabled */
+     PPPOX_DEAD		= 16  /* dead, useless, please clean me up!*/
+ };
  
-@@ -3460,7 +3476,6 @@ static void ppp_destroy_interface(struct ppp *ppp)
- 	}
- #endif /* CONFIG_PPP_FILTER */
+diff --git a/include/uapi/linux/if_pppox.h b/include/uapi/linux/if_pppox.h
+index 9abd80dcc46f..8fdf0a681a4e 100644
+--- a/include/uapi/linux/if_pppox.h
++++ b/include/uapi/linux/if_pppox.h
+@@ -103,16 +103,6 @@ struct sockaddr_pppol2tpv3in6 {
+ 	struct pppol2tpv3in6_addr pppol2tp;
+ } __packed;
  
--	kfree_skb(ppp->xmit_pending);
- 	free_percpu(ppp->xmit_recursion);
+-/*********************************************************************
+- *
+- * ioctl interface for defining forwarding of connections
+- *
+- ********************************************************************/
+-
+-#define PPPOEIOCSFWD	_IOW(0xB1 ,0, size_t)
+-#define PPPOEIOCDFWD	_IO(0xB1 ,1)
+-/*#define PPPOEIOCGFWD	_IOWR(0xB1,2, size_t)*/
+-
+ /* Codes to identify message types */
+ #define PADI_CODE	0x09
+ #define PADO_CODE	0x07
+diff --git a/net/l2tp/l2tp_ppp.c b/net/l2tp/l2tp_ppp.c
+index ae4543d5597b..77aa9f5f866d 100644
+--- a/net/l2tp/l2tp_ppp.c
++++ b/net/l2tp/l2tp_ppp.c
+@@ -1644,9 +1644,6 @@ static const struct proto_ops pppol2tp_ops = {
+ 	.recvmsg	= pppol2tp_recvmsg,
+ 	.mmap		= sock_no_mmap,
+ 	.ioctl		= pppox_ioctl,
+-#ifdef CONFIG_COMPAT
+-	.compat_ioctl = pppox_compat_ioctl,
+-#endif
+ };
  
- 	free_netdev(ppp->dev);
+ static const struct pppox_proto pppol2tp_proto = {
 -- 
 2.43.0
 
