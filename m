@@ -1,411 +1,171 @@
-Return-Path: <linux-ppp+bounces-402-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-403-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AHiKOXirpmn9SgAAu9opvQ
-	(envelope-from <linux-ppp+bounces-402-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Tue, 03 Mar 2026 10:35:52 +0100
+	id SGVIHs31pmmgawAAu9opvQ
+	(envelope-from <linux-ppp+bounces-403-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Tue, 03 Mar 2026 15:53:01 +0100
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6071EBF20
-	for <lists+linux-ppp@lfdr.de>; Tue, 03 Mar 2026 10:35:52 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7B61F1D05
+	for <lists+linux-ppp@lfdr.de>; Tue, 03 Mar 2026 15:53:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 47D9B30B8E4E
-	for <lists+linux-ppp@lfdr.de>; Tue,  3 Mar 2026 09:32:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E1DF03067798
+	for <lists+linux-ppp@lfdr.de>; Tue,  3 Mar 2026 14:47:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 705D038D014;
-	Tue,  3 Mar 2026 09:32:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3F0247D92C;
+	Tue,  3 Mar 2026 14:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lELUDFdi"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bEm0QpW4";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="q8EEpOSd"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D767D38C409
-	for <linux-ppp@vger.kernel.org>; Tue,  3 Mar 2026 09:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E08E47D926
+	for <linux-ppp@vger.kernel.org>; Tue,  3 Mar 2026 14:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772530351; cv=none; b=Hk9uyMCEwxZU04vlLlXVujkk74tAVMVNCDbFStk9myW63ZcOcI0uxXYHDlcDi5KIs+M7TQ0sDTcocATC7u5NGQl6gztrF3q+4OeKdMCMD9Mk5zE10chz/FdWmWDVIl6B4Hk19clFxbf0Wae+RtSF6j5blAkI7oc6ktNNbl5k+o0=
+	t=1772549245; cv=none; b=QQM8n7dzOLEmS+C0MUl4UVa8Tv1lO3jYx9IUccRWj0ywCSYD+7egvFO3BWh0JlmTLJt65R0Wj4kMOUwbhgq7029/hP9jb9eqn8T6t/bGD5ytAcTzwV6mHNG2JWDGm1ChfT7Mlqtjm5Z5bJ7ZK103NNai/cHS6UUgmGaTslAi/R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772530351; c=relaxed/simple;
-	bh=RQ9l9g84UJ+UUH5VkiqwiFF6l6vtQR6LMjld9KuFHkE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=reeZWZhJOM5MXM7nYzvYE5BjFXKg07gF/ALrzaCEOYoeKY4qrw0RD7aH2BN5Po1x1dtEqyoAD7SXrtsXnqxttxcn8KfT+OlIkYr+dk83Xp8GJYmD68+2++CaVWCPoF3Yal63iaBa9StuiJg1yYIXuF/qW5TE35ncJ1b3e26AXeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lELUDFdi; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b9373af81cdso749788566b.2
-        for <linux-ppp@vger.kernel.org>; Tue, 03 Mar 2026 01:32:28 -0800 (PST)
+	s=arc-20240116; t=1772549245; c=relaxed/simple;
+	bh=aafqM+GNg+7UUlsYTti9elao/v6E5UQ+f1Pn96W16TQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bhoy3F45UGaEHwVh/IkRogQjKTdPH5VhiuK1zKqD2RVbuwiISFXGPNueJwiZfN3o8DuTFN+djeIlJJnqQUk5y1hGsfcFCMbujfbxIidjbGhmK9LJlsyTOs+JTHCVqBWgie+PwpryuNU+czKT0jmMjJ/RB1/76w30hZ38m+gAg9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bEm0QpW4; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=q8EEpOSd; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772549243;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EaHhy8s6ARdZrnZkBCXXvqhKOPUMYAmxS8AExzjsLrA=;
+	b=bEm0QpW4JWa4rsZHOZAcrv21+qBjt2ujSg8J97nNkvDUWDGV3EbQG0CcgScIczdpa+PC5i
+	Iphi6CG2Ft6RLRoacRVLVVVJsgsCKEnwJmCRXEnZY4EqUpzcZ8Z2Pu1Hy7qmXC492jyCYt
+	w1bl4HlxBvIsDQmWrWO3XIcVpISo7yI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-617-Ptm1e5BfOzK5tvTo3VdI8A-1; Tue, 03 Mar 2026 09:47:22 -0500
+X-MC-Unique: Ptm1e5BfOzK5tvTo3VdI8A-1
+X-Mimecast-MFC-AGG-ID: Ptm1e5BfOzK5tvTo3VdI8A_1772549241
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4830e7c6131so60275015e9.2
+        for <linux-ppp@vger.kernel.org>; Tue, 03 Mar 2026 06:47:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772530347; x=1773135147; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=znhZ0PkaDuaW4b4kj/ELs7z36u7IZ6zTiGIdB0ckJAI=;
-        b=lELUDFdiicEYsjKohPaaB0VQXsd/7VccaF3i/qo+ZYInhCyh+xn3j7rqxJ6o/vJ6rG
-         vrQlY01MwFPcv2fA7X9ZP7T6b0A1aG0h/rQ2KsJ62eoXh6wqIDoaq9/ax/5IUV5DnJOt
-         bQXl1OFvnl8gqDPwsb90evaSpCprdTmZmaQtqBBNpflv/Exmf2DCSMs0EoN9Qc49IFWm
-         WcYMwLkxF7+6RY6vi/jsu/4wynVQ0F8zoOeSuP9T1JiyQMfguZiG231hKAXuQXaCc1DN
-         LOt7QuPRHwtyNh1KnnviTslcLnOWypj4KY5ZHmXSs62Q7UXcMVNcMLC3hjt7Yjz+LOAZ
-         ijWw==
+        d=redhat.com; s=google; t=1772549240; x=1773154040; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EaHhy8s6ARdZrnZkBCXXvqhKOPUMYAmxS8AExzjsLrA=;
+        b=q8EEpOSdFHwYAkMvD0RuOyNT+c06t3mOr//hyPjjJbDwmcGmHSAPIyAbLJ9HQHCkjg
+         kpDOalCGgA7bAdO+y84eKqZNuYENom7+pkwRHbqX7uQSabFtv4ECAdssAfP9Qcq7zO6+
+         9XUtq1gi0pY46qKM+7XjZDfqCsI5IbRH428FRWQ/WrfMpk/m7CvNGUWmiQfchT6H8dcP
+         lRwTwyNm0xM9ZsxnwqYDidx9Kg64vuxfppQiun39w2bOhAg5prTAKmXQa006ndoSQtfX
+         8MeLh84DCsOTU8M284W+r8+hoijbc5sKc/qJxa3y9qVF1uGN0+ATo9bhwPHWUdmrB4Fr
+         OgVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772530347; x=1773135147;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=znhZ0PkaDuaW4b4kj/ELs7z36u7IZ6zTiGIdB0ckJAI=;
-        b=mjZW+DhavHLZgTTIk4Ya4GgC+CXWiKOx+DfHf/DxVXqzWznpsohUGQT3cy0SHYhyDN
-         Iw1GPPxWtozqKFuB6HTAxR3oK3ask0cp89vxSnElmlUEsTZAUWkMbVKmer7MVIng4xc9
-         1UygXGMlY9s74cYuiX1BX9YsZZ1/4U7hbhapvpdR6vKGCfl3wzKeTfuGhyRlqHwR3mbY
-         gcrQ8SknrzM+ypALuALD+Ywxy0dE0gUFZVmSzso8Dx6nk99bS6OSgaddZxyZmP7WbXZs
-         6tIZMwifsofeMkIRwtiPkMqoHebcmyeuOmZFI7Eahb0EQKkBC9NwBf1e4dm7fE0xAhSK
-         BmYQ==
-X-Gm-Message-State: AOJu0Yw2N2yhR4q8w4TuAgU92I4XRzzA+jPdhUhNuYjSQHQUw4Cio/0P
-	3tf76GJvhQvgi8yT8KsxCXUFVz4eTYfpidzySQrolFsLHeQS3YL/8sGG73wdaeRcloQ=
-X-Gm-Gg: ATEYQzz9Njo1epsPw9IISFWmMMMzLZE0Qrkc2bWT3p6kajZCnvcI4niThYFZBSWMAj5
-	F8+C6y2Y/fSPDELbOhe5DlJSpu4J+31ZhI0hCJ988UkJRuCm3iK8UNGGbPU+IKqOgTRNvn8lIKY
-	wmkrfp2MjMEx3JaHUYABMv4BKmaNklmDDV7eRUAiuQ8sXgs4blu6cw5NPbgwlOJETzuGgrQU2ck
-	eBT8Z5tyoN+xBZEmIfL8QVcBQKg6Gs5kwwKnCwiRsbx6wZT0BR0ce/5S3GTXFkiW8x2CBCB82jG
-	sbitpUadDuTIFKErvJYXuzT3FvPyotKOhNTHpxSKucks/iorEOAYaunngMVmuSOAmkpZnMTKHxd
-	fAX62W/BLGhbyUHhkrC3MQbjr2XiTo3Lgs8IRjXc/+eaxl6+j/sOfcemSV4EfrOnXDiABVehL
-X-Received: by 2002:a17:907:3f0a:b0:b88:317a:3f40 with SMTP id a640c23a62f3a-b937651bfe7mr1074781166b.38.1772530346654;
-        Tue, 03 Mar 2026 01:32:26 -0800 (PST)
-Received: from gmail.com ([2a09:bac1:5500::3e3:31])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b935ae8fee1sm573303866b.45.2026.03.03.01.32.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 01:32:25 -0800 (PST)
-From: Qingfang Deng <dqfext@gmail.com>
-To: linux-ppp@vger.kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: [PATCH net-next v2] ppp: don't store tx skb in the fastpath
-Date: Tue,  3 Mar 2026 17:32:19 +0800
-Message-ID: <20260303093219.234403-1-dqfext@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1772549240; x=1773154040;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EaHhy8s6ARdZrnZkBCXXvqhKOPUMYAmxS8AExzjsLrA=;
+        b=YpJa+E6cpfvIU1DpQeB7/Kah0milh6R/w0NZLRIWelf/pLtyqj6cRklyGC0t56UR5o
+         khqwBxMXqQH4vezKauBlkaCKRzwf8EfWe06NS0idLjGygDhmroNmkg34ik8KPoc66koZ
+         x1/QzEx0uuteBIbp2Aa/x48C+n3BpfT5WGp2gkrALKS6Mo0ZCPLLi0A4tQJFQdXygUBW
+         TzHOwd6gyzKwb41f5cz3ikgnXKaF5/GT9T06fHV+4kjkvCAXL0x2ZTIhbhH6MnfcTIZL
+         cwpvEGCCorly2vcLz8S/nOSoMiFbuL3j8w+V/sfdsoMDCYinetG84HoRWZDKa1YrLDOu
+         Ou+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVP7RvCedyvrgz56CpvCxSu8HiV90EejLFrbXBlL+ZEBG9Ur8AbUfbd3doJa9d5dx+24KLMkVt0GsE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSKrpWNTK5chp+f/xSA03+MrzwPCxdKdfjorMoFqCWRHGLpCRA
+	wj6Hf2nLX5Ar8EbkIpOaz8h2TcRoKVVUGIh+Pri3nHsHzFtgSpiICvj85u521uslIjhhyR8/B6v
+	QyQGPMPJWUGz+xUBmsr7+oEsLFC66BaEcjpkaf1AJ15Ypw/z4WLwbNHaogr9OuFl2Y+l//A==
+X-Gm-Gg: ATEYQzy13I6tcgtuV+ip/68miuUHva5Bk7mPjaHb+oxEEw/SXpbWqi/242g+pTW9fqa
+	CaPDyLms37KoPtMs5oSNdpsoacKwxXfoJke2ad9Cq7zC0T741ojID1bldbU7r6RHFm2uYq8ZXMJ
+	SuieDP5b83NL5MWV/dVbGLQBQ01lhkznj0LTSjcS+xRexqDfQhIhfXIU8I+R5HLuL2QDFJD9/hY
+	ZW5Zwx1NPykcoHtRfrPbw3tICCmy8uZeEn8GO89PeAmBDS8OckpcQ4NSHgXxnCYgTx3QQr6Api2
+	p6X4Wbif8XsYDNDTaUmdrNWyD6LXJrTgQ8hijEXVSvnPB2upXDHYkorCnBk+8BbE4p2DlC+fl3k
+	59HY+wmZ4z+bVIHrveBvYt3zp
+X-Received: by 2002:a05:600c:1e89:b0:482:f564:d613 with SMTP id 5b1f17b1804b1-483c9ba37b1mr284897995e9.15.1772549240625;
+        Tue, 03 Mar 2026 06:47:20 -0800 (PST)
+X-Received: by 2002:a05:600c:1e89:b0:482:f564:d613 with SMTP id 5b1f17b1804b1-483c9ba37b1mr284897475e9.15.1772549240121;
+        Tue, 03 Mar 2026 06:47:20 -0800 (PST)
+Received: from [192.168.88.32] ([212.105.155.73])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7507adsm523195585e9.9.2026.03.03.06.47.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Mar 2026 06:47:19 -0800 (PST)
+Message-ID: <d5038e0c-a9e8-46a9-a5f6-e19537cf9557@redhat.com>
+Date: Tue, 3 Mar 2026 15:47:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4] net: pppoe: implement GRO/GSO support
+To: Qingfang Deng <dqfext@gmail.com>, linux-ppp@vger.kernel.org,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, David Ahern <dsahern@kernel.org>,
+ Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Felix Fietkau <nbd@nbd.name>
+References: <20260228032317.146855-1-dqfext@gmail.com>
+ <CALW65jbAGUxsyNw229uHks92T3Vr1iuFs=hVeTB3N9awAuZVXg@mail.gmail.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <CALW65jbAGUxsyNw229uHks92T3Vr1iuFs=hVeTB3N9awAuZVXg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4A6071EBF20
+X-Rspamd-Queue-Id: 1A7B61F1D05
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-402-lists,linux-ppp=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,lunn.ch,davemloft.net,google.com,kernel.org];
+	TAGGED_FROM(0.00)[bounces-403-lists,linux-ppp=lfdr.de];
+	DKIM_TRACE(0.00)[redhat.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dqfext@gmail.com,linux-ppp@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-ppp,netdev];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pabeni@redhat.com,linux-ppp@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-ppp,netdev];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-Currently, ppp->xmit_pending is used in ppp_send_frame() to pass a skb
-to ppp_push(), and holds the skb when a PPP channel cannot immediately
-transmit it. This state is redundant because the transmit queue
-(ppp->file.xq) can already handle the backlog. Furthermore, during
-normal operation, an skb is queued in file.xq only to be immediately
-dequeued, causing unnecessary overhead.
+On 3/2/26 8:34 AM, Qingfang Deng wrote:
+> On Sat, Feb 28, 2026 at 11:23 AM Qingfang Deng <dqfext@gmail.com> wrote:
+>> +       /* ignore packets with padding or invalid length */
+>> +       if (skb_gro_len(skb) != be16_to_cpu(phdr->length) + hlen)
+> 
+> Both Claude (Netdev AI Review) and Gemini said `hlen` should be
+> replaced with `sizeof(*phdr)`. Is that correct?
 
-Refactor the transmit path to avoid stashing the skb when possible:
-- Remove ppp->xmit_pending.
-- Rename ppp_send_frame() to ppp_prepare_tx_skb(), and don't call
-  ppp_push() in it. It returns 1 if the skb is consumed
-  (dropped/handled) or 0 if it can be passed to ppp_push().
-- Update ppp_push() to accept the skb. It returns 1 if the skb is
-  consumed, or 0 if the channel is busy.
-- Optimize __ppp_xmit_process():
-  - Fastpath: If the queue is empty, attempt to send the skb directly
-    via ppp_push(). If busy, queue it.
-  - Slowpath: If the queue is not empty, process the backlog in
-    file.xq. Split dequeuing loop into a separate function
-    ppp_xmit_flush() so ppp_channel_push() uses that directly instead of
-    passing a NULL skb to __ppp_xmit_process().
+AFAICS, yes.
 
-This simplifies the states and reduces locking in the fastpath.
+Side note: I think vlan encap it's not needed to observed the issue. You
+should notice it even with plain PPPoE, if the ethernet NIC driver uses
+napi_frags.
 
-Signed-off-by: Qingfang Deng <dqfext@gmail.com>
----
-v2: make ppp_prepare_tx_skb() return int and update the skb when required,
-    getting rid of the null check
-
- - https://lore.kernel.org/linux-ppp/20260227015610.24874-1-dqfext@gmail.com/
-
- drivers/net/ppp/ppp_generic.c | 111 ++++++++++++++++++++--------------
- 1 file changed, 65 insertions(+), 46 deletions(-)
-
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index e9b41777be80..2081da6c2144 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -134,7 +134,6 @@ struct ppp {
- 	int		debug;		/* debug flags 70 */
- 	struct slcompress *vj;		/* state for VJ header compression */
- 	enum NPmode	npmode[NUM_NP];	/* what to do with each net proto 78 */
--	struct sk_buff	*xmit_pending;	/* a packet ready to go out 88 */
- 	struct compressor *xcomp;	/* transmit packet compressor 8c */
- 	void		*xc_state;	/* its internal state 90 */
- 	struct compressor *rcomp;	/* receive decompressor 94 */
-@@ -264,8 +263,8 @@ struct ppp_net {
- static int ppp_unattached_ioctl(struct net *net, struct ppp_file *pf,
- 			struct file *file, unsigned int cmd, unsigned long arg);
- static void ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb);
--static void ppp_send_frame(struct ppp *ppp, struct sk_buff *skb);
--static void ppp_push(struct ppp *ppp);
-+static int ppp_prepare_tx_skb(struct ppp *ppp, struct sk_buff **pskb);
-+static int ppp_push(struct ppp *ppp, struct sk_buff *skb);
- static void ppp_channel_push(struct channel *pch);
- static void ppp_receive_frame(struct ppp *ppp, struct sk_buff *skb,
- 			      struct channel *pch);
-@@ -1651,26 +1650,44 @@ static void ppp_setup(struct net_device *dev)
-  */
- 
- /* Called to do any work queued up on the transmit side that can now be done */
-+static void ppp_xmit_flush(struct ppp *ppp)
-+{
-+	struct sk_buff *skb;
-+
-+	while ((skb = skb_dequeue(&ppp->file.xq))) {
-+		if (unlikely(!ppp_push(ppp, skb))) {
-+			skb_queue_head(&ppp->file.xq, skb);
-+			return;
-+		}
-+	}
-+	/* If there's no work left to do, tell the core net code that we can
-+	 * accept some more.
-+	 */
-+	netif_wake_queue(ppp->dev);
-+}
-+
- static void __ppp_xmit_process(struct ppp *ppp, struct sk_buff *skb)
- {
- 	ppp_xmit_lock(ppp);
--	if (!ppp->closing) {
--		ppp_push(ppp);
--
--		if (skb)
-+	if (unlikely(ppp->closing)) {
-+		kfree_skb(skb);
-+		goto out;
-+	}
-+	if (unlikely(ppp_prepare_tx_skb(ppp, &skb)))
-+		goto out;
-+	/* Fastpath: No backlog, just send the new skb. */
-+	if (likely(skb_queue_empty(&ppp->file.xq))) {
-+		if (unlikely(!ppp_push(ppp, skb))) {
- 			skb_queue_tail(&ppp->file.xq, skb);
--		while (!ppp->xmit_pending &&
--		       (skb = skb_dequeue(&ppp->file.xq)))
--			ppp_send_frame(ppp, skb);
--		/* If there's no work left to do, tell the core net
--		   code that we can accept some more. */
--		if (!ppp->xmit_pending && !skb_peek(&ppp->file.xq))
--			netif_wake_queue(ppp->dev);
--		else
- 			netif_stop_queue(ppp->dev);
--	} else {
--		kfree_skb(skb);
-+		}
-+		goto out;
- 	}
-+
-+	/* Slowpath: Enqueue the new skb and process backlog */
-+	skb_queue_tail(&ppp->file.xq, skb);
-+	ppp_xmit_flush(ppp);
-+out:
- 	ppp_xmit_unlock(ppp);
- }
- 
-@@ -1757,13 +1774,15 @@ pad_compress_skb(struct ppp *ppp, struct sk_buff *skb)
- }
- 
- /*
-- * Compress and send a frame.
-- * The caller should have locked the xmit path,
-- * and xmit_pending should be 0.
-+ * Compress and prepare to send a frame.
-+ * The caller should have locked the xmit path.
-+ * Returns 1 if the skb was consumed, 0 if it can be passed to ppp_push().
-+ * @pskb is updated if a compressor is in use.
-  */
--static void
--ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
-+static int
-+ppp_prepare_tx_skb(struct ppp *ppp, struct sk_buff **pskb)
- {
-+	struct sk_buff *skb = *pskb;
- 	int proto = PPP_PROTO(skb);
- 	struct sk_buff *new_skb;
- 	int len;
-@@ -1784,7 +1803,7 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
- 					      "PPP: outbound frame "
- 					      "not passed\n");
- 			kfree_skb(skb);
--			return;
-+			return 1;
- 		}
- 		/* if this packet passes the active filter, record the time */
- 		if (!(ppp->active_filter &&
-@@ -1832,6 +1851,7 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
- 			}
- 			consume_skb(skb);
- 			skb = new_skb;
-+			*pskb = skb;
- 			cp = skb_put(skb, len + 2);
- 			cp[0] = 0;
- 			cp[1] = proto;
-@@ -1858,6 +1878,7 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
- 		if (!new_skb)
- 			goto drop;
- 		skb = new_skb;
-+		*pskb = skb;
- 	}
- 
- 	/*
-@@ -1869,42 +1890,38 @@ ppp_send_frame(struct ppp *ppp, struct sk_buff *skb)
- 			goto drop;
- 		skb_queue_tail(&ppp->file.rq, skb);
- 		wake_up_interruptible(&ppp->file.rwait);
--		return;
-+		return 1;
- 	}
- 
--	ppp->xmit_pending = skb;
--	ppp_push(ppp);
--	return;
-+	return 0;
- 
-  drop:
- 	kfree_skb(skb);
- 	++ppp->dev->stats.tx_errors;
-+	return 1;
- }
- 
- /*
-- * Try to send the frame in xmit_pending.
-+ * Try to send the frame.
-  * The caller should have the xmit path locked.
-+ * Returns 1 if the skb was consumed, 0 if not.
-  */
--static void
--ppp_push(struct ppp *ppp)
-+static int
-+ppp_push(struct ppp *ppp, struct sk_buff *skb)
- {
- 	struct list_head *list;
- 	struct channel *pch;
--	struct sk_buff *skb = ppp->xmit_pending;
--
--	if (!skb)
--		return;
- 
- 	list = &ppp->channels;
- 	if (list_empty(list)) {
- 		/* nowhere to send the packet, just drop it */
--		ppp->xmit_pending = NULL;
- 		kfree_skb(skb);
--		return;
-+		return 1;
- 	}
- 
- 	if ((ppp->flags & SC_MULTILINK) == 0) {
- 		struct ppp_channel *chan;
-+		int ret;
- 		/* not doing multilink: send it down the first channel */
- 		list = list->next;
- 		pch = list_entry(list, struct channel, clist);
-@@ -1916,27 +1933,26 @@ ppp_push(struct ppp *ppp)
- 			 * skb but linearization failed
- 			 */
- 			kfree_skb(skb);
--			ppp->xmit_pending = NULL;
-+			ret = 1;
- 			goto out;
- 		}
- 
--		if (chan->ops->start_xmit(chan, skb))
--			ppp->xmit_pending = NULL;
-+		ret = chan->ops->start_xmit(chan, skb);
- 
- out:
- 		spin_unlock(&pch->downl);
--		return;
-+		return ret;
- 	}
- 
- #ifdef CONFIG_PPP_MULTILINK
- 	/* Multilink: fragment the packet over as many links
- 	   as can take the packet at the moment. */
- 	if (!ppp_mp_explode(ppp, skb))
--		return;
-+		return 0;
- #endif /* CONFIG_PPP_MULTILINK */
- 
--	ppp->xmit_pending = NULL;
- 	kfree_skb(skb);
-+	return 1;
- }
- 
- #ifdef CONFIG_PPP_MULTILINK
-@@ -2005,7 +2021,7 @@ static int ppp_mp_explode(struct ppp *ppp, struct sk_buff *skb)
- 	 * performance if we have a lot of channels.
- 	 */
- 	if (nfree == 0 || nfree < navail / 2)
--		return 0; /* can't take now, leave it in xmit_pending */
-+		return 0; /* can't take now, leave it in transmit queue */
- 
- 	/* Do protocol field compression */
- 	if (skb_linearize(skb))
-@@ -2199,8 +2215,12 @@ static void __ppp_channel_push(struct channel *pch, struct ppp *ppp)
- 	spin_unlock(&pch->downl);
- 	/* see if there is anything from the attached unit to be sent */
- 	if (skb_queue_empty(&pch->file.xq)) {
--		if (ppp)
--			__ppp_xmit_process(ppp, NULL);
-+		if (ppp) {
-+			ppp_xmit_lock(ppp);
-+			if (!ppp->closing)
-+				ppp_xmit_flush(ppp);
-+			ppp_xmit_unlock(ppp);
-+		}
- 	}
- }
- 
-@@ -3460,7 +3480,6 @@ static void ppp_destroy_interface(struct ppp *ppp)
- 	}
- #endif /* CONFIG_PPP_FILTER */
- 
--	kfree_skb(ppp->xmit_pending);
- 	free_percpu(ppp->xmit_recursion);
- 
- 	free_netdev(ppp->dev);
--- 
-2.43.0
+/P
 
 
