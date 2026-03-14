@@ -1,185 +1,264 @@
-Return-Path: <linux-ppp+bounces-416-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-417-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UElrN+GIs2kTXwAAu9opvQ
-	(envelope-from <linux-ppp+bounces-416-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Fri, 13 Mar 2026 04:47:45 +0100
+	id sKAcKUS3tGkLsQAAu9opvQ
+	(envelope-from <linux-ppp+bounces-417-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Sat, 14 Mar 2026 02:17:56 +0100
 X-Original-To: lists+linux-ppp@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8591827D344
-	for <lists+linux-ppp@lfdr.de>; Fri, 13 Mar 2026 04:47:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F8F28B345
+	for <lists+linux-ppp@lfdr.de>; Sat, 14 Mar 2026 02:17:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 8293B302E10C
-	for <lists+linux-ppp@lfdr.de>; Fri, 13 Mar 2026 03:47:44 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 52E28300D766
+	for <lists+linux-ppp@lfdr.de>; Sat, 14 Mar 2026 01:17:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E440364946;
-	Fri, 13 Mar 2026 03:47:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDAEA262808;
+	Sat, 14 Mar 2026 01:17:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VIxO6L4v"
+	dkim=pass (2048-bit key) header.d=LIVE.FR header.i=@LIVE.FR header.b="pJWXWCD1"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazolkn19011032.outbound.protection.outlook.com [52.103.33.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A202F31B131
-	for <linux-ppp@vger.kernel.org>; Fri, 13 Mar 2026 03:47:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773373662; cv=none; b=Sp4am19XL+RZuigstjNAMlNDb7AOws2vhlZAEhfc/+RYTWfuXD5O69N5dztWFrg8hmy8bYykbF014FsjUGICICuTlW6jpGb+KJjQgM5G3n6gtysWV+ggo09nuyl4IlQ7sav8g/qWYZZCobs14ee2Pwhx/9hogBwlKC1tU35qCb4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773373662; c=relaxed/simple;
-	bh=/4gcq8LShB8D0c5s2jFOvaAMKwtDoLawyFz3nOQjuLU=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=WKVvwKbnQ4u7Yw+pH2zwuFadmfPN1GF79J2/RKTatSvbkwrSQaXyCda68klGexj6OHMfSodmZpRq91vYqD6n9mBOhq6mBXID83QtwvC/v6x2C1rxZybBcEYVYQhSnPsXxLxMdgUIqBT8nXeSPjFz+5e3njo6DP2OYxHRS/vingE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VIxO6L4v; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6631e0edcf1so2511123a12.1
-        for <linux-ppp@vger.kernel.org>; Thu, 12 Mar 2026 20:47:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773373660; x=1773978460; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=INglkRyjzET0z5aJCRl/lBzILAwHGEvu+nMDhJsrwlg=;
-        b=VIxO6L4vyy3roWMrX2etPjhzkvIe9/K98Yo3iA/gQSQwVzuoOA6JD+dOOVaViStjge
-         kedSqrEK3qiY+blXlZHfzrapJZGoNvb/QCXeQ30fDXZYh0e66+mIBxMqKMwOuPemGK3W
-         mWcsCEyIpauB+8GX+mCeiCfzOLy+6dsNWhTIuKBFEMDt9zFIGkJDSn2eHXNpd9fY3UXN
-         clFMruJEsFSu1a0zMDqxSZ/bxKmrO3R/TmPYW7UBKTquuwzTegbuU7iXuixYGS3W/dxH
-         xh6JiYQ2p2hul0CAyOJLlhYpXANYsxWO+MmF66Cip/PuXzLDrSHVEyUUl3yQjMAK29GG
-         dDAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773373660; x=1773978460;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=INglkRyjzET0z5aJCRl/lBzILAwHGEvu+nMDhJsrwlg=;
-        b=GRyOLtX1M7qtuOjtbZoGVXV/AE65wGGuDcDVVQ5M+8SQ8V15CXxkH9FiZed5GsN5ZQ
-         H19AaKjkn93oLxUfXExxh5IkxA1yUswYLgqG1EcjpoY2ddwwd7WxqRe5qGmc8hPkBIGz
-         Wfg2HWtxPu3rphDXYiLCID5D1IqQrbHgl4z5kGLyTOLdrEmynqdvL745IGG/99XSRKKk
-         qnsOo93DpcnwARA/2eIVb7slz8kN88MAaNNpgVhsZ5IY/gHtvjmRBsqYeX31ssY38YDl
-         8rf6haPJLS/+9AJ0Sc3CIk7d2Cd8wdK3ZB9LbrtsQ60/HJZF/LUzG5j25yVwRpE2swxw
-         CPuQ==
-X-Gm-Message-State: AOJu0YwElycuMMoemhMsxO1PuDAVBHBacv2rotjHwHUeBImoZeCoE22J
-	q1eubtM/eT2q37v6NQcWWXIFYc9JJNL4N0MMOFnHndGRDDpb/C/Pbqr3OStkVTWABbZ3dw==
-X-Gm-Gg: ATEYQzwJHsiu5ncLA2ntA0fmPjrWD2Ah9Jk7fmIqda1ABjQ0j4Rn729FV8sT1z9jHGj
-	ohDsp5PUJtTLQS8+pSXDoaiwj/X0gjjmhyhZLdg54O+iV27PW/9Uo0RRLt3s+sMVtXdGHgBznm5
-	f301Eoeb7K6UZg764eHlRRRKO20Y326Zd6t7EVT7sMKnjaagOlFvAbPppBGxY6dDY73zsW556Kc
-	yHqbKmHxVwSBP/4MXU2puAzR0P03fFP9czluNVKIAhmbmBG6JOkWyvkhLRbW43A0PzBeeu5t6Hl
-	cW+m6Mzk/EONyYF+TuxUCLE7BIr0SBo72HjuqooHncf62cv8WpfEQHR6Xd9s7emW5//GYb1g5vg
-	AX/lu3YSpSGJOfKJQirUmIXaFaZSQ9+3DIlzWr7+LNm9MRE6TXnaxwIlGx93QsYhuM7/TQcuBZ8
-	9YtPE=
-X-Received: by 2002:a05:6402:1ec8:b0:660:eabc:9c70 with SMTP id 4fb4d7f45d1cf-663bac0452amr977150a12.29.1773373659478;
-        Thu, 12 Mar 2026 20:47:39 -0700 (PDT)
-Received: from gmail.com ([2a09:bac5:4e25:2e3c::49b:47])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6635088ffb8sm924271a12.22.2026.03.12.20.47.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 20:47:39 -0700 (PDT)
-From: Qingfang Deng <dqfext@gmail.com>
-To: linux-ppp@vger.kernel.org,
-	James Chapman <jchapman@katalix.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net] l2tp: ppp: use max L2TP header size for PPP channel hdrlen
-Date: Fri, 13 Mar 2026 11:47:31 +0800
-Message-ID: <20260313034732.209792-1-dqfext@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E27227456;
+	Sat, 14 Mar 2026 01:17:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.33.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773451071; cv=fail; b=t6YOV+HVdkPTHMyKbPPrugdTha9tHuN9ouBJiShnIVtygdxDZ8MifU9UsDWfWLuIzOk1bW64bccj2suW3NlbQYppgENn0/m9tb7DnwZzEb3+6uy0repKwQGlkiRRk2Q663l7i+rqrc0LJ1kftACi4GPvKgDEF7MSqsDhOT1jOyk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773451071; c=relaxed/simple;
+	bh=K7seYPGFGU/Pj3vAp3u+VtchUj5bYQvVfTjwgltR4gg=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=DVjdm3GWCg+A7GMi2OQesBoB7n1I44Lu+IcubacQ9ogXgVed7Za3cIqmsC3V91tMH7R8Q7kBzjn6kEMRegjlmVBMtoRIMHq/oNr4Yyr2/XMgaOerG/FdmJDOy6RHvbcq12Cyu7L6XGFBrckr4ayMLf7r7nUKpXGwuKNp0XdTZ9k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.fr; spf=pass smtp.mailfrom=live.fr; dkim=pass (2048-bit key) header.d=LIVE.FR header.i=@LIVE.FR header.b=pJWXWCD1; arc=fail smtp.client-ip=52.103.33.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.fr
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gqs9lTA8iMOBtm9QZWnzueny1X+ktZRiFwONlnM08mUXkn+HeZbpIBKy4inlibifW+goCGcfUaTJHwCaphDRIXL7GgcvGK46z7ob2rWXVzP7WLug0D1bEMKcfn5H5TjRUZ/CFVBWZnGsr88DVrysLa4p9zgIwmeVrl09zdF/rPUDH8BXYkiV3mzDXiagHXp9gOhsSy2lZebf4pXa9zr/7lYaYybKXgk/aZxemIPtkjL2/ReDqqQnR4Q6A/8Wla+k0d6lSXfYUa3NV+Gzz58cWwZgNp+k2NlEZstervP2XiIQN+8wB/YVtNobEc/4Ezarnxuc5Cnpphcey4dT83TgQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UE8kfAQ+yd71w51euHBXnslcx8xcYnXRIfXHwqFBQzE=;
+ b=cwmzn/D494iiOdSn1831U/N6VDvtXMd/DBm9uvh170PX+iN4Bhs6/e+SQ/6mxjDa26DPuihdMQg1hMmgGP9WQYdFmMpw2UCQGUiBs8eKvWKgsZleJeyvjLCOZSzQh0iGP9EptCm02AwkHQvXkAPWxHgppx2azXyLaOIHbJ8Vl7QscHu/tT/ANHB7RCkasZNLFV47rlfudKwXu7IxYNKpyJfJWMAkDHbLojzvVdMBTUoa7M/NjrAL1PPsms5g19dX/IjStycppwHTq3U+KU2dHs34KjCD3pNc6ym4yGEodxSCwAsrvG8czR6TOPhVkiJBoctOsCzcXHsuE7J0/nbOkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=LIVE.FR; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UE8kfAQ+yd71w51euHBXnslcx8xcYnXRIfXHwqFBQzE=;
+ b=pJWXWCD1PUnMeMYQIPxwC6N1NOJlKQ6P7xLNu2fLo6ly0rjRzsYBjbvNeRC7w40uKSY7aOuTPemgWal0S4r+dmT2RllCNIxZfQFIvoALkPdO/e5GLXesKIjkRWOqxDr2N9F/RFSRMhBVDX61ImdjYwfYCPApaKfGGuG/N5K2hTaY/+f5H3yzjfQp1DfiYRAoJM1sfag7BZTZYV7XfEXKYKXl9wMdlIfW10JQs7c3B/2JMB6qQaOL8A/NUtlERkg1dMKFQNHfm9G4py8y7Cc4bVQdirzQXUGYmarORrX0b0EKd6O4q+Ao0uIkuxWlHbWzj9adcqPe1ixM+9RGa5cAsw==
+Received: from PAWP192MB2411.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:46e::17)
+ by GV1P192MB2395.EURP192.PROD.OUTLOOK.COM (2603:10a6:150:1ec::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.17; Sat, 14 Mar
+ 2026 01:17:45 +0000
+Received: from PAWP192MB2411.EURP192.PROD.OUTLOOK.COM
+ ([fe80::9c57:1e4e:325e:d2e7]) by PAWP192MB2411.EURP192.PROD.OUTLOOK.COM
+ ([fe80::9c57:1e4e:325e:d2e7%5]) with mapi id 15.20.9654.015; Sat, 14 Mar 2026
+ 01:17:45 +0000
+From: Martin Olivier <martin.olivier@live.fr>
+To: netdev@vger.kernel.org,
+	linux-ppp@vger.kernel.org
+Cc: andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-kernel@vger.kernel.org,
+	dqfext@gmail.com,
+	Martin Olivier <martin.olivier@live.fr>
+Subject: [PATCH net-next v2] ppp: add IFLA_PPP_UNIT netlink attribute
+Date: Sat, 14 Mar 2026 02:14:29 +0100
+Message-ID:
+ <PAWP192MB2411A808BB36F0086A9B00B99742A@PAWP192MB2411.EURP192.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PA7P264CA0440.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:37d::7) To PAWP192MB2411.EURP192.PROD.OUTLOOK.COM
+ (2603:10a6:102:46e::17)
+X-Microsoft-Original-Message-ID:
+ <20260314011619.11603-1-martin.olivier@live.fr>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAWP192MB2411:EE_|GV1P192MB2395:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f53536d-49e5-48ab-e361-08de81677d93
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|461199028|25031999004|51005399006|23021999003|12121999013|19110799012|5072599009|5062599005|15080799012|8060799015|1602099012|40105399003|3412199025|4302099013|440099028|10035399007|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?xqhtjVnAajt7dwVbjJCC+bNMusBQFrUEGQ3cF/HZ9pi8ZHNOVxUnectQ4MKr?=
+ =?us-ascii?Q?f3j6BQElcm37A+RuAllZO4MHgjuNh7beAm5F5fB6KT/woHSDr1LIwjOX2RCF?=
+ =?us-ascii?Q?pVDTlvqA6YIGQt/nMgFGWAfMwl+miKybXS3ZHPV8EYqgGE+9gdhi+YpxmmYJ?=
+ =?us-ascii?Q?D2ZreqHLKBeIVK9CjXgfvqdN8thLyWMdKwEelA23o2McgMbRjIExDLuYOcr6?=
+ =?us-ascii?Q?WpuY4lQQfsgnyTacetqE1bZ4iXCz2ScpHSxRFkTBM3mg1Z1FtVw/b0cX8d41?=
+ =?us-ascii?Q?+xOyLfDf9zIw9qPI2SkPNWD/yTKA6ViOnPXxJWSgcuDWfVF7HXjFKHCGA7D1?=
+ =?us-ascii?Q?E6x3uB/u6At6a4D7xNSAovVGFj53pojMr8XP5tDaKUysXtpt6I2jUeKnEOMM?=
+ =?us-ascii?Q?naa6WoG3i6o/iwuzg54NcdlwCOdK+zbcWy0L2bcUO/9dfj3+KOkm1SCGJiGU?=
+ =?us-ascii?Q?S1kPQ0lDgiF3pVkROkybdyfKih/lANYypQNhu7l/PP/QS/C3aq6GMk/Qkx36?=
+ =?us-ascii?Q?/PzdDA3hkn7eGrQo1Ovqvi+I4fYAfVsXcOmxc0k726dytJLerBK7pB1UQQvD?=
+ =?us-ascii?Q?gBAMNpauNwbOaCOWJjPPzTxO+qFscZFE9MbdDrNSxrJzBpXWM7oO4nyyPf3J?=
+ =?us-ascii?Q?1GYeMIPUwLe49b8sc2y0qQ6ADVMCi2M0ys8C9w5R9wuAWiCpAa1rYgkkhhjh?=
+ =?us-ascii?Q?OEgXRD4w+2hsel37KHyaablZ0guEM048DvBsOOYRFRTSzfZA1L8NOrG/pF46?=
+ =?us-ascii?Q?8osKLLHe+UzeKSUlZteMU4oCNHzLDUL+dlHWfysPbtxfAzMzfiRT1BGQvaA6?=
+ =?us-ascii?Q?UlK0iEgn0nDVV3FknN+7ddxdRvWxbW3kwxhPFRop3Hh0laZjHjx1NBJyFyxd?=
+ =?us-ascii?Q?RvSYDlHGeBnnitZKYvYxpGShnZA2JYje4FDPTqPAvC1/EionPvNUBCrEnt8C?=
+ =?us-ascii?Q?2L3cp2XMoFOwYG9zURYQehnF2AzwbZaiZk2HHxiM6hyydDI4Yfdp9zR5m47O?=
+ =?us-ascii?Q?P1/f6djJdowVymrjKU7rOgg38bgM9FcdWxiOnkeji8tcl6HdO3hiaEfcXQgk?=
+ =?us-ascii?Q?1Oyb/z1x26/qPXD8xpwWIlt0eUxyhyK+f0j4KGR1g66TaTtHUInLsn+ZoEOZ?=
+ =?us-ascii?Q?7LiII7GdawEb6YbXuYcwDymdPPo+zPeMoStcsKBPpAswmY0NgeD2pZs=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?gaLhWwYnWeby6yKEuHcvIgzHjP5M1G35AmC408zcxF5n3GMz4LP7ZlreSleQ?=
+ =?us-ascii?Q?YnMSmCbS0eTW4dExJAJrjUXkonGJOXcIq52PSSY5mwbG1aUgHV5PfV7D+w73?=
+ =?us-ascii?Q?0PuCcZnnTkkRoU9Aa9volg2kFdR3d5nNIpM1of2tEzam1Q9kDyi9AiRNdxAr?=
+ =?us-ascii?Q?3V0ZKsp4BtaqlmjtCELq7mzfJbTS0puK/Ryc86m6gxsQjyZ9PaBMnWUegrEb?=
+ =?us-ascii?Q?t40q0Q+xtTyZ+TRV1cWsIAuCcHmpRVPHp08CYwk4F+5NsXmI4s2Tv4CL+25z?=
+ =?us-ascii?Q?zGFcg64ONNN8f9qL5noDf1O/wJKfB+rES9VZnJ1Tn6nTdxysfS5xtjcXZZYW?=
+ =?us-ascii?Q?UiJtHxIQw7qah2pn+PG8eC0WfLMo3l5d+Xh9FtU5aWoF9BPF+6pyM8y9nUvz?=
+ =?us-ascii?Q?yPZ4q5TGJgI5bCpZtnSk5nELlMovexHApR9Xa/UZhVvE0o59rngn0G5uNva8?=
+ =?us-ascii?Q?/wlwAQBooERXaGWDmDbjotL3rrU28PMDnX3UbKjvPzlUcoEwetCSWhLDFk3t?=
+ =?us-ascii?Q?DkYv3M9cnoT3w7bIo19b4FIt9D4dgiqzrKQptFJiXwWdxhsMLZZ8JDJdGgor?=
+ =?us-ascii?Q?wmLetIO5WV66/sCyAjU61R8uMhwi5vlMiP+NpVQlqpZYYuMdNPuy9rX9MRnD?=
+ =?us-ascii?Q?K86fmQ90ZFQpdeGnTSt0H+ho/IfhYuDWmJumto3w/ICUNkU1ye0EvJQyaavh?=
+ =?us-ascii?Q?LTJc47WSMer/wOaPiXNM9aWkWhyyWREafQKjmE2MN+8b6KjzB7rOPCNwM39/?=
+ =?us-ascii?Q?gBpnZKpXVYfuWXoRjWQEGXA3wC7Qj+hCq3/eB7g+wIsly/pLLnXZYiFky6fK?=
+ =?us-ascii?Q?XAkg9o8cf94tnprPFAkBpZBnjcLDy6kDHEPlb+IvVnTD76wRjS37t3g8zIgL?=
+ =?us-ascii?Q?wV+F0MDz01VTL33gjhNJfAdVRsOVSLszcoF81w9o36cEuflOn/bxbxWA7hvZ?=
+ =?us-ascii?Q?f3kh6b3NZKvMX6WzrmDGrlMiFTvLIXjbH4BfThZleYRgs9o9KSpfJpr0r2HH?=
+ =?us-ascii?Q?2Ih7W87QG5P4gA8Oic+N3sXHAOsLQ+QzB41mDgjAsOjhXcoUUixC3FYqOJ+Y?=
+ =?us-ascii?Q?WS+m0fHvXUsUWlz9bWmjEJ9iPLu621CVZ6rob3SDa2P2a3Q2QeYO8wEgUn/3?=
+ =?us-ascii?Q?4DTNG6Ovgl0xZu9mIH8hJAp3b55rPedy+wbBgZkSvaquMUznlR9buXIXKwaA?=
+ =?us-ascii?Q?wQUqw8c77guGMz1fRj+LX1bS/fVhsDgJePkHxfxdQM6Yz02+pM62Z0RXuMWl?=
+ =?us-ascii?Q?Ad/IpM0dui393Y5j/nQyMez80dVCzIyWo6PivCY7IpGyaihC6RePaviNF9jb?=
+ =?us-ascii?Q?6DB0aRIOHm71ZgyNJTfz6v7qq5r47l07I64RaM693qggUWrIPWQYaI1MnK4d?=
+ =?us-ascii?Q?1H1JzRFv9rVUnxITVMQQt4JkLpR1?=
+X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-4fb8a.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f53536d-49e5-48ab-e361-08de81677d93
+X-MS-Exchange-CrossTenant-AuthSource: PAWP192MB2411.EURP192.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2026 01:17:42.5243
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P192MB2395
+X-Spamd-Result: default: False [1.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[live.fr,none];
+	R_DKIM_ALLOW(-0.20)[LIVE.FR:s=selector1];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-416-lists,linux-ppp=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[dqfext@gmail.com,linux-ppp@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_CC(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,vger.kernel.org,gmail.com,live.fr];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-417-lists,linux-ppp=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[live.fr];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[martin.olivier@live.fr,linux-ppp@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[LIVE.FR:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	NEURAL_HAM(-0.00)[-0.999];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-ppp];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	NEURAL_HAM(-0.00)[-0.998];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 8591827D344
+	TAGGED_RCPT(0.00)[linux-ppp,netdev];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[live.fr:email,LIVE.FR:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 41F8F28B345
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-chan.hdrlen is read once at channel registration by
-ppp_register_net_channel(), and used to set the PPP net device's
-hard_header_len. It was set to PPPOL2TP_L2TP_HDR_SIZE_NOSEQ (6), which
-is 4 bytes too small if sequence numbers are later enabled via
-setsockopt(PPPOL2TP_SO_SENDSEQ), causing unnecessary skb reallocations
-on the TX path.
+Currently, the PPP rtnetlink API allows creating a new network interface
+with a custom ifname, but it lacks the ability to specify a custom PPP
+unit id.
 
-The setsockopt handler attempted to change netdev's hard_header_len by
-updating chan.hdrlen, but the PPP layer never re-reads it after the
-registration, so the update had no effect.
+Setting a specific unit id is currently only possible with the
+PPPIOCNEWUNIT ioctl. If a user-space program also requires a custom
+interface name, it must create the interface first with PPPIOCNEWUNIT
+and then rename it.
 
-Set chan.hdrlen to PPPOL2TP_L2TP_HDR_SIZE_SEQ (10) unconditionally at
-registration and remove the ineffective update in setsockopt.
+Resolve this by introducing the IFLA_PPP_UNIT netlink attribute. This
+allows user-space programs to atomically request both a custom ifname
+and a specific PPP unit id during the RTM_NEWLINK creation process,
+eliminating the post-creation renaming for this use case.
 
-Fixes: 3557baabf280 ("[L2TP]: PPP over L2TP driver core")
-Signed-off-by: Qingfang Deng <dqfext@gmail.com>
+Signed-off-by: Martin Olivier <martin.olivier@live.fr>
 ---
- net/l2tp/l2tp_ppp.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+Changes in v2:
+- use nl policy to set IFLA_PPP_UNIT min allowed value instead of a manual check in ppp_nl_validate()
+- use of nla_get_s32_default() to collect IFLA_PPP_UNIT value
+Link to v1: https://lore.kernel.org/netdev/PAWP192MB2411A5E7D3BE1B55E155A92F9747A@PAWP192MB2411.EURP192.PROD.OUTLOOK.COM/
+---
+ drivers/net/ppp/ppp_generic.c      | 3 ++-
+ include/uapi/linux/if_link.h       | 1 +
+ tools/include/uapi/linux/if_link.h | 1 +
+ 3 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/net/l2tp/l2tp_ppp.c b/net/l2tp/l2tp_ppp.c
-index ae4543d5597b..99d6582f41de 100644
---- a/net/l2tp/l2tp_ppp.c
-+++ b/net/l2tp/l2tp_ppp.c
-@@ -787,11 +787,12 @@ static int pppol2tp_connect(struct socket *sock, struct sockaddr_unsized *userva
- 		goto out_no_ppp;
+diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
+index e9b41777be80..3d5d5fe8bad3 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -1292,6 +1292,7 @@ static int ppp_dev_configure(struct net *src_net, struct net_device *dev,
+ 
+ static const struct nla_policy ppp_nl_policy[IFLA_PPP_MAX + 1] = {
+ 	[IFLA_PPP_DEV_FD]	= { .type = NLA_S32 },
++	[IFLA_PPP_UNIT]		= NLA_POLICY_MIN(NLA_S32, 0),
+ };
+ 
+ static int ppp_nl_validate(struct nlattr *tb[], struct nlattr *data[],
+@@ -1316,7 +1317,6 @@ static int ppp_nl_newlink(struct net_device *dev,
+ 	struct nlattr **data = params->data;
+ 	struct nlattr **tb = params->tb;
+ 	struct ppp_config conf = {
+-		.unit = -1,
+ 		.ifname_is_set = true,
+ 	};
+ 	struct file *file;
+@@ -1342,6 +1342,7 @@ static int ppp_nl_newlink(struct net_device *dev,
  	}
  
--	/* The only header we need to worry about is the L2TP
--	 * header. This size is different depending on whether
--	 * sequence numbers are enabled for the data channel.
-+	/* Reserve enough headroom for the L2TP header with sequence numbers,
-+	 * which is the largest possible. This is used by the PPP layer to set
-+	 * the net device's hard_header_len at registration, which must be
-+	 * sufficient regardless of whether sequence numbers are enabled later.
- 	 */
--	po->chan.hdrlen = PPPOL2TP_L2TP_HDR_SIZE_NOSEQ;
-+	po->chan.hdrlen = PPPOL2TP_L2TP_HDR_SIZE_SEQ;
+ 	conf.file = file;
++	conf.unit = nla_get_s32_default(data[IFLA_PPP_UNIT], -1);
  
- 	po->chan.private = sk;
- 	po->chan.ops	 = &pppol2tp_chan_ops;
-@@ -1176,12 +1177,6 @@ static int pppol2tp_session_setsockopt(struct sock *sk,
- 			break;
- 		}
- 		session->send_seq = !!val;
--		{
--			struct pppox_sock *po = pppox_sk(sk);
--
--			po->chan.hdrlen = val ? PPPOL2TP_L2TP_HDR_SIZE_SEQ :
--				PPPOL2TP_L2TP_HDR_SIZE_NOSEQ;
--		}
- 		l2tp_session_set_header_len(session, session->tunnel->version,
- 					    session->tunnel->encap);
- 		break;
+ 	/* Don't use device name generated by the rtnetlink layer when ifname
+ 	 * isn't specified. Let ppp_dev_configure() set the device name using
+diff --git a/include/uapi/linux/if_link.h b/include/uapi/linux/if_link.h
+index e9b5f79e1ee1..40523cd01a8b 100644
+--- a/include/uapi/linux/if_link.h
++++ b/include/uapi/linux/if_link.h
+@@ -1477,6 +1477,7 @@ enum {
+ enum {
+ 	IFLA_PPP_UNSPEC,
+ 	IFLA_PPP_DEV_FD,
++	IFLA_PPP_UNIT,
+ 	__IFLA_PPP_MAX
+ };
+ #define IFLA_PPP_MAX (__IFLA_PPP_MAX - 1)
+diff --git a/tools/include/uapi/linux/if_link.h b/tools/include/uapi/linux/if_link.h
+index 7e46ca4cd31b..150a582ae498 100644
+--- a/tools/include/uapi/linux/if_link.h
++++ b/tools/include/uapi/linux/if_link.h
+@@ -1465,6 +1465,7 @@ enum {
+ enum {
+ 	IFLA_PPP_UNSPEC,
+ 	IFLA_PPP_DEV_FD,
++	IFLA_PPP_UNIT,
+ 	__IFLA_PPP_MAX
+ };
+ #define IFLA_PPP_MAX (__IFLA_PPP_MAX - 1)
 -- 
-2.43.0
+2.51.0
 
 
