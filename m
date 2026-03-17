@@ -1,189 +1,179 @@
-Return-Path: <linux-ppp+bounces-421-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-422-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MFWOBcTpuGlplgEAu9opvQ
-	(envelope-from <linux-ppp+bounces-421-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Tue, 17 Mar 2026 06:42:28 +0100
+	id KE2TEGcmuWm1sQEAu9opvQ
+	(envelope-from <linux-ppp+bounces-422-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Tue, 17 Mar 2026 11:01:11 +0100
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB83E2A40C9
-	for <lists+linux-ppp@lfdr.de>; Tue, 17 Mar 2026 06:42:27 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E3D2A76AE
+	for <lists+linux-ppp@lfdr.de>; Tue, 17 Mar 2026 11:01:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5E87F3042951
-	for <lists+linux-ppp@lfdr.de>; Tue, 17 Mar 2026 05:41:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 648353079FBA
+	for <lists+linux-ppp@lfdr.de>; Tue, 17 Mar 2026 09:57:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9ADC37F740;
-	Tue, 17 Mar 2026 05:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D8213A2550;
+	Tue, 17 Mar 2026 09:57:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XdM7Lny4"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c1KBpy8h";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="UTpBMRpM"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC3437F724
-	for <linux-ppp@vger.kernel.org>; Tue, 17 Mar 2026 05:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2CD63A3E73
+	for <linux-ppp@vger.kernel.org>; Tue, 17 Mar 2026 09:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773726112; cv=none; b=RFBn3z9+py84hXMm0opMD9ZeihvDcnnk6YPnukTs0Pu0Te3tCK7kjCrOlpS3h3c49wdt986mGHY1Sw4dkUu2SloRjzCOn02KS/1wJpwWMNwtzPMIlxAAB03AnJuSoh6Yo5DR0wt7Fqv60Ah0GzB8i7U7ja8C+JbOrvWp2sxJNa8=
+	t=1773741468; cv=none; b=SewH4r0crIpRtb717jd7XfjIykdso97Lx2AudWFqfvGLIaduLtP2BurG0YOB2qvWW+kfIVl5jpBGkyMxRZGo1HfTaXLSahf0hEC58mQTvZbiyTu7ktaQdzVHq483tT2WZkKsFJQtWj4IVhmDwxG7CjGzAvqcUvjvIp5OVjpPcN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773726112; c=relaxed/simple;
-	bh=bltp3WJAylvLdfOQ5q+iE7Igpst4STCCh4hr4m1hx5E=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=sBD9+nGbc4FGhGnmEJws5YnjgpEmV098UyHNl8GHY4kS6Z1K9x0IgrzyEbP7Z7vt+YBPC4RIK7QTD9oN1m4gOHix51H3+Bae0eZbHVYBx8x5oOXdBOnFrPHGcBiBESbInekFZrOxOxq3O0leDOjsd1zRobiWWeKJs7zpnAdNhsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XdM7Lny4; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b97ba4c2be2so228804266b.1
-        for <linux-ppp@vger.kernel.org>; Mon, 16 Mar 2026 22:41:50 -0700 (PDT)
+	s=arc-20240116; t=1773741468; c=relaxed/simple;
+	bh=mKVRVOSt/fsx4ilTPwxMzDSFGIg2+3/bIQ+LVhC/BS8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tt1dV8dS9nMtSttTdWLN5iG2pGSqhSbCvbErEfTqaSFS4+XHrCKcyFVM9VWX/E/M6/SAMI1yGNdEHQZa2ekzWga4ZnAeakN2M4UYWV6pv6YSsXfYdDELPehY8JJBG4OwKXO11VZ+RxnvveOLSitvRxDSjBmBG3Q91/NSQMSVHpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c1KBpy8h; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=UTpBMRpM; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773741463;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FVn25Xo84DjYnUkEutgl608g8cHLDvs9Iup/54uYbZk=;
+	b=c1KBpy8hiXCxTSwZzQa4hh/3EE3idRi3FeLzOMBejLnjAY+NW9h4FFI6waGebx6YNXcff4
+	VN2bNBFl1t+rnJIFMxdw27oxXqd83AY12db4PztXHBmv2fRhrGxfr5wZzLf3DaZOE53CNw
+	VQgHjgr9jAjyeO7K/8VeqsyWLsim+rE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-121-2qcgKxjhOEC-PXA2C4r72Q-1; Tue, 17 Mar 2026 05:57:42 -0400
+X-MC-Unique: 2qcgKxjhOEC-PXA2C4r72Q-1
+X-Mimecast-MFC-AGG-ID: 2qcgKxjhOEC-PXA2C4r72Q_1773741461
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-43b42fe9031so1309081f8f.0
+        for <linux-ppp@vger.kernel.org>; Tue, 17 Mar 2026 02:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773726109; x=1774330909; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/aseV1JohbHZtQxOSTDVIyaCJRT3wIWyomxb4YwbsJs=;
-        b=XdM7Lny4kDM5mG8unAVNW/01cajvbi3iCjTsI9k25xzGVVUoaFwbKfY8MhSEh7yPu6
-         OnLqcNNBGnVF1g8soXk1NXdO3W+VVQ+QsY+zeykMfD4dyKZvshTv/kv/dykVoKv1Qv25
-         PuOscBnQffthI7f5Fd6816DUmIAhy0W279Q/WkYloqmfhgkJAAU3wNJXbYejZV+xWTqO
-         JV1U+cKePKPXs03/xAlkAMwfmSAg/1W5ri+H/2rlZmuSAtnQXXRTocch5H9wKrnGOOTF
-         lhihCQ6N30Qt5CmCpdPbvCsZjwayOq7gq7uuvVoLcaZdqaY24DaoOhDjWBjQOqcJh5DK
-         nrkQ==
+        d=redhat.com; s=google; t=1773741461; x=1774346261; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FVn25Xo84DjYnUkEutgl608g8cHLDvs9Iup/54uYbZk=;
+        b=UTpBMRpM4dBaOfKIjN8h9Ycd4Rd0V5pnqJvgX1SGb5Hgg/9LwrZDbxDUrhdKOM6Et1
+         66JMZW8CSZ7OutsqoLVLW3NelfHDYrufO5zo9Q5VJLuQ7XXQyQP70VCqbbg4DHqfEIJq
+         812rBY6Uieaq1gOC/rPFU7gmDzR2NErVs3aJpyQDI5XTffPfySHqBKwwl3dzZavJXxVq
+         Ls5mk2pzWsiqtDXMT8wOyUr9GanrymfVLHocKXMvN5JG5ZyzZGg+jjJKyej05jLZcvQu
+         lE+tyvwdlw2CVULa1XiE8wB1YksPN6xJ2sdtUcEL3dsEVe4zQ/IeMOZx4KSalg9w/zSX
+         he6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773726109; x=1774330909;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20251104; t=1773741461; x=1774346261;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/aseV1JohbHZtQxOSTDVIyaCJRT3wIWyomxb4YwbsJs=;
-        b=obXkVrTnijXcFl9cD2kf5kZk1R+3Dq6xzie6lYhFIzK7DmFvNsTT+a9gz3IJbuzrhc
-         p9/bprdNquTqYz9gqS20ONLd8RzQAXI+0EP+SBUI9RiMvTHRYB8cQpmuyZF+5w2WM3Ke
-         84fee2dtTBXsoYbWtBCNdXu0sHxNZ55h4dWWdCP4Xf5jNWKj/XCONUy6SRRjlvqtKFnB
-         5gKo2HQxTJdLftE1s1jIVvKZmYI2WC+FaacJEMNGoW7H11OVRRZtIbFgWnLMM8Hj9RGu
-         jWpstG89Ei0YLx7YAvRSLqf27PxLxfhmfiXF+aTwUiSbpokDr1xseBEejB6+TUqEwJsq
-         Kb3w==
-X-Gm-Message-State: AOJu0YyT/4C85gvd2C9H2BBiDZWssC8IoZgvT3UTeQKYInhXRyB8V/TR
-	XZwcunEFJoasVx4Fv+RkhC6OID87AVjyGhEVgqNptDubphIqA24FB9QDRupT+vADuH8=
-X-Gm-Gg: ATEYQzzwGyV1TzUYZfuq4qNAjMseoVFN1vh+HdXPn3/s8s2X2/GALBZ0etjbnc/SBzg
-	ygozZrqYH/8139+DRT7dDCAhco84f4mlKPwVxARXu7AxoqN6w1KcTpUOUnh4MI1639niE8GMeVU
-	vYYy2y380d379FOQWjjpnD5KUCEB934CJn34+QCTVdRFRmJS5BNDnn5P3on5DmQqgvF6ZtTj/9m
-	rut/zAhGY+MvFAFabjGfEe0cuhZlgLaQMB0pAuhhXpWTBRwW6IRCjd7CP5VpVEc/Zg4i4SJCoNJ
-	NcUsHpWnrkypI0QUeuD9Mz8CnWMWWV4uTgOHWR1D6lHiHLMGih/nPzJR4a8LpZdcn5lrMK30uZ7
-	T/byBmhRZ45Of/wpo5VcuFiOGnHM0vFw4dq9DAVouS+N1PcWm14d6vx8PTUtn9N8QPYZ9jQC4E2
-	2hSZtRK1Q=
-X-Received: by 2002:a17:907:72c2:b0:b97:b20f:c5b2 with SMTP id a640c23a62f3a-b97b2100569mr440106766b.9.1773726108699;
-        Mon, 16 Mar 2026 22:41:48 -0700 (PDT)
-Received: from gmail.com ([2a09:bac1:5520::49b:49])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b976cefca43sm687527566b.46.2026.03.16.22.41.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 22:41:47 -0700 (PDT)
-From: Qingfang Deng <dqfext@gmail.com>
-To: linux-ppp@vger.kernel.org,
-	James Chapman <jchapman@katalix.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2] l2tp: ppp: use max L2TP header size for PPP channel hdrlen
-Date: Tue, 17 Mar 2026 13:41:40 +0800
-Message-ID: <20260317054141.524879-1-dqfext@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=FVn25Xo84DjYnUkEutgl608g8cHLDvs9Iup/54uYbZk=;
+        b=W7uWt+aPdatk1vGU+Rox1/A5fh5EmIDVShqRD8ayUMDFyKSeeLxIrI6yMcCeQnwQpa
+         C644ds+cbWZKwzbHqclug2J3WqyNaUBUGpAkg93ZrAaY88fevg/0rzXxyY/peMRbqrq3
+         z7uIpNYe4d0it0DBFtqXFwgNz9P+7OlKRt6vnyGg8mS4WXgKDsIUowgx77R+VjDFAR/D
+         HdG1bblTCzU048jjAsDaVPYxPtHWRnypak5bXJFznpJRhM7DaxwYUnbX4bXE5NbkKsoo
+         RaCJkExVr6Sj0+Vj+oZKAL6YP7OYbsKPfgq9g8RdPlaPk5PGALOZxJdEW7fIAqvJdG0i
+         a4ZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUislmYw/dSOPrIMrdlXsJgCaq39UmcYMvfWv8e6o34MP2HMwpv+PQIkAkFUdurQd7RRDrMMxMwWkQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzupkR0+NvtRcogoiTydJ46rzlZ8JdsFJ6PukaBGNOhkfUS7MoZ
+	gIH3dB15V/Y3NN/REi3CwY6zu26Ha60yLzQJjvMpF6taiUKCYruVR8bTvGEiyBY7tb2PvUs4LXz
+	e4VkN6I1fEWLFuLyFVBX9sMEWkqUlTkthAaMo8c0ZCA+sBbWB+fVkX6ZNSoJ4EA==
+X-Gm-Gg: ATEYQzzhs38DCD6KUgtYuOLxD516zePkrYNDGvU+YRagpBamC8NT2HuVPJ21+cDB5hS
+	C7GrYap9kjUN3uokGBfWH64sAUIyDWjAIW9CT8axzRwPj5l1Po+VWoA/lQbHGLcU74WCZeLd1OH
+	qPkrdQB3q0bw1bSBpaOAVyHCy7DYU7c2Js18GcsOvFmtrjTvmmwgbCnKmw1R9syBfYlxN2NqoQK
+	XXUncKNST6AHgS5K7j8qhtKwgmxYehdhTULW1v0GUyfeUpJP7Uy6aUdMWuIPa7oKUKMSznhuvDm
+	WCbfHMGxkJ5VKUjITCKGf5u7Wkl8zIP/9FC2WWCB8SlDCMR3g9ZR8QH+Q4AQMMqAI5usp+ds9rO
+	0QJdva6LrSIVl927qKkDgLqw+9arkau5iBDUtBsPRRvHchop/5LwwI8E=
+X-Received: by 2002:a05:6000:2288:b0:439:b79d:b9a5 with SMTP id ffacd0b85a97d-43a04dae73dmr29950117f8f.37.1773741461021;
+        Tue, 17 Mar 2026 02:57:41 -0700 (PDT)
+X-Received: by 2002:a05:6000:2288:b0:439:b79d:b9a5 with SMTP id ffacd0b85a97d-43a04dae73dmr29950070f8f.37.1773741460554;
+        Tue, 17 Mar 2026 02:57:40 -0700 (PDT)
+Received: from [192.168.88.32] ([216.128.11.95])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe1affe9sm51534817f8f.15.2026.03.17.02.57.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Mar 2026 02:57:40 -0700 (PDT)
+Message-ID: <7b082017-5245-434c-9668-49b630af6484@redhat.com>
+Date: Tue, 17 Mar 2026 10:57:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 2/2] ppp: remove pch->chan NULL checks from tx
+ path
+To: Qingfang Deng <dqfext@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, linux-ppp@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Paul Mackerras <paulus@ozlabs.org>
+References: <20260312093732.277254-1-dqfext@gmail.com>
+ <20260312093732.277254-2-dqfext@gmail.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20260312093732.277254-2-dqfext@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-421-lists,linux-ppp=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com,lunn.ch,davemloft.net,google.com,kernel.org,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-422-lists,linux-ppp=lfdr.de];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dqfext@gmail.com,linux-ppp@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_NEQ_ENVFROM(0.00)[pabeni@redhat.com,linux-ppp@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-ppp];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: CB83E2A40C9
+	TAGGED_RCPT(0.00)[linux-ppp,netdev];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 09E3D2A76AE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-chan.hdrlen is read once at channel registration by
-ppp_register_net_channel(), and used to set the PPP net device's
-hard_header_len. It was set to PPPOL2TP_L2TP_HDR_SIZE_NOSEQ (6), which
-is 4 bytes too small if sequence numbers are later enabled via
-setsockopt(PPPOL2TP_SO_SENDSEQ), causing unnecessary skb reallocations
-on the TX path.
+On 3/12/26 10:37 AM, Qingfang Deng wrote:
+> Now that ppp_disconnect_channel() is called before pch->chan is set to
+> NULL, a channel from ppp->channels list on the transmit path is
+> guaranteed to have non-NULL pch->chan.
+> 
+> Remove the pch->chan NULL checks from ppp_push(), ppp_mp_explode(), and
+> ppp_fill_forward_path(), where a channel is obtained from the list.
+> Remove the corresponding WRITE/READ_ONCE annotations as they no longer
+> race.
+> 
+> Signed-off-by: Qingfang Deng <dqfext@gmail.com>
 
-The setsockopt handler attempted to change netdev's hard_header_len by
-updating chan.hdrlen, but the PPP layer never re-reads it after the
-registration, so the update had no effect.
+Looks sane to me.
 
-To avoid the unnecessary reallocations, set chan.hdrlen to
-PPPOL2TP_L2TP_HDR_SIZE_SEQ (10) unconditionally at registration and
-remove the ineffective update in the setsockopt callback.
+It looks like you are investing a significant amount of effort to
+improve the ppp driver. I strongly suggest you to create some functional
+self-tests before any other changes in this area.
 
-Signed-off-by: Qingfang Deng <dqfext@gmail.com>
----
-v2: rebase to net-next and drop fixes tag
- - https://lore.kernel.org/netdev/20260313034732.209792-1-dqfext@gmail.com/
+The code is pretty intricate and obscure, a reasonable code coverage
+could add significant confidence in non trivial changes, and could
+possibly help revisiting/cleaning-up the locking schema (which is AFAICS
+the most significant pain-point).
 
- net/l2tp/l2tp_ppp.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
-
-diff --git a/net/l2tp/l2tp_ppp.c b/net/l2tp/l2tp_ppp.c
-index ae4543d5597b..99d6582f41de 100644
---- a/net/l2tp/l2tp_ppp.c
-+++ b/net/l2tp/l2tp_ppp.c
-@@ -787,11 +787,12 @@ static int pppol2tp_connect(struct socket *sock, struct sockaddr_unsized *userva
- 		goto out_no_ppp;
- 	}
- 
--	/* The only header we need to worry about is the L2TP
--	 * header. This size is different depending on whether
--	 * sequence numbers are enabled for the data channel.
-+	/* Reserve enough headroom for the L2TP header with sequence numbers,
-+	 * which is the largest possible. This is used by the PPP layer to set
-+	 * the net device's hard_header_len at registration, which must be
-+	 * sufficient regardless of whether sequence numbers are enabled later.
- 	 */
--	po->chan.hdrlen = PPPOL2TP_L2TP_HDR_SIZE_NOSEQ;
-+	po->chan.hdrlen = PPPOL2TP_L2TP_HDR_SIZE_SEQ;
- 
- 	po->chan.private = sk;
- 	po->chan.ops	 = &pppol2tp_chan_ops;
-@@ -1176,12 +1177,6 @@ static int pppol2tp_session_setsockopt(struct sock *sk,
- 			break;
- 		}
- 		session->send_seq = !!val;
--		{
--			struct pppox_sock *po = pppox_sk(sk);
--
--			po->chan.hdrlen = val ? PPPOL2TP_L2TP_HDR_SIZE_SEQ :
--				PPPOL2TP_L2TP_HDR_SIZE_NOSEQ;
--		}
- 		l2tp_session_set_header_len(session, session->tunnel->version,
- 					    session->tunnel->encap);
- 		break;
--- 
-2.43.0
+/P
 
 
