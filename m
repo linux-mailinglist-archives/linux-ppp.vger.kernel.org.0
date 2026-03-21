@@ -1,158 +1,168 @@
-Return-Path: <linux-ppp+bounces-434-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-435-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id W+kSMbVdvmnxNgMAu9opvQ
-	(envelope-from <linux-ppp+bounces-434-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Sat, 21 Mar 2026 09:58:29 +0100
+	id SDoKLVOQvmmjTAMAu9opvQ
+	(envelope-from <linux-ppp+bounces-435-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Sat, 21 Mar 2026 13:34:27 +0100
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CBC02E4457
-	for <lists+linux-ppp@lfdr.de>; Sat, 21 Mar 2026 09:58:29 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 264102E54C5
+	for <lists+linux-ppp@lfdr.de>; Sat, 21 Mar 2026 13:34:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6731D3011164
-	for <lists+linux-ppp@lfdr.de>; Sat, 21 Mar 2026 08:58:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6FE1630156DD
+	for <lists+linux-ppp@lfdr.de>; Sat, 21 Mar 2026 12:34:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 392AF2D238F;
-	Sat, 21 Mar 2026 08:58:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4661E317170;
+	Sat, 21 Mar 2026 12:34:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S4gZV1CA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bRDQmd9Y"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A122550AF;
-	Sat, 21 Mar 2026 08:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774083506; cv=none; b=VAhb2f7wGcbezFlwnqEMkeVUt7cz+kVcaLhuTvn/9agiCRFgsV+BwGlX29CrjzcEh9GHs3m5PdfXPwkl994Z2VxbFsALTDvl4fUugSl3GuawhzR7QXwNKgr21HijhIjvZyS6yVV608R/23szXeEh5Jqp4NwGJuVNv+qpkaSMDEQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774083506; c=relaxed/simple;
-	bh=X0l86Q/FsTDOlq3OiuWxtwnJacrqKs2tW0wtjaEiE9s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cSI6JibciBuidUwreDCP9N/51NUvhTdA+0AyXRnuI8skUyoxl0HLH7yxdXlm8F4vh7GwS+HPoLMS3nxqz2BgciPbiYqb+eiL2/zJtyPyggmc2IK/tkvVW87JjSwk6Q7Aj87c36nIKaUoFXr2g6P8uZf4HK0luE5Od77ohIgFK/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S4gZV1CA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59663C19421;
-	Sat, 21 Mar 2026 08:58:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774083505;
-	bh=X0l86Q/FsTDOlq3OiuWxtwnJacrqKs2tW0wtjaEiE9s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S4gZV1CAp6hr8I1eFdbVQzStMcXlScsBtWun0XPrHz2JVxbvmFfgoch+AUgEJLrbs
-	 LC/GzY5FpMaLj4QjkXpl50/TOlt+/hTC/gAKJGxWlQ2fhNRJd6wVXXtxvPHSueGIC/
-	 LI1jkilThsMLIW92GhDjMoUAEFh9sGNYbbhiKK/Cot86OV0u+lzdfSaK2jSDNTowWW
-	 eVjC4l1vi9cODbzRArMHUO4oHr+eT65TzmhD97QZ9BT5mohkkLJ34mhcCuMHaj6e4J
-	 brVgfFB/lEMiG08OlFr5UabDkYrPjMrDlZq954O2UDbKVIdwCQ05zGgQMWsj4uybtw
-	 REpLHFyOb1EOw==
-Date: Sat, 21 Mar 2026 08:58:20 +0000
-From: Simon Horman <horms@kernel.org>
-To: Qingfang Deng <dqfext@gmail.com>
-Cc: Shuah Khan <shuah@kernel.org>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
-	Paul Mackerras <paulus@ozlabs.org>
-Subject: Re: [PATCH net-next] selftests: net: add tests for PPP
-Message-ID: <20260321085820.GO74886@horms.kernel.org>
-References: <20260320071755.483733-1-dqfext@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F5825CC74
+	for <linux-ppp@vger.kernel.org>; Sat, 21 Mar 2026 12:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774096463; cv=pass; b=nwW3gdXm1gPK5VEShee6CldYppzILz+FR/3xH+n49P27RlmCG+MO58QDK7YPimZGMOlWk201DIY2xjjwAyB7NpTGRkVuyoZTDF9Zcgy8wgD46vE1XdSVrOO+LFKXIkthFs+jaVauIW6Oont5RrIc7VS8czHQ+cz7XAab7FJHO3I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774096463; c=relaxed/simple;
+	bh=vAOxLc/iYSbulqsSrn9p0RF47QF7jBTSEff5apcZ5J8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XK3Fhjj/ktjm6nlItZR96P4CsvdI+Fv7l6MGNhZjEzmiUr3MauCS78+scdIcveBuF2fT3p6rzVlUf6BReNnc1gInKr2laAnnfNxGvGjt8vbsqpJ195CqDV204oOEjj92atGoKulWYzoqJcetsXi8dIOVf63TzcchMCokqjYLhqE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bRDQmd9Y; arc=pass smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-794719afcd4so23207987b3.1
+        for <linux-ppp@vger.kernel.org>; Sat, 21 Mar 2026 05:34:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774096460; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PbHVcQcOClUWEPpodB/f6suWxX6LJ9ib2NNroMuZeurX0/RdplmP2VmKzJpYa0MJ9a
+         3u+/wGJ4sZ/r4borSpDzvDwiuWW45cCBBAvZIMoJiPfppi9gcMyd8egTq9s6Omc/qor2
+         /BfcRQrDVGM1OUaHDwHj3Tknn7jdWXbM45FaMWt2kFCQ3/Dft4E8amzRRzPLgBY0hqHm
+         NvkrFn1PViXVrzMPJzAtnlQK4xALrb/bL3/dqIK7ihwX5KwKLno1gJzlHiQG3o0oG5KL
+         jLF47EUbC6KM8FFg3B0BrWVdSQZnXpGMRvWVWqyR2NIn86FARvCV4zxDclHdq4VnzhaP
+         ya3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rNCB/fNUc/FK23+8KOYdAudgq7bzv4Aj6mVALRVzF8U=;
+        fh=Znl62ZtTivA16ivlPaXRJ7cPFK9spfo/yoDNSYCSoSw=;
+        b=VmBxiJVBypv4KHAxJhy2awu4P3gnyIwyaVWm1sekNn3bvrNgeCEzbxfJpgO83R62m0
+         HtuLEIZIqzB4nmQ81s78cJIAl+mjxTK3VfplD5vqtQFS3q0iRz6oqoQDiayHQ3OphxGq
+         LneYrVT608/LRl8vTgLVlQYUSM8OftYFLGHg1qhKggOntNAa1jhtr+Dxtc4EpkX9g7zU
+         hnMks+SH5SjtediImsHhJsSBdwhA9K02mTakgNOpO5u3tghgEAJB5AiL0Q1+PQuODSTl
+         S2KauqUmSaYnN1cj0RpQkvHWUj+W3Alb3moPYB5sC6mqb7FLeFKdaSjThYXYxBuwN5t/
+         2Xow==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774096460; x=1774701260; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rNCB/fNUc/FK23+8KOYdAudgq7bzv4Aj6mVALRVzF8U=;
+        b=bRDQmd9YnCxRcgOmFCMYSRtZpUAiAcjJdog4xBtuXRZn6QoVWo9HjflJwUiBQ3akxZ
+         RQRXh1k7Z5OG+PTByTdvIyET/twQSBB5VixOyH67/21boqg/ZV+DPa+9SsjCLguUnseD
+         rMltPTg2tSXTUBTANgLmeSFxMbg3wQx13iN/ZlsgUekY5jgPdK++fNtU5w22MVBfjB4X
+         y3vyH5bHOIMudoVDzm09apmuU2lK4nAK95BGm+wQqF1sGeJAzFz5kL9sPJUxFU85wKzC
+         Z5013IHkzoNG3md2N/BCtMLXAlwPnJafsPfgtmHoQP5cVRYCaWn6Wbh6xUvAymHoMk33
+         DzdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774096460; x=1774701260;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rNCB/fNUc/FK23+8KOYdAudgq7bzv4Aj6mVALRVzF8U=;
+        b=DHj/QOvDt71Azj9A98NUrkrYr1OuStQu9GAKwzkBotAxpu1Y8Jh6HTGxouA/Amx5bi
+         fpBjL7QyzgSvyzK8bvxwKLVh9GR0xHtgQNdA5Ze4WQ4hdKctATHiDGH303ydzTDGUZHy
+         wOJlThrv5Aum+bl4JQTS9uuu/29v8KW+zOKnnQzr39Bf4n1KZ/JwGfnzUVp2qEoCzG+2
+         OH9cB3k3pmt/ovqeTeVvk+K+tS7//WYhvbKqeTYku0QIl4D+dlONReXo7QXmXbEShJpV
+         tdsUPIqbrMwtgPMQ/8nf6Lt1hfRM2fSxw1gcyO6Uet6Jd0wJLXQrI5Nj8FMhkDVUNSVg
+         K0sw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPYARbxuiyQOMveJ6c0jN2WjQ9uAFLL0lc816LnRlOSspjHnFjzzUGQF1tXG389UazHM3neMLwtBM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQBJn9UfNq9qGU/80KeV3eWYTk/oy4Z3fbUXsMsmorr1OAd7Ra
+	R8ae4jPe9gWzhXJJPqsg19yujgfl3WD7ASguG3mOPOmC2sONVfF2g9z5hSdXbfc1lltQ0pxE4Vh
+	7yOTgiHOpM1mvaEVi6D/VeZ6nNlSIGUs=
+X-Gm-Gg: ATEYQzwZYaYxLSxT3lOsvRjwP6b7A8cZS8yZnx3pznG1FbLUIoLsHjUnJ5Q/GZ3nplm
+	uYy7A2XSDf1S6+IV5WEACG9IjN2ypkVXvF0d5pULl8xDi0095rFnYMc6ouzxbZPnrqNDlug0cZk
+	jU9p8rdCWt2q5nYzdzVAnfJjnjE2oYVfbMoNxWRbfXQ3/iIelkuWXx0cEqRWm6lS7NsVVho6mSy
+	j/s4uoiTub/PBZ7mLp8EFKccd3PUzQwFcMhXpRIqg3a35GSzlD9ABNvBjOSXwy+bK1Fr2FX31ix
+	yZEmGYTJikytMb2OkUvsvrZqRuthrM1bK6RLBOPl14WaZ9A=
+X-Received: by 2002:a05:690c:e688:b0:79a:8dd1:53bd with SMTP id
+ 00721157ae682-79a90ac1347mr44295527b3.7.1774096460153; Sat, 21 Mar 2026
+ 05:34:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260320071755.483733-1-dqfext@gmail.com>
+References: <20260320071755.483733-1-dqfext@gmail.com> <20260321085820.GO74886@horms.kernel.org>
+In-Reply-To: <20260321085820.GO74886@horms.kernel.org>
+From: Qingfang Deng <dqfext@gmail.com>
+Date: Sat, 21 Mar 2026 20:34:09 +0800
+X-Gm-Features: AaiRm50ubEYsiJ8QdUgGTYRZ9K8nu7fagVUr9fv4mGrb8iGhNnEk2zwf6BQK5rQ
+Message-ID: <CALW65jajTpzKPAfc3nNpKeBOLbqqP7LZjaNaq6Eji1G17ZzKkw@mail.gmail.com>
+Subject: Re: [PATCH net-next] selftests: net: add tests for PPP
+To: Simon Horman <horms@kernel.org>
+Cc: Shuah Khan <shuah@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-ppp@vger.kernel.org, netdev@vger.kernel.org, 
+	Paul Mackerras <paulus@ozlabs.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-434-lists,linux-ppp=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-435-lists,linux-ppp=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[horms@kernel.org,linux-ppp@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dqfext@gmail.com,linux-ppp@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-ppp];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ppp_common.sh:url]
-X-Rspamd-Queue-Id: 5CBC02E4457
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ppp_common.sh:url]
+X-Rspamd-Queue-Id: 264102E54C5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Fri, Mar 20, 2026 at 03:17:54PM +0800, Qingfang Deng wrote:
-> Add ping and iperf3 tests for ppp_async.c and pppoe.c.
-> 
-> Signed-off-by: Qingfang Deng <dqfext@gmail.com>
-> ---
->  MAINTAINERS                                   |  1 +
->  tools/testing/selftests/Makefile              |  1 +
->  tools/testing/selftests/net/ppp/Makefile      | 15 +++++++
->  tools/testing/selftests/net/ppp/config        |  8 ++++
->  tools/testing/selftests/net/ppp/ppp_async.sh  | 37 +++++++++++++++++
->  tools/testing/selftests/net/ppp/ppp_common.sh | 40 +++++++++++++++++++
+On Sat, Mar 21, 2026 at 4:58=E2=80=AFPM Simon Horman <horms@kernel.org> wro=
+te:
+>
+> On Fri, Mar 20, 2026 at 03:17:54PM +0800, Qingfang Deng wrote:
+> > Add ping and iperf3 tests for ppp_async.c and pppoe.c.
+> >
+> > Signed-off-by: Qingfang Deng <dqfext@gmail.com>
+> > ---
+> >  MAINTAINERS                                   |  1 +
+> >  tools/testing/selftests/Makefile              |  1 +
+> >  tools/testing/selftests/net/ppp/Makefile      | 15 +++++++
+> >  tools/testing/selftests/net/ppp/config        |  8 ++++
+> >  tools/testing/selftests/net/ppp/ppp_async.sh  | 37 +++++++++++++++++
+> >  tools/testing/selftests/net/ppp/ppp_common.sh | 40 +++++++++++++++++++
+>
+> Shellcheck flags two issues in ppp_common.sh. As we are aiming
+> for new tests to be shellcheck-clean I'd appreciate it if you could
+> look into this.
 
-Shellcheck flags two issues in ppp_common.sh. As we are aiming
-for new tests to be shellcheck-clean I'd appreciate it if you could
-look into this.
-
-My suggestion is that SC2148 can be addressed by adding #!/bin/bash
-to the top of the file.
-
-And SC2153 can be suppressed using # shellcheck disable=SC2153 
-
-For reference
-+  https://www.shellcheck.net/wiki/SC2148
-+  https://www.shellcheck.net/wiki/SC2153
-
-...
-
-> diff --git a/tools/testing/selftests/net/ppp/Makefile b/tools/testing/selftests/net/ppp/Makefile
-> new file mode 100644
-> index 000000000000..d2cbd6099255
-> --- /dev/null
-> +++ b/tools/testing/selftests/net/ppp/Makefile
-> @@ -0,0 +1,15 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +top_srcdir = ../../../../..
-> +
-> +TEST_PROGS := \
-> +	ppp_async.sh \
-> +	pppoe.sh
-
-Please add a trailing " \" to the line above,
-so it won't need to be modified if another item
-is added after it on a new line.
-
-> +# end of TEST_PROGS
-> +
-> +TEST_FILES := \
-> +	ppp_common.sh \
-> +	pppoe-server-options
-
-Here too.
-
-> +# end of TEST_FILES
-> +
-> +include ../../lib.mk
-
-...
+Okay, I'll fix the shellcheck issues and the trailing backslashes in v2.
 
