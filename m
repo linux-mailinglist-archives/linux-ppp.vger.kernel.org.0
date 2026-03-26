@@ -1,374 +1,168 @@
-Return-Path: <linux-ppp+bounces-441-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-442-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IEQAIx2XxGnn1AQAu9opvQ
-	(envelope-from <linux-ppp+bounces-441-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 03:17:01 +0100
+	id sGWVE5WdxGle1gQAu9opvQ
+	(envelope-from <linux-ppp+bounces-442-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 03:44:37 +0100
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C73732E48E
-	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 03:17:01 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A765932E743
+	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 03:44:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 0BE4F302051A
-	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 02:16:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4C96930210D2
+	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 02:39:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 438022E62C3;
-	Thu, 26 Mar 2026 02:16:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B00FC38CFFE;
+	Thu, 26 Mar 2026 02:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ET2C75lD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F5Jr3sSF"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4D12DAFA9
-	for <linux-ppp@vger.kernel.org>; Thu, 26 Mar 2026 02:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AED28314C
+	for <linux-ppp@vger.kernel.org>; Thu, 26 Mar 2026 02:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774491414; cv=none; b=Yc9qayAc9XM8zGlrj7xSvyqr5DHIil3zONp3eNdyCwt7i8v25GP+LUtlQkTEDuQ8K6DVTtfG29pyz9Jv4K/+jBAHSgpudafj8j+h/mWyxdccqhycOPLsYyH0uqdkzrp2/9b6lCH0L5eK1Xo69sWLt9otN/Cl9nLtaLWCDUCCoek=
+	t=1774492788; cv=none; b=sYuFdH1tg97yK9TdoH1MF1BEi0/KeVEFDmjrY6b9h8/klKJc7GRRHb7gEKWlVOyR+q5ONIc5o+onX+uOJ7QP1a8R3G3Ncd0iQjg4rOFW9LN/yuTtzouvL6xLp50iCfx3de3K0EFKsxbydKDuTKsh2aVa3QtnUWPscJkt+znYsnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774491414; c=relaxed/simple;
-	bh=XL210it0gtQsEszctI6MjLScbi4X8gcsVy8bQGL8kHE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FPO7L1HwaEVqBdEMD0AC9GTefVJJGcK6t4A97A9sXlkK/LkEj0moGa6BALUJ5hxm4W9+1B/qnfr12LSEYo5pF0Glx1Q2hLfvqWtLnHa4iSf2isixwrAGSTCqkPFdVCbuWtLmZGhcbfeO+woM5xBHSOQ3wMom/vdrb0+jKrqspIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ET2C75lD; arc=none smtp.client-ip=209.85.208.45
+	s=arc-20240116; t=1774492788; c=relaxed/simple;
+	bh=oFuA9HJCp2JlyvrW6KQhqav2hsUc20F0Uqi2S8sqkmA=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=a4VOa5XiOFe5MWtcqHPni+PmnuiWHL/3TemslaYgG0oPIHnKffdR4zqMTM4bi3GmwMjhDLeXjRkvzGZJtIv7Es3W3Hk85Qq3PpJbWHxTjfWWI0YX3BR2RfO+iv17rTT7mC7tZV+I47EKyBVd421HpVgwcMkwsuzJ099ZHgyzbjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F5Jr3sSF; arc=none smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-668e55bd36bso519790a12.3
-        for <linux-ppp@vger.kernel.org>; Wed, 25 Mar 2026 19:16:52 -0700 (PDT)
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-64ae222d87dso523351d50.2
+        for <linux-ppp@vger.kernel.org>; Wed, 25 Mar 2026 19:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774491411; x=1775096211; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BmgS7jmIsFb12HXFzHaausAdN0MMTikyDLHIG6ToCYY=;
-        b=ET2C75lDl3dF1GWBDNPPHXY6R+M/C7yiiikMHpM6L8envXWQe/S06lOBVxuzZnA+6b
-         FQjhSqIgqpIyX30rocEXzH2Get1UZZ7y6Carv5gxGD2I1rnbR4HIbAlVrjRJX8b9MNCv
-         n3j0layCpgYYJj79JuO5zwwCn33L8W9De3yxnUUAgtN8/CuCCD27/AfVAJldCs5La8Fe
-         3TrW2WRrDLEbaaVF9XBcksDDx4VrDhy62uIHTCvmFMQVSb1B5GL3viBfvgwdEdhnC3J1
-         G5DW9VDwRT+dd/4kZnkCmgSsGY6Gn4+JgyGUFrnJ2ymOxnIMi+kfGTV8aCq90nvUYMSd
-         q0og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774491411; x=1775096211;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774492786; x=1775097586; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BmgS7jmIsFb12HXFzHaausAdN0MMTikyDLHIG6ToCYY=;
-        b=CUM8Pztyx5p+Vk3N4JRTjEDXXZePgZQudTRoDjOPrdBCCz16g8rzTYWcE6p46RZIKe
-         ndRNubj3In+DLn2H+jIcdTkSt0oOdlCBcuI+jvPTtOMhnd0Y+f67JSgZDhfGEmpGBrW6
-         wdPhGLbSZ96Ml+CvmdZmksiLxdmEcrt6Ok7mGWxE59T7ZU3dvdHKOLFvXmFr+n7oehV/
-         UAASthgk5Jp47AyMHNY11KAvmPreUuPsC5cm0Vddg09NAg8COO07vjfePDjfhIFiODFz
-         cFmASFJs34mGEFjJRLK/TCuyEzYLCuGWLzrh0RQRfUtlyx3Zd8aT0YsU4a3+gtU6RRqZ
-         53og==
-X-Forwarded-Encrypted: i=1; AJvYcCXdGNUK1QMThtglDmpGIKDcTwbLSIsLZyWeVsFrHvIn3t0ZVdRugp9NqwTTeCzOzIdIkxLoY9mMs2U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy725GCo2lRUbRxztQ9MXtLhdVz9UApsdWk2nrtDh/CMm2ddLZ9
-	TzHSa27L8k75WBOAchIY0KRCc3sUzdibsdYhK4eKP44bjsy+dW6+ZgT7
-X-Gm-Gg: ATEYQzw6TdYToJKaKtr2MrIOxIGeTaLzeQWDqMfb/flM36H2iCG/1ZWIwCMuB8XogbV
-	7zKkGQZQ71n/oJ9BXdacc1iNyDdfspFx0V83xycWZt6vDNPMql2NnXtO6Vpl0DI7FTvM7Nx06vH
-	nlx9nlwP0zgQjoFmxJl7p3gvbGlOuAo7W7PKAWXcHlfEG671VCW+eUsabz0DG9d3whxymH6HTfV
-	geirMl4jcY0yrf99RwpvNl4+XI2qm/y9IdC0NTfE4RBCiHvuH3U8tUqUGbbFRo7ECa7I4ElS33A
-	3PuzTDd00I6jQWHqyIbH78ZlWcuUvXqxRJ5odGYGe4ZtJ+wbnLWhsAk4Lj+iJ53yYZKO4bWJB2O
-	o4CQiXT23DdukU6u79NUyMQmHDTIbZDSBbOrdlAQY554P0RT1wWXjZYSa4NgPrhXO0KZzQ9NzD5
-	B7V6SlGPdzGloT
-X-Received: by 2002:a05:6402:40d1:b0:66a:11c9:f6bd with SMTP id 4fb4d7f45d1cf-66a826e30admr3331546a12.27.1774491410742;
-        Wed, 25 Mar 2026 19:16:50 -0700 (PDT)
-Received: from gmail.com ([2a09:bac5:4e24:270f::3e4:5])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-66ad541489esm447262a12.0.2026.03.25.19.16.45
+        bh=OkKASDSS27GIMRV0i5mmWnYYUA/gqbOObp0Nx68p+B4=;
+        b=F5Jr3sSFzM6qt6olpiFaPQHyixDsqRB6iQKwLiLCojGBU7Cej2RJLy1JdMogIsHxbG
+         v09HU7rhILLB5bbM8hYZ6u40TAhpZ1Vx20Mz+Ui/pJv2nQXy39mYSGL7tqDBLCHYhlQG
+         6heOp93kwyN2mF2wHrYOj9AbZcbwS/yCqYHNIBzrNb8WWdXJs4Je5S/ue/6MJFi/JZSD
+         gKoJfh2VRkvoXoKuzZ+dLMX9fVYiqwBy6cYr5Xdcn2qe6BG/5qNDebA7BGmqdr44cTuo
+         gldphnvkoQOkpmGixirsSqv/a7mOpknwMFZkmCHGC9GXQ6Vro+16xs+m7Mt+dESYT58P
+         MzIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774492786; x=1775097586;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OkKASDSS27GIMRV0i5mmWnYYUA/gqbOObp0Nx68p+B4=;
+        b=o6pinoaPuB0oRZaiJ2L01VIDBamVjv9kUZFaMEuPWkhVMKuCucO5gh7AFv6SNgYdYR
+         lI3rNppDieHzUiX4GTkT1GuIz0Ho3suSsqWfMT+dDQQ0U7I0WggQBOSuFC1/mjMISV0e
+         DUEa4ONLmb7+1BqxJCGCaDOUKZ4+gQ9AYBe4MD1nVT10peXzOgCUJiTY3RNgHf7f4h4K
+         j03mXmKp/yWBgaTNTkdDt0dv+9sDsVURI4mfYFgyRnHw5LSmY6ySwJZcceTrXlezowph
+         AkA4puwLT1EuXrTMo/KSqtDpfEfuFb4BGbTapnso/5NKWaG2s0lY77w0Dt5Tgv03c+XL
+         P8JA==
+X-Gm-Message-State: AOJu0YyV/hfBBz5iHX6bDY+I0ca82QGMpkRy324C6vcLrvq1cn3/xxUD
+	q9sKeKI8d8byU7g/nLIVZVqbmuGExH5SLVG042mjbj4LyIb4ErXJh0oa
+X-Gm-Gg: ATEYQzz+VWj6CJp3LwTE4prl42J90xcw75DN1aPuj7IqIEvENzSXlFmp+PdzidWlQeg
+	u6kCrcumOhImitv5eJwjmYkS4a80Qo1y78m5XSvflpIUP4IBs6Z4d8pec4AbyW9H6prGeGV9t+Z
+	OwFWkfEKY6wXNcELLl/aO2wVWf4YPyQpbpO+z1HByjZsC0oBQz5+uCnFif03GE7uzfeRNWpu3BN
+	b/nz2RmADTa9BJzGj5eQzZyiqaImP+ODCYfSj5Z3BT6SwH8H/o3nVvyIiC04bp78FVHz/Xeu5SH
+	+Tqv8T2drCotgQrNo55geYviBv+P04W1HGtoKsSWW7WFS2hLa8acRsZDDObp5dzULEZaFW6JL97
+	gHI/tO+YaGa6VGZ6jg8uOW5RObxlfyWKTIgMgzPpdEwuHf18/XYjVgj1MNNcVttlGJJaYg9I45L
+	oSUjfhQ6D9c+/CMT2unRdFJPAU36H7AsnKIRXI0c8tiDQ0E9SZ/Q2Fazp2QfaqIjS1DtIaT0wAh
+	uD/
+X-Received: by 2002:a05:690e:43c1:b0:64e:9dc7:90ae with SMTP id 956f58d0204a3-64ee612f985mr3789416d50.43.1774492786528;
+        Wed, 25 Mar 2026 19:39:46 -0700 (PDT)
+Received: from gmail.com (180.134.85.34.bc.googleusercontent.com. [34.85.134.180])
+        by smtp.gmail.com with UTF8SMTPSA id 956f58d0204a3-64ef6c08f2esm868428d50.14.2026.03.25.19.39.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 19:16:49 -0700 (PDT)
-From: Qingfang Deng <dqfext@gmail.com>
-To: Shuah Khan <shuah@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Felix Maurer <fmaurer@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Antonio Quartulli <antonio@openvpn.net>,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-ppp@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: Paul Mackerras <paulus@ozlabs.org>
-Subject: [PATCH net-next v4] selftests: net: add tests for PPP
-Date: Thu, 26 Mar 2026 10:16:24 +0800
-Message-ID: <20260326021642.29170-1-dqfext@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 25 Mar 2026 19:39:45 -0700 (PDT)
+Date: Wed, 25 Mar 2026 22:39:45 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>, 
+ Qingfang Deng <dqfext@gmail.com>
+Cc: linux-ppp@vger.kernel.org, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ David Ahern <dsahern@kernel.org>, 
+ Simon Horman <horms@kernel.org>, 
+ netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Felix Fietkau <nbd@nbd.name>, 
+ Willem de Bruijn <willemb@google.com>
+Message-ID: <willemdebruijn.kernel.f147059acc3e@gmail.com>
+In-Reply-To: <20260325165910.5bd7416c@kernel.org>
+References: <20260305013852.3769-1-dqfext@gmail.com>
+ <20260306170411.49912ae1@kernel.org>
+ <CALW65jatv71b7G6jpr4g-6j520RjLBDJMH8uta5MPJHmEM1S1g@mail.gmail.com>
+ <20260309140127.465b6ccd@kernel.org>
+ <CALW65jZv53Y4-H3civxZLT5RGypsKjb3JyiA6iy0pw-_RK-=Tw@mail.gmail.com>
+ <20260325165910.5bd7416c@kernel.org>
+Subject: Re: [PATCH net-next v5] net: pppoe: implement GRO/GSO support
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	MV_CASE(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-441-lists,linux-ppp=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-442-lists,linux-ppp=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dqfext@gmail.com,linux-ppp@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-ppp];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[willemdebruijnkernel@gmail.com,linux-ppp@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-ppp,netdev];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,enneenne.com:email]
-X-Rspamd-Queue-Id: 2C73732E48E
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: A765932E743
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add ping and iperf3 tests for ppp_async.c and pppoe.c.
+Jakub Kicinski wrote:
+> On Wed, 25 Mar 2026 17:23:39 +0800 Qingfang Deng wrote:
+> > > > I haven't written a kselftest before. What tests should I include?
+> > > >
+> > > > I think I can add a local ppp server and client over veth, and test
+> > > > the connection with ping and iperf3.  
+> > >
+> > > We have tools/testing/selftests/drivers/net/gro.c and associated Python
+> > > test. (note I have ambiguous feelings about adding ppp cases to this
+> > > file vs creating a new test, adding Willem to CC maybe he has some
+> > > guidance)  
+> > 
+> > He hasn't replied. What do you think?
+> 
+> He probably missed the mid-thread email. Proceed with whatever you feel
+> makes sense.
 
-Signed-off-by: Qingfang Deng <dqfext@gmail.com>
----
-v4: double quote $EXIT_STATUS (SC2086)
- https://lore.kernel.org/netdev/20260325014411.3596-1-dqfext@gmail.com/
+Sorry I missed this.
 
- MAINTAINERS                                   |  1 +
- tools/testing/selftests/Makefile              |  1 +
- tools/testing/selftests/net/ppp/Makefile      | 15 +++++++
- tools/testing/selftests/net/ppp/config        |  9 ++++
- tools/testing/selftests/net/ppp/ppp_async.sh  | 43 ++++++++++++++++++
- tools/testing/selftests/net/ppp/ppp_common.sh | 44 +++++++++++++++++++
- .../selftests/net/ppp/pppoe-server-options    |  2 +
- tools/testing/selftests/net/ppp/pppoe.sh      | 40 +++++++++++++++++
- 8 files changed, 155 insertions(+)
- create mode 100644 tools/testing/selftests/net/ppp/Makefile
- create mode 100644 tools/testing/selftests/net/ppp/config
- create mode 100755 tools/testing/selftests/net/ppp/ppp_async.sh
- create mode 100644 tools/testing/selftests/net/ppp/ppp_common.sh
- create mode 100644 tools/testing/selftests/net/ppp/pppoe-server-options
- create mode 100755 tools/testing/selftests/net/ppp/pppoe.sh
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a09bf30a057d..d553437d5ac1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21078,6 +21078,7 @@ PPP PROTOCOL DRIVERS AND COMPRESSORS
- L:	linux-ppp@vger.kernel.org
- S:	Orphan
- F:	drivers/net/ppp/ppp_*
-+F:	tools/testing/selftests/net/ppp/
- 
- PPS SUPPORT
- M:	Rodolfo Giometti <giometti@enneenne.com>
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 450f13ba4cca..65f84e8a0cf0 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -78,6 +78,7 @@ TARGETS += net/netfilter
- TARGETS += net/openvswitch
- TARGETS += net/ovpn
- TARGETS += net/packetdrill
-+TARGETS += net/ppp
- TARGETS += net/rds
- TARGETS += net/tcp_ao
- TARGETS += nolibc
-diff --git a/tools/testing/selftests/net/ppp/Makefile b/tools/testing/selftests/net/ppp/Makefile
-new file mode 100644
-index 000000000000..b39b0abadde6
---- /dev/null
-+++ b/tools/testing/selftests/net/ppp/Makefile
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+top_srcdir = ../../../../..
-+
-+TEST_PROGS := \
-+	ppp_async.sh \
-+	pppoe.sh \
-+# end of TEST_PROGS
-+
-+TEST_FILES := \
-+	ppp_common.sh \
-+	pppoe-server-options \
-+# end of TEST_FILES
-+
-+include ../../lib.mk
-diff --git a/tools/testing/selftests/net/ppp/config b/tools/testing/selftests/net/ppp/config
-new file mode 100644
-index 000000000000..b45d25c5b970
---- /dev/null
-+++ b/tools/testing/selftests/net/ppp/config
-@@ -0,0 +1,9 @@
-+CONFIG_IPV6=y
-+CONFIG_PACKET=y
-+CONFIG_PPP=m
-+CONFIG_PPP_ASYNC=m
-+CONFIG_PPP_BSDCOMP=m
-+CONFIG_PPP_DEFLATE=m
-+CONFIG_PPPOE=m
-+CONFIG_PPPOE_HASH_BITS_4=y
-+CONFIG_VETH=y
-diff --git a/tools/testing/selftests/net/ppp/ppp_async.sh b/tools/testing/selftests/net/ppp/ppp_async.sh
-new file mode 100755
-index 000000000000..c47a6f5c02dd
---- /dev/null
-+++ b/tools/testing/selftests/net/ppp/ppp_async.sh
-@@ -0,0 +1,43 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+
-+source ppp_common.sh
-+
-+# Temporary files for PTY symlinks
-+TTY_DIR=$(mktemp -d /tmp/ppp.XXXXXX)
-+TTY_SERVER="$TTY_DIR"/server
-+TTY_CLIENT="$TTY_DIR"/client
-+
-+cleanup() {
-+	cleanup_all_ns
-+	[ -n "$SOCAT_PID" ] && kill_process "$SOCAT_PID"
-+	rm -fr "$TTY_DIR"
-+}
-+
-+trap cleanup EXIT
-+
-+require_command socat
-+ppp_common_init
-+modprobe -q ppp_async
-+
-+# Create the virtual serial device
-+socat -d PTY,link="$TTY_SERVER",rawer PTY,link="$TTY_CLIENT",rawer &
-+SOCAT_PID=$!
-+
-+# Wait for symlinks to be created
-+slowwait 5 [ -L "$TTY_SERVER" ]
-+
-+# Start the PPP Server
-+ip netns exec "$NS_SERVER" pppd "$TTY_SERVER" 115200 \
-+	"$IP_SERVER":"$IP_CLIENT" \
-+	local noauth nodefaultroute debug
-+
-+# Start the PPP Client
-+ip netns exec "$NS_CLIENT" pppd "$TTY_CLIENT" 115200 \
-+	local noauth updetach nodefaultroute debug
-+
-+ppp_test_connectivity
-+
-+log_test "PPP async"
-+
-+exit "$EXIT_STATUS"
-diff --git a/tools/testing/selftests/net/ppp/ppp_common.sh b/tools/testing/selftests/net/ppp/ppp_common.sh
-new file mode 100644
-index 000000000000..c72218813f95
---- /dev/null
-+++ b/tools/testing/selftests/net/ppp/ppp_common.sh
-@@ -0,0 +1,44 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+# shellcheck disable=SC2153
-+
-+source ../lib.sh
-+
-+IP_SERVER="192.168.200.1"
-+IP_CLIENT="192.168.200.2"
-+
-+ppp_common_init() {
-+	# Package requirements
-+	require_command pppd
-+	require_command iperf3
-+
-+	# Check for root privileges
-+	if [ "$(id -u)" -ne 0 ];then
-+		echo "SKIP: Need root privileges"
-+		exit $ksft_skip
-+	fi
-+
-+	# Namespaces
-+	setup_ns NS_SERVER NS_CLIENT
-+}
-+
-+ppp_check_addr() {
-+	dev=$1
-+	addr=$2
-+	ns=$3
-+	ip -netns "$ns" -4 addr show dev "$dev" 2>/dev/null | grep -q "$addr"
-+	return $?
-+}
-+
-+ppp_test_connectivity() {
-+	slowwait 10 ppp_check_addr "ppp0" "$IP_CLIENT" "$NS_CLIENT"
-+
-+	ip netns exec "$NS_CLIENT" ping -c 3 "$IP_SERVER"
-+	check_err $?
-+
-+	ip netns exec "$NS_SERVER" iperf3 -s -1 -D
-+	wait_local_port_listen "$NS_SERVER" 5201 tcp
-+
-+	ip netns exec "$NS_CLIENT" iperf3 -c "$IP_SERVER" -Z -t 2
-+	check_err $?
-+}
-diff --git a/tools/testing/selftests/net/ppp/pppoe-server-options b/tools/testing/selftests/net/ppp/pppoe-server-options
-new file mode 100644
-index 000000000000..66c8c9d319e9
---- /dev/null
-+++ b/tools/testing/selftests/net/ppp/pppoe-server-options
-@@ -0,0 +1,2 @@
-+noauth
-+noipdefault
-diff --git a/tools/testing/selftests/net/ppp/pppoe.sh b/tools/testing/selftests/net/ppp/pppoe.sh
-new file mode 100755
-index 000000000000..d5d9b898d537
---- /dev/null
-+++ b/tools/testing/selftests/net/ppp/pppoe.sh
-@@ -0,0 +1,40 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+
-+source ppp_common.sh
-+
-+VETH_SERVER="veth-server"
-+VETH_CLIENT="veth-client"
-+
-+cleanup() {
-+	cleanup_all_ns
-+}
-+
-+trap cleanup EXIT
-+
-+require_command pppoe-server
-+ppp_common_init
-+modprobe -q pppoe
-+
-+# Create the veth pair
-+ip link add "$VETH_SERVER" type veth peer name "$VETH_CLIENT"
-+ip link set "$VETH_SERVER" netns "$NS_SERVER"
-+ip link set "$VETH_CLIENT" netns "$NS_CLIENT"
-+ip -netns "$NS_SERVER" link set "$VETH_SERVER" up
-+ip -netns "$NS_CLIENT" link set "$VETH_CLIENT" up
-+
-+# Start the PPP Server
-+ip netns exec "$NS_SERVER" pppoe-server -I "$VETH_SERVER" \
-+	-L "$IP_SERVER" -R "$IP_CLIENT" -N 1 -q "$(command -v pppd)" \
-+	-k -O "$(pwd)/pppoe-server-options"
-+
-+# Start the PPP Client
-+ip netns exec "$NS_CLIENT" pppd \
-+	local debug updetach noipdefault noauth nodefaultroute \
-+	plugin pppoe.so nic-"$VETH_CLIENT"
-+
-+ppp_test_connectivity
-+
-+log_test "PPPoE"
-+
-+exit "$EXIT_STATUS"
--- 
-2.43.0
-
+It's hard to say without seeing the code. Perhaps code it up as an
+extension to gro.c. If the code changes are manageable, send that. Else,
+consider moving it into a stand-alone test.
 
