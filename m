@@ -1,95 +1,103 @@
-Return-Path: <linux-ppp+bounces-444-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-445-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wFdZG93rxGmj5AQAu9opvQ
-	(envelope-from <linux-ppp+bounces-444-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 09:18:37 +0100
+	id YDNyO0PsxGm+5AQAu9opvQ
+	(envelope-from <linux-ppp+bounces-445-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 09:20:19 +0100
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3A733124E
-	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 09:18:36 +0100 (CET)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A00F3312B5
+	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 09:20:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B80E331598EB
-	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 08:11:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1F351306B094
+	for <lists+linux-ppp@lfdr.de>; Thu, 26 Mar 2026 08:12:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D14793A3825;
-	Thu, 26 Mar 2026 08:11:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2EB639891E;
+	Thu, 26 Mar 2026 08:11:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OqMBHLlp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sM+c+E7s"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4CC38E130
-	for <linux-ppp@vger.kernel.org>; Thu, 26 Mar 2026 08:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B433AD513
+	for <linux-ppp@vger.kernel.org>; Thu, 26 Mar 2026 08:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774512696; cv=none; b=gka7CWkDBR3r0oHz8hrUpB04EwLVVm4xQPSsj5I98VPHH62yyvl70CDa+Lma1qFWUZjEckHvcmt7tGW8XGcnDfKs/lci9Rov8ZIdyLdHxjOS2guK6vRxP047AONx44bGovRGKUA1kxVVcxQh4rGaixKdVuXkEWGKed3zvKkFluw=
+	t=1774512708; cv=none; b=oaV/MhfQITyLJwqAkUz96Er7DTOr8teYv7wxkWCnee0iC3aZG4FN3RNoyhX8na4kzjL04K4PZ9U61vkRmoJW4SuHy1pBebv/F1lP0yMD/Z7eeevZM+b94rUavJ02PJpmiy+cr6kQz/34VehprxgxL1lEtNoraQmHsbFVIXXbPhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774512696; c=relaxed/simple;
-	bh=EvxXQimjXAOMmSFs+4UnS8/nBTY3STdp53eYLynS4AA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UdbpTsRPbnz6SUEbjqT4HTRFyc4Fu6I9soLWq+glD9DjoxoehD0tiADBv2OiSRxsSEKhG1d0RQ4e7DzURCe/VuZCso3ih1I2QQhOaibDb0prbiF6SEpBk40swb1tyAGsYeQ02h8uqgMnE2KGbHdHWf3A2KbUEl+1v49RNgAx8YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OqMBHLlp; arc=none smtp.client-ip=209.85.208.54
+	s=arc-20240116; t=1774512708; c=relaxed/simple;
+	bh=HYHW9Q6b8pBslqEf0ZSiMs39dOa8S6wj4vZ/YmVCrAM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Nw/nGK1CC1Svypz1stAi9jnc2UccO2Nyj1AklZUftodcHvKuATVlD1WR7B0miqN74WA14z82vwIRdBmAiJjd83jXHPoqc5tyNmgxHu3oE4dHP91QE60Ppk9vAvL2QQPWIFKg5Rpb5hVRExWdC7BTxX9oeHqckEly6gRlhjUMmVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sM+c+E7s; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-66a5d76d9e2so1031497a12.1
-        for <linux-ppp@vger.kernel.org>; Thu, 26 Mar 2026 01:11:34 -0700 (PDT)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b9841aecf72so81269866b.2
+        for <linux-ppp@vger.kernel.org>; Thu, 26 Mar 2026 01:11:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774512693; x=1775117493; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ob2iVz8uVGsDEvY9PNtextI3OvEOyQwfspIkDeq9Ucg=;
-        b=OqMBHLlpCXCQr7Xf3juhkkSvjZSdS/5Qc244A8HzCCJ6XPpwry1jl51r3/VG/OpTwo
-         xZFquvznsdNS2WHytv5rbtNHTfqDw/uMEXM4mOYAu2adIZ5BAMI5n+rPQtMB0sq9j/Af
-         MeWX4b7CVasZ0O0i+ZdjhGrjGv6xHU3jOO7BD2Yu7+TYkIEymxie+aI0KciTO43ZRtVF
-         jotsdoPpy1TBO4eMjifRPi31KRkR8gCc+HiELuPViWdLpnacxmqngSOzCUZ8xksKa/cy
-         Gkqzf/GGCN4pXjxWU3DKGnS2RCpm2TOh4W3w20TH5UJzqPsh9u15YXNZOafVtRUsUNBI
-         +VEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774512693; x=1775117493;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774512705; x=1775117505; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ob2iVz8uVGsDEvY9PNtextI3OvEOyQwfspIkDeq9Ucg=;
-        b=L4GhifBVk1Basy2fH0qOP0IYOJA8P5jNTB3V5wjc79hBOv4E08DHKC4lrMieJYu8iH
-         9tGqZOAjcgTlXrvEBSUrfftNo5OLM91dNvgZZwi0Qng/a406/4FtmAACpO4N+a3Hs3Vv
-         shol2KOlxtRJGqrKfFoC/y9c2Jmrb1iwgpJFjRHtXx5BPcAWAi5E+mvcg+vxc+KpfMnU
-         pkJVKWUWUn7ulU2NTaGLhs9VHD2DraVQ/3Bl17AbeJLiArFkT8oaTJKKvoWSevErTgui
-         n512y0TpuHFmijPWUihoJu5RkDv5HcQRc+JbXhiEsKjvQtfUcq1uMkKA5OI4iUvvfCqx
-         ssEA==
-X-Gm-Message-State: AOJu0YyhYacroIx2g7DansJj/cRBiI2JNlWJa+Kknw2rJpL4ahwFQV4q
-	SoHCM4K52YBGEnPiF/z3ki1ekhkaqvxSG2iPafps4P55wHBtxfmmn982
-X-Gm-Gg: ATEYQzzkBPZAuMoAWS/bsfXdhyQMkmc/g2sExpVuL0Pt3pabzh/gSVwZJj2kzOc2j4a
-	8RbAu1KOijhbKJOmHTKcnOq+Nnth8mOKfte7/14KtAP2PfEDW6w8AlyM8r6kf6rgGn0SF1NU5Kx
-	AkHaRGX9SiopS2t6GEfmE2/Zu77gZcSHvJQ2s9O//95izYURB0w8a7cV4WAU3tjGsK2RGb0iYJF
-	Z6TpwjiX6DzwTTkE9l87Ke30+eIS0wSiuN76UJAcn7wVl28Hg5k7Xt0pQR4FGNB4pzBts+nItrU
-	gDBKuNk45CX70Kn6dF0JRYsmLxiWwtN3ZlO/aEt6LACQEy04TIjxQeA0eoKGOcezMlBileJ6cnl
-	2H3CEh9f7RK9xCecZj0nCKHp4tgqBDlSjxguElJhk3/l6atusnuRfsdxZVoDcJYiP1Ua8uQ0oPN
-	Fgrg==
-X-Received: by 2002:a17:907:1b1a:b0:b98:5547:3dda with SMTP id a640c23a62f3a-b9a54271af1mr405508666b.44.1774512692968;
-        Thu, 26 Mar 2026 01:11:32 -0700 (PDT)
+        bh=fK40iq5Ka5qBY785P0fngLXH8ht5EarxLaoQk9m0Whs=;
+        b=sM+c+E7sFFFIGXK78LWYOdy3KGocbNthH79nNs894EN2gF9mxmeWwE0la39BcMBFbi
+         eIYqiuAwVE8IuUlPAh4YP2r9Nr4vKS5t5cCzwgDfyyviIY5OVjiOMlGYUQuvSchAdTKH
+         BeOb5XiU6Xqpz5webrShQEsfR2iZV6VmbytOqFm6jGoBdFSfM6lPuBSyLj7IFfIP7xm/
+         Ht+8d/76lhXZo91Pj80tQEQr9bC2rwh8oUCpJomgS7bKUXldtyFrRZqYK/yxGMJKtpvO
+         XKmqsZXdqaQk7soGyHXAPYDo2XoUrhDOvjZ7ZhcbpZr/Oiyp/Z4XeneWhn/dmsI6AD9u
+         LOUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774512705; x=1775117505;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fK40iq5Ka5qBY785P0fngLXH8ht5EarxLaoQk9m0Whs=;
+        b=qBrK2ASNIbLmMTK3M5ucTWUs63gz48smOPGMCxiAxeUN/8hkcGKxZUKYCMQDhQ6CRs
+         uGI5ShrEhWy5n+hMNGLZi/UgmVd9GL90lrzEGk0Ho6g3iXlM5+PV5WQlcOOfCsK88QXN
+         ZLE+DL7wE9zESWTWmX0DH/BzJfPwSqkBiDKz1Vi2OfcMqTzXx7QqNL6F/A7X2SePRxDP
+         D90fOIq38v980nonpTBooIKdwAgYYQReaSousXHNy2lPXbJ6hDqCJbDjU8P7XvUJgsuO
+         a5QQIucWld/IBV919E94i8Z7huYxS4eU2lf2xC7fvpR6qnoFmslxBmkf4Xot1EiiebQ1
+         VWtA==
+X-Gm-Message-State: AOJu0Yzae5SP5PMjIiI+j55ZhUsxEqpEGcB0/2VtvqAko7DtVVcD6zBY
+	P7X+5An4aQrwMB0mHuAWkDdmF4foHCpbU+TW64LY698x9e8EINFCa3rd
+X-Gm-Gg: ATEYQzy806uqmznVM/Tv/o6rhN6/hTDI7E8QG4OdsnbFcNeKdRm5uTbxk0+95J+3fuH
+	vLbnBRngESLSTqSwU6bJiX2Ze1d3wMZo+tPZNm8pIrDIOliarVxw0FotXpnSZJFzjE0YVLVfHQP
+	3w+zhbmZezb8vxH8s6B54DLd9obFMJHnCNRcjPZEkEmuelK6Z9a774h1kCqrVfzGmKS+VyF9NKJ
+	NL2cqX3muRShgiHTn09xaoVONfbMMKemJ/fK7KnOx75mrZSOlg8UsZsTrART8G1g6fqtupIAGjO
+	Ge1mouAM92PEq+HCcM+fyDnIu8RIS4y9OovSujvWEKpyFVL+ivl7WsvHHLRgCUdg5ViiyJKzvsY
+	1JUd5G7/zvpas6UXz24z7JUJ1i5ggWRH6IRLxHR/F268tyrZAtm/6iQXfajz91h9GbY00qHROZT
+	gOpg==
+X-Received: by 2002:a17:907:7b9d:b0:b98:8f24:b774 with SMTP id a640c23a62f3a-b9b0ef46a82mr448690766b.24.1774512704945;
+        Thu, 26 Mar 2026 01:11:44 -0700 (PDT)
 Received: from gmail.com ([2a09:bac5:4e23:270f::3e4:5])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b20267436sm82174666b.26.2026.03.26.01.11.29
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b20267436sm82174666b.26.2026.03.26.01.11.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 01:11:32 -0700 (PDT)
+        Thu, 26 Mar 2026 01:11:44 -0700 (PDT)
 From: Qingfang Deng <dqfext@gmail.com>
-To: Michal Ostrowski <mostrows@earthlink.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
 	Simon Horman <horms@kernel.org>,
+	Willem de Bruijn <willemb@google.com>,
+	Petr Machata <petrm@nvidia.com>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	Anubhav Singh <anubhavsinggh@google.com>,
+	Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
 	netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: linux-ppp@vger.kernel.org,
-	Felix Fietkau <nbd@nbd.name>
-Subject: [RFC PATCH net-next v6 1/2] net: pppoe: implement GRO/GSO support
-Date: Thu, 26 Mar 2026 16:11:17 +0800
-Message-ID: <20260326081127.61229-1-dqfext@gmail.com>
+Cc: linux-ppp@vger.kernel.org
+Subject: [RFC PATCH net-next v6 2/2] selftests: net: test PPPoE packets in gro.sh
+Date: Thu, 26 Mar 2026 16:11:18 +0800
+Message-ID: <20260326081127.61229-2-dqfext@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260326081127.61229-1-dqfext@gmail.com>
+References: <20260326081127.61229-1-dqfext@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
@@ -103,7 +111,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -111,10 +119,10 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-444-lists,linux-ppp=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-445-lists,linux-ppp=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_TO(0.00)[earthlink.net,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FREEMAIL_TO(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,nvidia.com,gmail.com,nokia-bell-labs.com,vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -124,285 +132,360 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-ppp,netdev];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
-X-Rspamd-Queue-Id: DC3A733124E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 7A00F3312B5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Felix Fietkau <nbd@nbd.name>
+Add PPPoE test-cases to the GRO selftest.
 
-Only handles packets where the pppoe header length field matches the exact
-packet length. Significantly improves rx throughput.
-
-When running NAT traffic through a MediaTek MT7621 devices from a host
-behind PPPoE to a host directly connected via ethernet, the TCP throughput
-that the device is able to handle improves from ~130 Mbit/s to ~630 Mbit/s,
-using fraglist GRO.
-
-Signed-off-by: Felix Fietkau <nbd@nbd.name>
 Signed-off-by: Qingfang Deng <dqfext@gmail.com>
 ---
-v6:
- - avoid phdr->length field overflow 
- - restore skb_is_gso() check
- - do not register GRO if INET=n
- - do not check for PPP_IPV6 if IPV6=n
- - tail call gro_complete
- https://lore.kernel.org/netdev/20260305013852.3769-1-dqfext@gmail.com/
+v6: new patch
 
+I'm not sure if I should include all the existing IPv4/v6 tests for
+PPPoE. There are tests that hardcode ETH_HLEN as the NH offset, which
+are meant to test the L3 protocol, not the underlying protocol, and
+changing all of them seems too invasive.
+
+Comments welcome, thanks.
 ---
- drivers/net/ppp/pppoe.c | 166 +++++++++++++++++++++++++++++++++++++++-
- net/ipv4/af_inet.c      |   2 +
- net/ipv6/ip6_offload.c  |   2 +
- 3 files changed, 169 insertions(+), 1 deletion(-)
+ tools/testing/selftests/drivers/net/config |  2 +
+ tools/testing/selftests/drivers/net/gro.py | 25 +++++-
+ tools/testing/selftests/net/lib/gro.c      | 97 ++++++++++++++++------
+ 3 files changed, 98 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/net/ppp/pppoe.c b/drivers/net/ppp/pppoe.c
-index 1ac61c273b28..7522a8ce52fc 100644
---- a/drivers/net/ppp/pppoe.c
-+++ b/drivers/net/ppp/pppoe.c
-@@ -77,6 +77,7 @@
- #include <net/net_namespace.h>
- #include <net/netns/generic.h>
- #include <net/sock.h>
-+#include <net/gro.h>
+diff --git a/tools/testing/selftests/drivers/net/config b/tools/testing/selftests/drivers/net/config
+index 77ccf83d87e0..caaba209ba3e 100644
+--- a/tools/testing/selftests/drivers/net/config
++++ b/tools/testing/selftests/drivers/net/config
+@@ -7,4 +7,6 @@ CONFIG_NETCONSOLE=m
+ CONFIG_NETCONSOLE_DYNAMIC=y
+ CONFIG_NETCONSOLE_EXTENDED_LOG=y
+ CONFIG_NETDEVSIM=m
++CONFIG_PPP=y
++CONFIG_PPPOE=y
+ CONFIG_XDP_SOCKETS=y
+diff --git a/tools/testing/selftests/drivers/net/gro.py b/tools/testing/selftests/drivers/net/gro.py
+index 70709bf670c7..eb8306a8f4c4 100755
+--- a/tools/testing/selftests/drivers/net/gro.py
++++ b/tools/testing/selftests/drivers/net/gro.py
+@@ -186,8 +186,17 @@ def _run_gro_bin(cfg, test_name, protocol=None, num_flows=None,
  
- #include <linux/uaccess.h>
+     dmac = _resolve_dmac(cfg, ipver)
  
-@@ -403,7 +404,7 @@ static int pppoe_rcv(struct sk_buff *skb, struct net_device *dev,
- 	if (skb->len < len)
- 		goto drop;
+-    base_args = [
+-        f"--{protocol}",
++    if protocol.startswith("pppoe"):
++        base_args = [
++            f"--ipv{protocol[-1]}",
++            "--pppoe",
++        ]
++    else:
++        base_args = [
++            f"--{protocol}",
++        ]
++
++    base_args += [
+         f"--dmac {dmac}",
+         f"--smac {cfg.remote_dev['address']}",
+         f"--daddr {cfg.addr_v[ipver]}",
+@@ -322,6 +331,18 @@ def _gro_variants():
+                 for test_name in ipv6_tests:
+                     yield mode, protocol, test_name
  
--	if (pskb_trim_rcsum(skb, len))
-+	if (!skb_is_gso(skb) && pskb_trim_rcsum(skb, len))
- 		goto drop;
++    for mode in ["sw"]:
++        for protocol in ["pppoev4", "pppoev6"]:
++            for test_name in common_tests:
++                yield mode, protocol, test_name
++
++            if protocol == "pppoev4":
++                for test_name in ipv4_tests:
++                    yield mode, protocol, test_name
++            elif protocol == "pppoev6":
++                for test_name in ipv6_tests:
++                    yield mode, protocol, test_name
++
  
- 	ph = pppoe_hdr(skb);
-@@ -1097,6 +1098,165 @@ static struct pernet_operations pppoe_net_ops = {
- 	.size = sizeof(struct pppoe_net),
- };
+ @ksft_variants(_gro_variants())
+ def test(cfg, mode, protocol, test_name):
+diff --git a/tools/testing/selftests/net/lib/gro.c b/tools/testing/selftests/net/lib/gro.c
+index 3e611ae25f61..6148bcdff478 100644
+--- a/tools/testing/selftests/net/lib/gro.c
++++ b/tools/testing/selftests/net/lib/gro.c
+@@ -64,12 +64,14 @@
+ #include <errno.h>
+ #include <error.h>
+ #include <getopt.h>
++#include <net/ethernet.h>
++#include <net/if.h>
+ #include <linux/filter.h>
+ #include <linux/if_packet.h>
++#include <linux/if_pppox.h>
+ #include <linux/ipv6.h>
+ #include <linux/net_tstamp.h>
+-#include <net/ethernet.h>
+-#include <net/if.h>
++#include <linux/ppp_defs.h>
+ #include <netinet/in.h>
+ #include <netinet/ip.h>
+ #include <netinet/ip6.h>
+@@ -92,11 +94,11 @@
+ #define START_SEQ 100
+ #define START_ACK 100
+ #define ETH_P_NONE 0
+-#define TOTAL_HDR_LEN (ETH_HLEN + sizeof(struct ipv6hdr) + sizeof(struct tcphdr))
++#define TOTAL_HDR_LEN (ETH_HLEN + PPPOE_SES_HLEN + sizeof(struct ipv6hdr) + sizeof(struct tcphdr))
+ #define MSS (4096 - sizeof(struct tcphdr) - sizeof(struct ipv6hdr))
+ #define MAX_PAYLOAD (IP_MAXPACKET - sizeof(struct tcphdr) - sizeof(struct ipv6hdr))
+ #define NUM_LARGE_PKT (MAX_PAYLOAD / MSS)
+-#define MAX_HDR_LEN (ETH_HLEN + sizeof(struct ipv6hdr) + sizeof(struct tcphdr))
++#define MAX_HDR_LEN (ETH_HLEN + PPPOE_SES_HLEN + sizeof(struct ipv6hdr) + sizeof(struct tcphdr))
+ #define MIN_EXTHDR_SIZE 8
+ #define EXT_PAYLOAD_1 "\x00\x00\x00\x00\x00\x00"
+ #define EXT_PAYLOAD_2 "\x11\x11\x11\x11\x11\x11"
+@@ -129,6 +131,7 @@ static int tcp_offset = -1;
+ static int total_hdr_len = -1;
+ static int ethhdr_proto = -1;
+ static bool ipip;
++static bool pppoe;
+ static uint64_t txtime_ns;
+ static int num_flows = 4;
+ static bool order_check;
+@@ -148,12 +151,37 @@ static void vlog(const char *fmt, ...)
+ 	}
+ }
  
-+static u16
-+compare_pppoe_header(const struct pppoe_hdr *phdr,
-+		     const struct pppoe_hdr *phdr2)
++static void fill_pppoelayer(void *buf, int payload_len)
 +{
-+	__be16 proto = *(const __be16 *)(phdr + 1);
-+	__be16 proto2 = *(const __be16 *)(phdr2 + 1);
++	struct pppoe_ppp_hdr {
++		struct pppoe_hdr eh;
++		__be16 proto;
++	} *ph = buf;
++	int ppp_payload_len;
 +
-+	return (__force u16)((phdr->sid ^ phdr2->sid) | (proto ^ proto2));
-+}
++	ph->eh.type = 1;
++	ph->eh.ver = 1;
++	ph->eh.code = 0;
++	ph->eh.sid = htons(0x1234);
 +
-+static __be16 pppoe_hdr_proto(const struct pppoe_hdr *phdr)
-+{
-+	__be16 proto = *(const __be16 *)(phdr + 1);
-+
-+	switch (proto) {
-+	case cpu_to_be16(PPP_IP):
-+		return cpu_to_be16(ETH_P_IP);
-+#if IS_ENABLED(CONFIG_IPV6)
-+	case cpu_to_be16(PPP_IPV6):
-+		return cpu_to_be16(ETH_P_IPV6);
-+#endif
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static struct sk_buff *pppoe_gro_receive(struct list_head *head,
-+					 struct sk_buff *skb)
-+{
-+	const struct packet_offload *ptype;
-+	unsigned int hlen, off_pppoe;
-+	const struct pppoe_hdr *phdr;
-+	struct sk_buff *pp = NULL;
-+	struct sk_buff *p;
-+	int flush = 1;
-+	__be16 type;
-+
-+	off_pppoe = skb_gro_offset(skb);
-+	hlen = off_pppoe + PPPOE_SES_HLEN;
-+	phdr = skb_gro_header(skb, hlen, off_pppoe);
-+	if (unlikely(!phdr))
-+		goto out;
-+
-+	/* filter for session packets (type:1, ver:1, code:0) */
-+	if (*(const __be16 *)phdr != cpu_to_be16(0x1100))
-+		goto out;
-+
-+	/* ignore packets with padding or invalid length */
-+	if (skb_gro_len(skb) != be16_to_cpu(phdr->length) + sizeof(*phdr))
-+		goto out;
-+
-+	type = pppoe_hdr_proto(phdr);
-+	ptype = gro_find_receive_by_type(type);
-+	if (!ptype)
-+		goto out;
-+
-+	flush = 0;
-+
-+	list_for_each_entry(p, head, list) {
-+		const struct pppoe_hdr *phdr2;
-+
-+		if (!NAPI_GRO_CB(p)->same_flow)
-+			continue;
-+
-+		phdr2 = (const struct pppoe_hdr *)(p->data + off_pppoe);
-+		if (compare_pppoe_header(phdr, phdr2))
-+			NAPI_GRO_CB(p)->same_flow = 0;
-+	}
-+
-+	skb_gro_pull(skb, PPPOE_SES_HLEN);
-+	skb_gro_postpull_rcsum(skb, phdr, PPPOE_SES_HLEN);
-+
-+	pp = indirect_call_gro_receive_inet(ptype->callbacks.gro_receive,
-+					    ipv6_gro_receive, inet_gro_receive,
-+					    head, skb);
-+
-+out:
-+	skb_gro_flush_final(skb, pp, flush);
-+
-+	return pp;
-+}
-+
-+static int pppoe_gro_complete(struct sk_buff *skb, int nhoff)
-+{
-+	struct pppoe_hdr *phdr = (struct pppoe_hdr *)(skb->data + nhoff);
-+	__be16 type = pppoe_hdr_proto(phdr);
-+	struct packet_offload *ptype;
-+	unsigned int len;
-+
-+	ptype = gro_find_complete_by_type(type);
-+	if (!ptype)
-+		return -ENOENT;
-+
-+	len = skb->len - (nhoff + sizeof(*phdr));
-+	len = min(len, 0xFFFFU);
-+	phdr->length = cpu_to_be16(len);
-+
-+	return INDIRECT_CALL_INET(ptype->callbacks.gro_complete,
-+				  ipv6_gro_complete, inet_gro_complete,
-+				  skb, nhoff + PPPOE_SES_HLEN);
-+}
-+
-+static struct sk_buff *pppoe_gso_segment(struct sk_buff *skb,
-+					 netdev_features_t features)
-+{
-+	unsigned int pppoe_hlen = sizeof(struct pppoe_hdr) + 2;
-+	struct sk_buff *segs = ERR_PTR(-EINVAL);
-+	u16 mac_offset = skb->mac_header;
-+	struct packet_offload *ptype;
-+	u16 mac_len = skb->mac_len;
-+	struct pppoe_hdr *phdr;
-+	__be16 orig_type, type;
-+	int len, nhoff;
-+
-+	skb_reset_network_header(skb);
-+	nhoff = skb_network_header(skb) - skb_mac_header(skb);
-+
-+	if (unlikely(!pskb_may_pull(skb, pppoe_hlen)))
-+		goto out;
-+
-+	phdr = (struct pppoe_hdr *)skb_network_header(skb);
-+	type = pppoe_hdr_proto(phdr);
-+	ptype = gro_find_complete_by_type(type);
-+	if (!ptype)
-+		goto out;
-+
-+	orig_type = skb->protocol;
-+	__skb_pull(skb, pppoe_hlen);
-+	segs = ptype->callbacks.gso_segment(skb, features);
-+	if (IS_ERR_OR_NULL(segs)) {
-+		skb_gso_error_unwind(skb, orig_type, pppoe_hlen, mac_offset,
-+				     mac_len);
-+		goto out;
++	if (proto == PF_INET6) {
++		ph->proto = htons(PPP_IPV6);
++		ppp_payload_len = sizeof(struct ipv6hdr) + sizeof(struct tcphdr) + payload_len;
++	} else {
++		ph->proto = htons(PPP_IP);
++		ppp_payload_len = sizeof(struct iphdr) + sizeof(struct tcphdr) + payload_len;
 +	}
 +
-+	skb = segs;
-+	do {
-+		phdr = (struct pppoe_hdr *)(skb_mac_header(skb) + nhoff);
-+		len = skb->len - (nhoff + sizeof(*phdr));
-+		phdr->length = cpu_to_be16(len);
-+		skb->network_header = (u8 *)phdr - skb->head;
-+		skb->protocol = orig_type;
-+		skb_reset_mac_len(skb);
-+	} while ((skb = skb->next));
-+
-+out:
-+	return segs;
++	ph->eh.length = htons(ppp_payload_len + sizeof(ph->proto));
 +}
 +
-+static struct packet_offload pppoe_packet_offload __read_mostly = {
-+	.type = cpu_to_be16(ETH_P_PPP_SES),
-+	.priority = 20,
-+	.callbacks = {
-+		.gro_receive = pppoe_gro_receive,
-+		.gro_complete = pppoe_gro_complete,
-+		.gso_segment = pppoe_gso_segment,
-+	},
-+};
-+
- static int __init pppoe_init(void)
+ static void setup_sock_filter(int fd)
  {
- 	int err;
-@@ -1113,6 +1273,8 @@ static int __init pppoe_init(void)
- 	if (err)
- 		goto out_unregister_pppoe_proto;
+ 	const int dport_off = tcp_offset + offsetof(struct tcphdr, dest);
+ 	const int ethproto_off = offsetof(struct ethhdr, h_proto);
+ 	int optlen = 0;
+ 	int ipproto_off, opt_ipproto_off;
++	int head_len = ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0);
+ 	int next_off;
  
-+	if (IS_ENABLED(CONFIG_INET))
-+		dev_add_offload(&pppoe_packet_offload);
- 	dev_add_pack(&pppoes_ptype);
- 	dev_add_pack(&pppoed_ptype);
- 	register_netdevice_notifier(&pppoe_notifier);
-@@ -1132,6 +1294,8 @@ static void __exit pppoe_exit(void)
- 	unregister_netdevice_notifier(&pppoe_notifier);
- 	dev_remove_pack(&pppoed_ptype);
- 	dev_remove_pack(&pppoes_ptype);
-+	if (IS_ENABLED(CONFIG_INET))
-+		dev_remove_offload(&pppoe_packet_offload);
- 	unregister_pppox_proto(PX_PROTO_OE);
- 	proto_unregister(&pppoe_sk_proto);
- 	unregister_pernet_device(&pppoe_net_ops);
-diff --git a/net/ipv4/af_inet.c b/net/ipv4/af_inet.c
-index f98e46ae3e30..e6a0c18cc189 100644
---- a/net/ipv4/af_inet.c
-+++ b/net/ipv4/af_inet.c
-@@ -1539,6 +1539,7 @@ struct sk_buff *inet_gro_receive(struct list_head *head, struct sk_buff *skb)
+ 	if (ipip)
+@@ -162,7 +190,7 @@ static void setup_sock_filter(int fd)
+ 		next_off = offsetof(struct iphdr, protocol);
+ 	else
+ 		next_off = offsetof(struct ipv6hdr, nexthdr);
+-	ipproto_off = ETH_HLEN + next_off;
++	ipproto_off = head_len + next_off;
  
- 	return pp;
- }
-+EXPORT_INDIRECT_CALLABLE(inet_gro_receive);
+ 	/* Overridden later if exthdrs are used: */
+ 	opt_ipproto_off = ipproto_off;
+@@ -178,7 +206,7 @@ static void setup_sock_filter(int fd)
  
- static struct sk_buff *ipip_gro_receive(struct list_head *head,
- 					struct sk_buff *skb)
-@@ -1624,6 +1625,7 @@ int inet_gro_complete(struct sk_buff *skb, int nhoff)
- out:
- 	return err;
- }
-+EXPORT_INDIRECT_CALLABLE(inet_gro_complete);
+ 		/* same size for HBH and Fragment extension header types */
+ 		optlen = MIN_EXTHDR_SIZE;
+-		opt_ipproto_off = ETH_HLEN + sizeof(struct ipv6hdr)
++		opt_ipproto_off = head_len + sizeof(struct ipv6hdr)
+ 			+ offsetof(struct ip6_ext, ip6e_nxt);
+ 	}
  
- static int ipip_gro_complete(struct sk_buff *skb, int nhoff)
+@@ -390,6 +418,10 @@ static void create_packet(void *buf, int seq_offset, int ack_offset,
+ 				  IPPROTO_IPIP);
+ 		fill_networklayer(buf + ETH_HLEN + sizeof(struct iphdr),
+ 				  payload_len, IPPROTO_TCP);
++	} else if (pppoe) {
++		fill_pppoelayer(buf + ETH_HLEN, payload_len);
++		fill_networklayer(buf + ETH_HLEN + PPPOE_SES_HLEN,
++				  payload_len, IPPROTO_TCP);
+ 	} else {
+ 		fill_networklayer(buf + ETH_HLEN, payload_len, IPPROTO_TCP);
+ 	}
+@@ -501,7 +533,7 @@ static void send_flags(int fd, struct sockaddr_ll *daddr, int psh, int syn,
+ static void send_data_pkts(int fd, struct sockaddr_ll *daddr,
+ 			   int payload_len1, int payload_len2)
  {
-diff --git a/net/ipv6/ip6_offload.c b/net/ipv6/ip6_offload.c
-index bd7f780e37a5..32ba4739cef9 100644
---- a/net/ipv6/ip6_offload.c
-+++ b/net/ipv6/ip6_offload.c
-@@ -297,6 +297,7 @@ INDIRECT_CALLABLE_SCOPE struct sk_buff *ipv6_gro_receive(struct list_head *head,
+-	static char buf[ETH_HLEN + IP_MAXPACKET];
++	static char buf[ETH_HLEN + PPPOE_SES_HLEN + IP_MAXPACKET];
  
- 	return pp;
- }
-+EXPORT_INDIRECT_CALLABLE(ipv6_gro_receive);
+ 	create_packet(buf, 0, 0, payload_len1, 0);
+ 	write_packet(fd, buf, total_hdr_len + payload_len1, daddr);
+@@ -745,7 +777,7 @@ static void add_ipv4_ts_option(void *buf, void *optpkt)
+ 	memcpy(optpkt + tcp_offset + optlen, buf + tcp_offset,
+ 	       sizeof(struct tcphdr) + PAYLOAD_LEN);
  
- static struct sk_buff *sit_ip6ip6_gro_receive(struct list_head *head,
- 					      struct sk_buff *skb)
-@@ -359,6 +360,7 @@ INDIRECT_CALLABLE_SCOPE int ipv6_gro_complete(struct sk_buff *skb, int nhoff)
- out:
- 	return err;
- }
-+EXPORT_INDIRECT_CALLABLE(ipv6_gro_complete);
- 
- static int sit_gro_complete(struct sk_buff *skb, int nhoff)
+-	iph = (struct iphdr *)(optpkt + ETH_HLEN);
++	iph = (struct iphdr *)(optpkt + ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0));
+ 	iph->ihl = 5 + (optlen / 4);
+ 	iph->tot_len = htons(ntohs(iph->tot_len) + optlen);
+ 	iph->check = 0;
+@@ -755,7 +787,7 @@ static void add_ipv4_ts_option(void *buf, void *optpkt)
+ static void add_ipv6_exthdr(void *buf, void *optpkt, __u8 exthdr_type, char *ext_payload)
  {
+ 	struct ipv6_opt_hdr *exthdr = (struct ipv6_opt_hdr *)(optpkt + tcp_offset);
+-	struct ipv6hdr *iph = (struct ipv6hdr *)(optpkt + ETH_HLEN);
++	struct ipv6hdr *iph = (struct ipv6hdr *)(optpkt + ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0));
+ 	char *exthdr_payload_start = (char *)(exthdr + 1);
+ 
+ 	exthdr->hdrlen = 0;
+@@ -908,7 +940,7 @@ static void send_ip_options(int fd, struct sockaddr_ll *daddr)
+ static void send_fragment4(int fd, struct sockaddr_ll *daddr)
+ {
+ 	static char buf[IP_MAXPACKET];
+-	struct iphdr *iph = (struct iphdr *)(buf + ETH_HLEN);
++	struct iphdr *iph = (struct iphdr *)(buf + ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0));
+ 	int pkt_size = total_hdr_len + PAYLOAD_LEN;
+ 
+ 	create_packet(buf, 0, 0, PAYLOAD_LEN, 0);
+@@ -920,7 +952,8 @@ static void send_fragment4(int fd, struct sockaddr_ll *daddr)
+ 	 */
+ 	memset(buf + total_hdr_len, 'a', PAYLOAD_LEN * 2);
+ 	fill_transportlayer(buf + tcp_offset, PAYLOAD_LEN, 0, PAYLOAD_LEN * 2, 0);
+-	fill_networklayer(buf + ETH_HLEN, PAYLOAD_LEN, IPPROTO_TCP);
++	fill_networklayer(buf + ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0),
++			  PAYLOAD_LEN, IPPROTO_TCP);
+ 	fill_datalinklayer(buf);
+ 
+ 	iph->frag_off = htons(0x6000); // DF = 1, MF = 1
+@@ -934,7 +967,7 @@ static void send_changed_ttl(int fd, struct sockaddr_ll *daddr)
+ {
+ 	int pkt_size = total_hdr_len + PAYLOAD_LEN;
+ 	static char buf[MAX_HDR_LEN + PAYLOAD_LEN];
+-	struct iphdr *iph = (struct iphdr *)(buf + ETH_HLEN);
++	struct iphdr *iph = (struct iphdr *)(buf + ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0));
+ 
+ 	create_packet(buf, 0, 0, PAYLOAD_LEN, 0);
+ 	write_packet(fd, buf, pkt_size, daddr);
+@@ -951,8 +984,8 @@ static void send_changed_tos(int fd, struct sockaddr_ll *daddr)
+ {
+ 	int pkt_size = total_hdr_len + PAYLOAD_LEN;
+ 	static char buf[MAX_HDR_LEN + PAYLOAD_LEN];
+-	struct iphdr *iph = (struct iphdr *)(buf + ETH_HLEN);
+-	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buf + ETH_HLEN);
++	struct iphdr *iph = (struct iphdr *)(buf + ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0));
++	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buf + ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0));
+ 
+ 	create_packet(buf, 0, 0, PAYLOAD_LEN, 0);
+ 	write_packet(fd, buf, pkt_size, daddr);
+@@ -980,7 +1013,8 @@ static void send_changed_ECN(int fd, struct sockaddr_ll *daddr)
+ 
+ 	create_packet(buf, PAYLOAD_LEN, 0, PAYLOAD_LEN, 0);
+ 	if (proto == PF_INET) {
+-		buf[ETH_HLEN + 1] ^= 0x2; // ECN set to 10
++		int ecn_off = ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0) + 1;
++		buf[ecn_off] ^= 0x2; // ECN set to 10
+ 		iph->check = 0;
+ 		iph->check = checksum_fold(iph, sizeof(struct iphdr), 0);
+ 	} else {
+@@ -995,7 +1029,7 @@ static void send_fragment6(int fd, struct sockaddr_ll *daddr)
+ 	static char buf[MAX_HDR_LEN + PAYLOAD_LEN];
+ 	static char extpkt[MAX_HDR_LEN + PAYLOAD_LEN +
+ 			   sizeof(struct ip6_frag)];
+-	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buf + ETH_HLEN);
++	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buf + ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0));
+ 	struct ip6_frag *frag = (void *)(extpkt + tcp_offset);
+ 	int extlen = sizeof(struct ip6_frag);
+ 	int bufpkt_len = total_hdr_len + PAYLOAD_LEN;
+@@ -1073,9 +1107,10 @@ static void recv_error(int fd, int rcv_errno)
+ static void check_recv_pkts(int fd, int *correct_payload,
+ 			    int correct_num_pkts)
+ {
+-	static char buffer[IP_MAXPACKET + ETH_HLEN + 1];
+-	struct iphdr *iph = (struct iphdr *)(buffer + ETH_HLEN);
+-	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buffer + ETH_HLEN);
++	static char buffer[IP_MAXPACKET + ETH_HLEN + PPPOE_SES_HLEN + 1];
++	int nhoff = ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0);
++	struct iphdr *iph = (struct iphdr *)(buffer + nhoff);
++	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buffer + nhoff);
+ 	struct tcphdr *tcph;
+ 	bool bad_packet = false;
+ 	int tcp_ext_len = 0;
+@@ -1092,7 +1127,7 @@ static void check_recv_pkts(int fd, int *correct_payload,
+ 
+ 	while (1) {
+ 		ip_ext_len = 0;
+-		pkt_size = recv(fd, buffer, IP_MAXPACKET + ETH_HLEN + 1, 0);
++		pkt_size = recv(fd, buffer, sizeof(buffer), 0);
+ 		if (pkt_size < 0)
+ 			recv_error(fd, errno);
+ 
+@@ -1134,9 +1169,10 @@ static void check_recv_pkts(int fd, int *correct_payload,
+ 
+ static void check_capacity_pkts(int fd)
+ {
+-	static char buffer[IP_MAXPACKET + ETH_HLEN + 1];
+-	struct iphdr *iph = (struct iphdr *)(buffer + ETH_HLEN);
+-	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buffer + ETH_HLEN);
++	static char buffer[IP_MAXPACKET + ETH_HLEN + PPPOE_SES_HLEN + 1];
++	int nhoff = ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0);
++	struct iphdr *iph = (struct iphdr *)(buffer + nhoff);
++	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buffer + nhoff);
+ 	int num_pkt = 0, num_coal = 0, pkt_idx;
+ 	const char *fail_reason = NULL;
+ 	int flow_order[num_flows * 2];
+@@ -1154,7 +1190,7 @@ static void check_capacity_pkts(int fd)
+ 
+ 	while (total_data < num_flows * CAPACITY_PAYLOAD_LEN * 2) {
+ 		ip_ext_len = 0;
+-		pkt_size = recv(fd, buffer, IP_MAXPACKET + ETH_HLEN + 1, 0);
++		pkt_size = recv(fd, buffer, sizeof(buffer), 0);
+ 		if (pkt_size < 0)
+ 			recv_error(fd, errno);
+ 
+@@ -1645,6 +1681,7 @@ static void parse_args(int argc, char **argv)
+ 		{ "ipv4", no_argument, NULL, '4' },
+ 		{ "ipv6", no_argument, NULL, '6' },
+ 		{ "ipip", no_argument, NULL, 'e' },
++		{ "pppoe", no_argument, NULL, 'p' },
+ 		{ "num-flows", required_argument, NULL, 'n' },
+ 		{ "rx", no_argument, NULL, 'r' },
+ 		{ "saddr", required_argument, NULL, 's' },
+@@ -1671,6 +1708,9 @@ static void parse_args(int argc, char **argv)
+ 			proto = PF_INET;
+ 			ethhdr_proto = htons(ETH_P_IP);
+ 			break;
++		case 'p':
++			pppoe = true;
++			break;
+ 		case 'd':
+ 			addr4_dst = addr6_dst = optarg;
+ 			break;
+@@ -1715,6 +1755,15 @@ int main(int argc, char **argv)
+ 	if (ipip) {
+ 		tcp_offset = ETH_HLEN + sizeof(struct iphdr) * 2;
+ 		total_hdr_len = tcp_offset + sizeof(struct tcphdr);
++	} else if (pppoe) {
++		if (proto == PF_INET)
++			tcp_offset = ETH_HLEN + PPPOE_SES_HLEN + sizeof(struct iphdr);
++		else if (proto == PF_INET6)
++			tcp_offset = ETH_HLEN + PPPOE_SES_HLEN + sizeof(struct ipv6hdr);
++		else
++			error(1, 0, "Protocol family is not ipv4 or ipv6");
++		total_hdr_len = tcp_offset + sizeof(struct tcphdr);
++		ethhdr_proto = htons(ETH_P_PPP_SES);
+ 	} else if (proto == PF_INET) {
+ 		tcp_offset = ETH_HLEN + sizeof(struct iphdr);
+ 		total_hdr_len = tcp_offset + sizeof(struct tcphdr);
 -- 
 2.43.0
 
