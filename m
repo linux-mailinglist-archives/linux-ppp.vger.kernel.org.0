@@ -1,98 +1,99 @@
-Return-Path: <linux-ppp+bounces-460-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-461-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uBDdHWKYxmnrMQUAu9opvQ
-	(envelope-from <linux-ppp+bounces-460-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Fri, 27 Mar 2026 15:46:58 +0100
+	id EPTHKUOsxmk4NQUAu9opvQ
+	(envelope-from <linux-ppp+bounces-461-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Fri, 27 Mar 2026 17:11:47 +0100
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAFB13464B0
-	for <lists+linux-ppp@lfdr.de>; Fri, 27 Mar 2026 15:46:57 +0100 (CET)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2453B347334
+	for <lists+linux-ppp@lfdr.de>; Fri, 27 Mar 2026 17:11:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DB7E13038AC2
-	for <lists+linux-ppp@lfdr.de>; Fri, 27 Mar 2026 14:43:14 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2B3EA3041000
+	for <lists+linux-ppp@lfdr.de>; Fri, 27 Mar 2026 16:10:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E854D3F7A90;
-	Fri, 27 Mar 2026 14:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55F6633B974;
+	Fri, 27 Mar 2026 16:10:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gn0zYwQ2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gB8792Dp"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A873F0A9E
-	for <linux-ppp@vger.kernel.org>; Fri, 27 Mar 2026 14:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286F330FC12
+	for <linux-ppp@vger.kernel.org>; Fri, 27 Mar 2026 16:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.175
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774622593; cv=pass; b=Nw7XXRzDlKNd4qr4rNSxpNNS9zebFbKGheWL/jaE2QW+rqHyVHZuIy0pN0nyelRGIma7JQpDoHrbvVmNE/ev5uo2h2dD097YbDqtMZ+K/Kw6ya3shsMOt0/f6VtZruNL5gxuG6QBhcs+rgOQx4Br61TcTveq8zZsGXp5p80yHQQ=
+	t=1774627856; cv=pass; b=Stn87ouU4dBk7Gspc6+6i26Gz72FMXe5SMYwMG55HpPMHtFeqwzqezmAYW4rs5C0z68k5kd3UMbghyT4jPEkD4/nYw3JqbW/SF7An5I7jBfKlr2Lwg8Z+2VeFJ4PhdooF3VVF8nqNIk/4N4EX6LPe2ClmsxyQqA2vJDgS9li+SE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774622593; c=relaxed/simple;
-	bh=VoXmf57WJpwyR3+/FyywPtdgcsZegXDOU57WERuaduQ=;
+	s=arc-20240116; t=1774627856; c=relaxed/simple;
+	bh=4zQLANhpfIdewHJstnB7dl+HZnNDQqJHWx3xVtfG8mk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qI/oGT0SFAH8QCZlRVGbYBTgOq7uR3BNzClPBl/P1MllIXEcbfKx4sDysW/GLj6Pkhv9w4wSQPgCB4r5v3nugCmff9qDjEW3MkK6bHUgT0KQbx1pu/luyOMuwTGgtD5EN0ozT/7dSGUryI60iRsizQNjvNvv2dnU+y1HN8AEYng=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gn0zYwQ2; arc=pass smtp.client-ip=209.85.128.178
+	 To:Cc:Content-Type; b=CiqflPVYwC00wU3LwbZis9VUxrzghgfd6lxuOacMgp15pIpBPhLJI4MRxfpC0PxTem5QarwcTY/rDK/rnjShPdPFaNN+7u1QIz5ZdQqq5HJDGXAhjtxhW7nvvyNQWbO9lglTYcXBCVtHHCgy2nyRkzpQb6ZejDwScR27GwZTbx8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gB8792Dp; arc=pass smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-79a60975dc5so24184367b3.0
-        for <linux-ppp@vger.kernel.org>; Fri, 27 Mar 2026 07:43:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774622591; cv=none;
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-823c56765fdso1289850b3a.1
+        for <linux-ppp@vger.kernel.org>; Fri, 27 Mar 2026 09:10:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774627854; cv=none;
         d=google.com; s=arc-20240605;
-        b=Aj9V/RuflUASt9uFDBkxY2BA2L/SDRkntnT2bwqKsleC2TCre7k79wuAOdbYFsQYPi
-         qz6PxfHy3oma+eg3130fM1i+2aIf4reQgiwa02WEbO6KgVBSJ4861UpUumri7tGFW2C/
-         M92HiaiCSKc193OeCvAZ4Lgyt7M2M7KHhBknjz6+h3YGWfvLcnZLlin/nh1hbPFM1kZy
-         WP7KxTAb30g4crNp41TvB2akFoNEOVG/vfFvPMYLxoxnT28yU5erj5nd/7zxH7zX62fg
-         NxB74Eq1M7mA9T8SxYfD2CQfIqEV8c/WwiwVZfjpYbrLEVPEMUWSadG2IypuuPd6yr5Z
-         Znbw==
+        b=jqY4NoM5UPQKrTg9Dl6WmtB3niL3WVKGQAcFZtPfy9fEtw/aOY9v3a2/Ls9FHcFwzm
+         fixKXI5BkmJkAJklwitf4Ac5lPslJlfsft2bKwnHuPmxN98if5UuBiEtPe9iPK4Fdq/Y
+         wz1mCZWpUbaems/tUu6+awyQXNm6UkCJ6cbYaNuq0XuqbSJ7UQb3pa2dH6OwSL2ZXnby
+         RrVXe+8dTgLjjq4/I0jPGY1ll3N8gJLobXlvWe4C4waU5wOfEMrupXQH5jsqJZvsPFKY
+         ISu74hakkueRFtFd1EVYPPjPRk25e6HiB4qe3Gk74pwIhAqVhmuFvO2pTrgTIEWZwBug
+         aQ5A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=VoXmf57WJpwyR3+/FyywPtdgcsZegXDOU57WERuaduQ=;
-        fh=x+YXJblNE0/MUc2aGQLVjcykkq3+8HTVNQfyIFR9IqE=;
-        b=hmEomzeU2CwthUtL724kmLEcmsXXkjumMBRj9IBUu8sYDschGp+TpLSnqJvLabYYOM
-         JGrXbIOm1X+zS+jRmeVNpWZXAIFytEhO+Tyv0Bu5XhA4pQOPZMmnPAKC99EZ/r/67VBm
-         MfCw73WR89MbTCRI6F/vElocEhR7uxg67JTDAQqawB9Wpo41rT53XF7fTOtoPfqpoJ4K
-         LI7J+M9ubZOS3FpXCh+R7cYFRDYlA2XHvQc76mJXcQN6X64YqUcRrz8sYPlkuYOf46Yg
-         uysdcURDM+kXgJ//CcGz81nAZ1gfBD0bBxd4zu1Xz4vJWQjP6Wst8PEbhlULn/CpjrsH
-         ngVg==;
+        bh=4zQLANhpfIdewHJstnB7dl+HZnNDQqJHWx3xVtfG8mk=;
+        fh=1/B4ZkI0Jby+N6OSZtIekpVh2ZyIdXmYmAbT9LKA9r0=;
+        b=M2szlgtxpMrSIRZJqc43u5U758iLc+bngyIwGpYcUvNe9DQyTK4TpCmfgJV71Kk918
+         w6Snsp+Xagb9QjSCpMtd+X5cXAOClkgFXaJ+7RPOFWjN5wMU4Qndaiat+LB9PZV7Dw+j
+         eeVIdCPY1PSZjcT9VEt0voemkXhZ9VFsEAl4+BJQ6GWRpygdteTHw9ziJu37PWoaIat7
+         phossjaVfWZeemTNUMjYphWwJZiOaAK/VhjheFsjz0uqDVEog/iqkjcyTG6gwsMaRPpI
+         kIeEw5P3MjcnUginwIUi1xficjWu39wh3GoqUJG2s6wrxT5LzYCavX/XBXx2LqC1+AdF
+         wkCg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774622591; x=1775227391; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774627854; x=1775232654; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VoXmf57WJpwyR3+/FyywPtdgcsZegXDOU57WERuaduQ=;
-        b=gn0zYwQ2528vxW5WwddSueWefFTCAXhJD3A36QF5QvF9E2bb7Fytf/J8Mx3Z4TR2Lr
-         YW2MEaAWECTkB9S02m2tdUPZEg8bAXw2agSY+K6cjW5AbuMbkPjI+ad1uUHaZZFarWGY
-         RHvsON7s7zVAcLTNJXrOiBLPyRnQfnbk32KcIzBcmgrolKjD+h7WevlnLOQ7NMITgJbO
-         jo0c8VcvGuwtB+0FcWQPc91Cr6ZgYU5DvujI/r/osDCJPwPpBC7gX3pM7jEKkjuDMTZ5
-         ztCvQaoQV+xXCsQNRxFxmZKHX8pRrT6q09o5qON1mPQywiElaivhOnOCUEnWWK//mlVy
-         ebww==
+        bh=4zQLANhpfIdewHJstnB7dl+HZnNDQqJHWx3xVtfG8mk=;
+        b=gB8792DpXd9/pVZjLpT1NdaPfBDwViKcAnMxO58W/AcwIfIO5iU7ewlgpNfl74UqNB
+         fsabECvHRjCoZZ/stcYpnb4jmcrO6FevxzykyasJPGJXtb9iaH2litUz87slIXFJUiro
+         k8hHM2HG+8PvNncZJT5IDsLTMN3aBtVlkrGW1ZMOJnUWuWg8+DG6cLHcGrYg8btMFnpH
+         oueZQugtp2/rE/4iFg5l2CF+8YW1Ll02XEgnXedVW8KLz763b1YxXT50i4lsU1foPNpc
+         k5Ax+4FY9arVBkz0WCRuUDIaCa71/XW5LI3YfKGJVqIQmS5KP5Zt/ITf8VQWO8G+r8wC
+         SV4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774622591; x=1775227391;
+        d=1e100.net; s=20251104; t=1774627854; x=1775232654;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=VoXmf57WJpwyR3+/FyywPtdgcsZegXDOU57WERuaduQ=;
-        b=dBzrJEOQYibxdAa6T4s4SMBdK/yOlav7cj19o66LobqbD7Gnf5KhhuWSUBTOPJ1+eb
-         TFVCiwdoRJtUN6TGDpFtJAV958dnnjORlOneuCSL7azIynqZLz9yGh+1SmrfxTnq0yAa
-         HcYFWShAU0l0TqSzZYHRw8qEzfENivTj2f1ez+lsqPqJSOjolL7dPdOBykaX+WJkbass
-         KrkqYIXop8/RAmEEN6fbne66s1e93dvmTUtUubA1M7ikoI1nDvCmM5GSMWlRroppbGwv
-         drX+RY6JtMRBiz+fccY52y8St70z2Kdalhpo/iSgb5QH3g2uV5b0dDACA0LJXGejZpkA
-         zRZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWZlaJne3Qy/SSXkskkyTRsEB7Ab4dvgWO1HEerpAunAMySyfBHD7Zyr0SamL1LrRQrElBbarpcRWM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHUPR5w61c2mx/kMFk6nRFZMTVq8tMmJFhn5IU9jXTlQf7lmCw
-	UJ5rkJOqpGLDjqRKPuQdbnqbOfWlq/J3WWiyE+jx/TStORxdYHKQQIFFxvZ+JQ4HaLyQQ0EemxU
-	uFRHF3F2rN78YYO6DzMaJ8GHa6QpvQzk=
-X-Gm-Gg: ATEYQzzdcpuiyskk72RoTQK/mekWKzxAvl2tw/fVPWZWmKPBvhpeXM/XMTkqvsBhChM
-	ULa/X/uPYbbXUBcIPJKr1uNv/y43RWZiYjPyT+tiEcqpN9Wp5MnqFn4AYYbmxkKLhEoNMe7dseT
-	rTEZMVuEximNtSSguLH+qWF6nqmKS6tFzVC7Icn65iyh2+NYHeU/cyuZiu8qEVVzD5H1mMnMvvB
-	RtRvZralOI9Tk4HgSJCIJUsjM+2LhoJ5qrx/VgZm5aFky83Mtxad6mYxWlkhCSWjHTxqsdx6ABz
-	HtrQrl9BdAf+NsWKXceepPZhFewaw/fl7OLL
-X-Received: by 2002:a05:690c:30a:b0:799:266:83e0 with SMTP id
- 00721157ae682-79bde0a99e7mr26912277b3.34.1774622591479; Fri, 27 Mar 2026
- 07:43:11 -0700 (PDT)
+        bh=4zQLANhpfIdewHJstnB7dl+HZnNDQqJHWx3xVtfG8mk=;
+        b=mtn1CPkyRvz0ZTZ/vg7ox21Aq2Z/QQuYpsF7hj3HOgnKwoSXppBFQ+0ciP5izGEfFd
+         lT7Rb9JOd5QsAkNu4vknjcUoVJMlOa/j5KOF62RYu+LRF1uKpAze4ignGLPKOjS1pjH+
+         AHX4AArbXCvgNz3hRAY+KoFyHkp9rKKs8IYTU0HMDfTeiOj5TDzeP4v6n8EUxqro2J2W
+         9b4zlN5Wh/yR9qfsHHZUxBgKKKaYnEwztDFjTyOr6fJ+wKBmiAYhrqvIHzk+AyKabohE
+         MHPFxOsa2+vlLycUICAVx0SPBkVuilHMI/HVzIiYHgk9dRKHuyNFJhGYl1d0HTXS4I4t
+         A13g==
+X-Forwarded-Encrypted: i=1; AJvYcCVXrNjfoMC7/Q5rYX8a9Al09LUc7ZXgX54moyzmqmH8sHq8WwmQVJ2Idte4OVyxHGqdLuFzzngVaj8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzumNPe65lNJGyTOf0FK5VAHC5OVHVrAHjA8ImqZzD05FDmpumJ
+	ggkMGruVj7/P+O2Um4su74trFVse/2egTpGyd88N8R7FPLhrXW7owuIk38kByPfCsRe81E8Eg+a
+	bbylTPXqj0PCxJUjbjeFcOXDw+N8blro=
+X-Gm-Gg: ATEYQzzrIl6eUUEoj4+lMHjJgOc1BKJKVj9rSiN5e1Ev2vhrzYXX2PgtLfgH6QcuP+c
+	A4ZUrLtEvPRGFc0Zm6WswsgQTUC1zQeU2q8pc4K2WSf+SgR5P/K5vCmfErfeKEXu6VxqhZM1mm8
+	6++A81TAh2B6pfqYrYh9X9PYKp7HapgMb+IKP1os0fom0YRW+jJ8jl3LcP6s+3A8o66WwWnr32I
+	mLnvS62Zaf0pTHIgNdU79gfXrId9X4QUgLbKCC2VKPnLV71wT23nNP4JosZPyUfm8GNnmwCdS+B
+	TmsiO8CFqEkNNZ9MqGKvihQlOjT67ItOWO6jr10+n9j4weH+EJSv+7hr0PcbZuXzWfl8l+2vewj
+	rskhFO5mQeHlORm/P
+X-Received: by 2002:a05:6a00:27a0:b0:823:cbb:a484 with SMTP id
+ d2e1a72fcca58-82c95d45b1fmr3174313b3a.14.1774627854496; Fri, 27 Mar 2026
+ 09:10:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
@@ -102,14 +103,15 @@ MIME-Version: 1.0
 References: <20260305013852.3769-1-dqfext@gmail.com> <CALW65jZRyKydW6bs-mYwh2mEn0dpv3opVEr=WczKn_0952_+Yg@mail.gmail.com>
  <CADvbK_fj_26MLP=+U+rzOMfqdPpdvFQJgN_fozd2uAjRsfHweQ@mail.gmail.com>
  <CADvbK_f3LwEt+-BG-1Pcr4jMn6Jxry+0p-Fu_s0C6Px+F_NHCA@mail.gmail.com>
- <CALW65javKc9H1zQ4m5cb0qPfXix+bWM9LcVZ+uQN5BdgdTQ=gQ@mail.gmail.com> <CADvbK_fug3vckLkfufLTtqTEKzywRUw8C_dzfW032_cb6vLpZg@mail.gmail.com>
-In-Reply-To: <CADvbK_fug3vckLkfufLTtqTEKzywRUw8C_dzfW032_cb6vLpZg@mail.gmail.com>
-From: Qingfang Deng <dqfext@gmail.com>
-Date: Fri, 27 Mar 2026 22:42:59 +0800
-X-Gm-Features: AQROBzCTVnUCnEkObm9eV9Wpx-1Um5gzBGefD-FTNsN1J9iBMTj2-Zz0FzfAi3U
-Message-ID: <CALW65jYQt9-EQ0tKkgPRGMdf4Ra2oq4BT4XkCPu0zaRH=rzviQ@mail.gmail.com>
+ <CALW65javKc9H1zQ4m5cb0qPfXix+bWM9LcVZ+uQN5BdgdTQ=gQ@mail.gmail.com>
+ <CADvbK_fug3vckLkfufLTtqTEKzywRUw8C_dzfW032_cb6vLpZg@mail.gmail.com> <CALW65jYQt9-EQ0tKkgPRGMdf4Ra2oq4BT4XkCPu0zaRH=rzviQ@mail.gmail.com>
+In-Reply-To: <CALW65jYQt9-EQ0tKkgPRGMdf4Ra2oq4BT4XkCPu0zaRH=rzviQ@mail.gmail.com>
+From: Xin Long <lucien.xin@gmail.com>
+Date: Fri, 27 Mar 2026 12:10:43 -0400
+X-Gm-Features: AQROBzBsDWp0nhik9IE67j9AWPQ3G2vduNGzWrKgp9vfAx0VgvWYCw4K-B4LHcc
+Message-ID: <CADvbK_fu3e_CRAFS=qju1eTyuWymSFq=_qebtNL=d1udhAm7rg@mail.gmail.com>
 Subject: Re: [PATCH net-next v5] net: pppoe: implement GRO/GSO support
-To: Xin Long <lucien.xin@gmail.com>
+To: Qingfang Deng <dqfext@gmail.com>
 Cc: Jakub Kicinski <kuba@kernel.org>, Felix Fietkau <nbd@nbd.name>, linux-ppp@vger.kernel.org, 
 	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
 	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
@@ -122,11 +124,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-460-lists,linux-ppp=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-461-lists,linux-ppp=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
@@ -137,52 +139,62 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.736];
+	NEURAL_HAM(-0.00)[-0.932];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dqfext@gmail.com,linux-ppp@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[lucienxin@gmail.com,linux-ppp@vger.kernel.org];
 	FREEMAIL_CC(0.00)[kernel.org,nbd.name,vger.kernel.org,lunn.ch,davemloft.net,google.com,redhat.com,gmail.com];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-ppp,netdev];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: DAFB13464B0
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 2453B347334
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi, Xin Long,
-
-On Fri, Mar 27, 2026 at 9:23=E2=80=AFPM Xin Long <lucien.xin@gmail.com> wro=
-te:
+On Fri, Mar 27, 2026 at 10:43=E2=80=AFAM Qingfang Deng <dqfext@gmail.com> w=
+rote:
 >
-> On Thu, Mar 26, 2026 at 9:49=E2=80=AFPM Qingfang Deng <dqfext@gmail.com> =
-wrote:
+> Hi, Xin Long,
+>
+> On Fri, Mar 27, 2026 at 9:23=E2=80=AFPM Xin Long <lucien.xin@gmail.com> w=
+rote:
 > >
-> > In my v6 patch, I set phdr->length to 0xFFFF. Is that okay?
+> > On Thu, Mar 26, 2026 at 9:49=E2=80=AFPM Qingfang Deng <dqfext@gmail.com=
+> wrote:
+> > >
+> > > In my v6 patch, I set phdr->length to 0xFFFF. Is that okay?
+> > >
+> > > https://lore.kernel.org/netdev/20260326081127.61229-1-dqfext@gmail.co=
+m/
 > >
-> > https://lore.kernel.org/netdev/20260326081127.61229-1-dqfext@gmail.com/
+> > I think you need to check how the PPPoE stack handles this value. If
+> > it recalculates the actual length using skb->len when phdr->length =3D=
+=3D
+> > 0xFFFF, then this approach might be fine.
+> >
+> > Also, how does the PPPoE stack distinguish between 0xFFFF being the
+> > actual payload length versus it being used as a marker to indicate a
+> > jumbo packet (similar to BIG TCP)?
 >
-> I think you need to check how the PPPoE stack handles this value. If
-> it recalculates the actual length using skb->len when phdr->length =3D=3D
-> 0xFFFF, then this approach might be fine.
+> In the receive function 'pppoe_rcv()': if a skb's actual payload
+> length is less than phdr->length, it will be dropped; if greater than
+> phdr->length, it will be trimmed to match phdr->length. After that,
+> the phdr is popped and the skb is passed to the generic PPP layer.
+> There is also a fastpath in Netfilter flowtable for IPv4/IPv6 that
+> bypasses pppoe_rcv(): it does not check phdr->length at all, and only
+> relies on the length field in the network header.
 >
-> Also, how does the PPPoE stack distinguish between 0xFFFF being the
-> actual payload length versus it being used as a marker to indicate a
-> jumbo packet (similar to BIG TCP)?
+> In the v2 version of this patch, phdr->length is not updated in
+> gro_complete(), so an additional check 'skb_is_gso()' is added to the
+> function to avoid trimming a GRO skb. Then Richard Gobert suggested
+> that the length field needs to be updated, and if the updated field
+> matches the actual length, the 'skb_is_gso()' is not necessary, but
+> only if the length fits in the u16 field.
+I guess you have to look back to pppoe_rcv() for this, and double check
+with Richard Gobert.
 
-In the receive function 'pppoe_rcv()': if a skb's actual payload
-length is less than phdr->length, it will be dropped; if greater than
-phdr->length, it will be trimmed to match phdr->length. After that,
-the phdr is popped and the skb is passed to the generic PPP layer.
-There is also a fastpath in Netfilter flowtable for IPv4/IPv6 that
-bypasses pppoe_rcv(): it does not check phdr->length at all, and only
-relies on the length field in the network header.
-
-In the v2 version of this patch, phdr->length is not updated in
-gro_complete(), so an additional check 'skb_is_gso()' is added to the
-function to avoid trimming a GRO skb. Then Richard Gobert suggested
-that the length field needs to be updated, and if the updated field
-matches the actual length, the 'skb_is_gso()' is not necessary, but
-only if the length fits in the u16 field.
+The phdr->length trick for jumbo packets might also affect how tcpdump
+or tshark parses PPPoE packets.
 
