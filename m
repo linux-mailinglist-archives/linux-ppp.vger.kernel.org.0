@@ -1,139 +1,142 @@
-Return-Path: <linux-ppp+bounces-470-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-471-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yBTsGBray2k2MAYAu9opvQ
-	(envelope-from <linux-ppp+bounces-470-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Tue, 31 Mar 2026 16:28:42 +0200
+	id YAPVFyrby2lHMAYAu9opvQ
+	(envelope-from <linux-ppp+bounces-471-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Tue, 31 Mar 2026 16:33:14 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3AE36AF42
-	for <lists+linux-ppp@lfdr.de>; Tue, 31 Mar 2026 16:28:41 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4728F36B042
+	for <lists+linux-ppp@lfdr.de>; Tue, 31 Mar 2026 16:33:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4556B3019CA1
-	for <lists+linux-ppp@lfdr.de>; Tue, 31 Mar 2026 14:21:56 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id B63093068CF5
+	for <lists+linux-ppp@lfdr.de>; Tue, 31 Mar 2026 14:25:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D7583E8C4B;
-	Tue, 31 Mar 2026 14:21:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFB253FADE3;
+	Tue, 31 Mar 2026 14:25:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=skoll.ca header.i=@skoll.ca header.b="F+kOVDit"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from ida.uls.co.za (ida.uls.co.za [154.73.32.4])
+Received: from dianne.skoll.ca (dianne.skoll.ca [144.217.161.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D792E3DFC7D;
-	Tue, 31 Mar 2026 14:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=154.73.32.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A003F8E03;
+	Tue, 31 Mar 2026 14:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.217.161.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774966913; cv=none; b=GYJQ1YWbMQOZh9lKZl0pacN1lTs40qNf0Fo31Zw0IAc9gmA/GoZ2v874KTOw3joFzfuoWSG/ovApMyg02ExufXxUrqGZsgUlALr553ptQAc0Yl+akLLht03VsvLNS5HpMDwdCqiPwdiQ8ZDOXW6KYx2HcaWKNLyeTXaI4p7Sv7Y=
+	t=1774967141; cv=none; b=mBJMDKuiKVxUZzFJHLA86gqbzvObAOcvD7qcUSm+EP+a1/18sTDg5ZXI+IkNpIaFl5KRNl3aZdLadvNFx0Ax5nHJr0V/qkOxBFSUDsaMjcCDB3PpXkHzsYAQt8QNMq5BZufp+BJ2Yg03VqqJmC2FZgz+IIS2nQepjZWY2uW3txg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774966913; c=relaxed/simple;
-	bh=7FI3bPhq7XlwC+HVEI4LHXgstW48icjjyrSwYIueZmI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uauywTufUiFfiyC5X7vzugGHVa/gX/AjKosgOs8YumUz+G0YofHM/yGlDQblMhV54oEQEJEEW6kJDpQjI5o9xckJ7+nGUSiiLfj4ltiwp3ELWaXOwpbnoA8RhFEirkY0XaN7UbxiioGU0DgMFowoXDoTbOmeXAgyYHBdoZyEY4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uls.co.za; spf=pass smtp.mailfrom=uls.co.za; arc=none smtp.client-ip=154.73.32.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uls.co.za
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uls.co.za
-Received: from [165.16.203.0] (helo=[192.168.42.23])
-	by ida.uls.co.za with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
-	(Exim 4.98.2)
-	(envelope-from <jaco@uls.co.za>)
-	id 1w7ZyH-000000005QU-1zSU;
-	Tue, 31 Mar 2026 16:21:33 +0200
-Message-ID: <1bba860e-a204-4a5b-9b8f-4d55a559d01e@uls.co.za>
-Date: Tue, 31 Mar 2026 16:21:30 +0200
+	s=arc-20240116; t=1774967141; c=relaxed/simple;
+	bh=U5uM51uyVywz0Ku3+6t2AG2QfNtCodrg01eurmUPSo8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=crEOHVIxQoqRHs1razT+O9QYaVpw6i7c8U7TOR/pm9jO+t0gvJ4W6tPpGdaK7VYrW+VwCwqF+owitr0r3rco9S5M766OlZ/P8UdiJEVS+dDDxeb/8hz8Goxn7GDKjJr26oFNEThtECuI2PxiihgKvcfV8Vciu7NJ+FXy2aBxlqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=skoll.ca; spf=pass smtp.mailfrom=skoll.ca; dkim=pass (2048-bit key) header.d=skoll.ca header.i=@skoll.ca header.b=F+kOVDit; arc=none smtp.client-ip=144.217.161.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=skoll.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=skoll.ca
+Received: from pi4.skoll.ca ([192.168.84.18])
+	by dianne.skoll.ca (8.18.1/8.18.1/Debian-6) with ESMTPS id 62VEP91q825675
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 31 Mar 2026 10:25:10 -0400
+Received: from gato.skoll.ca (gato.skoll.ca [192.168.83.21])
+	by pi4.skoll.ca (Postfix) with ESMTPS id 4flVks1M0SzdZY88;
+	Tue, 31 Mar 2026 10:25:09 -0400 (EDT)
+Date: Tue, 31 Mar 2026 10:25:08 -0400
+From: Dianne Skoll <dianne@skoll.ca>
+To: Jaco Kroon <jaco@uls.co.za>
+Cc: Qingfang Deng <dqfext@gmail.com>, linux-ppp@vger.kernel.org,
+        Andrew Lunn
+ <andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo
+ Abeni <pabeni@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Paul Mackerras
+ <paulus@ozlabs.org>,
+        James Carlson <carlsonj@workingcode.com>
+Subject: Re: [PATCH net-next] pppoe: update Kconfig URLs
+Message-ID: <20260331102508.2eb6dce8@gato.skoll.ca>
+In-Reply-To: <1bba860e-a204-4a5b-9b8f-4d55a559d01e@uls.co.za>
+References: <20260331033303.5664-1-dqfext@gmail.com>
+	<0aa6aa20-0e2a-48e9-8273-53b2fecd287b@uls.co.za>
+	<20260331091655.30212333@gato.skoll.ca>
+	<1bba860e-a204-4a5b-9b8f-4d55a559d01e@uls.co.za>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] pppoe: update Kconfig URLs
-To: Dianne Skoll <dianne@skoll.ca>
-Cc: Qingfang Deng <dqfext@gmail.com>, linux-ppp@vger.kernel.org,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Eric Biggers <ebiggers@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Paul Mackerras <paulus@ozlabs.org>,
- James Carlson <carlsonj@workingcode.com>
-References: <20260331033303.5664-1-dqfext@gmail.com>
- <0aa6aa20-0e2a-48e9-8273-53b2fecd287b@uls.co.za>
- <20260331091655.30212333@gato.skoll.ca>
-Content-Language: en-GB
-From: Jaco Kroon <jaco@uls.co.za>
-Autocrypt: addr=jaco@uls.co.za; keydata=
- xsBNBFXtplYBCADM6RTLCOSPiclevkn/gdf8h9l+kKA6N+WGIIFuUtoc9Gaf8QhXWW/fvUq2
- a3eo4ULVFT1jJ56Vfm4MssGA97NZtlOe3cg8QJMZZhsoN5wetG9SrJvT9Rlltwo5nFmXY3ZY
- gXsdwkpDr9Y5TqBizx7DGxMd/mrOfXeql57FWFeOc2GuJBnHPZQMJsQ66l2obPn36hWEtHYN
- gcUSPH3OOusSEGZg/oX/8WSDQ/b8xz1JKTEgcnu/JR0FxzjY19zSHmbnyVU+/gF3oeJFcEUk
- HvZu776LRVdcZ0lb1bHQB2K9rTZBVeZLitgAefPVH2uERVSO8EZO1I5M7afV0Kd/Vyn9ABEB
- AAHNG0phY28gS3Jvb24gPGphY29AdWxzLmNvLnphPsLAdwQTAQgAIQUCVe2mVgIbAwULCQgH
- AgYVCAkKCwIEFgIDAQIeAQIXgAAKCRAILcSxr/fungCPB/sHrfufpRbrVTtHUjpbY4bTQLQE
- bVrh4/yMiKprALRYy0nsMivl16Q/3rNWXJuQ0gR/faC3yNlDgtEoXx8noXOhva9GGHPGTaPT
- hhpcp/1E4C9Ghcaxw3MRapVnSKnSYL+zOOpkGwye2+fbqwCkCYCM7Vu6ws3+pMzJNFK/UOgW
- Tj8O5eBa3DiU4U26/jUHEIg74U+ypYPcj5qXG0xNXmmoDpZweW41Cfo6FMmgjQBTEGzo9e5R
- kjc7MH3+IyJvP4bzE5Paq0q0b5zZ8DUJFtT7pVb3FQTz1v3CutLlF1elFZzd9sZrg+mLA5PM
- o8PG9FLw9ZtTE314vgMWJ+TTYX0kzsBNBFXtplYBCADedX9HSSJozh4YIBT+PuLWCTJRLTLu
- jXU7HobdK1EljPAi1ahCUXJR+NHvpJLSq/N5rtL12ejJJ4EMMp2UUK0IHz4kx26FeAJuOQMe
- GEzoEkiiR15ufkApBCRssIj5B8OA/351Y9PFore5KJzQf1psrCnMSZoJ89KLfU7C5S+ooX9e
- re2aWgu5jqKgKDLa07/UVHyxDTtQKRZSFibFCHbMELYKDr3tUdUfCDqVjipCzHmLZ+xMisfn
- yX9aTVI3FUIs8UiqM5xlxqfuCnDrKBJjQs3uvmd6cyhPRmnsjase48RoO84Ckjbp/HVu0+1+
- 6vgiPjbe4xk7Ehkw1mfSxb79ABEBAAHCwF8EGAEIAAkFAlXtplYCGwwACgkQCC3Esa/37p7u
- XwgAjpFzUj+GMmo8ZeYwHH6YfNZQV+hfesr7tqlZn5DhQXJgT2NF6qh5Vn8TcFPR4JZiVIkF
- o0je7c8FJe34Aqex/H9R8LxvhENX/YOtq5+PqZj59y9G9+0FFZ1CyguTDC845zuJnnR5A0lw
- FARZaL8T7e6UGphtiT0NdR7EXnJ/alvtsnsNudtvFnKtigYvtw2wthW6CLvwrFjsuiXPjVUX
- 825zQUnBHnrED6vG67UG4z5cQ4uY/LcSNsqBsoj6/wsT0pnqdibhCWmgFimOsSRgaF7qsVtg
- TWyQDTjH643+qYbJJdH91LASRLrenRCgpCXgzNWAMX6PJlqLrNX1Ye4CQw==
-Organization: Ultimate Linux Solutions (Pty) Ltd
-In-Reply-To: <20260331091655.30212333@gato.skoll.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-report: Relay access (ida.uls.co.za).
-X-Spamd-Result: default: False [0.14 / 15.00];
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skoll.ca; h=date
+	:from:to:cc:subject:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding; s=canit2;
+	 bh=00IX2/FPj4y7ZScMI81Y5QFxmS44uuUj/r6XE4KfdQ4=; b=F+kOVDitfAgI
+	UcjOIi/bfiaYiuxz2Pr2IDV6kAlR7NPGZ7BC4gdWET+ns0TjwnsG5biq7yUpDO/Y
+	ujepG4vjaTgu9Xk+p/vGB+0jaYTyQ+BqlWj0kBfG/EKHrgJQb4meo0pVIJniwat8
+	+0inZ2IBXsQ2E48MK+72sN6n9GTP0hvB25R9HALEriJ7TYjpmdX3NX6dVACCFANu
+	Hz/hB8dOHNxiur0IpYleywnRKr66HQVkPy23o9xI2tOHqiosx/XqH0RhUhysMDYS
+	rw2wccVzlULFakF7quUk1qwSFheQ633zg1iFv2kXEz6U6LqYOIlW5dKXL8cMfjjK
+	GFMJiugYGA==
+X-Scanned-By: CanIt (www . roaringpenguin . com)
+X-Scanned-By: mailmunge 3.20 on 192.168.83.18
+X-Spam-Score: undef - relay 192.168.84.18 marked with skip_spam_scan
+X-CanIt-Geo: No geolocation information available for 192.168.84.18
+X-CanItPRO-Stream: outbound (inherits from default)
+X-Canit-Stats-ID: Bayes signature not available
+X-CanIt-Archive-Cluster: tWKWaF/NcZkqjWIj0BEJTBHJhwY
+X-CanIt-Archived-As: base/20260331 / 01gVqp93O
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	DMARC_POLICY_ALLOW(-0.50)[skoll.ca,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[skoll.ca:s=canit2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[uls.co.za : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-470-lists,linux-ppp=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	HAS_ORG_HEADER(0.00)[];
 	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,ozlabs.org,workingcode.com];
+	TAGGED_FROM(0.00)[bounces-471-lists,linux-ppp=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[skoll.ca:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jaco@uls.co.za,linux-ppp@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	NEURAL_HAM(-0.00)[-0.824];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dianne@skoll.ca,linux-ppp@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-ppp,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[uls.co.za:email,uls.co.za:mid]
-X-Rspamd-Queue-Id: CF3AE36AF42
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,skoll.ca:dkim,gato.skoll.ca:mid]
+X-Rspamd-Queue-Id: 4728F36B042
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Dianne,
+Hi, all,
 
-On 2026/03/31 15:16, Dianne Skoll wrote:
-> On Tue, 31 Mar 2026 08:21:40 +0200
-> Jaco Kroon <jaco@uls.co.za> wrote:
->
->> That same code has recently been dropped from rp-pppoe,
-> That is not the case.  I still ship all of the plugin code with rp-pppoe.
-My bad, my apologies.  It was the userspace code you dropped then, which 
-does NOT require the kernel options?  I do recall there was a huge 
-debate around this though in the one ppp bug.
->> Most people will never need rp-pppoe.
-> This is correct because the ppp project *also* ships the plugin code.
-Kind regards,
-Jaco
+> My bad, my apologies. It was the userspace code you dropped then, which 
+> does NOT require the kernel options?
+
+I was considering doing that, but I kept the userspace code.  The reason is
+that on some platforms, such as uclinux on a processor without an MMU,
+the dlopen() system call is not implemented, so there's no way to use
+a plugin with pppd.  One user asked me to keep the userspace code, so I
+did.
+
+But you are correct in that 99.99% of Linux users will not need to download
+rp-pppoe if all they want to do is connect to the Internet using a PPPoE
+client.
+
+Regards,
+
+Dianne.
 
