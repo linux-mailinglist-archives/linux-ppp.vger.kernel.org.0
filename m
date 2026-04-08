@@ -1,72 +1,91 @@
-Return-Path: <linux-ppp+bounces-498-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-499-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4JpZA9bA1WnT9QcAu9opvQ
-	(envelope-from <linux-ppp+bounces-498-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Wed, 08 Apr 2026 04:43:34 +0200
+	id AFgPApPY1Wlo+gcAu9opvQ
+	(envelope-from <linux-ppp+bounces-499-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Wed, 08 Apr 2026 06:24:51 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602603B6485
-	for <lists+linux-ppp@lfdr.de>; Wed, 08 Apr 2026 04:43:33 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1443B6BBE
+	for <lists+linux-ppp@lfdr.de>; Wed, 08 Apr 2026 06:24:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3D3473008A78
-	for <lists+linux-ppp@lfdr.de>; Wed,  8 Apr 2026 02:43:21 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2F5FC300B9C8
+	for <lists+linux-ppp@lfdr.de>; Wed,  8 Apr 2026 04:24:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 856D6363093;
-	Wed,  8 Apr 2026 02:43:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9678B342CB1;
+	Wed,  8 Apr 2026 04:24:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xapIOMIZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HGcnwAf3"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F1934A3C5
-	for <linux-ppp@vger.kernel.org>; Wed,  8 Apr 2026 02:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FBC40DFA0
+	for <linux-ppp@vger.kernel.org>; Wed,  8 Apr 2026 04:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775616200; cv=none; b=fpinQKDMXwHK4a/neOj9OhR3Q9Xxeez7tj0F0XFhNACJ2jtxCwTPzVLhlueUd7MUN5EP4Toc6mWXJ0CRx//ztwlAFSrTMnIF9CS7FEYcdyywTpPWZUOa4TD5BPadurUfohxnSH1DCLUy6u6Q7qATx5iCkWAGHVhvzfpuQ3ALLe4=
+	t=1775622283; cv=none; b=utW4fIpF6Y0ofpqfHOHkV1vJX3o0eveB/cyyak0XC+pvpzHSaiUVzszAmiA7hiv1016lPKi2mhz5jaeEScNIFvKB3X5+L5F3dFn64yx2zdEg3nhKr/rlasgf55iX3Z1M6FRewb2bl4kEfI6f8Ty1GmqahgerEDs3E2v3FgCmTx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775616200; c=relaxed/simple;
-	bh=wc8ebE65UOu1ysogv3ZDcnkX89LztJOefOmPbTNJMjM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oR7nE9kkBIvFQe0R6AeeOv5VJkRV62Ad7G8W67kxj5gw6pNLeshsP6NqggnQvIcs3LxKSrEcnXhYSY17q3noFx3vGR8kVDqAEPyoch3i0PkB77OlA0KV5suxM4iWn3NpQIlhFVx+1YKOUpbqk2zw0xOfwmjZ0OpqrSUE2WVaUN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xapIOMIZ; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775616186;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=33eXA0SOhVw75BGKPw1R2kGeIPnZ2JkRRsLUeSlZmUo=;
-	b=xapIOMIZk4e7lMBCgcYMriHiENqeJAhP8uQd+H+AUKoYG8k+TVFEgQ5EEvaEipnTkAJmf+
-	ifi/tG3wafn1351xGoueKxXPHWoA9pNbW90gLoPegDDkxYpwRU5xuPOEi2ad5VEOeWe1BE
-	/9l1ktPhKJDdjioI/um1tYBa5jqklrQ=
-From: Qingfang Deng <qingfang.deng@linux.dev>
-To: linux-ppp@vger.kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Michal Ostrowski <mostrows@gmail.com>,
-	Qingfang Deng <qingfang.deng@linux.dev>,
-	Yue Haibing <yuehaibing@huawei.com>,
-	Breno Leitao <leitao@debian.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Kees Cook <kees@kernel.org>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Paul Mackerras <paulus@ozlabs.org>,
-	Jaco Kroon <jaco@uls.co.za>,
-	James Carlson <carlsonj@workingcode.com>,
-	Wojciech Drewek <wojciech.drewek@intel.com>,
-	Guillaume Nault <gnault@redhat.com>
-Subject: [PATCH net v2] pppoe: drop PFC frames
-Date: Wed,  8 Apr 2026 10:42:39 +0800
-Message-ID: <20260408024245.312732-1-qingfang.deng@linux.dev>
+	s=arc-20240116; t=1775622283; c=relaxed/simple;
+	bh=GJKMVETSDrkUzIUb3FcAj0CzYf7hahpuCpzS1v8Qvl8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cnzWaEWmCI+BUT/sCINh3M+qYvQ2MMGnx5VGtI+JlyF5kX1DbowjgwqH+hSHmVNkaQ5EPHayzn4xocAR0BdhzzerAW3aCjALY7S1Zpqm+yJb2NyRB8+04VxUS7+lWSI4+3Q8kFKDdazl3Xu9dg77JbaPVkpvarHsF5DyUHLgJUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HGcnwAf3; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c74244dc0b3so3494404a12.2
+        for <linux-ppp@vger.kernel.org>; Tue, 07 Apr 2026 21:24:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775622282; x=1776227082; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eqmEdkwfgVOE9RljrpN82ejevmAUygMZ1xKqFBwMsdw=;
+        b=HGcnwAf3//74eHRuCUrwE+p4ot9su5hRE/ViVwiaFp3Xa6qFcVLu+34n9RvsSMSqle
+         8sA32ahnj/tQj2oO4Mq7iiATthkdF8eQB65eo9uRtTsxWjtdcbo5Co3+oqFKSwVwHvQa
+         c9vYK+Mek51atFw8OrZsXCf743kXjHxqp/kpQva6lDSlMSVcWKLteWtRwOW0DFbnGOSj
+         Xn96/QUvth6yRIbXAgZUO6T0XcvhMkuCACaZW6ZNx3HFr905e8GtCSxAGyvE1aNXQGJQ
+         fkxQsW3HYd+VwDfPGEylIdYR1KK6J1EKXnLlNJNy7UCjpgDqWt4xyylVHBi6JlEZ9ei3
+         mY9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775622282; x=1776227082;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eqmEdkwfgVOE9RljrpN82ejevmAUygMZ1xKqFBwMsdw=;
+        b=FDe2Gk7Ag5rQZFs0j0eVnYOW1RX/8KhcAfisOAEeyZVXC3HZXIp8ix1x4DFSVyQDjp
+         Spt3Zgi5J6orjApCzz5Dyvl4IwUtL1vEG2qHkJW4rkF22/qhn5+N5cvBxH2yfZ1s/mwV
+         miLK/EfpNjndHztWqyrHNyirnnpKilWyOk4NuJbFbazVGlE/TftQmK8m3Oi8ii9WiOgU
+         ZosKjTbpbE3mXm8CfBY4KZe9wYvNbLPG18U2S3Iep1qWkGSbhND4HX+4Wr7bJTRdv9Yv
+         cw9eti1X2DhUhRiJQ9+zVf25Panbk8NRJ/I7QBZovTdxkoZ+3IgC+Q3E8pU1D4dVJ6C5
+         SU4A==
+X-Gm-Message-State: AOJu0Yw+Mwaepsj7QBa3sweQdlzcqwcbvfJ1o41xpHbjeFQOveC0jiz9
+	1/7rMgVoF1BMZottGd2wC5yz6T1InigxsMxWzxRgIWAcyMDqaw7CPCP8y5pD52jC
+X-Gm-Gg: AeBDieusVLZKYIpTyrAMP1V/hQMigWY7RduXC8gp1NXSWhHfrZ/DJ8Tdt/QVOMywzRd
+	PRPxt+nysq9S1Y1+xOos4Uwjfj4pD3BvEeDjbqu2OUQOhJG/QM7ErY2A/xlmLm6djPd2977EyTN
+	HDTZvayp83mv5DJV5P+9UgaxG6QoA3K80wNuMUx1KjjgJyqR1b3oOue9Sc3o5g992dhLhTB9ZqT
+	w8OnG5j2ANqSLEexO0ZtYD03EzDRU9NewXzvFJMwcmx2937mCVVdvCyeFCtQcnwVV73AuAwwHzn
+	iFqrka68DSnwZhNefyxOdHJYIEIlsWXgLrVy35vwifRDgy0TDq79TrB3o4ytZ1Ri1v2A9+XB1Kr
+	4grw/vPzUrg99gt/4DoACzPry+UYEgiGNKK92/ivDSdNIp+0ITkECxhV8unz/lA53g3BggWF5ir
+	l7sRXEbfQJZzM6GbfBoYjuakdM733YWuakl72EdLwoTSnda8k7
+X-Received: by 2002:a05:6a20:12cd:b0:398:a1ca:7a2a with SMTP id adf61e73a8af0-39f2f0ff7d9mr20959180637.48.1775622281575;
+        Tue, 07 Apr 2026 21:24:41 -0700 (PDT)
+Received: from dbdd95a60758.tailf10b76.ts.net ([220.83.29.221])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c76c65812f4sm17363258a12.25.2026.04.07.21.24.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 21:24:40 -0700 (PDT)
+From: Taegu Ha <hataegu0826@gmail.com>
+To: netdev@vger.kernel.org
+Cc: linux-ppp@vger.kernel.org,
+	qingfang.deng@linux.dev,
+	gnault@redhat.com,
+	jaco@uls.co.za,
+	richardbgobert@gmail.com,
+	ericwouds@gmail.com,
+	Taegu Ha <hataegu0826@gmail.com>
+Subject: [PATCH] ppp: require CAP_NET_ADMIN in target netns for unattached ioctls
+Date: Wed,  8 Apr 2026 13:23:45 +0900
+Message-ID: <20260408042345.1011-1-hataegu0826@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
@@ -74,136 +93,95 @@ List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-498-lists,linux-ppp=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[20];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[vger.kernel.org,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,gmail.com,linux.dev,huawei.com,debian.org,linutronix.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,linux.dev,redhat.com,uls.co.za,gmail.com];
+	TAGGED_FROM(0.00)[bounces-499-lists,linux-ppp=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[qingfang.deng@linux.dev,linux-ppp@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-ppp,netdev];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:dkim,linux.dev:email,linux.dev:mid]
-X-Rspamd-Queue-Id: 602603B6485
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hataegu0826@gmail.com,linux-ppp@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	NEURAL_HAM(-0.00)[-0.999];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_RCPT(0.00)[linux-ppp];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 1B1443B6BBE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-RFC 2516 Section 7 states that Protocol Field Compression (PFC) is NOT
-RECOMMENDED for PPPoE. In practice, pppd does not support negotiating
-PFC for PPPoE sessions, and the current PPPoE driver assumes an
-uncompressed (2-byte) protocol field. However, the generic PPP layer
-function ppp_input() is not aware of the negotiation result, and still
-accepts PFC frames.
+/dev/ppp open is currently authorized against file->f_cred->user_ns,
+while unattached administrative ioctls operate on current->nsproxy->net_ns.
 
-If a peer with a broken implementation or an attacker sends a frame with
-a compressed (1-byte) protocol field, the subsequent PPP payload is
-shifted by one byte. This causes the network header to be 4-byte
-misaligned, which may trigger unaligned access exceptions on some
-architectures.
+As a result, a local unprivileged user can create a new user namespace
+with CLONE_NEWUSER, gain CAP_NET_ADMIN only in that new user namespace,
+and still issue PPPIOCNEWUNIT, PPPIOCATTACH, or PPPIOCATTCHAN against
+an inherited network namespace.
 
-To reduce the attack surface, drop PPPoE PFC frames. Introduce
-ppp_skb_is_compressed_proto() helper function to be used in both
-ppp_generic.c and pppoe.c to avoid open-coding.
+Require CAP_NET_ADMIN in the user namespace that owns the target network
+namespace before handling these unattached PPP administrative ioctls.
 
-Fixes: 224cf5ad14c0 ("ppp: Move the PPP drivers")
-Signed-off-by: Qingfang Deng <qingfang.deng@linux.dev>
+This preserves normal pppd operation in the network namespace it is
+actually privileged in, while rejecting the userns-only inherited-netns
+case.
+
+Fixes: 273ec51dd7ce ("net: ppp_generic - introduce net-namespace functionality v2")
+Reported-by: Taegu Ha <hataegu0826@gmail.com>
+Signed-off-by: Taegu Ha <hataegu0826@gmail.com>
 ---
-v2: retarget to net, and add a helper function
- https://lore.kernel.org/netdev/20260403083926.68320-1-qingfang.deng@linux.dev/
-
- drivers/net/ppp/ppp_generic.c |  2 +-
- drivers/net/ppp/pppoe.c       |  8 +++++++-
- include/linux/ppp_defs.h      | 14 ++++++++++++++
- 3 files changed, 22 insertions(+), 2 deletions(-)
+ drivers/net/ppp/ppp_generic.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index cb29a6968c63..eb1503b389ef 100644
+index e9b41777be80..99a8557188c0 100644
 --- a/drivers/net/ppp/ppp_generic.c
 +++ b/drivers/net/ppp/ppp_generic.c
-@@ -2251,7 +2251,7 @@ ppp_do_recv(struct ppp *ppp, struct sk_buff *skb, struct channel *pch)
-  */
- static void __ppp_decompress_proto(struct sk_buff *skb)
- {
--	if (skb->data[0] & 0x01)
-+	if (ppp_skb_is_compressed_proto(skb))
- 		*(u8 *)skb_push(skb, 1) = 0x00;
- }
+@@ -1059,6 +1059,9 @@ static int ppp_unattached_ioctl(struct net *net, struct ppp_file *pf,
  
-diff --git a/drivers/net/ppp/pppoe.c b/drivers/net/ppp/pppoe.c
-index 1ac61c273b28..4cd10c908711 100644
---- a/drivers/net/ppp/pppoe.c
-+++ b/drivers/net/ppp/pppoe.c
-@@ -393,7 +393,7 @@ static int pppoe_rcv(struct sk_buff *skb, struct net_device *dev,
- 	if (skb_mac_header_len(skb) < ETH_HLEN)
- 		goto drop;
- 
--	if (!pskb_may_pull(skb, sizeof(struct pppoe_hdr)))
-+	if (!pskb_may_pull(skb, PPPOE_SES_HLEN))
- 		goto drop;
- 
- 	ph = pppoe_hdr(skb);
-@@ -403,6 +403,12 @@ static int pppoe_rcv(struct sk_buff *skb, struct net_device *dev,
- 	if (skb->len < len)
- 		goto drop;
- 
-+	/* skb->data points to the PPP protocol header after skb_pull_rcsum.
-+	 * Drop PFC frames.
-+	 */
-+	if (ppp_skb_is_compressed_proto(skb))
-+		goto drop;
+ 	switch (cmd) {
+ 	case PPPIOCNEWUNIT:
++		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++			return -EPERM;
 +
- 	if (pskb_trim_rcsum(skb, len))
- 		goto drop;
+ 		/* Create a new ppp unit */
+ 		if (get_user(unit, p))
+ 			break;
+@@ -1073,6 +1076,9 @@ static int ppp_unattached_ioctl(struct net *net, struct ppp_file *pf,
+ 		break;
  
-diff --git a/include/linux/ppp_defs.h b/include/linux/ppp_defs.h
-index b74209e5a11e..ba6e53655b93 100644
---- a/include/linux/ppp_defs.h
-+++ b/include/linux/ppp_defs.h
-@@ -8,10 +8,24 @@
- #define _PPP_DEFS_H_
- 
- #include <linux/crc-ccitt.h>
-+#include <linux/skbuff.h>
- #include <uapi/linux/ppp_defs.h>
- 
- #define PPP_FCS(fcs, c) crc_ccitt_byte(fcs, c)
- 
-+/**
-+ * ppp_skb_is_compressed_proto - checks if PPP protocol in a skb is compressed
-+ * @skb: skb to check
-+ *
-+ * Returns true iff the PPP protocol field is compressed (the least significant
-+ * bit of the most significant octet is 1).
-+ * skb->data must point to the PPP protocol header.
-+ */
-+static inline bool ppp_skb_is_compressed_proto(const struct sk_buff *skb)
-+{
-+	return unlikely(skb->data[0] & 0x01);
-+}
+ 	case PPPIOCATTACH:
++		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++			return -EPERM;
 +
- /**
-  * ppp_proto_is_valid - checks if PPP protocol is valid
-  * @proto: PPP protocol
+ 		/* Attach to an existing ppp unit */
+ 		if (get_user(unit, p))
+ 			break;
+@@ -1089,6 +1095,9 @@ static int ppp_unattached_ioctl(struct net *net, struct ppp_file *pf,
+ 		break;
+ 
+ 	case PPPIOCATTCHAN:
++		if (!ns_capable(net->user_ns, CAP_NET_ADMIN))
++			return -EPERM;
++
+ 		if (get_user(unit, p))
+ 			break;
+ 		err = -ENXIO;
 -- 
 2.43.0
 
