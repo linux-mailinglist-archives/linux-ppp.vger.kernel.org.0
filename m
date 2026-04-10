@@ -1,164 +1,154 @@
-Return-Path: <linux-ppp+bounces-514-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-515-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4N51NA/I2GlQiAgAu9opvQ
-	(envelope-from <linux-ppp+bounces-514-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Fri, 10 Apr 2026 11:51:11 +0200
+	id MOfUGLgq2WnhmwgAu9opvQ
+	(envelope-from <linux-ppp+bounces-515-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Fri, 10 Apr 2026 18:52:08 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543B53D53A3
-	for <lists+linux-ppp@lfdr.de>; Fri, 10 Apr 2026 11:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1323DABBD
+	for <lists+linux-ppp@lfdr.de>; Fri, 10 Apr 2026 18:52:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A04BA312243B
-	for <lists+linux-ppp@lfdr.de>; Fri, 10 Apr 2026 09:41:06 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BD5C73038F58
+	for <lists+linux-ppp@lfdr.de>; Fri, 10 Apr 2026 16:44:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7148736EA99;
-	Fri, 10 Apr 2026 09:39:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 302173DD525;
+	Fri, 10 Apr 2026 16:44:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="CVlOo5SW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QzX2XFCU"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7125436E46E
-	for <linux-ppp@vger.kernel.org>; Fri, 10 Apr 2026 09:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3463C945E;
+	Fri, 10 Apr 2026 16:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775813962; cv=none; b=ttPpxCO545vwRwl0o8+45qiNhKSUxGPV6xFHjwMwMnHg2CndMFsaxjgQLVVWFq8rDrjEBeBdOEIeZ54DkIWli6uLbqxMal7rOB6TRd/RcRzdxcsZdn5TxAyDnOzfHa/vx6xDyeRQEk8XuzB5FXJzxCx6ii6Qzu3EaRuecJtF6tI=
+	t=1775839489; cv=none; b=I9LyLyFx8JAggMLuQhqglk2bFLslBSgY/cS/73QrcSN90WYQ2T1htJnpWt0ZG4DvVIj4SegXC4cwuCkxKlpJM1BWz9EZ9nNQZz5JY7nomd8guPpzVM36pBVmuDqsuJ3XOr6jHlxAKw+F58R5I2rsN32X6hy2aLSQBuR8KjhNYwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775813962; c=relaxed/simple;
-	bh=RIn5QS+/wQzlvfqGGsGZEx3uU16qwFy1NVNMP3oy5CU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cYJw1NZtQznWemoigmXiTzAChSz7e8tr+KawWbH7gvBiyoDrFpF1x3+W4qLdLTE5By1jL9UVO1ejbZmNASp1xa4zHS92JzBZq4BTeIl/Vj6pdBTbwog482P8pDXPHiiSXK4d7FI4pT6JFk6w/Q2JtU9Tgm9kHDgd5GXeAaF8Lts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=CVlOo5SW; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775813958;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=KbAA0jl9JOczfY3YunY2afV3MXW4kTf45LXLhHaMhow=;
-	b=CVlOo5SWqqQx7F2ZN43SJCcEADQBbMBgQHw26nF2uyWU6VxP4NPGDgicWOVQhv2MiEde3P
-	+46PUZYEAxnijpTgN8n6L6uFOvPtetciQEe0ho7G2SpyVqMKa6enBOz93g1SpLJa/xTUhV
-	A3QkgtD7NbOyPbNglrKZFpW8G5Y1sxA=
-From: Qingfang Deng <qingfang.deng@linux.dev>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	s=arc-20240116; t=1775839489; c=relaxed/simple;
+	bh=PW7zS/zscAmiEdr528A9pKocKrhzul89xoiJ7EJzGLg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e+3H+BflrvSSOLSn5HiqydaocSP8QRiBGucRRoLi7ruEMLI41V+cjXuvAphafTyTy3j3/mL2Wapod/j2o3wEXWYqQ+pfaL6+z8RhaePqeDeNcLOqIuKdggjGBN5wxl84ZBRQg3CU8uq2YLFDgKtOtQN1c+OreYVXQOu8aoUZ2DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QzX2XFCU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12632C19421;
+	Fri, 10 Apr 2026 16:44:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775839488;
+	bh=PW7zS/zscAmiEdr528A9pKocKrhzul89xoiJ7EJzGLg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QzX2XFCUC8XvCTYBV8x5Z8MA5oxnQf80JYIxISoUSAos7jblImGKo5DrVDTfOpTt1
+	 oQW1MbP66Lh3wM9WZXzJqUu1QK0/n1zf2K58gu2SuySVCgVwNo+FAHc1F24q9AygG+
+	 0f3yI4E758sAds2hkKJsiBaFOawdcLU94z0BYV7wWiAROSSdOO1sWBUfJFO/bs78sd
+	 Z+pYGU7hTW1mMY6oNnTDq4EZMCczEQGjgnGnMhI/CcvzHlqM0iFLXlyXB8Kls0mULM
+	 RsVs38avWIHK44Yt5di0u4V59z/+vWkx9aQiUZe/RFSs0on/VQWbPF9KNdA6VObiyG
+	 n2NlMGU5hQGJA==
+Date: Fri, 10 Apr 2026 17:44:42 +0100
+From: Simon Horman <horms@kernel.org>
+To: Qingfang Deng <qingfang.deng@linux.dev>
+Cc: linux-ppp@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Qingfang Deng <qingfang.deng@linux.dev>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Michal Ostrowski <mostrows@gmail.com>,
 	Yue Haibing <yuehaibing@huawei.com>,
+	Breno Leitao <leitao@debian.org>,
 	Kuniyuki Iwashima <kuniyu@google.com>,
-	Kees Cook <kees@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-ppp@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Tom Parkin <tparkin@katalix.com>,
-	James Chapman <jchapman@katalix.com>,
+	Kees Cook <kees@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Paul Mackerras <paulus@ozlabs.org>,
+	Jaco Kroon <jaco@uls.co.za>,
+	James Carlson <carlsonj@workingcode.com>,
+	Wojciech Drewek <wojciech.drewek@intel.com>,
 	Guillaume Nault <gnault@redhat.com>
-Subject: [PATCH net-next] ppp: tear down bridge before clearing pch->chan
-Date: Fri, 10 Apr 2026 17:38:56 +0800
-Message-ID: <20260410093859.69237-1-qingfang.deng@linux.dev>
+Subject: Re: [PATCH net v2] pppoe: drop PFC frames
+Message-ID: <20260410164442.GB469338@kernel.org>
+References: <20260408024245.312732-1-qingfang.deng@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Spamd-Result: default: False [0.84 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260408024245.312732-1-qingfang.deng@linux.dev>
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	TAGGED_FROM(0.00)[bounces-514-lists,linux-ppp=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-515-lists,linux-ppp=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,gmail.com,huawei.com,debian.org,linutronix.de,ozlabs.org,uls.co.za,workingcode.com,intel.com];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[3];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[qingfang.deng@linux.dev,linux-ppp@vger.kernel.org];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-ppp,netdev];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 543B53D53A3
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[horms@kernel.org,linux-ppp@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-ppp,netdev];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:email]
+X-Rspamd-Queue-Id: BA1323DABBD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-As we previously did to ppp_disconnect_channel(), also move
-ppp_unbridge_channels() before pch->chan is set to NULL in
-ppp_unregister_channel().
+On Wed, Apr 08, 2026 at 10:42:39AM +0800, Qingfang Deng wrote:
+> RFC 2516 Section 7 states that Protocol Field Compression (PFC) is NOT
+> RECOMMENDED for PPPoE. In practice, pppd does not support negotiating
+> PFC for PPPoE sessions, and the current PPPoE driver assumes an
+> uncompressed (2-byte) protocol field. However, the generic PPP layer
+> function ppp_input() is not aware of the negotiation result, and still
+> accepts PFC frames.
+> 
+> If a peer with a broken implementation or an attacker sends a frame with
+> a compressed (1-byte) protocol field, the subsequent PPP payload is
+> shifted by one byte. This causes the network header to be 4-byte
+> misaligned, which may trigger unaligned access exceptions on some
+> architectures.
+> 
+> To reduce the attack surface, drop PPPoE PFC frames. Introduce
+> ppp_skb_is_compressed_proto() helper function to be used in both
+> ppp_generic.c and pppoe.c to avoid open-coding.
+> 
+> Fixes: 224cf5ad14c0 ("ppp: Move the PPP drivers")
 
-ppp_unbridge_channels() calls synchronize_rcu(), so no concurrent RCU
-readers in ppp_channel_bridge_input() can observe the channel after its
-chan pointer is cleared.
+AI generated review points out that the commit cited above only moves code
+around. And thus while it may show up in git annotate as the source
+of the buggy lines of code, actually it predates that commit.
 
-This makes the !pchb->chan check in ppp_channel_bridge_input()
-redundant and can be safely removed.
+AI generated code suggests an earlier commit that adds
+the length check. But I believe that the bug predates that too.
+And that the bug is present, in some form, since the beginning of
+git history, because at that time fields of the ppp header was read without
+taking PFC into account.
 
-Signed-off-by: Qingfang Deng <qingfang.deng@linux.dev>
----
- drivers/net/ppp/ppp_generic.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+So I suggest:
 
-diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-index b097d1b38ac9..3a609d48a424 100644
---- a/drivers/net/ppp/ppp_generic.c
-+++ b/drivers/net/ppp/ppp_generic.c
-@@ -2285,17 +2285,11 @@ static bool ppp_channel_bridge_input(struct channel *pch, struct sk_buff *skb)
- 		goto out_rcu;
- 
- 	spin_lock_bh(&pchb->downl);
--	if (!pchb->chan) {
--		/* channel got unregistered */
--		kfree_skb(skb);
--		goto outl;
--	}
- 
- 	skb_scrub_packet(skb, !net_eq(pch->chan_net, pchb->chan_net));
- 	if (!pchb->chan->ops->start_xmit(pchb->chan, skb))
- 		kfree_skb(skb);
- 
--outl:
- 	spin_unlock_bh(&pchb->downl);
- out_rcu:
- 	rcu_read_unlock();
-@@ -2997,6 +2991,8 @@ ppp_unregister_channel(struct ppp_channel *chan)
- 	 * the channel's start_xmit or ioctl routine before we proceed.
- 	 */
- 	ppp_disconnect_channel(pch);
-+	ppp_unbridge_channels(pch);
-+
- 	down_write(&pch->chan_sem);
- 	spin_lock_bh(&pch->downl);
- 	pch->chan = NULL;
-@@ -3008,8 +3004,6 @@ ppp_unregister_channel(struct ppp_channel *chan)
- 	list_del(&pch->list);
- 	spin_unlock_bh(&pn->all_channels_lock);
- 
--	ppp_unbridge_channels(pch);
--
- 	pch->file.dead = 1;
- 	wake_up_interruptible(&pch->file.rwait);
- 
--- 
-2.43.0
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+
+Unless there is other review you probably don't need to repost just
+to address this.
+
+> Signed-off-by: Qingfang Deng <qingfang.deng@linux.dev>
+> ---
+> v2: retarget to net, and add a helper function
+>  https://lore.kernel.org/netdev/20260403083926.68320-1-qingfang.deng@linux.dev/
+
+Reviewed-by: Simon Horman <horms@kernel.org>
 
 
