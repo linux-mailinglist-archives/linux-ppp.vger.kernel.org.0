@@ -1,162 +1,101 @@
-Return-Path: <linux-ppp+bounces-531-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-532-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WPi/HDVY32n1RwAAu9opvQ
-	(envelope-from <linux-ppp+bounces-531-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Wed, 15 Apr 2026 11:19:49 +0200
+	id SLm2M9OV32leWQAAu9opvQ
+	(envelope-from <linux-ppp+bounces-532-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Wed, 15 Apr 2026 15:42:43 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C38654027AD
-	for <lists+linux-ppp@lfdr.de>; Wed, 15 Apr 2026 11:19:48 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A22404F2A
+	for <lists+linux-ppp@lfdr.de>; Wed, 15 Apr 2026 15:42:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D7D843121241
-	for <lists+linux-ppp@lfdr.de>; Wed, 15 Apr 2026 09:16:32 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B36653010B6F
+	for <lists+linux-ppp@lfdr.de>; Wed, 15 Apr 2026 13:42:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 601DF31960B;
-	Wed, 15 Apr 2026 09:16:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 389663AB28F;
+	Wed, 15 Apr 2026 13:42:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WPd509RE"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eBiP7Kuf"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635C03290A0
-	for <linux-ppp@vger.kernel.org>; Wed, 15 Apr 2026 09:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8213A7591
+	for <linux-ppp@vger.kernel.org>; Wed, 15 Apr 2026 13:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776244592; cv=none; b=CF+yzgv9tkXbkWcH4BONfE54885VAoYpIR6Ni2lkFTy8yyvyWPIDZHEZQvfEjOc2BrAyozxWNSzkhAA/Bg6B7QmptXuCC3/HqIakUH0WEOGsYBQ/PslREnSlsRI+yhriqb8EVk3bjixlbhS59OHPURCqLNf2g9iA2qJ1h/sZu5c=
+	t=1776260560; cv=none; b=RyxaI5ZwABbMiAhvofA8ldZ2kiRTNiDR2l3RKtW06vmuKiKpHXdelhTNX3vyxU7e2EDq3Kuh8TbzuWrYrrXUxxzXbeOWO6+Zrvf9cVl3THdGTn2kH9ChSZSiGw0etUNWAht263OFhwsiRHzJp3BTfZ/vP2c07rhBwTnyZaWa3RM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776244592; c=relaxed/simple;
-	bh=j4lFk/+qPXA6eEIINMAlpfhUyBqIoNeTBMMGZLESU/4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hfECMuCpkYSWHm/+M/CclL+4PbjrTQ/+oWjVFveRrAM9pdl2k3uxgDIJpGmpNCIkZDGRuzoOps9At1Pm5Ok5iVc8LVtcpSsqAy9CpIyeSGi39ymwF6fodzdf62VhuQeljWEZiZ4wMRHPweiHgoIlAD+fahY/LXDG6l+tkFVpOeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WPd509RE; arc=none smtp.client-ip=95.215.58.172
+	s=arc-20240116; t=1776260560; c=relaxed/simple;
+	bh=yXz3IHmHw32KcF6mPZgwa4GmacNrE3CcrPZo91cUb7Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=c6NhaB/GNDjghIDFdZ5bhKPf6fl/1etNoZpa1RBx4xiAoiECRBe/MPXtqPsKiv9xF3AkH4RNg5ScK1U3Nv/2yQNxCROlfGUfYkahbm0SM2/BpzTMEItkvTQTW8oNo7zarKktfIzNxpGBNQ/CfqsZMUTGskAvpfMJG+2/AWzL7gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eBiP7Kuf; arc=none smtp.client-ip=95.215.58.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+Message-ID: <e1fd74dd-4fd5-4a67-b4c5-5911395b9dbe@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776244588;
+	t=1776260547;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=jm2OTrB1IC4L+3C9wJ4DJw6F0AdGiQYFZiRAbNrcD70=;
-	b=WPd509RE6lp2b+OTbhpEbapnpR6N34LbMIueBdCgb89IWwy8E36ChS4JYQznXoYCxzK5P9
-	CX/JFhBZhiopRUiFRhRodcYoKPgpsYrWClgOxKD9zJpsGwL8SbVJKGd/dl1SXhGD6z1Ldb
-	ZlIyXqUpwHGiNqSneD9lsRycMMMhHMc=
-From: Qingfang Deng <qingfang.deng@linux.dev>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Qingfang Deng <qingfang.deng@linux.dev>,
-	Kees Cook <kees@kernel.org>,
-	Guillaume Nault <gnault@redhat.com>,
-	Eric Woudstra <ericwouds@gmail.com>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Paul Mackerras <paulus@ozlabs.org>,
-	linux-ppp@vger.kernel.org,
-	Jaco Kroon <jaco@uls.co.za>,
-	James Carlson <carlsonj@workingcode.com>,
-	Dianne Skoll <dianne@skoll.ca>,
-	Denys Fedoryshchenko <nuclearcat@nuclearcat.com>
-Subject: [RFC PATCH net-next] pppoe: drop getsockname() syscall
-Date: Wed, 15 Apr 2026 17:16:12 +0800
-Message-ID: <20260415091614.266198-1-qingfang.deng@linux.dev>
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O5oIioMHr7aD6sCHzsChx22C5Y/zbhyOkdBb96sokfI=;
+	b=eBiP7Kuf/sIaaOhuCg3k3OZvoT7dcRd0/qBKbsngdMPrh6MvmlNlA8LHbWNMQhOxqKChTG
+	uVkBjGh9QJTnHROFAoHdBs0pJssriDcDt5ytgFR7tzUE0FR2p0HVcIEOjyq2O6xxq2d7EX
+	jhwHDx27h1Gq6UhhOKRoXos0jJ1umsU=
+Date: Wed, 15 Apr 2026 21:42:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v6 1/2] flow_dissector: do not dissect PPPoE PFC
+ frames
+To: linux-ppp@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260415022456.141758-1-qingfang.deng@linux.dev>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Qingfang Deng <qingfang.deng@linux.dev>
+In-Reply-To: <20260415022456.141758-1-qingfang.deng@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-531-lists,linux-ppp=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[17];
+	TAGGED_FROM(0.00)[bounces-532-lists,linux-ppp=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,linux.dev,gmail.com,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[linux.dev:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[qingfang.deng@linux.dev,linux-ppp@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	NEURAL_HAM(-0.00)[-0.999];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-ppp,netdev];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:email,linux.dev:dkim,linux.dev:mid]
-X-Rspamd-Queue-Id: C38654027AD
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-ppp];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:dkim,linux.dev:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+X-Rspamd-Queue-Id: 81A22404F2A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The getsockname syscall is not used by pppd. It also has two flaws:
-1. It does not hold the socket lock, so if the struct is being changed
-   in pppoe_connect() simultaneously, it may see partial updates.
-2. If the lower network device is renamed, this operation still returns
-   the original name.
-
-Given it is unused and buggy, remove the syscall.
-
-Signed-off-by: Qingfang Deng <qingfang.deng@linux.dev>
----
-Note: sent as RFC, since net-next is closed.
-
- drivers/net/ppp/pppoe.c | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
-
-diff --git a/drivers/net/ppp/pppoe.c b/drivers/net/ppp/pppoe.c
-index d546a7af0d54..0d64a16715e2 100644
---- a/drivers/net/ppp/pppoe.c
-+++ b/drivers/net/ppp/pppoe.c
-@@ -688,22 +688,6 @@ static int pppoe_connect(struct socket *sock, struct sockaddr_unsized *uservaddr
- 	goto end;
- }
- 
--static int pppoe_getname(struct socket *sock, struct sockaddr *uaddr,
--		  int peer)
--{
--	int len = sizeof(struct sockaddr_pppox);
--	struct sockaddr_pppox sp;
--
--	sp.sa_family	= AF_PPPOX;
--	sp.sa_protocol	= PX_PROTO_OE;
--	memcpy(&sp.sa_addr.pppoe, &pppox_sk(sock->sk)->pppoe_pa,
--	       sizeof(struct pppoe_addr));
--
--	memcpy(uaddr, &sp, len);
--
--	return len;
--}
--
- static int pppoe_ioctl(struct socket *sock, unsigned int cmd,
- 		unsigned long arg)
- {
-@@ -1049,7 +1033,7 @@ static const struct proto_ops pppoe_ops = {
- 	.connect	= pppoe_connect,
- 	.socketpair	= sock_no_socketpair,
- 	.accept		= sock_no_accept,
--	.getname	= pppoe_getname,
-+	.getname	= sock_no_getname,
- 	.poll		= datagram_poll,
- 	.listen		= sock_no_listen,
- 	.shutdown	= sock_no_shutdown,
--- 
-2.43.0
-
+The patch state is "Changes Requested" in patchwork but I haven't 
+received any feedback. Was it set by mistake?
 
