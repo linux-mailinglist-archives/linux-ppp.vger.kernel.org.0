@@ -1,179 +1,231 @@
-Return-Path: <linux-ppp+bounces-552-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-553-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eJMOO+8b82kLxQEAu9opvQ
-	(envelope-from <linux-ppp+bounces-552-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Thu, 30 Apr 2026 11:07:59 +0200
+	id oIFQLm8i82nIxQEAu9opvQ
+	(envelope-from <linux-ppp+bounces-553-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Thu, 30 Apr 2026 11:35:43 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCBC49FA3A
-	for <lists+linux-ppp@lfdr.de>; Thu, 30 Apr 2026 11:07:59 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F59249FE56
+	for <lists+linux-ppp@lfdr.de>; Thu, 30 Apr 2026 11:35:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D0F9430293DB
-	for <lists+linux-ppp@lfdr.de>; Thu, 30 Apr 2026 09:06:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8CA70300E387
+	for <lists+linux-ppp@lfdr.de>; Thu, 30 Apr 2026 09:34:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAE11346AC3;
-	Thu, 30 Apr 2026 09:06:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A30D39A054;
+	Thu, 30 Apr 2026 09:34:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FpOLyU0m"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Al/tUgIx";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="OiXgsBrY"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B9036C0CE
-	for <linux-ppp@vger.kernel.org>; Thu, 30 Apr 2026 09:06:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B983932FA
+	for <linux-ppp@vger.kernel.org>; Thu, 30 Apr 2026 09:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777539976; cv=none; b=hMLj+Y1urfg3xsv8WrfW8F0iL2p1ox2jDUNqiZIsb/P9uv76M8Bl8wzsN7O6ljtAK25P4bkbnChg4HUCGKMaUndUQNk404S6Zh0BjHAHehCX0RnST5SnC60Sd/c0M/yQKU/QTXSzzdipHqwFZvKAySwftAuCcCq+GYbiltapRr8=
+	t=1777541666; cv=none; b=bezYWsBDFQEPvVXV/e8gp2mQ4FkQQLBhaakdncatzAt2+gMUAcvwGMe3Phn0Pcbk8KR9PNjJtLnFk0/nQ/KjBhDpP5sB36cMex7BpXTeNrMrF1ZuD2LiZ9HkeTFR+Af6Pqbh+RXKPBRUwQEq61XgoMqhDT8d/cr3AK8rIJiYQWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777539976; c=relaxed/simple;
-	bh=O0kNZNME6liz/PDiFhx17G1oocdPgEZotIhQ2QvF/Sw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H0jGabQOBTYES9s96MpI/XN3gN3+G5exAKIKePqQuNbA5CEft3Yu6mozlODpCL1O9eUQkqjC3b1QjvxSlwRUJoLvTFzl8UvjOClKTi4hxker6B+n9D8WoZV7AB4eUaccH6U8yigbHsUPDQZey7eGj8eNCkrc+ISpZurfL/e0pgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FpOLyU0m; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777539972;
+	s=arc-20240116; t=1777541666; c=relaxed/simple;
+	bh=6TManpl4gcqzmqAn+8fUAGVRHhuyH7T7ouTpR8dqiSM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=icVkcBDoERPe53AmHY3BFoS3jnt6a3ULcrHlpvOqH7jA/u9LEIZ+CsNPpZC+PQBMrsecSYcMZTlJ6SELgrAyLDjMP1ACSl1cZVSl7Iyo840XFjrdN5edHv2wjY485HJbA3cS0bvVEHoDY28aWYHftjyNCOTSg4XSHTL0tFp7oJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Al/tUgIx; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=OiXgsBrY; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777541664;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=psV3t89J4TYPxkXy1/CDffDJ8IP5u3Jv6+y4DGwPsJ4=;
-	b=FpOLyU0mpZPwFkcF6k1NUo3Uc6UvCelLgc/8buJxDcA/i8iclap2bvE7G1lROhJ+qO3ItZ
-	hM5eIImbNKg5EpmZMVix/ZWABNMyvD8d2/gnrUQWT/8tl1+kuRlb8yvNyrB/9nLpwD0s1U
-	PfE1S+m/zlP1wtYgB9mYVE6+4ZuVWCQ=
-From: Qingfang Deng <qingfang.deng@linux.dev>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-ppp@vger.kernel.org,
-	Qingfang Deng <qingfang.deng@linux.dev>
-Subject: [PATCH net-next 3/3] docs: update ppp_generic.rst for API changes
-Date: Thu, 30 Apr 2026 17:05:23 +0800
-Message-ID: <20260430090532.244758-3-qingfang.deng@linux.dev>
-In-Reply-To: <20260430090532.244758-1-qingfang.deng@linux.dev>
-References: <20260430090532.244758-1-qingfang.deng@linux.dev>
+	bh=RVHyDFwjO6klzKvDUezrJjMUwHWUlJqJfALG2/aYsdI=;
+	b=Al/tUgIxpfzmiDVSGlueEt0G5x4dxbrfRAQeZUqr0ra8pCXbf8wt8noSNOIuDwHiR3nLBN
+	cF4LG0OiGK0ZLuGKjvYIUD894XC9HWjW6MxLrbJF6nhIUGDQOPyHIyw5v6sDMZG9RmFqNu
+	rXzTcXRdxSzOYavlVCMjE9Yq5ERtYtI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-384-JeUa9wsFNG2g70tqQEE7Lw-1; Thu, 30 Apr 2026 05:34:22 -0400
+X-MC-Unique: JeUa9wsFNG2g70tqQEE7Lw-1
+X-Mimecast-MFC-AGG-ID: JeUa9wsFNG2g70tqQEE7Lw_1777541661
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-43d1dea12aaso618377f8f.1
+        for <linux-ppp@vger.kernel.org>; Thu, 30 Apr 2026 02:34:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1777541661; x=1778146461; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RVHyDFwjO6klzKvDUezrJjMUwHWUlJqJfALG2/aYsdI=;
+        b=OiXgsBrY+SZzSz1ZH+nyxFo5mHQ96KWjIOiiNG/RxX83uiZbip9eRrJti1ZIPYy4eO
+         5Wgt4sFhZAelDNKRXfYeN88aVfBDwT35NSnRqqMnWE2g/Q+2L0ZHM6IYQDsfE+jU+rw/
+         V+UsuiIWYO2aMAR52/XPfuXOrO4ASROqG0yeJ0rseO4NEak8N33EuzGHSqV617vcXXCj
+         ATfi3NohVHrFdl1ka36Wk64UUtDcfnSg+05qhUztgFZuufTFrkYmFD+cg88wql2QAncK
+         OQPVlzk86vYWvqPRfrzYzEmMOWyRtQL7rJ5edu5mLJenYOXHxvC+qt7X1Vh4FZeGUYpG
+         Btuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777541661; x=1778146461;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RVHyDFwjO6klzKvDUezrJjMUwHWUlJqJfALG2/aYsdI=;
+        b=by1d+VFz896Pypue6I5jkfclDaQD4XL9o1EdPNpQlchrUlKaD953E3tn89S2eSNe9n
+         dH2BHZIwwD6ecW35a2uu3+fRwLetwQ6eoT/ygWhp/5iVSMn3+ZD1Ag5HrYMPSV840Uu8
+         3AzHCCA3Ibq6zY9Wily5e/T/0qTgYWLmzoKUNU5x1Ng8QQglvCW2kJPgrZEnTdubQkMK
+         R9an0oa3OWl78Mjgxi5D/cyo+MzRsqSlbR0LQpUC0YcPAsFvT/O16X56jbz9oTH5mzC5
+         prXtdTmGk8Je9q8JKxzuYGC/9MsuPQZRIspQXMn02OT2ixfCyY9W8sJUULppAe2psBzA
+         Y17g==
+X-Gm-Message-State: AOJu0YxpB4sQQmWPnKiozy1H4eHuyQwc+Fc0AyQ9wjZcE7neqK9gTyNU
+	In2M8BY0+76T7J0eIeL7IAAPmc/sk9n0x66P8QUxsgjVv2rlmiEAeJTHibdWo+RwegUv1iTi43s
+	uSNc5D4i1odW6lfPT61X+6t4WjNKJUocUl04vzAT1qdObuDR0azow2/Z0KnYRZA==
+X-Gm-Gg: AeBDiesLjbW2CWhO+YEe+gDoV8m89a/5IUKAkoxJXFYBUAtsBIcj7mznA6aB+Dn43Q+
+	TEBTVYATDGO05+GLrB8ahavT8OIuxO/Fp+lrM91qxOm9pD6ylbFWr0+MVWgpBhbwHxoxbAHK98t
+	jAUVIulNsKUz1HYdYANtwH5AZ0jv4/DQwXkVO6s8Izs9GddZS3/sADHWhb5DWKQfAMsKEJ6wL9Y
+	kdDvvUVZ1pKlEk0azRh5zwtXJz93Vnhl/TJMHzUOP9qiDEuM81norB1J4pxetBy2PET1EYXyQRg
+	8D7XNtEOQFwAx2dpLg7FicJ7SkJySLD39sEVNxVFRUGVq6jlmHzULyYu8oQ75t+IJgi9x7P3EVY
+	h36UHPZCBXbC+wgYB8BJS9n/LUvHkyr7Uv5BY6s/sl0fBGAEfhERPvcrrmPVrxTYE/g==
+X-Received: by 2002:a05:6000:40dd:b0:447:55b5:d532 with SMTP id ffacd0b85a97d-4493ec62a60mr3634737f8f.37.1777541660745;
+        Thu, 30 Apr 2026 02:34:20 -0700 (PDT)
+X-Received: by 2002:a05:6000:40dd:b0:447:55b5:d532 with SMTP id ffacd0b85a97d-4493ec62a60mr3634660f8f.37.1777541660114;
+        Thu, 30 Apr 2026 02:34:20 -0700 (PDT)
+Received: from [192.168.88.32] ([150.228.93.27])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b76e5c0csm11853942f8f.29.2026.04.30.02.34.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2026 02:34:19 -0700 (PDT)
+Message-ID: <9d7f1bbc-155d-4c18-bcf7-732ebe4cbf67@redhat.com>
+Date: Thu, 30 Apr 2026 11:34:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Rspamd-Queue-Id: 8CCBC49FA3A
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v6 1/2] net: pppoe: implement GRO/GSO support
+To: Qingfang Deng <dqfext@gmail.com>,
+ Michal Ostrowski <mostrows@earthlink.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, David Ahern <dsahern@kernel.org>,
+ Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: linux-ppp@vger.kernel.org, Felix Fietkau <nbd@nbd.name>
+References: <20260326081127.61229-1-dqfext@gmail.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20260326081127.61229-1-dqfext@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 0F59249FE56
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-553-lists,linux-ppp=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,earthlink.net,lunn.ch,davemloft.net,google.com,kernel.org,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-552-lists,linux-ppp=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_COUNT_THREE(0.00)[3];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[qingfang.deng@linux.dev,linux-ppp@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[linux.dev:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-ppp];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linux.dev:email,linux.dev:dkim,linux.dev:mid]
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pabeni@redhat.com,linux-ppp@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-ppp,netdev];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 
-Document the new ppp_channel_conf struct and ppp_channel lifecycle
-management changes.
+On 3/26/26 9:11 AM, Qingfang Deng wrote:
+> +static int pppoe_gro_complete(struct sk_buff *skb, int nhoff)
+> +{
+> +	struct pppoe_hdr *phdr = (struct pppoe_hdr *)(skb->data + nhoff);
+> +	__be16 type = pppoe_hdr_proto(phdr);
+> +	struct packet_offload *ptype;
+> +	unsigned int len;
+> +
+> +	ptype = gro_find_complete_by_type(type);
+> +	if (!ptype)
+> +		return -ENOENT;
+> +
+> +	len = skb->len - (nhoff + sizeof(*phdr));
+> +	len = min(len, 0xFFFFU);
 
-Assisted-by: Gemini:gemini-3-flash
-Signed-off-by: Qingfang Deng <qingfang.deng@linux.dev>
----
- Documentation/networking/ppp_generic.rst | 33 ++++++++++--------------
- 1 file changed, 13 insertions(+), 20 deletions(-)
+AFAICS, when the computed len is >= 64K, and the above min() will
+truncate it, later pppoe_rcv() will drop the packet.
 
-diff --git a/Documentation/networking/ppp_generic.rst b/Documentation/networking/ppp_generic.rst
-index 5a10abce5964..8d63f997fb3f 100644
---- a/Documentation/networking/ppp_generic.rst
-+++ b/Documentation/networking/ppp_generic.rst
-@@ -124,18 +124,19 @@ presented to the start_xmit() function contain only the 2-byte
- protocol number and the data, and the skbuffs presented to ppp_input()
- must be in the same format.
- 
--The channel must provide an instance of a ppp_channel struct to
--represent the channel.  The channel is free to use the ``private`` field
--however it wishes.  The channel should initialize the ``mtu`` and
--``hdrlen`` fields before calling ppp_register_channel() and not change
--them until after ppp_unregister_channel() returns.  The ``mtu`` field
--represents the maximum size of the data part of the PPP frames, that
--is, it does not include the 2-byte protocol number.
-+The channel must provide an instance of a ppp_channel_conf struct to
-+describe the channel during registration.  The generic layer will
-+allocate a ppp_channel struct and return a pointer to it.  The
-+ppp_channel struct is opaque to the channel driver.  The ``mtu`` field
-+(if multilink is enabled) represents the maximum size of the data part
-+of the PPP frames, that is, it does not include the 2-byte protocol
-+number.  ppp_channel_update_mtu() can be called by the channel driver
-+to update the ``mtu`` field once LCP MRU negotiation is complete.
- 
- If the channel needs some headroom in the skbuffs presented to it for
- transmission (i.e., some space free in the skbuff data area before the
- start of the PPP frame), it should set the ``hdrlen`` field of the
--ppp_channel struct to the amount of headroom required.  The generic
-+ppp_channel_conf struct to the amount of headroom required.  The generic
- PPP layer will attempt to provide that much headroom but the channel
- should still check if there is sufficient headroom and copy the skbuff
- if there isn't.
-@@ -199,20 +200,12 @@ The PPP generic layer has been designed to be SMP-safe.  Locks are
- used around accesses to the internal data structures where necessary
- to ensure their integrity.  As part of this, the generic layer
- requires that the channels adhere to certain requirements and in turn
--provides certain guarantees to the channels.  Essentially the channels
--are required to provide the appropriate locking on the ppp_channel
--structures that form the basis of the communication between the
--channel and the generic layer.  This is because the channel provides
--the storage for the ppp_channel structure, and so the channel is
--required to provide the guarantee that this storage exists and is
--valid at the appropriate times.
-+provides certain guarantees to the channels.  The generic layer manages
-+the ppp_channel object, ensuring it exists and is valid while the
-+channel is registered.
- 
- The generic layer requires these guarantees from the channel:
- 
--* The ppp_channel object must exist from the time that
--  ppp_register_channel() is called until after the call to
--  ppp_unregister_channel() returns.
--
- * No thread may be in a call to any of ppp_input(), ppp_input_error(),
-   ppp_output_wakeup(), ppp_channel_index() or ppp_unit_number() for a
-   channel at the time that ppp_unregister_channel() is called for that
-@@ -453,4 +446,4 @@ an interface unit are:
-   fragments is disabled.  This ioctl is only available if the
-   CONFIG_PPP_MULTILINK option is selected.
- 
--Last modified: 7-feb-2002
-+Last modified: 16-apr-2026
--- 
-2.43.0
+I think you should prevent such case at GRO time, flushing the chain
+when it grows too big.
+
+> +	phdr->length = cpu_to_be16(len);
+> +
+> +	return INDIRECT_CALL_INET(ptype->callbacks.gro_complete,
+> +				  ipv6_gro_complete, inet_gro_complete,
+> +				  skb, nhoff + PPPOE_SES_HLEN);
+> +}
+> +
+> +static struct sk_buff *pppoe_gso_segment(struct sk_buff *skb,
+> +					 netdev_features_t features)
+> +{
+> +	unsigned int pppoe_hlen = sizeof(struct pppoe_hdr) + 2;
+> +	struct sk_buff *segs = ERR_PTR(-EINVAL);
+> +	u16 mac_offset = skb->mac_header;
+> +	struct packet_offload *ptype;
+> +	u16 mac_len = skb->mac_len;
+> +	struct pppoe_hdr *phdr;
+> +	__be16 orig_type, type;
+> +	int len, nhoff;
+> +
+> +	skb_reset_network_header(skb);
+> +	nhoff = skb_network_header(skb) - skb_mac_header(skb);
+> +
+> +	if (unlikely(!pskb_may_pull(skb, pppoe_hlen)))
+> +		goto out;
+> +
+> +	phdr = (struct pppoe_hdr *)skb_network_header(skb);
+> +	type = pppoe_hdr_proto(phdr);
+> +	ptype = gro_find_complete_by_type(type);
+> +	if (!ptype)
+> +		goto out;
+> +
+> +	orig_type = skb->protocol;
+> +	__skb_pull(skb, pppoe_hlen);
+> +	segs = ptype->callbacks.gso_segment(skb, features);
+> +	if (IS_ERR_OR_NULL(segs)) {
+> +		skb_gso_error_unwind(skb, orig_type, pppoe_hlen, mac_offset,
+> +				     mac_len);
+> +		goto out;
+> +	}
+> +
+> +	skb = segs;
+> +	do {
+> +		phdr = (struct pppoe_hdr *)(skb_mac_header(skb) + nhoff);
+> +		len = skb->len - (nhoff + sizeof(*phdr));
+> +		phdr->length = cpu_to_be16(len);
+> +		skb->network_header = (u8 *)phdr - skb->head;
+
+I understand is quite late for the following question, but...
+The network headers points to the pppoe hdr. Should it point to the
+actual IP hdr?
+
+Why not? A comment in the code or in the commit message would be
+appreciated.
+
+/P
 
 
