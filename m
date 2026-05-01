@@ -1,191 +1,385 @@
-Return-Path: <linux-ppp+bounces-558-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-559-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cG9oCOCC82kY4wEAu9opvQ
-	(envelope-from <linux-ppp+bounces-558-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Thu, 30 Apr 2026 18:27:12 +0200
+	id GKkmIj8j9Gma+gEAu9opvQ
+	(envelope-from <linux-ppp+bounces-559-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Fri, 01 May 2026 05:51:27 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A214A5AB3
-	for <lists+linux-ppp@lfdr.de>; Thu, 30 Apr 2026 18:27:11 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE714A9F88
+	for <lists+linux-ppp@lfdr.de>; Fri, 01 May 2026 05:51:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6CA113033AAB
-	for <lists+linux-ppp@lfdr.de>; Thu, 30 Apr 2026 16:23:11 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4F95A300A31D
+	for <lists+linux-ppp@lfdr.de>; Fri,  1 May 2026 03:51:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F333B46AF1E;
-	Thu, 30 Apr 2026 16:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF7422C08AB;
+	Fri,  1 May 2026 03:51:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="L3ovhBWz";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Bj0/7EFE"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sCP0QUSU"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E844611E8
-	for <linux-ppp@vger.kernel.org>; Thu, 30 Apr 2026 16:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F4C2BEC5E
+	for <linux-ppp@vger.kernel.org>; Fri,  1 May 2026 03:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777566184; cv=none; b=PGYnknBeqzJMOxzcKDfse2scWhOrhHFq+7hRB6g8Z0S65KuzHx389ZXyKeVWK5tcRtF/Y0W7i5eftMSWA0fpojZWqVRIIoRxVIhG90Vv9ZwMKkuBkb4EhY6HLZq5U6RG7X7dMTvxhsWbSQ+lS38xo/xVS2zc3+Yccuf6k+ZqBbI=
+	t=1777607485; cv=none; b=TnjdB1ofNauaOrLm7ie9HE3o5Twurnz/tjiKSxYd2qywLR8hfkYzXNuFbasT8soT6BWtDGlvQmiYlBrMUKf7KrNXriNUqy2bDkHwIzhT2mYAjmTt5WzedcnMX04tpWo8KbUDbn8vIoMLqQzVGbiQqV4XQM2By8PHydoDCK8fNSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777566184; c=relaxed/simple;
-	bh=K7FRDzKZeTlPZwWQB7S+4RIlk3DjCL2AwjuZeyo+tC0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HwjWACiXhOMaevdOV3zAsgvaKFRM9ukLJkYuqC4OjzpNOEF9XyKPtP2xr0jrML3mkFQXUT71vHA4iDkCHpmPOMeZx+EMJjv5dmB2vpLoi9fRwLgaq7hJ+qe6z6uhscaT5jgCormciQmDK4Ssd1BuAlRtVP+cWcflgwgsouhevpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=L3ovhBWz; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Bj0/7EFE; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777566182;
+	s=arc-20240116; t=1777607485; c=relaxed/simple;
+	bh=dlkt+QiO00vxIaAOFlgagW/YtIPrertolq2/haQLiUE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h8m1prnnOsYjE32hNWAwejjSmbuCEL0AM7nsjnOoXcfd3Mb/uN+E6kFXrn/B811gv3OfqrfpShICG03iQNHKoUwj9gE4Tq1S3/0zBUpqsXUWY+xFnEZkspaa1zK/a+lHeweQfRhEoW6p+w9GMWXxDjrwchOUyW9p1+OMzEbjGC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sCP0QUSU; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1777607481;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mGVTGRbGFblsakPRXn91Stl9dK67n1p85hK2XKk8RFw=;
-	b=L3ovhBWzLsAoAS+dzOQS8gbosnv7oYx3pppsbooEJan2UJg0dpd2mzGR5mizh1HYY2j9py
-	Wqyn+BTs5b7FguHi2H7L5E21iH6bbVaHIAGjGGnZ+cvnFaey0zaJwnaji3NjK27cLGSF7t
-	cYk6HLZXQFA/fsv1F0frqj2FW+u+i4I=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-81-ujsz8rXGMuyA73VyNPQrjw-1; Thu, 30 Apr 2026 12:22:59 -0400
-X-MC-Unique: ujsz8rXGMuyA73VyNPQrjw-1
-X-Mimecast-MFC-AGG-ID: ujsz8rXGMuyA73VyNPQrjw_1777566179
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50d812c898cso26710281cf.1
-        for <linux-ppp@vger.kernel.org>; Thu, 30 Apr 2026 09:22:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1777566179; x=1778170979; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mGVTGRbGFblsakPRXn91Stl9dK67n1p85hK2XKk8RFw=;
-        b=Bj0/7EFEXTw8wZ8OGSi8eHMpTaVpDFwz1UNDMnFacZl9tvvxi0p5rH0KGsbICO/ycB
-         f95vDPPU06xNBCDQ9LXtFhuMWSg8egFnT5jXQ9rKeG+sI1Tm9y1erTcJPnIcQrduOkhH
-         WHRauEr6oP2d+uHjxxttUFG63Wmr0+sSskiB/7qMLAvg51gHo42dV0CqF+AgpMwQDUBt
-         AvQNYJgNKyzrSBfRZA9U+z2XqxORVErQGDt/KiRcSRcDvQudWjEx9iq62XCCgz2LtZc/
-         Ydt5tx9W1FSMx+KI5hhZsI+l/S7AyKa7yn/vzvvrv+zIjCZn94WO9m0JKMXGRKiVxXZ0
-         0/dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777566179; x=1778170979;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mGVTGRbGFblsakPRXn91Stl9dK67n1p85hK2XKk8RFw=;
-        b=E9449yozwMjy/7eF494BphEGsY32Y4WbTe9GK5veGfBBrmriR4C5l/f+Mm5t3ysky1
-         xPUtmRNonNAmKDqEpiHZAZW1JoBl4ePr5SEFDD22Z8V/+nSXwwmIXNghIABQmypqO7Wu
-         Ki/qrEF9EJ6oUP/TygxzmXH3KSrniJF+uKKPmcFOjUDyXIZeyyyvqR7bBb2sMg2kckw2
-         PIIFpLgHJNwdp27SDlgHMXUrA1l7KWATMvpakIVhJpv+V/g+XKDB/w/TI6eAAjPKsI6V
-         31mteNZI1WNjmnyD5nz14UFMKG4DVL1CgAeqQE2M6b9+arPM98SJS1KK5mOkcipkjMKM
-         Ohow==
-X-Forwarded-Encrypted: i=1; AFNElJ9/CqvL4dUK1WD1P5p2GMDdAqW8GaCj9mjZ2nmbslNfBkWD/Iu2gUvDU1ijPnvQY5HvZAKf1wIuoog=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznpfA9PL0GGfr/R8w/PyXGKQ0AKKsQIHKGJtYoZRWcR3eMNwEM
-	xc0iHWzjNdJ5BzfSV/wMeUl/rCmkK36d1XA83oDAmPCSbKhhupTqcFXJWmMjR9dOOpo6g0wcfaW
-	1k8m1MR00ifisCbYKJaao98cosqib6PzZlVY5321JfU8gbFwiyR6DfOmK+YK7pw==
-X-Gm-Gg: AeBDietDi4IxiMhkjH3b+gxCip+Zjr3/Qrm8E7ARcOL9c3maCYLpKKMNk3VyB00aeEg
-	EvSmdZN3sjOAy9NReJLXqsA0/dx7Q1w9vCskAs/BA/5wNx2gcAH5nBJgxImE6Gh4L7BmX/hwTi1
-	r46aPwytG8KnMblt3O5t1re0feLN43wMF2Kkg0UjILuwgZ7WlHe/4iyEWsqtbberOoLfN7bPz/R
-	xvYX5hP1v02+pon2TLvBtRIVifUqmwfMcIsFrg4tjAXDJQyn9bCe+jca49AP/eD/DtKeXiOmEvz
-	wre06hnJFZ+cvXMpCqATb/dQlwPQiHPvJt4JsRcCYMURc5VxGOMfd2+FarU21t6QjsilFiwPVLf
-	rW20F1cCD3NJQzuv3VMYOPL7TSViEPKTrfKp1J2lTD//Iv+9AHGRZeLEOgrG/xgz/HQ==
-X-Received: by 2002:ac8:7d05:0:b0:50d:84a7:72d0 with SMTP id d75a77b69052e-5102ad9b157mr48846771cf.36.1777566178707;
-        Thu, 30 Apr 2026 09:22:58 -0700 (PDT)
-X-Received: by 2002:ac8:7d05:0:b0:50d:84a7:72d0 with SMTP id d75a77b69052e-5102ad9b157mr48846331cf.36.1777566178268;
-        Thu, 30 Apr 2026 09:22:58 -0700 (PDT)
-Received: from [192.168.88.32] ([150.228.93.27])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5103b71c304sm1685121cf.29.2026.04.30.09.22.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 09:22:57 -0700 (PDT)
-Message-ID: <40a6d40e-4312-4a1b-bf90-9e009b29de68@redhat.com>
-Date: Thu, 30 Apr 2026 18:22:54 +0200
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LQ9bPTXyrEESm6yzy/AxiGKFwgail6PLvtf/jg12Cn4=;
+	b=sCP0QUSUvG09Qdog/oX//1wEdHKuQmh0AAbCf/D7c53VsI7ZnVEeSF6MD3PUg7whSKNPZ3
+	IBr1cw9H5TrfJvGU10P5lNMgcFuf0ieinFNjKHmXaH/wXjeslVTHJsMOMGEgE+4aKzPkA0
+	DDB+ZFRJEyZkxVLcSQ6+IcLC7gISDBU=
+From: Qingfang Deng <qingfang.deng@linux.dev>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	David Ahern <dsahern@kernel.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Qingfang Deng <qingfang.deng@linux.dev>,
+	Guillaume Nault <gnault@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	Felix Fietkau <nbd@nbd.name>,
+	Eric Woudstra <ericwouds@gmail.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-ppp@vger.kernel.org
+Subject: [PATCH net-next v8 1/2] net: pppoe: implement GRO/GSO support
+Date: Fri,  1 May 2026 11:50:50 +0800
+Message-ID: <20260501035102.293031-1-qingfang.deng@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v6 1/2] net: pppoe: implement GRO/GSO support
-To: Pablo Neira Ayuso <pablo@netfilter.org>, Qingfang Deng <dqfext@gmail.com>
-Cc: Felix Fietkau <nbd@nbd.name>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, David Ahern <dsahern@kernel.org>,
- Simon Horman <horms@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-ppp@vger.kernel.org
-References: <20260326081127.61229-1-dqfext@gmail.com>
- <9d7f1bbc-155d-4c18-bcf7-732ebe4cbf67@redhat.com>
- <CALW65jYB1jWS5LnSxRCrEeCpPfhA8saqbYYfU-LkPh_25gWfsw@mail.gmail.com>
- <afN7_oBICMZ_45Zh@chamomile>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <afN7_oBICMZ_45Zh@chamomile>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 98A214A5AB3
+X-Migadu-Flow: FLOW_OUT
+X-Rspamd-Queue-Id: DEE714A9F88
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-558-lists,linux-ppp=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[netfilter.org,gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-559-lists,linux-ppp=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pabeni@redhat.com,linux-ppp@vger.kernel.org];
+	FREEMAIL_TO(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,nvidia.com,linux.dev,nbd.name,gmail.com,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[qingfang.deng@linux.dev,linux-ppp@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[linux.dev:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-ppp,netdev];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linux.dev:email,linux.dev:dkim,linux.dev:mid]
 
-On 4/30/26 5:57 PM, Pablo Neira Ayuso wrote:
-> On Thu, Apr 30, 2026 at 11:47:57PM +0800, Qingfang Deng wrote:
->> On Thu, Apr 30, 2026 at 5:34 PM Paolo Abeni <pabeni@redhat.com> wrote:
->>>
->>> AFAICS, when the computed len is >= 64K, and the above min() will
->>> truncate it, later pppoe_rcv() will drop the packet.
->>
->> pppoe_rcv() does _not_ drop such packets.
->> The drop condition is "skb->len < ntohs(ph->length)", not the other way around.
->>
->>>> +     skb = segs;
->>>> +     do {
->>>> +             phdr = (struct pppoe_hdr *)(skb_mac_header(skb) + nhoff);
->>>> +             len = skb->len - (nhoff + sizeof(*phdr));
->>>> +             phdr->length = cpu_to_be16(len);
->>>> +             skb->network_header = (u8 *)phdr - skb->head;
->>>
->>> I understand is quite late for the following question, but...
->>> The network headers points to the pppoe hdr. Should it point to the
->>> actual IP hdr?
-> 
-> This is the same with double-tagged-vlan, the network header also
-> points to the inner vlan in the skb payload. Changing this would
-> require to revisit all users in the tree that are already assuming
-> this.
+From: Felix Fietkau <nbd@nbd.name>
 
-Ah right, the relevant GRO stage is running on top of an ethernet device
-and the RX path there resets the NH just after the ethernet one.
+Only handles packets where the pppoe header length field matches the exact
+packet length. Significantly improves rx throughput.
 
-I got lost in the relevant hooking.
+When running NAT traffic through a MediaTek MT7621 devices from a host
+behind PPPoE to a host directly connected via ethernet, the TCP throughput
+that the device is able to handle improves from ~130 Mbit/s to ~630 Mbit/s,
+using fraglist GRO.
 
-This patch (and v7) LGTM, thanks.
+Signed-off-by: Felix Fietkau <nbd@nbd.name>
+Signed-off-by: Qingfang Deng <qingfang.deng@linux.dev>
+---
+v8: no changes
+v7: https://lore.kernel.org/netdev/20260428064717.74794-1-qingfang.deng@linux.dev
+ - Use PPPOE_SES_HLEN macro instead of +2 magic number
+v6: https://lore.kernel.org/netdev/20260326081127.61229-1-dqfext@gmail.com
+ - avoid phdr->length field overflow 
+ - restore skb_is_gso() check
+ - do not register GRO if INET=n
+ - do not check for PPP_IPV6 if IPV6=n
+ - tail call gro_complete
 
-Paolo
+ drivers/net/ppp/pppoe.c | 165 +++++++++++++++++++++++++++++++++++++++-
+ net/ipv4/af_inet.c      |   2 +
+ net/ipv6/ip6_offload.c  |   2 +
+ 3 files changed, 168 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/ppp/pppoe.c b/drivers/net/ppp/pppoe.c
+index bdd61c504a1c..363204e0c49a 100644
+--- a/drivers/net/ppp/pppoe.c
++++ b/drivers/net/ppp/pppoe.c
+@@ -77,6 +77,7 @@
+ #include <net/net_namespace.h>
+ #include <net/netns/generic.h>
+ #include <net/sock.h>
++#include <net/gro.h>
+ 
+ #include <linux/uaccess.h>
+ 
+@@ -409,7 +410,7 @@ static int pppoe_rcv(struct sk_buff *skb, struct net_device *dev,
+ 	if (ppp_skb_is_compressed_proto(skb))
+ 		goto drop;
+ 
+-	if (pskb_trim_rcsum(skb, len))
++	if (!skb_is_gso(skb) && pskb_trim_rcsum(skb, len))
+ 		goto drop;
+ 
+ 	ph = pppoe_hdr(skb);
+@@ -1103,6 +1104,164 @@ static struct pernet_operations pppoe_net_ops = {
+ 	.size = sizeof(struct pppoe_net),
+ };
+ 
++static u16
++compare_pppoe_header(const struct pppoe_hdr *phdr,
++		     const struct pppoe_hdr *phdr2)
++{
++	__be16 proto = *(const __be16 *)(phdr + 1);
++	__be16 proto2 = *(const __be16 *)(phdr2 + 1);
++
++	return (__force u16)((phdr->sid ^ phdr2->sid) | (proto ^ proto2));
++}
++
++static __be16 pppoe_hdr_proto(const struct pppoe_hdr *phdr)
++{
++	__be16 proto = *(const __be16 *)(phdr + 1);
++
++	switch (proto) {
++	case cpu_to_be16(PPP_IP):
++		return cpu_to_be16(ETH_P_IP);
++#if IS_ENABLED(CONFIG_IPV6)
++	case cpu_to_be16(PPP_IPV6):
++		return cpu_to_be16(ETH_P_IPV6);
++#endif
++	default:
++		return 0;
++	}
++}
++
++static struct sk_buff *pppoe_gro_receive(struct list_head *head,
++					 struct sk_buff *skb)
++{
++	const struct packet_offload *ptype;
++	unsigned int hlen, off_pppoe;
++	const struct pppoe_hdr *phdr;
++	struct sk_buff *pp = NULL;
++	struct sk_buff *p;
++	int flush = 1;
++	__be16 type;
++
++	off_pppoe = skb_gro_offset(skb);
++	hlen = off_pppoe + PPPOE_SES_HLEN;
++	phdr = skb_gro_header(skb, hlen, off_pppoe);
++	if (unlikely(!phdr))
++		goto out;
++
++	/* filter for session packets (type:1, ver:1, code:0) */
++	if (*(const __be16 *)phdr != cpu_to_be16(0x1100))
++		goto out;
++
++	/* ignore packets with padding or invalid length */
++	if (skb_gro_len(skb) != be16_to_cpu(phdr->length) + sizeof(*phdr))
++		goto out;
++
++	type = pppoe_hdr_proto(phdr);
++	ptype = gro_find_receive_by_type(type);
++	if (!ptype)
++		goto out;
++
++	flush = 0;
++
++	list_for_each_entry(p, head, list) {
++		const struct pppoe_hdr *phdr2;
++
++		if (!NAPI_GRO_CB(p)->same_flow)
++			continue;
++
++		phdr2 = (const struct pppoe_hdr *)(p->data + off_pppoe);
++		if (compare_pppoe_header(phdr, phdr2))
++			NAPI_GRO_CB(p)->same_flow = 0;
++	}
++
++	skb_gro_pull(skb, PPPOE_SES_HLEN);
++	skb_gro_postpull_rcsum(skb, phdr, PPPOE_SES_HLEN);
++
++	pp = indirect_call_gro_receive_inet(ptype->callbacks.gro_receive,
++					    ipv6_gro_receive, inet_gro_receive,
++					    head, skb);
++
++out:
++	skb_gro_flush_final(skb, pp, flush);
++
++	return pp;
++}
++
++static int pppoe_gro_complete(struct sk_buff *skb, int nhoff)
++{
++	struct pppoe_hdr *phdr = (struct pppoe_hdr *)(skb->data + nhoff);
++	__be16 type = pppoe_hdr_proto(phdr);
++	struct packet_offload *ptype;
++	unsigned int len;
++
++	ptype = gro_find_complete_by_type(type);
++	if (!ptype)
++		return -ENOENT;
++
++	len = skb->len - (nhoff + sizeof(*phdr));
++	len = min(len, 0xFFFFU);
++	phdr->length = cpu_to_be16(len);
++
++	return INDIRECT_CALL_INET(ptype->callbacks.gro_complete,
++				  ipv6_gro_complete, inet_gro_complete,
++				  skb, nhoff + PPPOE_SES_HLEN);
++}
++
++static struct sk_buff *pppoe_gso_segment(struct sk_buff *skb,
++					 netdev_features_t features)
++{
++	struct sk_buff *segs = ERR_PTR(-EINVAL);
++	u16 mac_offset = skb->mac_header;
++	struct packet_offload *ptype;
++	u16 mac_len = skb->mac_len;
++	struct pppoe_hdr *phdr;
++	__be16 orig_type, type;
++	int len, nhoff;
++
++	skb_reset_network_header(skb);
++	nhoff = skb_network_header(skb) - skb_mac_header(skb);
++
++	if (unlikely(!pskb_may_pull(skb, PPPOE_SES_HLEN)))
++		goto out;
++
++	phdr = (struct pppoe_hdr *)skb_network_header(skb);
++	type = pppoe_hdr_proto(phdr);
++	ptype = gro_find_complete_by_type(type);
++	if (!ptype)
++		goto out;
++
++	orig_type = skb->protocol;
++	__skb_pull(skb, PPPOE_SES_HLEN);
++	segs = ptype->callbacks.gso_segment(skb, features);
++	if (IS_ERR_OR_NULL(segs)) {
++		skb_gso_error_unwind(skb, orig_type, PPPOE_SES_HLEN, mac_offset,
++				     mac_len);
++		goto out;
++	}
++
++	skb = segs;
++	do {
++		phdr = (struct pppoe_hdr *)(skb_mac_header(skb) + nhoff);
++		len = skb->len - (nhoff + sizeof(*phdr));
++		phdr->length = cpu_to_be16(len);
++		skb->network_header = (u8 *)phdr - skb->head;
++		skb->protocol = orig_type;
++		skb_reset_mac_len(skb);
++	} while ((skb = skb->next));
++
++out:
++	return segs;
++}
++
++static struct packet_offload pppoe_packet_offload __read_mostly = {
++	.type = cpu_to_be16(ETH_P_PPP_SES),
++	.priority = 20,
++	.callbacks = {
++		.gro_receive = pppoe_gro_receive,
++		.gro_complete = pppoe_gro_complete,
++		.gso_segment = pppoe_gso_segment,
++	},
++};
++
+ static int __init pppoe_init(void)
+ {
+ 	int err;
+@@ -1119,6 +1278,8 @@ static int __init pppoe_init(void)
+ 	if (err)
+ 		goto out_unregister_pppoe_proto;
+ 
++	if (IS_ENABLED(CONFIG_INET))
++		dev_add_offload(&pppoe_packet_offload);
+ 	dev_add_pack(&pppoes_ptype);
+ 	dev_add_pack(&pppoed_ptype);
+ 	register_netdevice_notifier(&pppoe_notifier);
+@@ -1138,6 +1299,8 @@ static void __exit pppoe_exit(void)
+ 	unregister_netdevice_notifier(&pppoe_notifier);
+ 	dev_remove_pack(&pppoed_ptype);
+ 	dev_remove_pack(&pppoes_ptype);
++	if (IS_ENABLED(CONFIG_INET))
++		dev_remove_offload(&pppoe_packet_offload);
+ 	unregister_pppox_proto(PX_PROTO_OE);
+ 	proto_unregister(&pppoe_sk_proto);
+ 	unregister_pernet_device(&pppoe_net_ops);
+diff --git a/net/ipv4/af_inet.c b/net/ipv4/af_inet.c
+index 0e62032e76b1..cbac072633bb 100644
+--- a/net/ipv4/af_inet.c
++++ b/net/ipv4/af_inet.c
+@@ -1540,6 +1540,7 @@ struct sk_buff *inet_gro_receive(struct list_head *head, struct sk_buff *skb)
+ 
+ 	return pp;
+ }
++EXPORT_INDIRECT_CALLABLE(inet_gro_receive);
+ 
+ static struct sk_buff *ipip_gro_receive(struct list_head *head,
+ 					struct sk_buff *skb)
+@@ -1625,6 +1626,7 @@ int inet_gro_complete(struct sk_buff *skb, int nhoff)
+ out:
+ 	return err;
+ }
++EXPORT_INDIRECT_CALLABLE(inet_gro_complete);
+ 
+ static int ipip_gro_complete(struct sk_buff *skb, int nhoff)
+ {
+diff --git a/net/ipv6/ip6_offload.c b/net/ipv6/ip6_offload.c
+index d8072ad6b8c4..78f50c93c536 100644
+--- a/net/ipv6/ip6_offload.c
++++ b/net/ipv6/ip6_offload.c
+@@ -297,6 +297,7 @@ INDIRECT_CALLABLE_SCOPE struct sk_buff *ipv6_gro_receive(struct list_head *head,
+ 
+ 	return pp;
+ }
++EXPORT_INDIRECT_CALLABLE(ipv6_gro_receive);
+ 
+ static struct sk_buff *sit_ip6ip6_gro_receive(struct list_head *head,
+ 					      struct sk_buff *skb)
+@@ -359,6 +360,7 @@ INDIRECT_CALLABLE_SCOPE int ipv6_gro_complete(struct sk_buff *skb, int nhoff)
+ out:
+ 	return err;
+ }
++EXPORT_INDIRECT_CALLABLE(ipv6_gro_complete);
+ 
+ static int sit_gro_complete(struct sk_buff *skb, int nhoff)
+ {
+-- 
+2.43.0
 
 
