@@ -1,49 +1,49 @@
-Return-Path: <linux-ppp+bounces-564-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-565-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8DkJIpww+2lxXQMAu9opvQ
-	(envelope-from <linux-ppp+bounces-564-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Wed, 06 May 2026 14:14:20 +0200
+	id aAx0A8kw+2lxXQMAu9opvQ
+	(envelope-from <linux-ppp+bounces-565-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Wed, 06 May 2026 14:15:05 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F193D4DA059
-	for <lists+linux-ppp@lfdr.de>; Wed, 06 May 2026 14:14:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795284DA086
+	for <lists+linux-ppp@lfdr.de>; Wed, 06 May 2026 14:15:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DD79B3014865
-	for <lists+linux-ppp@lfdr.de>; Wed,  6 May 2026 12:14:18 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 038893014879
+	for <lists+linux-ppp@lfdr.de>; Wed,  6 May 2026 12:15:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A5F443E48A;
-	Wed,  6 May 2026 12:14:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BBB4441048;
+	Wed,  6 May 2026 12:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G6VKFf6T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RhqdXZ1M"
 X-Original-To: linux-ppp@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440753368B7;
-	Wed,  6 May 2026 12:14:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484DD3DFC68;
+	Wed,  6 May 2026 12:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778069657; cv=none; b=ZjZPILo+4TOQE19nyKu2hWHvIJ6fjiR//1nBSjEGhJbB7u/yUV3KmzDAYxv3i+YoVIC8o/C9qT8SqLHprl5G8+xwaCPJE93kd4FjP39bIZQVtLAcLmFv1EkPIbM1vSlRU+j8t7lZSqCS8dyIuoxkna/q7FhZl6jg+z7lqu0pnII=
+	t=1778069702; cv=none; b=jB92CO7QHpUM0JDK/yVY/8GWQAzS8uNAFxwFADqgc9fkxuKyj0XxPTgUxYSQcXvTcLzXdnN2du4k83EyRWjQVlJcrfFrLfaeMWyns+cCzYlt9/uHOXQExHrdBFPhLwOuyHCNiHWdwv2RQqBDA0OieK57AbwdwP4Ck1Mag9DaC18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778069657; c=relaxed/simple;
-	bh=tPtGxWRosLrlwCndxfo3VTI0LuICQw7db3oOBpfe1dk=;
+	s=arc-20240116; t=1778069702; c=relaxed/simple;
+	bh=W/kdTc73sAr9ywWuVImHdr8H4/gzoh0lhVnQZ432zjc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VQITHS799aQUsOjT6HfbclUAaWH2fVGVm8oQtKiGOLOcNKXuFd68M4s3b5hY83wTABF4FlNi/eYM0wxE28M+VtDdXwr/2nFGT6APmiP/j0kkzSdKNWVFYbDs8SzS7LrSGz+BA4IPGqFtTX7+HozpH8raoqlsXezM9bKwzyPTw+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G6VKFf6T; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6BACC2BCB8;
-	Wed,  6 May 2026 12:14:13 +0000 (UTC)
+	 MIME-Version; b=oN0+oKvfEKSpyl/DZO517IoqyLZXiYQZoNlhlL5XsO0lD7VKtQDYMD37V2AGcRcJC9VeCPtmFA0Iak1cuA5bkiE3J3K1myAWfNzadK011XEyNMo4rKb1BRZqol3tOk9VKfAeKqf9P1mVnt7leSEx/4+S0m9pxHCqCdz4xrrQ6CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RhqdXZ1M; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCED0C2BCB8;
+	Wed,  6 May 2026 12:14:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778069656;
-	bh=tPtGxWRosLrlwCndxfo3VTI0LuICQw7db3oOBpfe1dk=;
+	s=k20201202; t=1778069702;
+	bh=W/kdTc73sAr9ywWuVImHdr8H4/gzoh0lhVnQZ432zjc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=G6VKFf6TsZGaPvAILfKboCR7usJIF2c9WZ8UoNTsmUQivTbbVnIB0ow/1kjRQYZGT
-	 fyd0sOMRUGG59NWWGrQSUOYDCzAUifuDMLVxIJm4TLKISiSQ33TKR1xuuoet1yVw/M
-	 lXg1VXQdgptj8bIfyAK1Bgc9RLSdVyQcLJX4PTa0DznjF6EwJ/HsLpNDLj1XC11U2M
-	 SkS2NggVq/QlT9HfKhbhOpfnBna1Nxx0YtAsiHq8FYmiVbTdshMO3tS8gnx8qdRmp2
-	 8zE5yP+3S1yXQbsrdBngjLjlnPuqnuFyuWNpCHtuATRsWdHxi8INCzvZRIg9nXRcI2
-	 PEOB7SiC6OERQ==
+	b=RhqdXZ1MC0+rmdSLPBFDfHc6SiLyVuOvXyjoGyzEQ0rkw2tdH4KTyHxWdlMHoiMPh
+	 XBBijHoUTnPyWNDFvhP2UW9hss/Qd/1yp/qbGUaPjbKJx//FfkD8tEkJaOraleVMGO
+	 IAZiNAlgsJpqr/0pifNeK2RxsDJkm9ZLs70P7CQyoM2yxZvneLUETGsmznnOK4MvNS
+	 pr03WfTd3atEml1CLrVDJ8FMsa7blxXOcervTTSWv0+ADWmNfKcN8ln+YqMlvfjk8X
+	 G8Za0xWxp8XaSMi0MN06odvGkyADJWTK7lqUo2ssdkjlBS1zas6Bk7PVj+aGZfZN0P
+	 ORFun/9As8QRw==
 From: Simon Horman <horms@kernel.org>
 To: qingfang.deng@linux.dev
 Cc: 'Simon Horman' <horms@kernel.org>,
@@ -61,12 +61,12 @@ Cc: 'Simon Horman' <horms@kernel.org>,
 	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-ppp@vger.kernel.org
-Subject: Re: [PATCH net-next v8 1/2] net: pppoe: implement GRO/GSO support
-Date: Wed,  6 May 2026 13:14:01 +0100
-Message-ID: <20260506121401.651540-1-horms@kernel.org>
+Subject: Re: [PATCH net-next v8 2/2] selftests: net: test PPPoE packets in gro.sh
+Date: Wed,  6 May 2026 13:14:54 +0100
+Message-ID: <20260506121454.652034-1-horms@kernel.org>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260501035102.293031-1-qingfang.deng@linux.dev>
-References: <20260501035102.293031-1-qingfang.deng@linux.dev>
+In-Reply-To: <20260501035102.293031-2-qingfang.deng@linux.dev>
+References: <20260501035102.293031-2-qingfang.deng@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
@@ -74,7 +74,7 @@ List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: F193D4DA059
+X-Rspamd-Queue-Id: 795284DA086
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [0.84 / 15.00];
@@ -91,7 +91,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_CC(0.00)[kernel.org,lunn.ch,davemloft.net,google.com,redhat.com,nvidia.com,gmail.com,vger.kernel.org];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCPT_COUNT_TWELVE(0.00)[16];
-	TAGGED_FROM(0.00)[bounces-564-lists,linux-ppp=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-565-lists,linux-ppp=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -113,94 +113,53 @@ This is an AI-generated review of your patch. The human sending this
 email has considered the AI review valid, or at least plausible.
 Full review at: https://sashiko.dev
 ---
-net: pppoe: implement GRO/GSO support
+selftests: net: test PPPoE packets in gro.sh
+    
+This commit adds PPPoE test-cases to the GRO selftest and a new "pppoe_sid"
+test case to verify that packets with different PPPoE session IDs are correctly
+identified as separate flows.
 
-This commit adds GRO and GSO support for PPPoE, which improves rx throughput
-significantly by handling packets where the pppoe header length field matches
-the exact packet length.
+> diff --git a/tools/testing/selftests/net/lib/gro.c b/tools/testing/selftests/net/lib/gro.c
+> index 11b16ae5f0e83..4ffb0491c0da7 100644
+> --- a/tools/testing/selftests/net/lib/gro.c
+> +++ b/tools/testing/selftests/net/lib/gro.c
 
-> diff --git a/drivers/net/ppp/pppoe.c b/drivers/net/ppp/pppoe.c
-> index bdd61c504a1c4..363204e0c49a1 100644
-> --- a/drivers/net/ppp/pppoe.c
-> +++ b/drivers/net/ppp/pppoe.c
 [ ... ]
-> @@ -1103,6 +1104,164 @@ static struct pernet_operations pppoe_net_ops = {
->  	.size = sizeof(struct pppoe_net),
->  };
+
+> @@ -1071,6 +1095,20 @@ static void send_fragment6(int fd, struct sockaddr_ll *daddr)
+>  	write_packet(fd, buf, bufpkt_len, daddr);
+>  }
 >  
-> +static u16
-> +compare_pppoe_header(const struct pppoe_hdr *phdr,
-> +		     const struct pppoe_hdr *phdr2)
+> +static void send_changed_pppoe_sid(int fd, struct sockaddr_ll *daddr)
 > +{
-> +	__be16 proto = *(const __be16 *)(phdr + 1);
-
-Because struct pppoe_hdr is packed, the compiler assigns it 1-byte alignment
-semantics, which phdr + 1 inherits.
-
-Does explicitly casting this to __be16 * bypass the compiler's unaligned access
-protections?
-
-If skb->data has an odd alignment from the NIC, this could trigger a fatal
-unaligned memory access exception on strict-alignment architectures. Would it
-be safer to use get_unaligned() here?
-
-> +	__be16 proto2 = *(const __be16 *)(phdr2 + 1);
+> +	static char buf[L2_HLEN_MAX + PAYLOAD_LEN];
+> +	int pkt_size = total_hdr_len + PAYLOAD_LEN;
+> +	struct pppoe_hdr *hdr = (struct pppoe_hdr *)(buf + ETH_HLEN);
 > +
-> +	return (__force u16)((phdr->sid ^ phdr2->sid) | (proto ^ proto2));
+> +	create_packet(buf, 0, 0, PAYLOAD_LEN, 0);
+
+Will this write past the end of the buffer?
+
+When create_packet() is called, it writes total_hdr_len + PAYLOAD_LEN bytes:
+
+tools/testing/selftests/net/lib/gro.c:create_packet() {
+    ...
+    memset(buf, 0, total_hdr_len);
+    memset(buf + total_hdr_len, 'a', payload_len);
+    ...
+}
+
+However, buf is only sized for L2_HLEN_MAX + PAYLOAD_LEN. L2_HLEN_MAX
+evaluates to 22 bytes (ETH_HLEN + PPPOE_SES_HLEN). For IPv6 PPPoE packets,
+total_hdr_len can be up to 82 bytes (14 ETH + 8 PPPoE + 40 IPv6 + 20 TCP).
+
+Does this result in an out-of-bounds write of 60 bytes when setting up the
+IPv6 test case?
+
+> +	write_packet(fd, buf, pkt_size, daddr);
+> +
+> +	create_packet(buf, PAYLOAD_LEN, 0, PAYLOAD_LEN, 0);
+> +	hdr->sid = htons(0x4321);
+> +	write_packet(fd, buf, pkt_size, daddr);
 > +}
-> +
-> +static __be16 pppoe_hdr_proto(const struct pppoe_hdr *phdr)
-> +{
-> +	__be16 proto = *(const __be16 *)(phdr + 1);
-
-Could this also result in an unaligned access regression for the same reason?
-
-[ ... ]
-> +static struct sk_buff *pppoe_gro_receive(struct list_head *head,
-> +					 struct sk_buff *skb)
-> +{
-[ ... ]
-> +	off_pppoe = skb_gro_offset(skb);
-> +	hlen = off_pppoe + PPPOE_SES_HLEN;
-> +	phdr = skb_gro_header(skb, hlen, off_pppoe);
-> +	if (unlikely(!phdr))
-> +		goto out;
-> +
-> +	/* filter for session packets (type:1, ver:1, code:0) */
-> +	if (*(const __be16 *)phdr != cpu_to_be16(0x1100))
-
-Is it possible this cast could similarly trigger an unaligned access exception
-if the header offset is oddly aligned?
-
-[ ... ]
-> +static struct sk_buff *pppoe_gso_segment(struct sk_buff *skb,
-> +					 netdev_features_t features)
-> +{
-[ ... ]
-> +	segs = ptype->callbacks.gso_segment(skb, features);
-> +	if (IS_ERR_OR_NULL(segs)) {
-> +		skb_gso_error_unwind(skb, orig_type, PPPOE_SES_HLEN, mac_offset,
-> +				     mac_len);
-
-If the inner protocol's gso_segment callback returns NULL (indicating the
-hardware can natively offload the segmentation), skb_gso_error_unwind() will
-be called.
-
-skb_gso_error_unwind() unconditionally sets skb->encapsulation = 1. However,
-PPPoE does not configure the inner header offsets (such as
-skb->inner_network_header).
-
-When the driver sees skb->encapsulation == 1, could it attempt to read the
-uninitialized inner header offsets, parsing the outer MAC header as an inner
-IP header and misprogramming the hardware TSO context?
-
-Does PPPoE need to explicitly clear TSO features before calling the inner
-segmentation to force software segmentation, avoiding the need for
-skb_gso_error_unwind() here entirely?
-
-> +		goto out;
-> +	}
-[ ... ]
--- 
-pw-bot: changes-requested
 
