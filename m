@@ -1,103 +1,102 @@
-Return-Path: <linux-ppp+bounces-578-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-579-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +EjRBuzeAmoMyQEAu9opvQ
-	(envelope-from <linux-ppp+bounces-578-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Tue, 12 May 2026 10:03:56 +0200
+	id oAHiNeEyA2oA1gEAu9opvQ
+	(envelope-from <linux-ppp+bounces-579-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Tue, 12 May 2026 16:02:09 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A784F51C5DB
-	for <lists+linux-ppp@lfdr.de>; Tue, 12 May 2026 10:03:55 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74227521DDF
+	for <lists+linux-ppp@lfdr.de>; Tue, 12 May 2026 16:02:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A80B4307BCC7
-	for <lists+linux-ppp@lfdr.de>; Tue, 12 May 2026 08:00:12 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 10C40305B76D
+	for <lists+linux-ppp@lfdr.de>; Tue, 12 May 2026 13:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 713FD46AF0A;
-	Tue, 12 May 2026 08:00:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 382F53A2E26;
+	Tue, 12 May 2026 13:58:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YPqrRxta";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="PBKWHRPL"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jSzLwKcp";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z+JckVHu"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEEF247D951
-	for <linux-ppp@vger.kernel.org>; Tue, 12 May 2026 08:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D563A48EB
+	for <linux-ppp@vger.kernel.org>; Tue, 12 May 2026 13:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778572812; cv=none; b=e0i4sfbYBZ2DV3qmBB9p79L6k+fhz5nPf02HGOVT1ua/xwLEvCpTO9YHbq9K8nM/UcSfUNjeXRy3+hvWKHi3KDw7T3SpvzzUbk1Yvw5qEP1dKfpOhMXQbDKR4uvqLXJXkKWYAVFdyC5y0k80/SczXZyM05mQHGXPrJABw/AiUr8=
+	t=1778594317; cv=none; b=KlY8CtTeLx7U9X2bxJJ0NBFlFchc0LqEETa3w/WmO2UfTpBzyIuDW/ta4h7NmXr/7p5ptSrqluBLPw1nqt5g5QiZqQXAvov2ZnmvHnYUgOzPSjOAL0c+HWZVg2DV3kLMEPEdSR1CQjdpq+qNIgCT2dOmU0iaJ9bixibrjg5mWLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778572812; c=relaxed/simple;
-	bh=GJ/y7fGortN5jBu8cvpMLctnF416622K/5UMEtlQUdc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=QXElieNHVFd3HfyLlRjGcSD33PbmVYwXLhUjA7dADRyMzFFVZO6zaB1MToMa3iKIRtYpZOfm9sMMsY7TFuXXN42cBCccgPmVVtw2hqcC9Hsjsp14BV/rEIX5HPfSKl9QAJDXUuTKkE99GVQyokpu+8elU/G0hzXQfyWZoJYth/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YPqrRxta; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=PBKWHRPL; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1778594317; c=relaxed/simple;
+	bh=beBaFWnPlfzZYXJ1j1qcJkPi/P6JOAav2skAWYAtYIs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jIKisEbd8zQ+QencXOUguD0I4UFYfttCz8WXT1BDWFeEqs7a5spejORaIvwKyfW3pC4OWJjUnCehkR7yV3BUJpaG1KpcidmXySXCKjM/7f+2bU9KBdusewV+L2K0N1n4zoBySxtoPWJclH3pr9cRvtgemxSeOo788c55jWwdGzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jSzLwKcp; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z+JckVHu; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1778572810;
+	s=mimecast20190719; t=1778594314;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cyFGEYlHjHtjEOVbVD/w/qb9ux9FYhsyRj3ILgwVqco=;
-	b=YPqrRxta28fg5Ut0OoABBmuqzSs5JvS3UBf2C5MYBISInlow/EmbTgpCNCcLB3NGsXviwC
-	WcLklQhf6Ogi2kiD4Djuxzn7U6yNXss6qFm5elZzsd7a7O4EDEcywgQcJyY4IbYUTrKxjZ
-	62OfOt/434uiF20dG30SvXHmwswNpuc=
+	bh=SO7uwB/59cp8ViAfTobce45IfmpXjuBRX6FFhYJ0cN8=;
+	b=jSzLwKcp9fgldejVKvcMNeEDmLeLfC1LCUUzSfOmXr933Ryk668l0oCyI/Q14V71s489pl
+	/rHNwXd2Ftcbgc5JioIjfW2sfISg8sdZ0meTCEV8Durp6VAsKK39hckxzG/w882TrXWYB1
+	gnqviz5tpJr/Cq6PtM8YsNQR85h72WU=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-9nRsZKniPD26xfpIJhLZJQ-1; Tue, 12 May 2026 04:00:08 -0400
-X-MC-Unique: 9nRsZKniPD26xfpIJhLZJQ-1
-X-Mimecast-MFC-AGG-ID: 9nRsZKniPD26xfpIJhLZJQ_1778572807
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-48d0889c1ecso31690885e9.0
-        for <linux-ppp@vger.kernel.org>; Tue, 12 May 2026 01:00:07 -0700 (PDT)
+ us-mta-266-kuGG5LWzNwuaBXUp3ovdKQ-1; Tue, 12 May 2026 09:58:32 -0400
+X-MC-Unique: kuGG5LWzNwuaBXUp3ovdKQ-1
+X-Mimecast-MFC-AGG-ID: kuGG5LWzNwuaBXUp3ovdKQ_1778594311
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-486fa07f2bbso33543785e9.2
+        for <linux-ppp@vger.kernel.org>; Tue, 12 May 2026 06:58:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1778572807; x=1779177607; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1778594311; x=1779199111; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cyFGEYlHjHtjEOVbVD/w/qb9ux9FYhsyRj3ILgwVqco=;
-        b=PBKWHRPLSFQ81JZXg4exmDy54W7DFV8vj8LhKgL6bWbTyXRLyhtTzQHYYphHGRH/C3
-         ZpQX3UZTJUjxaafMamXUXykVZaX5x6LUY9YfuL8yTfNSuaQuUARe1Kx7PbysEEVsLguc
-         RCaG7OywfbPWCuY8R2fndCs/wgQBtBQzE1dOAU24CwvGF6de7lBEyG7RU3B/ROp195IC
-         8GjvX7f/moDV6OYQA+AQ7ehzejFWSfgsJW7npxHPLIF3Ve9U+XxoBmDUcHQa6FxpCmSS
-         HAWZHiK+pHtcbU7ioA7jG5u+YDQUwGtVs2/dZhNBz4l9QrBLg4lb1JhZfsyY3NhgvrBB
-         casA==
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SO7uwB/59cp8ViAfTobce45IfmpXjuBRX6FFhYJ0cN8=;
+        b=Z+JckVHun0brI6fyU7IB4ax+adM0D8DdoHpbGyoCtaKbgvvoj4GZRB2d4rjpUWjdXs
+         LDeI1hYGE1OAS68OkT2coxO61YScWk9ZgLBDN6KfGLf3H0d81tk9PBlioUfWfVZa4WEz
+         K43yvBX2v6GnGo0VZvaX+MQRoxWBtok8qj9UxzRHk1ia27fiw7LvQJC/W1LcrmN4zG3h
+         jjXzyT7/BSi2DPJx5KvmFp5ocIvlQXu9cAy739LgLpURuqhwMSmJyc85AlG415AY7o5R
+         kA78sceSXIAAghgNVv+UTguaklHyDN0o6oT153Fb0vsCxRrmEEKmQhgm9FSJJZmWfpRr
+         mgiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778572807; x=1779177607;
+        d=1e100.net; s=20251104; t=1778594311; x=1779199111;
         h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:to:subject:user-agent:mime-version:date:message-id
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cyFGEYlHjHtjEOVbVD/w/qb9ux9FYhsyRj3ILgwVqco=;
-        b=RVLp/Zffjgf59C09fxUqRLnvSCZUnaJxpZPjVXMck5RCMricdjWjHOaW1Gufa86KwG
-         X+401+uo5LFL+gR3IYanjuLw/g+ua2phmi+zLAYycrSYoOMVsQ4dadFb6gufjPdudY5b
-         oAF3UmyY0VyWLsSXJyyd7hQLP3+pILyT5CaJPEYWAlBNM8RcIii0iu43LrzUJ4/wlX2a
-         OvnIOcvHHQUQ7GkGW/ofqdkIy/9hZdIr4+bmQskrBqYJ5a93HXJqP+z9+XWjwXG7bafu
-         Q82lPSpY2d5u5Bf7ktpYELh7MFcsK7cRlEc1VX5xTiElQj2yWUtIb2Nfqgt7cjOqnIKw
-         L8UA==
-X-Forwarded-Encrypted: i=1; AFNElJ8++zI1uCS255OLZW2qhOL5C62xcjy8KCy4RQOEzpchzdqvXWZGdT8W7OGYOKQ5/R2dRkxm8c2X/ao=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUNhQSMDKRsJjBC7xUARKsZdCaVq3N40RwfN4Y5a9ddvtDPsEd
-	8unv1q0IsyqaQ3JdYBkDeePRgC7NcICFNs2z1pzwBMrIsnwV+11PCy1GumWAuVIFic/Lt6uyv3B
-	ZmDDTAI5Egz3+mhPHTLI7Bo/cRzMTnBJydlZRHGK/+IZc6McdUrxlBHyHgHmHpg==
-X-Gm-Gg: Acq92OFGWE4YrZhrPaZ9ivPAfg8YUXb2ZnumxwMoxZYiOLWpCnWUtk3pbSDa/wpgZGo
-	8xsTG+M0Az28cR1Ahc9as15dyzhCVoIgwQuJ1v82Iq2Ynm3KUr9hJFZIglPUqNpQBLb7XR7k+Ay
-	YYUJm6CUDL2of5zFX9jbMkwjLzS5qja5eZc/09YFFEucNlsHRo/TtlXHaHLeCECaeYU+2p3tbry
-	DPfHFjJHfjv5BJvB4W8hObW8pjdn+t6osFNuXenmwHiFEtYcYxF8GqmCHJVQZtDrSkixr3U4U/O
-	nCogI50jW1otfoa3RtTi51iLvyocx4ZF6N6yMVzJR1SKLZvD+qXy/TDFpQnNcwvK3rQtPnXBUHD
-	/582yfUFoVDzhghmC8yRFhbWgTK+JvPMvUu3YSEjY0d7IE0EsexK92t8=
-X-Received: by 2002:a05:600c:46d2:b0:485:364e:9328 with SMTP id 5b1f17b1804b1-48e51f32aebmr396266545e9.16.1778572806219;
-        Tue, 12 May 2026 01:00:06 -0700 (PDT)
-X-Received: by 2002:a05:600c:46d2:b0:485:364e:9328 with SMTP id 5b1f17b1804b1-48e51f32aebmr396265385e9.16.1778572805618;
-        Tue, 12 May 2026 01:00:05 -0700 (PDT)
+        bh=SO7uwB/59cp8ViAfTobce45IfmpXjuBRX6FFhYJ0cN8=;
+        b=ehd1QdKPdLDxlWPCtz6bLktaJhjPUPCbGx9Z5tkMjEfaSfpepWCoud1DN3l8OWZawJ
+         dCNrIP4WphGmxo1wT8A1yKF6rspb67v7lCqIZSLVkkQRs7f7H46xbM0lT+e/tlPYvKcL
+         63bmMT1RwH+wM0kjQF8+aG3Q4T8ZhmJWPqnDcHfp48mVzoZTsk6DD6gPmZ62Ze/nZNay
+         IWTuXY2mRSzCq7ihbRvdSbQUhIpTbcKhvzgrqCzWxfU1jDg+Yx5DNr4VDGO7dr89Z20f
+         LudspoBhmLsF6MuiFaPRqF+ZAoF7ZeFvjkxaJj7FIqz9aNAtOuF6IskSxCydzfJEnD9x
+         0lPQ==
+X-Gm-Message-State: AOJu0Yy6CFiieOW8FL122nUR+CT37gqXYQFelKnWrAFp+KYMGjqb31Ot
+	ijcVTzH5NknSzCjuWk6wdYOEB8C5lcbNYO94pEeeRlUvEdypa1q8Au8D79HkweL1Hcm6sRWGTVe
+	Fpbds6b0bptkt/D6/MmKuqpWvs8onHwT8zEb0VP+2M3TUJD+OKKC9pOUWN5N+Yg==
+X-Gm-Gg: Acq92OEx/qwnUYXPtnU3QpmuxDRB1NNxT5Ne1FFzqH6FzumvrvkUsSuB8Jz71IFWiyA
+	QLw3OYrusPav5YforDqKwVZam4hLkG4jCoJyNlfSNUCh+XROSwF+irYrmRhiBtXSX8WzXdGlDRT
+	CX2kXL73Q+t1iIyGbWru/uMh0Z0AgyvRKOqrx5yQKouShYYWcGPPtygll1DcFZyze4Ncht533/I
+	/qopVnUcqYj7suv/kgF35jp8EdeP7tXc45UGagvdWaLvwK/vXq4Bb4UKnBDURKgG1xgeEbIQ5jM
+	Stk5AVgSv3Lh/UUKj2XsGBGTEp/N38eIFmUUSKo+KjVXXgzrZRbRvZFP37p0bshWqkz5WfCC7z7
+	mYoLQzzSaACuuowmMa2J2V/NmSmdYsWoAutr/N5naS0VfGDasnZacSjA=
+X-Received: by 2002:a05:600c:3f0f:b0:488:a797:f0ac with SMTP id 5b1f17b1804b1-48e9007290cmr51762765e9.28.1778594311035;
+        Tue, 12 May 2026 06:58:31 -0700 (PDT)
+X-Received: by 2002:a05:600c:3f0f:b0:488:a797:f0ac with SMTP id 5b1f17b1804b1-48e9007290cmr51762245e9.28.1778594310452;
+        Tue, 12 May 2026 06:58:30 -0700 (PDT)
 Received: from [192.168.88.32] ([216.128.9.106])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e906a0debsm41474895e9.3.2026.05.12.01.00.04
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e8f41a8b1sm28490495e9.7.2026.05.12.06.58.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2026 01:00:05 -0700 (PDT)
-Message-ID: <05927f32-8df5-4a78-a188-5a4c2b82a85a@redhat.com>
-Date: Tue, 12 May 2026 10:00:03 +0200
+        Tue, 12 May 2026 06:58:29 -0700 (PDT)
+Message-ID: <a5b3ac22-1515-4642-ad55-1f8b564cc140@redhat.com>
+Date: Tue, 12 May 2026 15:58:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
@@ -105,154 +104,85 @@ List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] selftests: net: add tests for PPPoL2TP
+Subject: Re: [PATCH net-next v9 1/2] net: pppoe: implement GRO/GSO support
 To: Qingfang Deng <qingfang.deng@linux.dev>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
  Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
- Shuah Khan <shuah@kernel.org>, Felix Maurer <fmaurer@redhat.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Petr Machata <petrm@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20260508032158.67887-1-qingfang.deng@linux.dev>
+ David Ahern <dsahern@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
+ Kees Cook <kees@kernel.org>, Guillaume Nault <gnault@redhat.com>,
+ Eric Woudstra <ericwouds@gmail.com>, Felix Fietkau <nbd@nbd.name>,
+ Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima
+ <kuniyu@google.com>, Richard Gobert <richardbgobert@gmail.com>,
+ Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: linux-ppp@vger.kernel.org, Pablo Neira Ayuso <pablo@netfilter.org>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>
+References: <20260509030507.387050-1-qingfang.deng@linux.dev>
 From: Paolo Abeni <pabeni@redhat.com>
 Content-Language: en-US
-In-Reply-To: <20260508032158.67887-1-qingfang.deng@linux.dev>
+In-Reply-To: <20260509030507.387050-1-qingfang.deng@linux.dev>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: A784F51C5DB
+X-Rspamd-Queue-Id: 74227521DDF
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_FROM(0.00)[bounces-578-lists,linux-ppp=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-579-lists,linux-ppp=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[linux.dev,lunn.ch,davemloft.net,google.com,kernel.org,nvidia.com,redhat.com,gmail.com,nbd.name,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[redhat.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[pabeni@redhat.com,linux-ppp@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-ppp];
+	TAGGED_RCPT(0.00)[linux-ppp,netdev];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ppp_common.sh:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On 5/8/26 5:21 AM, Qingfang Deng wrote:
-> diff --git a/tools/testing/selftests/net/ppp/pppol2tp.sh b/tools/testing/selftests/net/ppp/pppol2tp.sh
-> new file mode 100755
-> index 000000000000..5ddcc6c41c33
-> --- /dev/null
-> +++ b/tools/testing/selftests/net/ppp/pppol2tp.sh
-> @@ -0,0 +1,93 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0
+On 5/9/26 5:04 AM, Qingfang Deng wrote:
+> +static struct sk_buff *pppoe_gso_segment(struct sk_buff *skb,
+> +					 netdev_features_t features)
+> +{
+> +	struct sk_buff *segs = ERR_PTR(-EINVAL);
+> +	struct packet_offload *ptype;
+> +	struct pppoe_hdr *phdr;
+> +	__be16 orig_type, type;
+> +	int len, nhoff;
 > +
-> +source ppp_common.sh
+> +	skb_reset_network_header(skb);
+> +	nhoff = skb_network_header(skb) - skb_mac_header(skb);
 > +
-> +NK_SERVER="nk0"
-> +NK_CLIENT="nk1"
-> +OUTER_IP_SERVER="172.16.1.1"
-> +OUTER_IP_CLIENT="172.16.1.2"
+> +	if (unlikely(!pskb_may_pull(skb, PPPOE_SES_HLEN)))
+> +		goto out;
 > +
-> +PPPOL2TP_DIR=$(mktemp -d /tmp/pppol2tp.XXXXXX)
+> +	phdr = (struct pppoe_hdr *)skb_network_header(skb);
+> +	type = pppoe_hdr_proto(phdr);
+> +	ptype = gro_find_complete_by_type(type);
+> +	if (!ptype)
+> +		goto out;
+> +
+> +	orig_type = skb->protocol;
+> +	__skb_pull(skb, PPPOE_SES_HLEN);
+> +	features &= ~(NETIF_F_TSO | NETIF_F_TSO6);
 
-Sashiko (gemini) reports an unhandled error condition here. AFAICS that
-is irrelevant as it could happen only on a broken system.
-
-> +
-> +# shellcheck disable=SC2329
-> +cleanup() {
-> +	cleanup_all_ns
-> +	rm -rf "$PPPOL2TP_DIR"
-> +}
-> +
-> +trap cleanup EXIT
-> +
-> +require_command xl2tpd
-> +ppp_common_init
-> +modprobe -q l2tp_ppp
-> +
-> +# Create the netkit pair
-> +ip -netns "$NS_CLIENT" link add "$NK_CLIENT" type netkit
-> +ip -netns "$NS_CLIENT" link set "$NK_SERVER" netns "$NS_SERVER"
-> +ip -netns "$NS_SERVER" link set "$NK_SERVER" up
-> +ip -netns "$NS_CLIENT" link set "$NK_CLIENT" up
-> +ip -netns "$NS_SERVER" address add dev "$NK_SERVER" "$OUTER_IP_SERVER" peer "$OUTER_IP_CLIENT"
-> +ip -netns "$NS_CLIENT" address add dev "$NK_CLIENT" "$OUTER_IP_CLIENT" peer "$OUTER_IP_SERVER"
-> +
-> +# Generate configuration files
-> +cat > "$PPPOL2TP_DIR/l2tp-server.conf" <<EOF
-> +[global]
-> +listen-addr = $OUTER_IP_SERVER
-> +access control = no
-> +
-> +[lns default]
-> +ip range = $IP_CLIENT
-> +local ip = $IP_SERVER
-> +require authentication = no
-> +require chap = no
-> +require pap = no
-> +ppp debug = yes
-> +pppoptfile = $(pwd)/pppoe-server-options
-> +EOF
-> +
-> +cat > "$PPPOL2TP_DIR/l2tp-client.conf" <<EOF
-> +[global]
-> +listen-addr = $OUTER_IP_CLIENT
-> +access control = no
-> +
-> +[lac server]
-> +lns = $OUTER_IP_SERVER
-> +require authentication = no
-> +require chap = no
-> +require pap = no
-> +ppp debug = yes
-> +pppoptfile = $(pwd)/pppoe-server-options
-> +EOF
-> +
-> +# Start the L2TP Server
-> +ip netns exec "$NS_SERVER" xl2tpd -D -c "$PPPOL2TP_DIR/l2tp-server.conf" \
-> +	-p "$PPPOL2TP_DIR/l2tp-server.pid" -C "$PPPOL2TP_DIR/l2tp-server.control" &
-> +
-> +# Start the L2TP Client
-> +ip netns exec "$NS_CLIENT" xl2tpd -D -c "$PPPOL2TP_DIR/l2tp-client.conf" \
-> +	-p "$PPPOL2TP_DIR/l2tp-client.pid" -C "$PPPOL2TP_DIR/l2tp-client.control" &
-> +
-> +# Wait for xl2tpd to start and open their control pipes
-> +slowwait 2 [ -p "$PPPOL2TP_DIR/l2tp-server.control" ]
-> +slowwait 2 [ -p "$PPPOL2TP_DIR/l2tp-client.control" ]
-> +
-> +# Connect LAC to LNS
-> +echo "c server" > "$PPPOL2TP_DIR/l2tp-client.control"
-> +
-> +ppp_test_connectivity
-> +
-> +log_test "PPPoL2TP"
-> +
-> +# Recursion test
-> +# Delete route to LNS IP
-> +ip -netns "$NS_CLIENT" route del "$OUTER_IP_SERVER"
-> +# Add default route through ppp0
-> +ip -netns "$NS_CLIENT" route add default dev ppp0
-> +# ping (we expect the ping to fail but not deadlock the system)
-> +ip netns exec "$NS_CLIENT" ping -c 1 "$IP_SERVER" -w 1
-> +check_fail $?
-
-Sashiko notes you should clear the RET global variable before any direct
-or indirect invocation of check_err
+As sashiko points out here you need to use NETIF_F_GSO_SOFTWARE.
 
 /P
 
