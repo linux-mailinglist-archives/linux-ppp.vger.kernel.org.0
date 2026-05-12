@@ -1,405 +1,259 @@
-Return-Path: <linux-ppp+bounces-577-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-578-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SGrIDMmk/mnPuQAAu9opvQ
-	(envelope-from <linux-ppp+bounces-577-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Sat, 09 May 2026 05:06:49 +0200
+	id +EjRBuzeAmoMyQEAu9opvQ
+	(envelope-from <linux-ppp+bounces-578-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Tue, 12 May 2026 10:03:56 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F614FDD0B
-	for <lists+linux-ppp@lfdr.de>; Sat, 09 May 2026 05:06:48 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A784F51C5DB
+	for <lists+linux-ppp@lfdr.de>; Tue, 12 May 2026 10:03:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3532B302FA8A
-	for <lists+linux-ppp@lfdr.de>; Sat,  9 May 2026 03:05:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A80B4307BCC7
+	for <lists+linux-ppp@lfdr.de>; Tue, 12 May 2026 08:00:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0324381B02;
-	Sat,  9 May 2026 03:05:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 713FD46AF0A;
+	Tue, 12 May 2026 08:00:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mcR3tiqP"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YPqrRxta";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="PBKWHRPL"
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7697F381B01
-	for <linux-ppp@vger.kernel.org>; Sat,  9 May 2026 03:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEEF247D951
+	for <linux-ppp@vger.kernel.org>; Tue, 12 May 2026 08:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778295947; cv=none; b=HBFD3yTAsTMcmhrYfbYNMfu7tQwE/aYG2BDCnsdrpN0i5AqQXiG4B1LGnomQ33WACCODY5okDy5+invWwJk0l1g0xb6TKGjrSQA5OOUfGstMKyq0M+pK7FgcklvGb8FbzNJWhBjRrG06uEMLHJLxmahvFB+G4DD970pxAG/Mvy0=
+	t=1778572812; cv=none; b=e0i4sfbYBZ2DV3qmBB9p79L6k+fhz5nPf02HGOVT1ua/xwLEvCpTO9YHbq9K8nM/UcSfUNjeXRy3+hvWKHi3KDw7T3SpvzzUbk1Yvw5qEP1dKfpOhMXQbDKR4uvqLXJXkKWYAVFdyC5y0k80/SczXZyM05mQHGXPrJABw/AiUr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778295947; c=relaxed/simple;
-	bh=fTDQLcIZudAaiePFSZqDOEEOx+pbuAUCZbxSrWn5K1A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hcjj6FIFpmM2ZqigFDPqtqLvKDJnQj/9dRs/2j8sdqlLCxM8l0AGxRz/ynLRKHcnypM7lJthwklx81knyfAaXAaWseF18mXrABaEqqnpt44ouaY4wcsUKFjRaNKbFkYtQi+HgOd6iiVLzYeyOnm66F4ZO/Bo8yseuCNxUUyTMV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mcR3tiqP; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778295942;
+	s=arc-20240116; t=1778572812; c=relaxed/simple;
+	bh=GJ/y7fGortN5jBu8cvpMLctnF416622K/5UMEtlQUdc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=QXElieNHVFd3HfyLlRjGcSD33PbmVYwXLhUjA7dADRyMzFFVZO6zaB1MToMa3iKIRtYpZOfm9sMMsY7TFuXXN42cBCccgPmVVtw2hqcC9Hsjsp14BV/rEIX5HPfSKl9QAJDXUuTKkE99GVQyokpu+8elU/G0hzXQfyWZoJYth/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YPqrRxta; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=PBKWHRPL; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778572810;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8AC7pELr/ORQYqNLuSMF/s5KplYjBYm6jXnxD2M3oVk=;
-	b=mcR3tiqP2OuT2aCOGlFEfgZ1gRegzYq6sudQNHz2ikAbeX+sugRk0nhYFYNZK57hobKn6p
-	RokUWjMF5eG0iQxOY+/8+UgPzyTL3tWhtZNN/NXicp9kQtTiLMzFmdWnZA6HYR3jwrMkdO
-	g6hmJgCY5gPjqfnLMQ9IKVJxr1Qku1U=
-From: Qingfang Deng <qingfang.deng@linux.dev>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Petr Machata <petrm@nvidia.com>,
-	Richard Gobert <richardbgobert@gmail.com>,
-	Anubhav Singh <anubhavsinggh@google.com>,
-	netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-ppp@vger.kernel.org,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Felix Fietkau <nbd@nbd.name>,
-	Qingfang Deng <qingfang.deng@linux.dev>
-Subject: [PATCH net-next v9 2/2] selftests: net: test PPPoE packets in gro.sh
-Date: Sat,  9 May 2026 11:04:53 +0800
-Message-ID: <20260509030507.387050-2-qingfang.deng@linux.dev>
-In-Reply-To: <20260509030507.387050-1-qingfang.deng@linux.dev>
-References: <20260509030507.387050-1-qingfang.deng@linux.dev>
+	bh=cyFGEYlHjHtjEOVbVD/w/qb9ux9FYhsyRj3ILgwVqco=;
+	b=YPqrRxta28fg5Ut0OoABBmuqzSs5JvS3UBf2C5MYBISInlow/EmbTgpCNCcLB3NGsXviwC
+	WcLklQhf6Ogi2kiD4Djuxzn7U6yNXss6qFm5elZzsd7a7O4EDEcywgQcJyY4IbYUTrKxjZ
+	62OfOt/434uiF20dG30SvXHmwswNpuc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-605-9nRsZKniPD26xfpIJhLZJQ-1; Tue, 12 May 2026 04:00:08 -0400
+X-MC-Unique: 9nRsZKniPD26xfpIJhLZJQ-1
+X-Mimecast-MFC-AGG-ID: 9nRsZKniPD26xfpIJhLZJQ_1778572807
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-48d0889c1ecso31690885e9.0
+        for <linux-ppp@vger.kernel.org>; Tue, 12 May 2026 01:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1778572807; x=1779177607; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cyFGEYlHjHtjEOVbVD/w/qb9ux9FYhsyRj3ILgwVqco=;
+        b=PBKWHRPLSFQ81JZXg4exmDy54W7DFV8vj8LhKgL6bWbTyXRLyhtTzQHYYphHGRH/C3
+         ZpQX3UZTJUjxaafMamXUXykVZaX5x6LUY9YfuL8yTfNSuaQuUARe1Kx7PbysEEVsLguc
+         RCaG7OywfbPWCuY8R2fndCs/wgQBtBQzE1dOAU24CwvGF6de7lBEyG7RU3B/ROp195IC
+         8GjvX7f/moDV6OYQA+AQ7ehzejFWSfgsJW7npxHPLIF3Ve9U+XxoBmDUcHQa6FxpCmSS
+         HAWZHiK+pHtcbU7ioA7jG5u+YDQUwGtVs2/dZhNBz4l9QrBLg4lb1JhZfsyY3NhgvrBB
+         casA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778572807; x=1779177607;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cyFGEYlHjHtjEOVbVD/w/qb9ux9FYhsyRj3ILgwVqco=;
+        b=RVLp/Zffjgf59C09fxUqRLnvSCZUnaJxpZPjVXMck5RCMricdjWjHOaW1Gufa86KwG
+         X+401+uo5LFL+gR3IYanjuLw/g+ua2phmi+zLAYycrSYoOMVsQ4dadFb6gufjPdudY5b
+         oAF3UmyY0VyWLsSXJyyd7hQLP3+pILyT5CaJPEYWAlBNM8RcIii0iu43LrzUJ4/wlX2a
+         OvnIOcvHHQUQ7GkGW/ofqdkIy/9hZdIr4+bmQskrBqYJ5a93HXJqP+z9+XWjwXG7bafu
+         Q82lPSpY2d5u5Bf7ktpYELh7MFcsK7cRlEc1VX5xTiElQj2yWUtIb2Nfqgt7cjOqnIKw
+         L8UA==
+X-Forwarded-Encrypted: i=1; AFNElJ8++zI1uCS255OLZW2qhOL5C62xcjy8KCy4RQOEzpchzdqvXWZGdT8W7OGYOKQ5/R2dRkxm8c2X/ao=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUNhQSMDKRsJjBC7xUARKsZdCaVq3N40RwfN4Y5a9ddvtDPsEd
+	8unv1q0IsyqaQ3JdYBkDeePRgC7NcICFNs2z1pzwBMrIsnwV+11PCy1GumWAuVIFic/Lt6uyv3B
+	ZmDDTAI5Egz3+mhPHTLI7Bo/cRzMTnBJydlZRHGK/+IZc6McdUrxlBHyHgHmHpg==
+X-Gm-Gg: Acq92OFGWE4YrZhrPaZ9ivPAfg8YUXb2ZnumxwMoxZYiOLWpCnWUtk3pbSDa/wpgZGo
+	8xsTG+M0Az28cR1Ahc9as15dyzhCVoIgwQuJ1v82Iq2Ynm3KUr9hJFZIglPUqNpQBLb7XR7k+Ay
+	YYUJm6CUDL2of5zFX9jbMkwjLzS5qja5eZc/09YFFEucNlsHRo/TtlXHaHLeCECaeYU+2p3tbry
+	DPfHFjJHfjv5BJvB4W8hObW8pjdn+t6osFNuXenmwHiFEtYcYxF8GqmCHJVQZtDrSkixr3U4U/O
+	nCogI50jW1otfoa3RtTi51iLvyocx4ZF6N6yMVzJR1SKLZvD+qXy/TDFpQnNcwvK3rQtPnXBUHD
+	/582yfUFoVDzhghmC8yRFhbWgTK+JvPMvUu3YSEjY0d7IE0EsexK92t8=
+X-Received: by 2002:a05:600c:46d2:b0:485:364e:9328 with SMTP id 5b1f17b1804b1-48e51f32aebmr396266545e9.16.1778572806219;
+        Tue, 12 May 2026 01:00:06 -0700 (PDT)
+X-Received: by 2002:a05:600c:46d2:b0:485:364e:9328 with SMTP id 5b1f17b1804b1-48e51f32aebmr396265385e9.16.1778572805618;
+        Tue, 12 May 2026 01:00:05 -0700 (PDT)
+Received: from [192.168.88.32] ([216.128.9.106])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e906a0debsm41474895e9.3.2026.05.12.01.00.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 May 2026 01:00:05 -0700 (PDT)
+Message-ID: <05927f32-8df5-4a78-a188-5a4c2b82a85a@redhat.com>
+Date: Tue, 12 May 2026 10:00:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Rspamd-Queue-Id: 91F614FDD0B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] selftests: net: add tests for PPPoL2TP
+To: Qingfang Deng <qingfang.deng@linux.dev>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+ Shuah Khan <shuah@kernel.org>, Felix Maurer <fmaurer@redhat.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Petr Machata <petrm@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20260508032158.67887-1-qingfang.deng@linux.dev>
+From: Paolo Abeni <pabeni@redhat.com>
+Content-Language: en-US
+In-Reply-To: <20260508032158.67887-1-qingfang.deng@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: A784F51C5DB
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-577-lists,linux-ppp=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FREEMAIL_TO(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,nvidia.com,gmail.com,vger.kernel.org];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-578-lists,linux-ppp=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[linux.dev:+];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[qingfang.deng@linux.dev,linux-ppp@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-0.963];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-ppp,netdev];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[]
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[pabeni@redhat.com,linux-ppp@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-ppp];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ppp_common.sh:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Add PPPoE test-cases to the GRO selftest. Only run a subset of
-common_tests to avoid changing the hardcoded L3 offsets everywhere.
-Add a new "pppoe_sid" test case to verify that packets with different
-PPPoE session IDs are correctly identified as separate flows and not
-coalesced.
+On 5/8/26 5:21 AM, Qingfang Deng wrote:
+> diff --git a/tools/testing/selftests/net/ppp/pppol2tp.sh b/tools/testing/selftests/net/ppp/pppol2tp.sh
+> new file mode 100755
+> index 000000000000..5ddcc6c41c33
+> --- /dev/null
+> +++ b/tools/testing/selftests/net/ppp/pppol2tp.sh
+> @@ -0,0 +1,93 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +source ppp_common.sh
+> +
+> +NK_SERVER="nk0"
+> +NK_CLIENT="nk1"
+> +OUTER_IP_SERVER="172.16.1.1"
+> +OUTER_IP_CLIENT="172.16.1.2"
+> +
+> +PPPOL2TP_DIR=$(mktemp -d /tmp/pppol2tp.XXXXXX)
 
-Signed-off-by: Qingfang Deng <qingfang.deng@linux.dev>
----
-v9: fix buffer length in send_changed_pppoe_sid()
-v8: https://lore.kernel.org/netdev/20260501035102.293031-2-qingfang.deng@linux.dev
- - add a new macro L2_HLEN_MAX for PPPoE
-v7: https://lore.kernel.org/netdev/20260428064717.74794-2-qingfang.deng@linux.dev
- - Do not run all the tests for PPPoE
- - Add a new test for PPPoE
-v6: https://lore.kernel.org/netdev/20260326081127.61229-2-dqfext@gmail.com
- tools/testing/selftests/drivers/net/config |   2 +
- tools/testing/selftests/drivers/net/gro.py |  11 +++
- tools/testing/selftests/net/lib/gro.c      | 100 +++++++++++++++++----
- 3 files changed, 97 insertions(+), 16 deletions(-)
+Sashiko (gemini) reports an unhandled error condition here. AFAICS that
+is irrelevant as it could happen only on a broken system.
 
-diff --git a/tools/testing/selftests/drivers/net/config b/tools/testing/selftests/drivers/net/config
-index 2309109a94ec..617de8aaf551 100644
---- a/tools/testing/selftests/drivers/net/config
-+++ b/tools/testing/selftests/drivers/net/config
-@@ -10,5 +10,7 @@ CONFIG_NETCONSOLE_EXTENDED_LOG=y
- CONFIG_NETDEVSIM=m
- CONFIG_NET_SCH_ETF=m
- CONFIG_NET_SCH_FQ=m
-+CONFIG_PPP=y
-+CONFIG_PPPOE=y
- CONFIG_VLAN_8021Q=m
- CONFIG_XDP_SOCKETS=y
-diff --git a/tools/testing/selftests/drivers/net/gro.py b/tools/testing/selftests/drivers/net/gro.py
-index 5ffaa7bdbff4..fd158c775b1c 100755
---- a/tools/testing/selftests/drivers/net/gro.py
-+++ b/tools/testing/selftests/drivers/net/gro.py
-@@ -323,6 +323,12 @@ def _gro_variants():
-         "ip_frag6", "ip_v6ext_same", "ip_v6ext_diff",
-     ]
- 
-+    # Tests specific to PPPoE
-+    pppoe_tests = [
-+        "data_same", "data_lrg_sml", "data_sml_lrg", "data_lrg_1byte",
-+        "data_burst", "pppoe_sid",
-+    ]
-+
-     for mode in ["sw", "hw", "lro"]:
-         for protocol in ["ipv4", "ipv6", "ipip", "ip6ip6"]:
-             for test_name in common_tests:
-@@ -335,6 +341,11 @@ def _gro_variants():
-                 for test_name in ipv6_tests:
-                     yield mode, protocol, test_name
- 
-+    for mode in ["sw"]:
-+        for protocol in ["pppoev4", "pppoev6"]:
-+            for test_name in pppoe_tests:
-+                yield mode, protocol, test_name
-+
- 
- @ksft_variants(_gro_variants())
- def test(cfg, mode, protocol, test_name):
-diff --git a/tools/testing/selftests/net/lib/gro.c b/tools/testing/selftests/net/lib/gro.c
-index 11b16ae5f0e8..fa35dfc8e790 100644
---- a/tools/testing/selftests/net/lib/gro.c
-+++ b/tools/testing/selftests/net/lib/gro.c
-@@ -67,12 +67,14 @@
- #include <errno.h>
- #include <error.h>
- #include <getopt.h>
-+#include <net/ethernet.h>
-+#include <net/if.h>
- #include <linux/filter.h>
- #include <linux/if_packet.h>
-+#include <linux/if_pppox.h>
- #include <linux/ipv6.h>
- #include <linux/net_tstamp.h>
--#include <net/ethernet.h>
--#include <net/if.h>
-+#include <linux/ppp_defs.h>
- #include <netinet/in.h>
- #include <netinet/ip.h>
- #include <netinet/ip6.h>
-@@ -102,6 +104,7 @@
- #define MAX_LARGE_PKT_CNT ((IP_MAXPACKET - (MAX_HDR_LEN - ETH_HLEN)) /	\
- 			   (ASSUMED_MTU - (MAX_HDR_LEN - ETH_HLEN)))
- #define MIN_EXTHDR_SIZE 8
-+#define L2_HLEN_MAX	(ETH_HLEN + PPPOE_SES_HLEN)
- #define EXT_PAYLOAD_1 "\x00\x00\x00\x00\x00\x00"
- #define EXT_PAYLOAD_2 "\x11\x11\x11\x11\x11\x11"
- 
-@@ -134,6 +137,7 @@ static int total_hdr_len = -1;
- static int ethhdr_proto = -1;
- static bool ipip;
- static bool ip6ip6;
-+static bool pppoe;
- static uint64_t txtime_ns;
- static int num_flows = 4;
- static bool order_check;
-@@ -171,6 +175,22 @@ static void vlog(const char *fmt, ...)
- 	}
- }
- 
-+static void fill_pppoelayer(void *buf, int payload_len, uint16_t sid)
-+{
-+	struct pppoe_ppp_hdr {
-+		struct pppoe_hdr eh;
-+		__be16 proto;
-+	} *ph = buf;
-+
-+	payload_len += sizeof(struct tcphdr);
-+	ph->eh.type = 1;
-+	ph->eh.ver = 1;
-+	ph->eh.code = 0;
-+	ph->eh.sid = htons(sid);
-+	ph->eh.length = htons(payload_len + sizeof(ph->proto));
-+	ph->proto = htons(proto == PF_INET ? PPP_IP : PPP_IPV6);
-+}
-+
- static void setup_sock_filter(int fd)
- {
- 	const int dport_off = tcp_offset + offsetof(struct tcphdr, dest);
-@@ -412,11 +432,15 @@ static void create_packet(void *buf, int seq_offset, int ack_offset,
- 
- 	fill_networklayer(buf + inner_ip_off, payload_len, IPPROTO_TCP);
- 	if (inner_ip_off > ETH_HLEN) {
--		int encap_proto = (proto == PF_INET) ?
--				  IPPROTO_IPIP : IPPROTO_IPV6;
-+		if (pppoe) {
-+			fill_pppoelayer(buf + ETH_HLEN, payload_len + ip_hdr_len, 0x1234);
-+		} else {
-+			int encap_proto = (proto == PF_INET) ?
-+					  IPPROTO_IPIP : IPPROTO_IPV6;
- 
--		fill_networklayer(buf + ETH_HLEN,
--				  payload_len + ip_hdr_len, encap_proto);
-+			fill_networklayer(buf + ETH_HLEN,
-+					  payload_len + ip_hdr_len, encap_proto);
-+		}
- 	}
- 
- 	fill_datalinklayer(buf);
-@@ -526,7 +550,7 @@ static void send_flags(int fd, struct sockaddr_ll *daddr, int psh, int syn,
- static void send_data_pkts(int fd, struct sockaddr_ll *daddr,
- 			   int payload_len1, int payload_len2)
- {
--	static char buf[ETH_HLEN + IP_MAXPACKET];
-+	static char buf[L2_HLEN_MAX + IP_MAXPACKET];
- 
- 	create_packet(buf, 0, 0, payload_len1, 0);
- 	write_packet(fd, buf, total_hdr_len + payload_len1, daddr);
-@@ -1071,6 +1095,20 @@ static void send_fragment6(int fd, struct sockaddr_ll *daddr)
- 	write_packet(fd, buf, bufpkt_len, daddr);
- }
- 
-+static void send_changed_pppoe_sid(int fd, struct sockaddr_ll *daddr)
-+{
-+	static char buf[MAX_HDR_LEN + PAYLOAD_LEN];
-+	int pkt_size = total_hdr_len + PAYLOAD_LEN;
-+	struct pppoe_hdr *hdr = (struct pppoe_hdr *)(buf + ETH_HLEN);
-+
-+	create_packet(buf, 0, 0, PAYLOAD_LEN, 0);
-+	write_packet(fd, buf, pkt_size, daddr);
-+
-+	create_packet(buf, PAYLOAD_LEN, 0, PAYLOAD_LEN, 0);
-+	hdr->sid = htons(0x4321);
-+	write_packet(fd, buf, pkt_size, daddr);
-+}
-+
- static void bind_packetsocket(int fd)
- {
- 	struct sockaddr_ll daddr = {};
-@@ -1121,9 +1159,10 @@ static void recv_error(int fd, int rcv_errno)
- static void check_recv_pkts(int fd, int *correct_payload,
- 			    int correct_num_pkts)
- {
--	static char buffer[IP_MAXPACKET + ETH_HLEN + 1];
--	struct iphdr *iph = (struct iphdr *)(buffer + ETH_HLEN);
--	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buffer + ETH_HLEN);
-+	static char buffer[IP_MAXPACKET + L2_HLEN_MAX + 1];
-+	int nhoff = ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0);
-+	struct iphdr *iph = (struct iphdr *)(buffer + nhoff);
-+	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buffer + nhoff);
- 	struct tcphdr *tcph;
- 	bool bad_packet = false;
- 	int tcp_ext_len = 0;
-@@ -1140,7 +1179,7 @@ static void check_recv_pkts(int fd, int *correct_payload,
- 
- 	while (1) {
- 		ip_ext_len = 0;
--		pkt_size = recv(fd, buffer, IP_MAXPACKET + ETH_HLEN + 1, 0);
-+		pkt_size = recv(fd, buffer, sizeof(buffer), 0);
- 		if (pkt_size < 0)
- 			recv_error(fd, errno);
- 
-@@ -1183,9 +1222,10 @@ static void check_recv_pkts(int fd, int *correct_payload,
- 
- static void check_capacity_pkts(int fd)
- {
--	static char buffer[IP_MAXPACKET + ETH_HLEN + 1];
--	struct iphdr *iph = (struct iphdr *)(buffer + ETH_HLEN);
--	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buffer + ETH_HLEN);
-+	static char buffer[IP_MAXPACKET + L2_HLEN_MAX + 1];
-+	int nhoff = ETH_HLEN + (pppoe ? PPPOE_SES_HLEN : 0);
-+	struct iphdr *iph = (struct iphdr *)(buffer + nhoff);
-+	struct ipv6hdr *ip6h = (struct ipv6hdr *)(buffer + nhoff);
- 	int num_pkt = 0, num_coal = 0, pkt_idx;
- 	const char *fail_reason = NULL;
- 	int flow_order[num_flows * 2];
-@@ -1203,7 +1243,7 @@ static void check_capacity_pkts(int fd)
- 
- 	while (1) {
- 		ip_ext_len = 0;
--		pkt_size = recv(fd, buffer, IP_MAXPACKET + ETH_HLEN + 1, 0);
-+		pkt_size = recv(fd, buffer, sizeof(buffer), 0);
- 		if (pkt_size < 0)
- 			recv_error(fd, errno);
- 
-@@ -1499,6 +1539,12 @@ static void gro_sender(void)
- 		usleep(fin_delay_us);
- 		write_packet(txfd, fin_pkt, total_hdr_len, &daddr);
- 
-+	/* PPPoE sub-tests */
-+	} else if (strcmp(testname, "pppoe_sid") == 0) {
-+		send_changed_pppoe_sid(txfd, &daddr);
-+		usleep(fin_delay_us);
-+		write_packet(txfd, fin_pkt, total_hdr_len, &daddr);
-+
- 	} else {
- 		error(1, 0, "Unknown testcase: %s", testname);
- 	}
-@@ -1716,6 +1762,12 @@ static void gro_receiver(void)
- 	} else if (strcmp(testname, "capacity") == 0) {
- 		check_capacity_pkts(rxfd);
- 
-+	} else if (strcmp(testname, "pppoe_sid") == 0) {
-+		correct_payload[0] = PAYLOAD_LEN;
-+		correct_payload[1] = PAYLOAD_LEN;
-+		printf("different PPPoE session ID doesn't coalesce: ");
-+		check_recv_pkts(rxfd, correct_payload, 2);
-+
- 	} else {
- 		error(1, 0, "Test case error: unknown testname %s", testname);
- 	}
-@@ -1734,6 +1786,8 @@ static void parse_args(int argc, char **argv)
- 		{ "ipv6", no_argument, NULL, '6' },
- 		{ "ipip", no_argument, NULL, 'e' },
- 		{ "ip6ip6", no_argument, NULL, 'E' },
-+		{ "pppoev4", no_argument, NULL, 'p' },
-+		{ "pppoev6", no_argument, NULL, 'P' },
- 		{ "num-flows", required_argument, NULL, 'n' },
- 		{ "rx", no_argument, NULL, 'r' },
- 		{ "saddr", required_argument, NULL, 's' },
-@@ -1745,7 +1799,7 @@ static void parse_args(int argc, char **argv)
- 	};
- 	int c;
- 
--	while ((c = getopt_long(argc, argv, "46d:D:eEi:n:rs:S:t:ov", opts, NULL)) != -1) {
-+	while ((c = getopt_long(argc, argv, "46d:D:eEi:n:pPrs:S:t:ov", opts, NULL)) != -1) {
- 		switch (c) {
- 		case '4':
- 			proto = PF_INET;
-@@ -1765,6 +1819,16 @@ static void parse_args(int argc, char **argv)
- 			proto = PF_INET6;
- 			ethhdr_proto = htons(ETH_P_IPV6);
- 			break;
-+		case 'p':
-+			pppoe = true;
-+			proto = PF_INET;
-+			ethhdr_proto = htons(ETH_P_PPP_SES);
-+			break;
-+		case 'P':
-+			pppoe = true;
-+			proto = PF_INET6;
-+			ethhdr_proto = htons(ETH_P_PPP_SES);
-+			break;
- 		case 'd':
- 			addr4_dst = addr6_dst = optarg;
- 			break;
-@@ -1812,6 +1876,10 @@ int main(int argc, char **argv)
- 	} else if (ip6ip6) {
- 		tcp_offset = ETH_HLEN + sizeof(struct ipv6hdr) * 2;
- 		total_hdr_len = tcp_offset + sizeof(struct tcphdr);
-+	} else if (pppoe) {
-+		tcp_offset = ETH_HLEN + PPPOE_SES_HLEN +
-+			(proto == PF_INET ? sizeof(struct iphdr) : sizeof(struct ipv6hdr));
-+		total_hdr_len = tcp_offset + sizeof(struct tcphdr);
- 	} else if (proto == PF_INET) {
- 		tcp_offset = ETH_HLEN + sizeof(struct iphdr);
- 		total_hdr_len = tcp_offset + sizeof(struct tcphdr);
--- 
-2.43.0
+> +
+> +# shellcheck disable=SC2329
+> +cleanup() {
+> +	cleanup_all_ns
+> +	rm -rf "$PPPOL2TP_DIR"
+> +}
+> +
+> +trap cleanup EXIT
+> +
+> +require_command xl2tpd
+> +ppp_common_init
+> +modprobe -q l2tp_ppp
+> +
+> +# Create the netkit pair
+> +ip -netns "$NS_CLIENT" link add "$NK_CLIENT" type netkit
+> +ip -netns "$NS_CLIENT" link set "$NK_SERVER" netns "$NS_SERVER"
+> +ip -netns "$NS_SERVER" link set "$NK_SERVER" up
+> +ip -netns "$NS_CLIENT" link set "$NK_CLIENT" up
+> +ip -netns "$NS_SERVER" address add dev "$NK_SERVER" "$OUTER_IP_SERVER" peer "$OUTER_IP_CLIENT"
+> +ip -netns "$NS_CLIENT" address add dev "$NK_CLIENT" "$OUTER_IP_CLIENT" peer "$OUTER_IP_SERVER"
+> +
+> +# Generate configuration files
+> +cat > "$PPPOL2TP_DIR/l2tp-server.conf" <<EOF
+> +[global]
+> +listen-addr = $OUTER_IP_SERVER
+> +access control = no
+> +
+> +[lns default]
+> +ip range = $IP_CLIENT
+> +local ip = $IP_SERVER
+> +require authentication = no
+> +require chap = no
+> +require pap = no
+> +ppp debug = yes
+> +pppoptfile = $(pwd)/pppoe-server-options
+> +EOF
+> +
+> +cat > "$PPPOL2TP_DIR/l2tp-client.conf" <<EOF
+> +[global]
+> +listen-addr = $OUTER_IP_CLIENT
+> +access control = no
+> +
+> +[lac server]
+> +lns = $OUTER_IP_SERVER
+> +require authentication = no
+> +require chap = no
+> +require pap = no
+> +ppp debug = yes
+> +pppoptfile = $(pwd)/pppoe-server-options
+> +EOF
+> +
+> +# Start the L2TP Server
+> +ip netns exec "$NS_SERVER" xl2tpd -D -c "$PPPOL2TP_DIR/l2tp-server.conf" \
+> +	-p "$PPPOL2TP_DIR/l2tp-server.pid" -C "$PPPOL2TP_DIR/l2tp-server.control" &
+> +
+> +# Start the L2TP Client
+> +ip netns exec "$NS_CLIENT" xl2tpd -D -c "$PPPOL2TP_DIR/l2tp-client.conf" \
+> +	-p "$PPPOL2TP_DIR/l2tp-client.pid" -C "$PPPOL2TP_DIR/l2tp-client.control" &
+> +
+> +# Wait for xl2tpd to start and open their control pipes
+> +slowwait 2 [ -p "$PPPOL2TP_DIR/l2tp-server.control" ]
+> +slowwait 2 [ -p "$PPPOL2TP_DIR/l2tp-client.control" ]
+> +
+> +# Connect LAC to LNS
+> +echo "c server" > "$PPPOL2TP_DIR/l2tp-client.control"
+> +
+> +ppp_test_connectivity
+> +
+> +log_test "PPPoL2TP"
+> +
+> +# Recursion test
+> +# Delete route to LNS IP
+> +ip -netns "$NS_CLIENT" route del "$OUTER_IP_SERVER"
+> +# Add default route through ppp0
+> +ip -netns "$NS_CLIENT" route add default dev ppp0
+> +# ping (we expect the ping to fail but not deadlock the system)
+> +ip netns exec "$NS_CLIENT" ping -c 1 "$IP_SERVER" -w 1
+> +check_fail $?
+
+Sashiko notes you should clear the RET global variable before any direct
+or indirect invocation of check_err
+
+/P
 
 
