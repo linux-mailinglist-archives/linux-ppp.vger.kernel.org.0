@@ -1,171 +1,223 @@
-Return-Path: <linux-ppp+bounces-603-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-604-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Kz/6GNnCL2pSGAUAu9opvQ
-	(envelope-from <linux-ppp+bounces-603-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Mon, 15 Jun 2026 11:16:09 +0200
+	id JfODDTMXQWqckwkAu9opvQ
+	(envelope-from <linux-ppp+bounces-604-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Sun, 28 Jun 2026 14:44:35 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDDE684F77
-	for <lists+linux-ppp@lfdr.de>; Mon, 15 Jun 2026 11:16:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 804DA6D3D46
+	for <lists+linux-ppp@lfdr.de>; Sun, 28 Jun 2026 14:44:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=D5enJjr9;
-	spf=pass (mail.lfdr.de: domain of "linux-ppp+bounces-603-lists+linux-ppp=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-ppp+bounces-603-lists+linux-ppp=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=doyensec.com header.s=google header.b=DAmu0AcP;
+	spf=pass (mail.lfdr.de: domain of "linux-ppp+bounces-604-lists+linux-ppp=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-ppp+bounces-604-lists+linux-ppp=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=doyensec.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 225E73019125
-	for <lists+linux-ppp@lfdr.de>; Mon, 15 Jun 2026 09:15:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 431A8300950E
+	for <lists+linux-ppp@lfdr.de>; Sun, 28 Jun 2026 12:44:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 588F33DA5CF;
-	Mon, 15 Jun 2026 09:15:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5AE03A6B61;
+	Sun, 28 Jun 2026 12:44:32 +0000 (UTC)
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9B03D9DB7;
-	Mon, 15 Jun 2026 09:15:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7983A4F4B
+	for <linux-ppp@vger.kernel.org>; Sun, 28 Jun 2026 12:44:30 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781514952; cv=none; b=ZdLqHZRM1I3ztCjGVRBC8PTX3658HQSQZYDb6ZVq4pJsmhWZSICCqWdxOragg3y+gdz2FQOfbXlupq9anz82B5ix6/FLP2i7jF3ya8S5UpcRiNbkuvAxSIUwFs2WKJH9ldYOLiFJHFUEpb0mfi8uU3AMuKMNkJiNT0Gwo6ezmLY=
+	t=1782650672; cv=none; b=Enav5pFGHf6AhqxHcKtk0HWCsck4rpzacxkWrTB629dna0VOna9RObwhWoFVhZQo5ZPk4cYyyE/1Iskphtbi4DrnxBhruxoRIOnXZ4BOtlDQ9dbmFEsDTInd901KAhCVMtcobgEq/fonDtIsE79iQ1oSdggzGNzjQjEox7NW9Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781514952; c=relaxed/simple;
-	bh=LVAo4Ed2o+uU2kdmhbF/FvxsYQACAQEf1KFVg/vCYHQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
-	 In-Reply-To:Content-Type; b=ZxHG0QEnnv04tqSPA0noufxZ22ful5EXsql9QgNiMlVX42eXTkCRUCnvOlOCW/H4M0PyqMe5TUvF+2h9xvRHSK+bn6VpGZYaTdVBGCUaSzIaF4xzuhhOVGujR4IJb7pbKzQx4X4vzRe5kuJ8ecrEsDbdNNtpk//mARC9g00pqek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5enJjr9; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB0CA1F000E9;
-	Mon, 15 Jun 2026 09:15:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781514947;
-	bh=LVAo4Ed2o+uU2kdmhbF/FvxsYQACAQEf1KFVg/vCYHQ=;
-	h=Date:Subject:To:References:From:Cc:In-Reply-To;
-	b=D5enJjr9pxzCGfW0djSw6PRO1G8OwqsFGWvmn2Bpbjlw1aepA5k8VByBZqljAUyh4
-	 OG/qhWT5z7m1K3zgPPKhlErCDGOCtNChGTx6fdONSm5855NM/BiTC5eCIQxtVv0rvr
-	 pHPo1eQqKvHkRr5j7fZGhgDoHkSColVteNcP6PnIsPxFL8TvO3FMFB0U9Nkqft/9+m
-	 RTCIEF6o+OCBBhDteeGpGAPetOb4tYDP5uO+ptW6b/pX8HqCgZRFx1E/qJlYrpUQyp
-	 Ge08eqfFIyRNkAaWpOIgTe6sVt6jaxSvW2GkPT1KXunc6r96K4R2si8xCdHIW6tPdV
-	 dOvmiMzEblyeg==
-Message-ID: <fac2b43c-4121-41b3-a7fe-d52ddb63f413@kernel.org>
-Date: Mon, 15 Jun 2026 11:15:40 +0200
+	s=arc-20240116; t=1782650672; c=relaxed/simple;
+	bh=IPjEHzSTdwyloWctFDPS+6k8OmXJDIPZjH823U/Xxe4=;
+	h=From:Content-Type:Mime-Version:Date:Subject:Cc:To:Message-Id; b=aiV1myQWy3/N2Rp4FALGEe6S78m0Fnm5XTWX2V+JfoErca3WApoG2gEsma8usCkC6dcB3XYzPlGwuTKK9TKst0jgHMyEVKE6t6zpbUGCXg4Scy5Q4z/EiTyHyY22Lg6onwM6/c+bLC/cFCfdEQp8WIIvBTEIQZWw9D4UPfNV63w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com; spf=pass smtp.mailfrom=doyensec.com; dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b=DAmu0AcP; arc=none smtp.client-ip=209.85.218.44
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c122e4590c6so217088066b.1
+        for <linux-ppp@vger.kernel.org>; Sun, 28 Jun 2026 05:44:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=doyensec.com; s=google; t=1782650669; x=1783255469; darn=vger.kernel.org;
+        h=message-id:to:cc:subject:date:mime-version
+         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z/PKxXDyIAMOlaR096tTQhy4xjIPnfe/Wjks8AZRapc=;
+        b=DAmu0AcPWloxuKqJtRQnPW/tMGJS9i2Ncu31u2qdHf3JVsP5zNHXsjC3Et43dHgKNQ
+         0F36FVeSY7ZpWVLZSYDAgYKuKm/Fkm1Ut6pDEfuCr2okx+zsH8elBelPAT0xls5pecXF
+         6d29Q6o7n7azAiwQDsc6pS4EMHEOme37233fnGzz95GWt4p3oELxVutxYLR/EWQpNYlw
+         a1+Y1WTQhSfOaLFeJKk8BzI7wo5TDtvZz91Kh8hWm1gysJKZp4uGb7hBhnNH0Rm4bAdF
+         tqa0qsPfZytGp48nNpgayH7OzZ17XRVVIGO9gsdChID6Khnzuva4cGD2kuef6z0MytSu
+         UFLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782650669; x=1783255469;
+        h=message-id:to:cc:subject:date:mime-version
+         :content-transfer-encoding:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Z/PKxXDyIAMOlaR096tTQhy4xjIPnfe/Wjks8AZRapc=;
+        b=Q9AYJcZnSV9DcJiKU4rsddyVQBnVbt5VBNrto+huF5+a8xxSm2MRWkxIzBVEJrIRpu
+         RQV9FA3+wZuGCv6Cn+GIUhsywsBq7lB4bZi4Gqr42RceAmfvoGi2xhEbRMJ84LGxMSN1
+         IZG1/Y8ZJ5C3ge+XSMz+XxPCXei5B6nZLXoXGzbKokvbZnvdXXEpH6f0kK/YgC85iuco
+         d6vQMf0SAg5yQxCDumMhLBcsWoHL6yE/rFLIZo7kobiwLRbGls/hhJs0f2KWLNnECD6l
+         +EwBjf2pTlwu5Ku2JxlYJ6THk4Nfy834aezp+bJx6tDn6TvvGuV+/OOnJkeVj5I7PFjv
+         gmLQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrASErdAdlUAGInBH349SVXlMRhds/RTyGT2Yqbg8Ovkmjtp2N80P2waFY2f4C/5fvB+tnpVFt6nqE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy97bkJrlziE03Oe+/m4eIHpshBw2vRbrhAPG0qGNEx1LMzrtzr
+	JYDjX//3lp6RnEwlpdRbTUwJ8O75WDjMNpgkBvYN2nDbzpEhtphWtUH70eFGctGLiqY=
+X-Gm-Gg: AfdE7cn8KgUrmKEnSWMbOANwUtYdjodumPZ+6JfyW3Sk5RTPd7VgKB1Hq21gjOvvWH9
+	6fQbOH1v/B0rOwdP2iqMscGxD3FAhcOiBqELdOaGA8cD5IJtEwQ+8cGDep+Bayt0WYlANP53RDo
+	ctvbUuL/g6smaNYetcU4eQKzDyaUMiNe8EIiDFed+1uE6CFdhNVyrmUxgLThitHXiE/qyg7COIX
+	uxgnuKWX/rm1iUTtJapFkr8th9VkNfb86eWcwW3Be+V9+Xie2K+kqjNmPXTNMbeAU2L7rFYCSWd
+	Q7l5cEHnHlM5/bO4VtcLVYgYy32VdX1fsy9+IgsdnrzQbmpYq2gfpf1u8n1EZqiWL/ZqJcLd5dV
+	rw9aYhZ2SicdtBjPVTAcCgTR4gqT/fWeyn6Z+A2VarNGf2jeeR+64GJ0XX+m+X7xT6KbN6u8ZI3
+	oNZwxoP0xOcjd/HviuOch5mxAXDUgV0ISDBHt6f9IQjXXxY+Y0A8rFbK8onaKxHR9EWATnwjs=
+X-Received: by 2002:a17:907:720a:b0:c12:5a0e:3e0 with SMTP id a640c23a62f3a-c125a0e0aacmr87293766b.19.1782650669201;
+        Sun, 28 Jun 2026 05:44:29 -0700 (PDT)
+Received: from smtpclient.apple (83.10.35.68.ipv4.supernova.orange.pl. [83.10.35.68])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c11fbc2c6a9sm625534066b.28.2026.06.28.05.44.27
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 28 Jun 2026 05:44:28 -0700 (PDT)
+From: Norbert Szetei <norbert@doyensec.com>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH net-next] selftests: net: do not detect PPPoX loopback
-To: Qingfang Deng <qingfang.deng@linux.dev>
-References: <20260603061746.23452-1-qingfang.deng@linux.dev>
-From: Matthieu Baerts <matttbe@kernel.org>
-Content-Language: fr
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Shuah Khan <shuah@kernel.org>, linux-ppp@vger.kernel.org,
- netdev@vger.kernel.org, linux-kselftest@vger.kernel.org,
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
+Date: Sun, 28 Jun 2026 14:44:16 +0200
+Subject: [PATCH net] ppp: fix use-after-free reads in the stats ioctls.
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>,
+ linux-ppp@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Autocrypt: addr=matttbe@kernel.org; keydata=
- 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
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <20260603061746.23452-1-qingfang.deng@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: netdev@vger.kernel.org
+Message-Id: <CF6F0CC7-C448-406B-8E24-2025AD585D18@doyensec.com>
+X-Mailer: Apple Mail (2.3826.700.81.1.4)
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[doyensec.com,none];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[doyensec.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:qingfang.deng@linux.dev,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:horms@kernel.org,m:shuah@kernel.org,m:linux-ppp@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-kselftest@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[matttbe@kernel.org,linux-ppp@vger.kernel.org];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-603-lists,linux-ppp=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[matttbe@kernel.org,linux-ppp@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[linux-ppp];
+	TAGGED_FROM(0.00)[bounces-604-lists,linux-ppp=lfdr.de];
+	FORGED_SENDER(0.00)[norbert@doyensec.com,linux-ppp@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux-ppp@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:netdev@vger.kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
+	DKIM_TRACE(0.00)[doyensec.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[norbert@doyensec.com,linux-ppp@vger.kernel.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linux.dev:url,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-ppp,netdev];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1FDDE684F77
+X-Rspamd-Queue-Id: 804DA6D3D46
 
-Hi Qingfang,
+ppp_get_stats() (SIOCGPPPSTATS) and the SIOCGPPPCSTATS handler, both
+reached from ppp_net_siocdevprivate(), dereference state that other
+ioctls free under the ppp lock, without taking it:
 
-On 03/06/2026 08:17, Qingfang Deng wrote:
-> By default, pppd attempts to detect loopbacks on the underlying
-> interface using a pseudo-randomly generated magic number and checks if
-> the same value is received. The seed for the PRNG is a hash of hostname
-> XOR current time XOR pid, which is likely to collide on NIPA, causing
-> false positives. Disable magic number generation.
+  - ppp_get_stats() reads ppp->vj; PPPIOCSMAXCID frees it with
+    slhc_free() under ppp_lock().
+  - SIOCGPPPCSTATS calls ->comp_stat()/->decomp_stat() on
+    ppp->xc_state / ppp->rc_state; PPPIOCSCOMPRESS and ppp_ccp_closed()
+    free those.
 
-Thank you for the fix!
+A concurrent stats ioctl can then read freed memory (slab-use-after-
+free), and the freed contents are copied back to userspace. This is=20
+reachable by a local user who has CAP_NET_ADMIN privileges and=20
+read/write access to /dev/ppp.
 
-It looks like the test is no longer flaky [1], so I just unignored it on
-NIPA.
+Take the lock the freeing path holds around each access: the receive
+lock in ppp_get_stats() (PPPIOCSMAXCID frees ppp->vj under ppp_lock(),
+which includes it) and ppp_lock() around the SIOCGPPPCSTATS callbacks.
 
-[1] https://netdev.bots.linux.dev/contest.html?skip=0&test=pppol2tp-sh
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Norbert Szetei <norbert@doyensec.com>
+---
+ drivers/net/ppp/ppp_generic.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-Cheers,
-Matt
+diff --git a/drivers/net/ppp/ppp_generic.c =
+b/drivers/net/ppp/ppp_generic.c
+index 57c68efa5ff8..847c5e1793c8 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -1505,10 +1505,13 @@ ppp_net_siocdevprivate(struct net_device *dev, =
+struct ifreq *ifr,
+
+ 	case SIOCGPPPCSTATS:
+ 		memset(&cstats, 0, sizeof(cstats));
++		/* protect against PPPIOCSCOMPRESS/ppp_ccp_closed() =
+freeing the state */
++		ppp_lock(ppp);
+ 		if (ppp->xc_state)
+ 			ppp->xcomp->comp_stat(ppp->xc_state, &cstats.c);
+ 		if (ppp->rc_state)
+ 			ppp->rcomp->decomp_stat(ppp->rc_state, =
+&cstats.d);
++		ppp_unlock(ppp);
+ 		if (copy_to_user(addr, &cstats, sizeof(cstats)))
+ 			break;
+ 		err =3D 0;
+@@ -3303,7 +3306,7 @@ find_compressor(int type)
+ static void
+ ppp_get_stats(struct ppp *ppp, struct ppp_stats *st)
+ {
+-	struct slcompress *vj =3D ppp->vj;
++	struct slcompress *vj;
+ 	int cpu;
+
+ 	memset(st, 0, sizeof(*st));
+@@ -3323,8 +3326,14 @@ ppp_get_stats(struct ppp *ppp, struct ppp_stats =
+*st)
+ 	}
+ 	st->p.ppp_ierrors =3D ppp->dev->stats.rx_errors;
+ 	st->p.ppp_oerrors =3D ppp->dev->stats.tx_errors;
+-	if (!vj)
++
++	/* protect against PPPIOCSMAXCID freeing ppp->vj */
++	ppp_recv_lock(ppp);
++	vj =3D ppp->vj;
++	if (!vj) {
++		ppp_recv_unlock(ppp);
+ 		return;
++	}
+ 	st->vj.vjs_packets =3D vj->sls_o_compressed + =
+vj->sls_o_uncompressed;
+ 	st->vj.vjs_compressed =3D vj->sls_o_compressed;
+ 	st->vj.vjs_searches =3D vj->sls_o_searches;
+@@ -3333,6 +3342,7 @@ ppp_get_stats(struct ppp *ppp, struct ppp_stats =
+*st)
+ 	st->vj.vjs_tossed =3D vj->sls_i_tossed;
+ 	st->vj.vjs_uncompressedin =3D vj->sls_i_uncompressed;
+ 	st->vj.vjs_compressedin =3D vj->sls_i_compressed;
++	ppp_recv_unlock(ppp);
+ }
+
+ /*
+--
+2.54.0=
 
