@@ -1,112 +1,108 @@
-Return-Path: <linux-ppp+bounces-610-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-611-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id YvlxMIdWRWq3+goAu9opvQ
-	(envelope-from <linux-ppp+bounces-610-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Wed, 01 Jul 2026 20:03:51 +0200
+	id m861A5lYRWoe+woAu9opvQ
+	(envelope-from <linux-ppp+bounces-611-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Wed, 01 Jul 2026 20:12:41 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A186F07DC
-	for <lists+linux-ppp@lfdr.de>; Wed, 01 Jul 2026 20:03:51 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 974606F0870
+	for <lists+linux-ppp@lfdr.de>; Wed, 01 Jul 2026 20:12:40 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=doyensec.com header.s=google header.b=br9x+myF;
-	spf=pass (mail.lfdr.de: domain of "linux-ppp+bounces-610-lists+linux-ppp=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-ppp+bounces-610-lists+linux-ppp=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=doyensec.com header.s=google header.b=PvM9YUYK;
+	spf=pass (mail.lfdr.de: domain of "linux-ppp+bounces-611-lists+linux-ppp=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-ppp+bounces-611-lists+linux-ppp=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=doyensec.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3D5603012CA0
-	for <lists+linux-ppp@lfdr.de>; Wed,  1 Jul 2026 18:03:50 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E95DC30530F2
+	for <lists+linux-ppp@lfdr.de>; Wed,  1 Jul 2026 18:12:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB6E04BCAD5;
-	Wed,  1 Jul 2026 18:03:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCC764C6EE7;
+	Wed,  1 Jul 2026 18:12:36 +0000 (UTC)
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej2-f2.google.com (mail-ej2-f2.google.com [74.125.228.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5694380FC8
-	for <linux-ppp@vger.kernel.org>; Wed,  1 Jul 2026 18:03:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E3C4C040F
+	for <linux-ppp@vger.kernel.org>; Wed,  1 Jul 2026 18:12:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782929029; cv=none; b=TK0DfexEc61/OnO8tJkjt5g6AQ+N5Rt+yYYYQlq/0hq4bQC/rbGC0cGoMF8CmkWsfr0T4JBqFekYltN1U7te4ky3GvblOwMmD+rNqbLtPTLD6JMX6H74m+ALTTJjgsWl0L5cpYwCwR+ka0/llubSL/badCTkrRqzQwQLJ6L18Hk=
+	t=1782929556; cv=none; b=INbqJ9MD2jH405MGO4F0RZvCY/aeHpOVRljpUh5kma+VWtLOS9iUinwc+AFIU5k3fWQJv0ZQJrJI2V2GYWes0WKshkVYTDOfISFGtkpvE4AFzZ4RaNaAbh2tbs6leyP9Na7GUvjzypbZvILE73YUbZi2MRSBEZteNixtFI5S9fE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782929029; c=relaxed/simple;
-	bh=tz42eNd6WagsuusT0g550uH1iQuPtwD0rcAzzXXjzGQ=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=qq9XC6wIFTA4psZ3eRdaCs32uvP1pD6WUi3LN5Kw4xuf9GD2MHPA5nPm49tzo+UuNZ4VT5sDvauWRkbcPsnh4d/7iKkk0cu2NG8iViufQ1i0z+2ORXrqyaGpmZ0rEEJ8rOuPzNw8ZZZvnuZGawyjYURCfxIvAKZGaJJonDUNm/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com; spf=pass smtp.mailfrom=doyensec.com; dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b=br9x+myF; arc=none smtp.client-ip=209.85.208.46
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-695f6438518so1485547a12.0
-        for <linux-ppp@vger.kernel.org>; Wed, 01 Jul 2026 11:03:47 -0700 (PDT)
+	s=arc-20240116; t=1782929556; c=relaxed/simple;
+	bh=/1yAh8GBDR233LTpfBg0ezKT8gqdt2ZcnWPhVi1DUhg=;
+	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=ENu1jYBHDrZF2s5Nk9wZmHvpZXFzJ0pxd8HDH7ii5yCF//S6j7i6LumEF3Xyi14kCtVR9b/ipr4nQRIhm/ly2PsvDG2oHPWusvM9/Yv7NugO+MbErX5+yLLRU3WlTl4Bw0xHX7jGLdyQQ5ijgYCETvqjgZ2Yt36bAj/kZhn210o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com; spf=pass smtp.mailfrom=doyensec.com; dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b=PvM9YUYK; arc=none smtp.client-ip=74.125.228.130
+Received: by mail-ej2-f2.google.com with SMTP id a640c23a62f3a-c127ca7b5b6so36170966b.1
+        for <linux-ppp@vger.kernel.org>; Wed, 01 Jul 2026 11:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=doyensec.com; s=google; t=1782929026; x=1783533826; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tz42eNd6WagsuusT0g550uH1iQuPtwD0rcAzzXXjzGQ=;
-        b=br9x+myF9c7NZ0AEYfUsQcpEIWNbfamyuw6HHM+SIZDx8qgebdAhWM02lk107nIsoJ
-         XOYVP27uIgC6Ji3T94WJ7G5uWgNYMbQH+CrD/nMRVTXqs9WsZUyQ7WsA7BTls5PLvoNS
-         p3ve1xuSk24QqV0+KXEt3aq+WJ2+JNTvumVQDT54jjfHhsoi+T/BLeTD+qB5Na386YuW
-         1CG+rQ+ES6ELNEqaC2UvGLKprJVpO0TzxNrLryG4BJOakC6iPTbDbWz3WS8zuqdHAvgt
-         Of/4A8Ri+g1w0LCyv5CWyvm1BQsD7jpzubzXgFgMijwUN2jSGyD03fElGAgrtW9ARkyR
-         L+QQ==
+        d=doyensec.com; s=google; t=1782929554; x=1783534354; darn=vger.kernel.org;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p2CFjtKSFMabkMab/8Wra001PVD5OGn/L4VHRmfqhng=;
+        b=PvM9YUYKIVwpIC3TwrXMBs2Nx7CmPCh09VZBZ+FSqpClER7OeOg+r8X5HysGdGXDxk
+         40MdI3+ieQJnkb5WFKLJ8kLkL+ShczZxL+HvyY7RfuIiOOMHQo791u2f9Fo7mjkhqoXM
+         gCv5uUpDmBB3DtOFaWG/QYsK3AEoIxVFXawLMFjIIspoedJCUOYdgk1bp7M43Rd5/vCV
+         BRQcRUEVvWRet5vtkBYzIgUrv3ezVyDCEk02ggt4iYb2pZ0x2+1ORlCy2UvW1xkkld6c
+         sK79UgI25vLymU7ns2tcqRlSyJYjiCX2v6N8CoQHJ6s2LJ91ahfNfvQO/JfkCG0hMXeO
+         0rhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782929026; x=1783533826;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tz42eNd6WagsuusT0g550uH1iQuPtwD0rcAzzXXjzGQ=;
-        b=J5/hRw+tJjDzFr8id5YA6zK2UBvHqrusdDZ0jaWvKihjz3XhAUDEUbc671Ulqhf0ce
-         94R0o8FPImAAu7kW1NDIqfqe7sgYFogCNDGhVFib0aaVx2gBwznuTJisKmUe2v1cBLX0
-         X/yi+LsdWwAEPEWg77BcXgNQMTWaTdTjO45Z9rWIRVnYoAohuK8hXSbaFTSUWh0JK0oz
-         4ef8bWGR074M7I8vKH1DZSMR2urO7PxqKt0o6NGB4LRIagvgMCvAF84qbDfzPrYHktNr
-         iXRUxahAhcdE3Vo+o86WJIaFpVuCjbaqVzd8beqUumQKhqhD+CO2KHfP/jhcxI6zeXfA
-         FDcg==
-X-Forwarded-Encrypted: i=1; AHgh+RqDguld2/g5zEqYaQ7kmRqVeNjjkUawWNzFM+XXhQfF3T5Td7hmwLa0omx38z3dGfhHbdyOpDfd8LE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzm56VRV9tLI00gp8jLBSi7JQ3uC8B/5vOpi/E0yx8UJ/9mRDh3
-	iwSLJmKF3sb+cXtBLFBUutQtQa0YiY+9VIhBtMB7sKHVhWTM8/vzxR0Ha8PienoVc0Q=
-X-Gm-Gg: AfdE7ckoa27XouGyas7NwkJJVOMpd+zHhoiWxf0yQEhBLa6CRqJoTKtLQhTAeCopeah
-	k+r2l51T+Od71EvVG3icRdX5IZLBbUm+k04KrrxJtMPma8jo1HR11fhFIxkN1oK5WTcDS8e/gSr
-	g/qaKbVcMt6wb1PxizKvaiYGStga2D0opGbdHlF48Wug4L8UPmy2WVHEq3An1FJUX6eb0Bd/aP+
-	ItYvg7Z17mEBvGbDoNR3PS14/gPAfNa+hGdFRMYkZZTi21A9Plme8gC8Mhi6h7gH4oPptgn39v0
-	KESo8Xpn+gAqfFTCLmyi7f5YpEzmmcymvyZH7dhp5w97suXLd6yxlx21XcA1X4Rocj21NN+InA6
-	gxLW0y5nuJz6HSBgun2qm2hpkZolHTe3yEswEPKZHE6FE4TZIOGmiFCcJJGV1Q5R4gjz5swl88z
-	Psx4e/mhTwclTawkXWMqJx8CaUL4TtbG+J8GaUiSYk1/3tJvoensnauvZg7KYsRuCpRT0pyYqAq
-	QkO+3mRbn1tIJUGQWGI77LrBzTIoEQu4mXfrasN/ZS833miXqOb4dWl+/USJRh9/A==
-X-Received: by 2002:a05:6402:1ec5:b0:697:e8e1:d3c0 with SMTP id 4fb4d7f45d1cf-698a2c5fe57mr972033a12.2.1782929026374;
-        Wed, 01 Jul 2026 11:03:46 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782929554; x=1783534354;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=p2CFjtKSFMabkMab/8Wra001PVD5OGn/L4VHRmfqhng=;
+        b=SVhx29N+i87T2USrUidXpUet505MVmVHU7qJCB1vMkGHCtoo4i+dr7vpoO8lvp5TC1
+         Ssa6+BaVa0VoPotDXKzd2zrDjZ5HtI4skIpMhNe+skc7TKZXKXmdo/VqcdnwBwxtpanI
+         dAXZsuNmT9RsPoDI+XGTo4bR/lRRatpVTUKhCaA93Xj1/EimOfJGiox9K+PxocEJ2EoV
+         pYcEPivs70IMcVX0uEIRz+JsYbm+StfzZEgwHMrRadmkV1/65MKW3R1S3x2aksNX+RN2
+         kvsd4Na/VH6gTuyGvhz2VGlC9V0n4hT5wWgcwktubXl9sPYRPGHntOs+GMObdW8S9BZW
+         IaCQ==
+X-Forwarded-Encrypted: i=1; AHgh+RodTKW9pJ6Iu3dPrVRHcgB59PS2kVN9r+g5WAIyVyPxZx/mmmPqdj7pEY1rMnr1+az2Fq+1quGFOok=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfNH5o3re36FHkoe5FK3z6qbtviBzK845cjAXZw4B2Hka91d61
+	lpi2vxXwyjrePwdmINkuT538Sd8zT+DrcUPLRp8AEAYDzXDgHPElodkwRxgH0cPPGeY=
+X-Gm-Gg: AfdE7ck+WGUNl4mS15VbBw8gJ1ktOKCEGl4YaAQfEx15qWubbBP/khU0H5xOSVNqODs
+	HPJKbQfqRaPtPgX1gIuXbRqdUihwru0lWWhbl6ELWjA26uIDVUY3YjWo9P9p3PYgEAsEA8gCK15
+	y2DiOiTMj4bKFZEpUd7MUW5IxvT5TI6jcdKxqr6wwK0O95upa/Zni4IlnLaw02k/mXXG73xIyUx
+	rfY5C6ZIDiC8bNyBQhrLaMydnUQHFCNjp/QwO93gk3tB8E/ujpRye0uV3/pUIWVU+kaFkRHraWi
+	0cMlgG5znCOUaB8rIgsq01Dwlp6ZBaNY8b6UG0U8UnVpnnVgR8ZC9Rbb8IPR8VWHvP+ImfzWIeH
+	abjdW9vTSSvUnvffALR+lfivV4nYrxBkzjsrUzq8C7SWMmo5jfM08HYWSNdlcDHPIV3HbUEmSZh
+	aLVT1E3/bV0hwnYDHO1Csjo5SuoSgXoLrD6DH0JHOw5z5oIsNdlpfbf2Cw4OvC84wAVGy+jqzfe
+	mPMTmP5jHYbxaN/3mJGw0b2nP6m8LW4MCc0cIQMZF/JNbAtVvaN9pU=
+X-Received: by 2002:a17:907:e143:b0:c00:de33:a74f with SMTP id a640c23a62f3a-c12a9dbc269mr106926066b.25.1782929553494;
+        Wed, 01 Jul 2026 11:12:33 -0700 (PDT)
 Received: from smtpclient.apple (83.10.35.68.ipv4.supernova.orange.pl. [83.10.35.68])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6987c93cb51sm3094335a12.14.2026.07.01.11.03.43
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c12b628efefsm1051666b.32.2026.07.01.11.12.31
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 01 Jul 2026 11:03:45 -0700 (PDT)
+        Wed, 01 Jul 2026 11:12:33 -0700 (PDT)
+From: Norbert Szetei <norbert@doyensec.com>
 Content-Type: text/plain;
 	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
 List-Subscribe: <mailto:linux-ppp+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-ppp+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
-Subject: Re: [PATCH net] ppp: defer channel free to an RCU grace period to fix
+Subject: [PATCH net v2] ppp: defer channel free to an RCU grace period to fix
  pppol2tp RX UAF
-From: Norbert Szetei <norbert@doyensec.com>
-In-Reply-To: <20260701132552.nFP2AZrJ@linutronix.de>
-Date: Wed, 1 Jul 2026 20:03:33 +0200
-Cc: netdev@vger.kernel.org,
- Andrew Lunn <andrew+netdev@lunn.ch>,
+Message-Id: <D9C0245B-608B-4884-8A09-F55BA4A9F948@doyensec.com>
+Date: Wed, 1 Jul 2026 20:12:20 +0200
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
  "David S. Miller" <davem@davemloft.net>,
  Eric Dumazet <edumazet@google.com>,
  Jakub Kicinski <kuba@kernel.org>,
  Paolo Abeni <pabeni@redhat.com>,
  Qingfang Deng <qingfang.deng@linux.dev>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Breno Leitao <leitao@debian.org>,
  Taegu Ha <hataegu0826@gmail.com>,
- Yue Haibing <yuehaibing@huawei.com>,
  Kees Cook <kees@kernel.org>,
  linux-ppp@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BC7EE0DB-AA40-4E26-A7BB-002961F75B3B@doyensec.com>
-References: <C954A7EA-AA98-4E3C-80B5-42C34B3183A3@doyensec.com>
- <20260701132552.nFP2AZrJ@linutronix.de>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: netdev@vger.kernel.org
 X-Mailer: Apple Mail (2.3826.700.81.1.4)
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.16 / 15.00];
@@ -115,72 +111,135 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[doyensec.com,none];
 	MV_CASE(0.50)[];
 	R_DKIM_ALLOW(-0.20)[doyensec.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-610-lists,linux-ppp=lfdr.de];
-	FORGED_SENDER(0.00)[norbert@doyensec.com,linux-ppp@vger.kernel.org];
+	FREEMAIL_CC(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,linux.dev,linutronix.de,debian.org,gmail.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:netdev@vger.kernel.org,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:qingfang.deng@linux.dev,m:hataegu0826@gmail.com,m:yuehaibing@huawei.com,m:kees@kernel.org,m:linux-ppp@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:bigeasy@linutronix.de,m:andrew@lunn.ch,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-611-lists,linux-ppp=lfdr.de];
+	FORGED_SENDER(0.00)[norbert@doyensec.com,linux-ppp@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,linux.dev,gmail.com,huawei.com];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:qingfang.deng@linux.dev,m:bigeasy@linutronix.de,m:leitao@debian.org,m:hataegu0826@gmail.com,m:kees@kernel.org,m:linux-ppp@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:netdev@vger.kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[doyensec.com:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[norbert@doyensec.com,linux-ppp@vger.kernel.org];
-	DKIM_TRACE(0.00)[doyensec.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-ppp,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,doyensec.com:dkim,doyensec.com:mid,doyensec.com:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linutronix.de:email]
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 36A186F07DC
+X-Rspamd-Queue-Id: 974606F0870
 
-On Jul 1, 2026, at 15:25, Sebastian Andrzej Siewior =
-<bigeasy@linutronix.de> wrote:
->=20
-> On 2026-07-01 14:14:39 [+0200], Norbert Szetei wrote:
->> --- a/drivers/net/ppp/ppp_generic.c
->> +++ b/drivers/net/ppp/ppp_generic.c
->> @@ -184,6 +184,7 @@ struct channel {
->> struct list_head clist; /* link in list of channels per unit */
->> spinlock_t upl; /* protects `ppp' and 'bridge' */
->> struct channel __rcu *bridge; /* "bridged" ppp channel */
->> + struct rcu_head rcu; /* for RCU-deferred free of the channel */
->> #ifdef CONFIG_PPP_MULTILINK
->> u8 avail; /* flag used in multilink stuff */
->> u8 had_frag; /* >=3D 1 fragments have been sent */
->> @@ -3583,7 +3584,7 @@ static void ppp_release_channel(struct channel =
+pppol2tp_recv() runs in the L2TP UDP-encap softirq RX path:
+
+ l2tp_udp_encap_recv() -> l2tp_recv_common() -> pppol2tp_recv()
+   -> ppp_input(&po->chan)
+
+It runs under rcu_read_lock() holding only an l2tp_session reference and
+takes NO reference on the internal PPP channel (struct channel,
+chan->ppp) that ppp_input() dereferences.
+
+The pppox socket is SOCK_RCU_FREE, so 'po' and the embedded ppp_channel
+are RCU-safe.  But the internal struct channel is a separate allocation
+that ppp_release_channel() frees with a plain kfree():
+
+ close(data socket) -> pppol2tp_release() -> pppox_unbind_sock()
+   -> ppp_unregister_channel() -> ppp_release_channel() -> kfree(pch)
+
+For a channel that is bound (PPPIOCGCHAN) but not attached to a ppp unit
+(no PPPIOCCONNECT, pch->ppp =3D=3D NULL) and not bridged, teardown skips
+both ppp_disconnect_channel()'s synchronize_net() and
+ppp_unbridge_channels()'s synchronize_rcu(), so the kfree() has no grace
+period.  rcu_read_lock() in pppol2tp_recv() does not protect against a
+plain kfree(), so an in-flight ppp_input() on one CPU can dereference
+the channel just freed by close() on another CPU.
+
+The bug is reachable by an unprivileged user.
+
+Defer the channel free to an RCU callback via call_rcu() so the grace
+period fences any in-flight ppp_input(). The disconnect and unbridge
+teardown paths already fence with synchronize_net()/synchronize_rcu();
+call_rcu() does the same here without stalling the close() path.
+
+Fixes: ee40fb2e1eb5 ("l2tp: protect sock pointer of struct =
+pppol2tp_session with RCU")
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Norbert Szetei <norbert@doyensec.com>
+---
+v2:
+- Moved skb_queue_purge() to a dedicated RCU callback to prevent leaking
+  skbs added by an in-flight ppp_input() during the grace period =
+(Sebastian).
+- Retained call_rcu() to avoid introducing synchronous multi-millisecond
+  latency into the teardown path.
+v1: =
+https://lore.kernel.org/netdev/C954A7EA-AA98-4E3C-80B5-42C34B3183A3@doyens=
+ec.com/
+
+ drivers/net/ppp/ppp_generic.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/ppp/ppp_generic.c =
+b/drivers/net/ppp/ppp_generic.c
+index 57c68efa5ff8..2d57de77780f 100644
+--- a/drivers/net/ppp/ppp_generic.c
++++ b/drivers/net/ppp/ppp_generic.c
+@@ -184,6 +184,7 @@ struct channel {
+ 	struct list_head clist;		/* link in list of channels per =
+unit */
+ 	spinlock_t	upl;		/* protects `ppp' and 'bridge' =
+*/
+ 	struct channel __rcu *bridge;	/* "bridged" ppp channel */
++	struct rcu_head rcu;		/* for RCU-deferred free of the =
+channel */
+ #ifdef CONFIG_PPP_MULTILINK
+ 	u8		avail;		/* flag used in multilink stuff =
+*/
+ 	u8		had_frag;	/* >=3D 1 fragments have been =
+sent */
+@@ -3562,6 +3563,18 @@ ppp_disconnect_channel(struct channel *pch)
+ 	return err;
+ }
+=20
++/* Purge after the grace period: a late ppp_input() may still queue an
++ * skb on pch->file.rq before the last RCU reader drains.
++ */
++static void ppp_release_channel_free(struct rcu_head *rcu)
++{
++	struct channel *pch =3D container_of(rcu, struct channel, rcu);
++
++	skb_queue_purge(&pch->file.xq);
++	skb_queue_purge(&pch->file.rq);
++	kfree(pch);
++}
++
+ /*
+  * Drop a reference to a ppp channel and free its memory if the =
+refcount reaches
+  * zero.
+@@ -3581,9 +3594,7 @@ static void ppp_release_channel(struct channel =
 *pch)
->> }
->> skb_queue_purge(&pch->file.xq);
->> skb_queue_purge(&pch->file.rq);
->> - kfree(pch);
->> + kfree_rcu(pch, rcu);
->=20
-> =46rom looking at ppp_input(), what ensures that the skb in-flight is =
-not
-> added skb_queue which is purged above?
-
-Good catch, purging before the free races an in-flight ppp_input() and
-leaks the skb, confirmed with kmemleak. In v2 I moved the purge into the
-call_rcu() callback so it runs after the grace period.
-
-N.
-
->=20
->> }
->=20
-> Sebastian
-
+ 		pr_err("ppp: destroying undead channel %p !\n", pch);
+ 		return;
+ 	}
+-	skb_queue_purge(&pch->file.xq);
+-	skb_queue_purge(&pch->file.rq);
+-	kfree(pch);
++	call_rcu(&pch->rcu, ppp_release_channel_free);
+ }
+=20
+ static void __exit ppp_cleanup(void)
+--=20
+2.54.0=
 
