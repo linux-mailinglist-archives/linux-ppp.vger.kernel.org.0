@@ -1,51 +1,51 @@
-Return-Path: <linux-ppp+bounces-613-lists+linux-ppp=lfdr.de@vger.kernel.org>
+Return-Path: <linux-ppp+bounces-614-lists+linux-ppp=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-ppp@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id FI5xDV4gRmqxKQsAu9opvQ
-	(envelope-from <linux-ppp+bounces-613-lists+linux-ppp=lfdr.de@vger.kernel.org>)
-	for <lists+linux-ppp@lfdr.de>; Thu, 02 Jul 2026 10:25:02 +0200
+	id 746ECHtkR2p4XgAAu9opvQ
+	(envelope-from <linux-ppp+bounces-614-lists+linux-ppp=lfdr.de@vger.kernel.org>)
+	for <lists+linux-ppp@lfdr.de>; Fri, 03 Jul 2026 09:27:55 +0200
 X-Original-To: lists+linux-ppp@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 950EE6F4C29
-	for <lists+linux-ppp@lfdr.de>; Thu, 02 Jul 2026 10:25:01 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3956FF88E
+	for <lists+linux-ppp@lfdr.de>; Fri, 03 Jul 2026 09:27:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linux.dev header.s=key1 header.b=nzBi+pTz;
-	spf=pass (mail.lfdr.de: domain of "linux-ppp+bounces-613-lists+linux-ppp=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-ppp+bounces-613-lists+linux-ppp=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=linux.dev header.s=key1 header.b=wxnTB1je;
 	dmarc=pass (policy=none) header.from=linux.dev;
+	spf=pass (mail.lfdr.de: domain of "linux-ppp+bounces-614-lists+linux-ppp=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-ppp+bounces-614-lists+linux-ppp=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E8E013049534
-	for <lists+linux-ppp@lfdr.de>; Thu,  2 Jul 2026 08:19:28 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1F2B130074F0
+	for <lists+linux-ppp@lfdr.de>; Fri,  3 Jul 2026 07:27:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89DF2426400;
-	Thu,  2 Jul 2026 08:19:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C66B03546C1;
+	Fri,  3 Jul 2026 07:27:46 +0000 (UTC)
 X-Original-To: linux-ppp@vger.kernel.org
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF68B26F2B0
-	for <linux-ppp@vger.kernel.org>; Thu,  2 Jul 2026 08:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09EB348C55;
+	Fri,  3 Jul 2026 07:27:43 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782980368; cv=none; b=Oyx+V+x3ONGBgGd0PIvTVtGiEDVqYcQbm7k8lpOXbJduzVAYLVdmv7gVz7Wt4PGNbltZMoRM1yP3NCGCKTuAAVmD4BYACNu3QmsO3frr/JP+QBIY93KXLszjxJy4DEXq5hrwUsrE5O1t7Y8Y0unpyTadD4gkZwFzfGkn9neixWM=
+	t=1783063666; cv=none; b=KD/f/akkkaOhFjedo8/Q6HH8h4Yg7G4RpYNS0KBOnGKT97ggiJXMJfyFYaSifQBKLLLrAc7cQGFixvD1mO9c3EJ2lwJ8qvDIV3/81A00QX8ddI/syMqGjSt3nPPscRho581eQNcgp2fGsshl/jDCz7Dt/eObGah5ZQFe+LrvbwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782980368; c=relaxed/simple;
-	bh=LTcoPOEiw4rlHi1sMzQp9TpXpMC0Qga5gAG/6qfa/Mk=;
+	s=arc-20240116; t=1783063666; c=relaxed/simple;
+	bh=Ol2r02z849sHO076/l5rhr6sDWIOhUOJQgfcHd2d/Ig=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oUT0PS0a7SpvKbEmGS/L7qWNDuuSBRfJ3ibnCe82UyaxFQk4smig3wvCqgWTjmYZvIjF0V2o/sLJnFwTOLZ6hGq363XDF+sWAe9wAgFSahFGP9oV2aHNHAv3Ld0ztXi0zQyfzhWE2wOPlDu3prUCICMKmNZ0dYYBPuXA1SGXvZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nzBi+pTz; arc=none smtp.client-ip=91.218.175.184
-Message-ID: <166370f4-0b8c-4af4-9fb7-6967828a99bc@linux.dev>
+	 In-Reply-To:Content-Type; b=uYFB1SU+usID316waVhxXWCexjus1LDkMhWhrEUmvhYjhWKQIiFXKgVTZXBRoGjaeja0G6cBoH+bXfnXNp5jzrtiQP5rwkt9eu8PgHMLRMMRiMBsPxRsLP0dzWZWchO4vVpE0YFyjwdFTscjkj+ye5FBz4ZD1UQQqj3VARp2djA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=wxnTB1je; arc=none smtp.client-ip=95.215.58.172
+Message-ID: <de2616b3-6edf-4255-ba77-0674e225ab27@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782980354;
+	t=1783063661;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=o/qjIx9DBZ+vWShiSSveQa8m5i8Lw7dPrnCxeEDpsmg=;
-	b=nzBi+pTzw3tABsaisQYDrLls5eENT4LbOxbTC1S9EqLDJYKV7IefLUKCOcqz6tXU5T/FyN
-	uormnWxDbXfrNMg3vh9b075QGiO/NKed1XLmR3op3HYHbpHOYq2lv9o0PPeybt8VnrKkGM
-	DUIJxr96gpwVXAd9trT9gl0FZlFTjyU=
-Date: Thu, 2 Jul 2026 16:19:02 +0800
+	bh=XYPGG7oSyvpEIFDIsiAE2WqgUhJkjiEWYW22I8750Tc=;
+	b=wxnTB1jeUQocK9BJWSWnjlsQalb4qukGei3yxMDTzYi/kReANBZ5285tIel93bEksGwYwQ
+	eJ4Z5DVLh0u9YcH6KUJMPB72vge4kJMe4XJEuqDiHMjcQjQWxlmDl6i0VUUV5KDsWzq0e9
+	vdLYeL7a+o95A2opkTviuEFAOZx976g=
+Date: Fri, 3 Jul 2026 15:27:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-ppp@vger.kernel.org
 List-Id: <linux-ppp.vger.kernel.org>
@@ -75,13 +75,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-613-lists,linux-ppp=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-614-lists,linux-ppp=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:norbert@doyensec.com,m:andrew+netdev@lunn.ch,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:bigeasy@linutronix.de,m:leitao@debian.org,m:hataegu0826@gmail.com,m:kees@kernel.org,m:linux-ppp@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:gnault@redhat.com,m:netdev@vger.kernel.org,m:andrew@lunn.ch,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[qingfang.deng@linux.dev,linux-ppp@vger.kernel.org];
@@ -102,75 +102,14 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-ppp,netdev];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,linux.dev:dkim,linux.dev:email,linux.dev:mid,linux.dev:from_mime]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:from_mime,linux.dev:dkim,linux.dev:mid,vger.kernel.org:from_smtp,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 950EE6F4C29
+X-Rspamd-Queue-Id: CD3956FF88E
 
-Add: Guillaume
+Hi,
 
-On 2026/7/2 at 2:12, Norbert Szetei wrote:
-> pppol2tp_recv() runs in the L2TP UDP-encap softirq RX path:
->
->   l2tp_udp_encap_recv() -> l2tp_recv_common() -> pppol2tp_recv()
->     -> ppp_input(&po->chan)
->
-> It runs under rcu_read_lock() holding only an l2tp_session reference and
-> takes NO reference on the internal PPP channel (struct channel,
-> chan->ppp) that ppp_input() dereferences.
->
-> The pppox socket is SOCK_RCU_FREE, so 'po' and the embedded ppp_channel
-> are RCU-safe.  But the internal struct channel is a separate allocation
-> that ppp_release_channel() frees with a plain kfree():
->
->   close(data socket) -> pppol2tp_release() -> pppox_unbind_sock()
->     -> ppp_unregister_channel() -> ppp_release_channel() -> kfree(pch)
->
-> For a channel that is bound (PPPIOCGCHAN) but not attached to a ppp unit
-> (no PPPIOCCONNECT, pch->ppp == NULL) and not bridged, teardown skips
-> both ppp_disconnect_channel()'s synchronize_net() and
-> ppp_unbridge_channels()'s synchronize_rcu(), so the kfree() has no grace
-> period.  rcu_read_lock() in pppol2tp_recv() does not protect against a
-> plain kfree(), so an in-flight ppp_input() on one CPU can dereference
-> the channel just freed by close() on another CPU.
->
-> The bug is reachable by an unprivileged user.
->
-> Defer the channel free to an RCU callback via call_rcu() so the grace
-> period fences any in-flight ppp_input(). The disconnect and unbridge
-> teardown paths already fence with synchronize_net()/synchronize_rcu();
-> call_rcu() does the same here without stalling the close() path.
->
-> Fixes: ee40fb2e1eb5 ("l2tp: protect sock pointer of struct pppol2tp_session with RCU")
-> Assisted-by: Claude:claude-opus-4-8
-> Signed-off-by: Norbert Szetei <norbert@doyensec.com>
-> ---
-> v2:
-> - Moved skb_queue_purge() to a dedicated RCU callback to prevent leaking
->    skbs added by an in-flight ppp_input() during the grace period (Sebastian).
-> - Retained call_rcu() to avoid introducing synchronous multi-millisecond
->    latency into the teardown path.
-> v1: https://lore.kernel.org/netdev/C954A7EA-AA98-4E3C-80B5-42C34B3183A3@doyensec.com/
->
->   drivers/net/ppp/ppp_generic.c | 17 ++++++++++++++---
->   1 file changed, 14 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/net/ppp/ppp_generic.c b/drivers/net/ppp/ppp_generic.c
-> index 57c68efa5ff8..2d57de77780f 100644
-> --- a/drivers/net/ppp/ppp_generic.c
-> +++ b/drivers/net/ppp/ppp_generic.c
-> @@ -184,6 +184,7 @@ struct channel {
->   	struct list_head clist;		/* link in list of channels per unit */
->   	spinlock_t	upl;		/* protects `ppp' and 'bridge' */
->   	struct channel __rcu *bridge;	/* "bridged" ppp channel */
-> +	struct rcu_head rcu;		/* for RCU-deferred free of the channel */
->   #ifdef CONFIG_PPP_MULTILINK
->   	u8		avail;		/* flag used in multilink stuff */
->   	u8		had_frag;	/* >= 1 fragments have been sent */
-> @@ -3562,6 +3563,18 @@ ppp_disconnect_channel(struct channel *pch)
->   	return err;
->   }
->   
+On 2026/7/2 2:12, Norbert Szetei wrote:
 > +/* Purge after the grace period: a late ppp_input() may still queue an
 > + * skb on pch->file.rq before the last RCU reader drains.
 > + */
@@ -198,15 +137,12 @@ On 2026/7/2 at 2:12, Norbert Szetei wrote:
 >   
 >   static void __exit ppp_cleanup(void)
 
-Reviewed-by: Qingfang Deng <qingfang.deng@linux.dev>
+AI-review found an issue: 
+https://sashiko.dev/#/patchset/D9C0245B-608B-4884-8A09-F55BA4A9F948%40doyensec.com
 
-FYI, I attempted to merge the two channel structs and AI-review found a 
-UAF [1], so this patch addresses the issue.
+An rcu_barrier() call is needed at the end of ppp_cleanup().
 
-[1] 
-https://lore.kernel.org/netdev/590d7931-02b0-45d6-8f43-ef909c9bde89@redhat.com/
-
-Best regards,
+Regards,
 
 Qingfang
 
